@@ -13,6 +13,6 @@ web-build/
 # macOS
 .DS_Store
 
-# lock files
+# Lock files
 *-lock.json
 *.lock
