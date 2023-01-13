@@ -16,3 +16,6 @@ web-build/
 # lock files
 *-lock.json
 *.lock
+
+# Log files
+*.log
