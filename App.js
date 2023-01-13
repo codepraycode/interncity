@@ -16,13 +16,7 @@ console.log(assets)
 Assets.loadAssetsGroup('assets', {
   ...assets
 });
-// Assets.loadAssetsGroup('vectors', {
-//   memoji1: assets.memoji1,
-//   wave: assets.wave,
-//   eyeOpen: assets.eyeOpen,
-//   eyeClose: assets.eyeClose,
-//   arrowRight
-// });
+
 
 export default function App() {
 
