@@ -16,6 +16,9 @@ const Typography = {
         fontSize: 12,
         fontFamily: "FontRegular",
     },
+    a: {
+        textDecorationLine: 'underline'
+    },
     label: {
         fontSize: 14,
         fontFamily: "FontBold",

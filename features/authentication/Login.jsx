@@ -21,11 +21,6 @@ const Login = ()=>{
                 <Form schema={authSchema}/>
             </View>
 
-            {/* Call to action */}
-            <View style={styles.container}>
-                {/* Remember me and forgot password? */}
-                <Text>Call to action</Text>
-            </View>
         </View>
     )
 }

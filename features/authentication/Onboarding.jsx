@@ -31,7 +31,7 @@ const AppOnboard = ()=>{
                 >
                     <Text h1 style={{width:"60%"}}>
                         <Text>Find Your </Text>
-                        <Text secondary>Internship</Text>
+                        <Text secondary a>Internship</Text>
                         <Text>Here!</Text>
                     </Text>
                 </View>
