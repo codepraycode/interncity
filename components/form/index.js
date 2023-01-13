@@ -11,8 +11,11 @@ export {TextInput, CheckBox}
 const Form = ({schema, remember, forgotPassword, authLabel, footer})=>{
     return (
         <>
-            <TextInput schema={schema.email}/>
-            <TextInput schema={schema.password}/>
+            {
+                Object.values(schema).map((value, i)=>(
+                    <TextInput schema={value} key={i}/>
+                ))
+            }
 
             <View style={styles.container}>
                 {

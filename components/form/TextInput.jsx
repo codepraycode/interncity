@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor:Colors.white,
         borderColor:Colors.white,
-        elevation: 6,
+        elevation: 2,
         shadowOffset: 1,
     },
 
@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
         // justifyContent: 'space-between',
         backgroundColor:Colors.white,
         borderRadius: 10,
-        elevation: 4,
+        elevation: 2,
         // shadowOffset: 1,
         // shadowOpacity: .5,
         // shadowColor: Colors.$backgroundElevated,
