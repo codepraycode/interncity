@@ -21,7 +21,7 @@ const NormalInput = ( )=>{
             placeholder={'Placeholder'}
             floatingPlaceholder
             onChangeText={(e)=>{}}
-            style={styles.input}
+            style={[styles.input, styles.normalInput]}
             autoComplete={"off"}
         />
     )
@@ -33,7 +33,7 @@ const PasswordInput = ()=>{
                 placeholder={'Placeholder'}
                 floatingPlaceholder
                 onChangeText={(e)=>{}}
-                style={[styles.input, {width:"85%", backgroundColor:'transparent',}]}
+                style={[styles.passwordinput, styles.input]}
                 autoComplete={"off"}
             />
 
@@ -56,15 +56,28 @@ const styles = StyleSheet.create({
     },
     input: {
         height: 50,
-        borderWidth: 1,
-        borderRadius: 10,
+        
         paddingVertical: 17,
         paddingLeft: 16,
         paddingRight: 10,
-        borderColor:Colors.white,
-        backgroundColor:Colors.white,
+        
+        
         color:Colors.accent,
         fontSize: 12,
+
+    },
+
+    normalInput:{
+        borderWidth: 1,
+        borderRadius: 10,
+        backgroundColor:Colors.white,
+        borderColor:Colors.white,
+        elevation: 6,
+        shadowOffset: 1,
+    },
+
+    passwordinput:{
+        width:"85%",
     },
 
     passwordContainer:{
@@ -73,5 +86,10 @@ const styles = StyleSheet.create({
         // justifyContent: 'space-between',
         backgroundColor:Colors.white,
         borderRadius: 10,
+        elevation: 4,
+        // shadowOffset: 1,
+        // shadowOpacity: .5,
+        // shadowColor: Colors.$backgroundElevated,
+        // shadowRadius: 3,
     }
 })
