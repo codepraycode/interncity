@@ -1,9 +1,10 @@
 import React from 'react';
 import {View, Text, Image, Colors} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
+import Theme from '../../constants/theme';
 
 /* 
-    Onboarding screen for new users or after fresh installation
+    Onboarding screen for create profile if profile isn't set or completed
 */
 
 const Onboarding = ({ onSwitch })=>{ // onboarding for authentication
@@ -16,7 +17,7 @@ const Onboarding = ({ onSwitch })=>{ // onboarding for authentication
 
             {/* middle container containing illustration */}
             <View style={styles.middle}>
-                <Image assetName="memoji1" assetGroup="assets" width={270} height={270}/>
+                <Image assetName="memoji" assetGroup="assets" width={256} height={256}/>
             </View>
 
             
@@ -29,11 +30,15 @@ const Onboarding = ({ onSwitch })=>{ // onboarding for authentication
                         justifyContent: 'center',
                     }}
                 >
-                    <Text h1 style={{width:"60%"}}>
-                        <Text>Find Your </Text>
-                        <Text secondary a>Internship</Text>
-                        <Text>Here!</Text>
+                    <Text h1 style={{width:"75%", color: Theme.main}}>
+                        <Text>Provide Your </Text>
+                        <Text secondary a>Internship </Text>
+                        <Text>Information!</Text>
                     </Text>
+
+                    <Text p style={{width:"75%", color: Theme.accent}}>Explore all the most exciting internship
+roles based on your study major.</Text>
+                    
                 </View>
                 
 
@@ -64,14 +69,14 @@ export default Onboarding;
 const styles = StyleSheet.create({
   top: {
     flex: 1,
-    paddingTop:100,
+    paddingTop:80,
     paddingRight:30,
     alignItems: 'flex-end',
     justifyContent: 'flex-start',
   },
   middle: {
     flex: 3,
-    paddingTop:20,
+    paddingTop:10,
     alignItems: 'center',
     justifyContent: 'center',
   },
