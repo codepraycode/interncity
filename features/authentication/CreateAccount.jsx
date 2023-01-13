@@ -4,34 +4,36 @@ import { StyleSheet, TouchableOpacity} from 'react-native';
 import {authSchema} from '../../constants/dummy';
 import Form from '../../components/form';
 /* 
-    Login screen
+    CreateAccount screen
 */
 
-const Login = ()=>{
+const CreateAccount = ()=>{
     return (
         <View style={styles.formContainer}>
             {/* Top view with wave and title */}
             <View style={styles.top} >
                 <Image assetName="wave" assetGroup="assets" width={71} height={71}/>
-                <Text h2>Welcome Back</Text>
+                <Text h2>Create Account</Text>
             </View>
 
             {/* Auth form */}
             <View style={styles.container}>
-                <Form schema={authSchema} authLabel="LOGIN" remember={true} forgotPassword={true}/>
+                <Form schema={authSchema} authLabel={"SIGN UP"}/>
 
                 <TouchableOpacity style={{alignItems:'center', justifyContent:'center'}}>
                     <Text small style={{marginTop: 20,}}>
-                        <Text>You don't have an account yet?</Text>  <Text secondary a>Sign In</Text>
+                        <Text>Already have an account?</Text>  <Text secondary a>Sign In</Text>
                     </Text>
                 </TouchableOpacity>
             </View>
+
+            
 
         </View>
     )
 }
 
-export default Login;
+export default CreateAccount;
 
 
 const styles = StyleSheet.create({

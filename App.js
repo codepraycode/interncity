@@ -6,6 +6,7 @@ import {Typography, Colors, Assets} from 'react-native-ui-lib';
 import Theme from './constants/theme';
 import typography from './constants/typography';
 import assets from './constants/assets';
+import CreateAccount from './features/authentication/CreateAccount';
 // import AppOnboard from './features/authentication/Onboarding';
 import Login from './features/authentication/Login';
 
@@ -32,7 +33,8 @@ export default function App() {
     return (
       <View style={styles.container}>
         {/* <AppOnboard/> */}
-        <Login/>
+        {/* <Login/> */}
+        <CreateAccount/>
         <StatusBar style="auto" />
       </View>
     );

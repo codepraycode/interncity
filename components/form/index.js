@@ -8,32 +8,36 @@ import SSO from "../SSO";
 export {TextInput, CheckBox}
 
 
-const Form = ({schema})=>{
+const Form = ({schema, remember, forgotPassword, authLabel, footer})=>{
     return (
         <>
             <TextInput schema={schema.email}/>
             <TextInput schema={schema.password}/>
 
             <View style={styles.container}>
-                <CheckBox/>
+                {
+                    remember && <CheckBox/>
+                }
 
-                <TouchableOpacity>
-                    <Text p>Forgot password?</Text>
-                </TouchableOpacity>
+                {
+                    forgotPassword && (
+                        <TouchableOpacity>
+                            <Text p>Forgot password?</Text>
+                        </TouchableOpacity>
+                    )
+                }
+                
             </View>
 
             <View style={[styles.container, styles.cta]}>
-                <Button text="Login"/>
+                <Button text={authLabel || 'Continue'}/>
             </View>
 
             {/* Call to action */}
             <View style={[styles.container, styles.cta, {flexDirection:'column', marginTop:20,}]}>
                 <SSO google={true}/>
-                <TouchableOpacity>
-                    <Text small style={{marginTop: 20,}}>
-                        <Text>You don't have an account yet?</Text>  <Text secondary a>Sign In</Text>
-                    </Text>
-                </TouchableOpacity>
+                
+                
             </View>
         </>
     )
