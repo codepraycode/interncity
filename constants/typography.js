@@ -2,7 +2,7 @@ const Typography = {
     h1: {
         fontSize: 40,
         fontFamily: "FontBold",
-        lineHeight:94,
+        // lineHeight:14,
     },
     h2: {
         fontSize: 30,
