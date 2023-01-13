@@ -8,6 +8,8 @@ const Theme = {
     main: "#130160",
     accent: "#0D0140",
     secondary: "#FCA34D",
+    lightSecondary: "rgba(252, 163, 77, 0.2)",
+    red: 'tomato'
 }
 
 export default Theme;

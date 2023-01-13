@@ -1,21 +1,24 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import {Text, View, Colors} from 'react-native-ui-lib'
 import Theme from '../../constants/theme'
 
-const CheckBox = () => {
-  return (
+const CheckBox = ({ label }) => {
 
-    <TouchableOpacity style={styles.checkContainer}>
-        <>
-            <View style={styles.box}>
-                <View style={styles.marker} />
-            </View>
+    const [checked, setChecked] = useState(false);
 
-            <Text p>Remember me</Text>
-        </>
-    </TouchableOpacity>
-  )
+    return (
+
+        <TouchableOpacity onPress={()=>setChecked(p=>!p)} activeOpacity={0.6} style={styles.checkContainer}>
+            <>
+                <View style={styles.box}>
+                    {checked && <View style={styles.marker} />}
+                </View>
+
+                <Text p>{ label }</Text>
+            </>
+        </TouchableOpacity>
+    )
 }
 
 export default CheckBox;
@@ -38,10 +41,10 @@ const styles = StyleSheet.create({
         justifyContent:'center'
     },
 
-    // marker:{
-    //     width: 10,
-    //     height: 10,
-    //     borderRadius: 5,
-    //     backgroundColor: Colors.main,
-    // }
+    marker:{
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        backgroundColor: Theme.main,
+    }
 })

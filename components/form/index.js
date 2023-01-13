@@ -5,6 +5,7 @@ import { Text, View } from "react-native-ui-lib";
 import Button from '../Button';
 import SSO from "../SSO";
 import { useState } from "react";
+import Theme from "../../constants/theme";
 
 export {TextInput, CheckBox}
 
@@ -24,6 +25,9 @@ const Form = ({schema, remember, forgotPassword, authLabel, footer})=>{
 
     return (
         <>
+        
+            {/* <Text style={{color: Theme.red}}>Error message</Text> */}
+
             {
                 Object.entries(schema).map(([field, fieldSchema], i)=>(
                     <TextInput 
@@ -38,7 +42,7 @@ const Form = ({schema, remember, forgotPassword, authLabel, footer})=>{
 
             <View style={styles.container}>
                 {
-                    remember && <CheckBox/>
+                    remember && <CheckBox label = {"Remember me"}/>
                 }
 
                 {
@@ -56,10 +60,10 @@ const Form = ({schema, remember, forgotPassword, authLabel, footer})=>{
             </View>
 
             {/* Call to action */}
-            <View style={[styles.container, styles.cta, {flexDirection:'column', marginTop:20,}]}>
+            <View 
+                style={[styles.container, styles.cta, {flexDirection:'column', marginTop:20,}]}
+            >
                 <SSO google={true}/>
-                
-                
             </View>
         </>
     )

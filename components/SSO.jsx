@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors, Icon, Text  } from 'react-native-ui-lib'
+import Theme from '../constants/theme';
 
 const SSO = ({google}) => {
     return (
@@ -18,7 +19,7 @@ export default SSO;
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: Colors.lightSecondary,
+        backgroundColor: Theme.lightSecondary,
         width: "75%",
         paddingVertical: 15,
         borderRadius: 6,

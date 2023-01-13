@@ -10,14 +10,15 @@ const CustomTextInput = (props) => {
     if (schema.type === 'password') template = <PasswordInput {...props}/>;
     else if (schema.type === 'email') template = <EmailInput {...props}/>;
     else template = <NormalInput {...props}/>;
-  return (
-    <View style={styles.container}>
-      <Text label style={styles.label}>{schema.label}</Text>
-      {
-        template
-      }
-    </View>
-  )
+    
+    return (
+        <View style={styles.container}>
+            <Text label style={styles.label}>{schema.label}</Text>
+            {
+                template
+            }
+        </View>
+    )
 }
 
 
