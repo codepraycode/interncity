@@ -17,7 +17,7 @@ const Typography = {
         fontFamily: "FontRegular",
     },
     label: {
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "FontBold",
     },
 }

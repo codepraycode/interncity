@@ -3,6 +3,7 @@ const Theme = {
     grey200: "#E6E1FF",
     grey300: "#AAA6B9",
     grey400: "#60778C",
+    white: "#FFFFFF",
     black:"#000000",
     primary: "#130160",
     accent: "#0D0140",

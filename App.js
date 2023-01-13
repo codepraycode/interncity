@@ -6,8 +6,8 @@ import {Typography, Colors, Assets} from 'react-native-ui-lib';
 import Theme from './constants/theme';
 import typography from './constants/typography';
 import assets from './constants/assets';
-import AppOnboard from './components/authentication/Onboarding';
-import Login from './components/authentication/Login';
+// import AppOnboard from './features/authentication/Onboarding';
+import Login from './features/authentication/Login';
 
 
 Colors.loadColors(Theme);
