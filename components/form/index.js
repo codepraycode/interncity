@@ -4,16 +4,35 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "react-native-ui-lib";
 import Button from '../Button';
 import SSO from "../SSO";
+import { useState } from "react";
 
 export {TextInput, CheckBox}
 
 
 const Form = ({schema, remember, forgotPassword, authLabel, footer})=>{
+    const [formData, setFormData] = useState({});
+
+    const updateFormData = (field, value)=>{
+        if (Object.is(formData[field], value)) return;
+
+        setFormData((prev)=>{
+            return {...prev, [field]:value};
+        })
+
+    }
+
+
     return (
         <>
             {
-                Object.values(schema).map((value, i)=>(
-                    <TextInput schema={value} key={i}/>
+                Object.entries(schema).map(([field, fieldSchema], i)=>(
+                    <TextInput 
+                        name={field} 
+                        schema={fieldSchema} 
+                        key={i} 
+                        value={formData[field]} 
+                        onChange={updateFormData}
+                    />
                 ))
             }
 

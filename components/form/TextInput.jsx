@@ -1,45 +1,52 @@
-import {StyleSheet,TextInput, TouchableHighlight} from 'react-native';
+import {StyleSheet,TextInput, TouchableHighlight, TouchableOpacity} from 'react-native';
 import {View, Text, Colors, Icon} from 'react-native-ui-lib';
-import React from 'react'
+import React, { useState } from 'react'
+import Theme from '../../constants/theme';
 
-const CustomTextInput = ({schema}) => {
-    
+const CustomTextInput = (props) => {
+    const {schema} = props;
   return (
     <View style={styles.container}>
       <Text label style={styles.label}>{schema.label}</Text>
       {
-        schema.type === 'password' ? <PasswordInput/> : <NormalInput/>
+        schema.type === 'password' ? <PasswordInput {...props}/> : <NormalInput {...props}/>
       }
     </View>
   )
 }
 
 
-const NormalInput = ( )=>{
+const NormalInput = ({schema, onChange, name, value})=>{
     return (
         <TextInput
-            placeholder={'Placeholder'}
-            floatingPlaceholder
-            onChangeText={(e)=>{}}
-            style={[styles.input, styles.normalInput]}
-            autoComplete={"off"}
+            placeholder = {schema.placeholder}
+            placeholderTextColor = {Theme.accent}
+            onChangeText = {(str)=>onChange(name, str)}
+            style = {[styles.input, styles.normalInput]}
+            autoComplete = {"off"}
+            value = {value}
         />
     )
 }
-const PasswordInput = ()=>{
+
+const PasswordInput = ({schema, onChange, name, value})=>{
+    const [hidePassword, setHidePassword] = useState(true);
+    
     return (
         <View style={styles.passwordContainer}>
             <TextInput
-                placeholder={'Placeholder'}
-                floatingPlaceholder
-                onChangeText={(e)=>{}}
+                placeholder={schema.placeholder}
+                placeholderTextColor = {Theme.accent}
+                onChangeText={(str)=>{onChange(name, str)}}
                 style={[styles.passwordinput, styles.input]}
                 autoComplete={"off"}
+                value = {value}
+                secureTextEntry = {hidePassword}
             />
 
-            <TouchableHighlight >
-                <Icon assetName="eyeOpen" assetGroup="assets" size={30}/>
-            </TouchableHighlight>
+            <TouchableOpacity activeOpacity={0.6} onPress={()=>setHidePassword(p=>!p)}>
+                <Icon assetName={hidePassword ? "eyeOpen": 'eyeClose'} assetGroup="assets" size={30}/>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -53,6 +60,7 @@ const styles = StyleSheet.create({
     },
     label:{
         marginBottom: 10,
+        color: Theme.main,
     },
     input: {
         height: 50,
@@ -62,7 +70,7 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         
         
-        color:Colors.accent,
+        color:Theme.accent,
         fontSize: 12,
 
     },
@@ -70,8 +78,8 @@ const styles = StyleSheet.create({
     normalInput:{
         borderWidth: 1,
         borderRadius: 10,
-        backgroundColor:Colors.white,
-        borderColor:Colors.white,
+        backgroundColor:Theme.white,
+        borderColor:Theme.white,
         elevation: 2,
         shadowOffset: 1,
     },
@@ -84,7 +92,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center',
         // justifyContent: 'space-between',
-        backgroundColor:Colors.white,
+        backgroundColor:Theme.white,
         borderRadius: 10,
         elevation: 2,
         // shadowOffset: 1,
