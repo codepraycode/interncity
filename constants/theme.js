@@ -5,7 +5,7 @@ const Theme = {
     grey400: "#60778C",
     white: "#FFFFFF",
     black:"#000000",
-    pprimary: "#130160",
+    main: "#130160",
     accent: "#0D0140",
     secondary: "#FCA34D",
 }

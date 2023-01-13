@@ -1,5 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import {Typography, Colors, Assets} from 'react-native-ui-lib';
 
@@ -11,10 +12,13 @@ import CreateAccount from './features/authentication/CreateAccount';
 import Login from './features/authentication/Login';
 
 
-Colors.loadColors(Theme);
+Colors.loadColors({
+  ...Theme,
+  lightSecondary: Colors.rgba(Colors.secondary, 0.2),
+});
 Typography.loadTypographies(typography);
 
-console.log(assets)
+
 Assets.loadAssetsGroup('assets', {
   ...assets
 });
@@ -31,12 +35,12 @@ export default function App() {
     if(!loaded) return null;
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         {/* <AppOnboard/> */}
         {/* <Login/> */}
         <CreateAccount/>
         <StatusBar style="auto" />
-      </View>
+      </SafeAreaView>
     );
 }
 

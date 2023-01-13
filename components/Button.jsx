@@ -17,7 +17,7 @@ export default CustomButton;
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor: Colors.pprimary,
+        backgroundColor: Colors.main,
         width: "75%",
         paddingVertical: 15,
         borderRadius: 6,
