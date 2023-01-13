@@ -5,11 +5,16 @@ import Theme from '../../constants/theme';
 
 const CustomTextInput = (props) => {
     const {schema} = props;
+    let template;
+
+    if (schema.type === 'password') template = <PasswordInput {...props}/>;
+    else if (schema.type === 'email') template = <EmailInput {...props}/>;
+    else template = <NormalInput {...props}/>;
   return (
     <View style={styles.container}>
       <Text label style={styles.label}>{schema.label}</Text>
       {
-        schema.type === 'password' ? <PasswordInput {...props}/> : <NormalInput {...props}/>
+        template
       }
     </View>
   )
@@ -29,7 +34,22 @@ const NormalInput = ({schema, onChange, name, value})=>{
     )
 }
 
-const PasswordInput = ({schema, onChange, name, value})=>{
+const EmailInput = ({schema, onChange, name, value})=>{
+    return (
+        <TextInput
+            placeholder = {schema.placeholder}
+            placeholderTextColor = {Theme.accent}
+            onChangeText = {(str)=>onChange(name, str)}
+            style = {[styles.input, styles.normalInput]}
+            autoComplete = {"off"}
+            value = {value}
+            textContentType = {"emailAddress"}
+        />
+    )
+}
+
+const PasswordInput = (props)=>{
+    const {schema, onChange, name, value} = props;
     const [hidePassword, setHidePassword] = useState(true);
     
     return (
@@ -50,6 +70,7 @@ const PasswordInput = ({schema, onChange, name, value})=>{
         </View>
     )
 }
+
 
 export default CustomTextInput;
 

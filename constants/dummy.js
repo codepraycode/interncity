@@ -6,13 +6,13 @@ export const studentData = {
 export const authSchema = {
     email: {
         type: "string",
-        // placeholder: "enter your email",
+        placeholder: "Enter your email address",
         label: "Email",
     },
     password: {
         type: "password",
-        // placeholder: "enter your email",
-        label: "Email",
+        placeholder: "Enter your password",
+        label: "Password",
     },
 }
 
@@ -28,13 +28,13 @@ export const createAccountSchema = {
         label: "Email",
     },
     department: {
-        type: "string",
-        // placeholder: "enter your email",
+        type: "select",
+        placeholder: "Select your department",
         label: "Department",
     },
     institution: {
         type: "string",
-        // placeholder: "enter your email",
+        placeholder: "Eenter your institution",
         label: "Name of institution",
     },
     password: {
