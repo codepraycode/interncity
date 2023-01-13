@@ -6,7 +6,7 @@ import { StyleSheet, TouchableOpacity} from 'react-native';
     Onboarding screen for new users or after fresh installation
 */
 
-const AppOnboard = ()=>{
+const Onboarding = ({ onSwitch })=>{ // onboarding for authentication
     return (
         <>
             {/* Top container containing Logo */}
@@ -38,11 +38,11 @@ const AppOnboard = ()=>{
                 
 
                 <TouchableOpacity 
-                    onPressed={()=>{}} 
+                    onPress={()=>onSwitch()} 
                     style={{
                         width:60, 
                         height:60,
-                        backgroundColor:Colors.$backgroundDark,
+                        backgroundColor:Colors.main,
                         borderRadius:30,
                         alignItems:'center',
                         justifyContent:'center',
@@ -50,7 +50,7 @@ const AppOnboard = ()=>{
                         marginRight: 30,
                     }}
                 >
-                    <Icon assetName="arrowRight" assetGroup="assets" size={30}/>
+                    <Image assetName="arrowRight" assetGroup="assets" width={30} height={25}/>
                 </TouchableOpacity>
                 
             </View>
@@ -58,7 +58,7 @@ const AppOnboard = ()=>{
     )
 }
 
-export default AppOnboard;
+export default Onboarding;
 
 
 const styles = StyleSheet.create({

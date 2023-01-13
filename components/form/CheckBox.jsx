@@ -1,6 +1,7 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import {Text, View, Colors} from 'react-native-ui-lib'
+import Theme from '../../constants/theme'
 
 const CheckBox = () => {
   return (
@@ -30,9 +31,9 @@ const styles = StyleSheet.create({
     box:{
         height: 24,
         width: 24,
-        backgroundColor: Colors.grey200,
-        borderRadius: 6,
-        marginRight: 10,
+        backgroundColor: Theme.grey200,
+        borderRadius: 7,
+        marginRight: 8,
         alignItems:'center',
         justifyContent:'center'
     },

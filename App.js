@@ -7,22 +7,20 @@ import {Typography, Colors, Assets} from 'react-native-ui-lib';
 import Theme from './constants/theme';
 import typography from './constants/typography';
 import assets from './constants/assets';
-import CreateAccount from './features/authentication/CreateAccount';
-// import AppOnboard from './features/authentication/Onboarding';
-import Login from './features/authentication/Login';
+
+import Authentication from './features/authentication';
 
 
 Colors.loadColors({
-  ...Theme,
-  lightSecondary: Colors.rgba(Colors.secondary, 0.2),
-});
-Typography.loadTypographies(typography);
+      ...Theme,
+      lightSecondary: Colors.rgba(Theme.secondary, 0.2),
+    });
+    Typography.loadTypographies(typography);
 
 
-Assets.loadAssetsGroup('assets', {
-  ...assets
-});
-
+    Assets.loadAssetsGroup('assets', {
+      ...assets
+    });
 
 export default function App() {
 
@@ -32,13 +30,12 @@ export default function App() {
       FontRegular:require('./assets/fonts/DMSans-Regular.ttf'),
     });
 
+
     if(!loaded) return null;
 
     return (
       <SafeAreaView style={styles.container}>
-        {/* <AppOnboard/> */}
-        {/* <Login/> */}
-        <CreateAccount/>
+        <Authentication/>
         <StatusBar style="auto" />
       </SafeAreaView>
     );

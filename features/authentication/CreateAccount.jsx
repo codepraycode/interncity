@@ -7,7 +7,7 @@ import Form from '../../components/form';
     CreateAccount screen
 */
 
-const CreateAccount = ()=>{
+const CreateAccount = ({ onSwitch })=>{
     return (
         <ScrollView contentContainerStyle={styles.formContainer} >
             {/* Top view with wave and title */}
@@ -22,9 +22,10 @@ const CreateAccount = ()=>{
 
                 <TouchableOpacity style={{alignItems:'center', justifyContent:'center'}}>
                     <Text small style={{marginTop: 20,}}>
-                        <Text>Already have an account?</Text>  <Text secondary a>Sign In</Text>
+                        <Text>Already have an account?</Text>  <TouchableOpacity onPress={()=>onSwitch()}><Text secondary a>Sign In</Text></TouchableOpacity>
                     </Text>
                 </TouchableOpacity>
+
             </View>
 
             

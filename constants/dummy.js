@@ -19,23 +19,13 @@ export const authSchema = {
 export const createAccountSchema = {
     fullname: {
         type: "string",
-        // placeholder: "enter your email",
+        placeholder: "Enter your full name",
         label: "Fullname",
     },
     email: {
         type: "string",
-        // placeholder: "enter your email",
+        placeholder: "Enter your email address",
         label: "Email",
-    },
-    password: {
-        type: "password",
-        // placeholder: "enter your email",
-        label: "Email",
-    },
-    dateofbirth: {
-        type: "date",
-        // placeholder: "enter your email",
-        label: "Date of birth",
     },
     department: {
         type: "string",
@@ -47,4 +37,20 @@ export const createAccountSchema = {
         // placeholder: "enter your email",
         label: "Name of institution",
     },
+    password: {
+        type: "password",
+        placeholder: "Enter password",
+        label: "Password",
+    },
+    confirmPassword: {
+        type: "password",
+        placeholder: "Enter password again",
+        label: "Confirm password",
+    },
+    // dateofbirth: {
+    //     type: "date",
+    //     // placeholder: "enter your email",
+    //     label: "Date of birth",
+    // },
+    
 }
