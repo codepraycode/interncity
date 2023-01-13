@@ -1,5 +1,5 @@
-import {StyleSheet,TextInput, TouchableHighlight, TouchableOpacity} from 'react-native';
-import {View, Text, Colors, Icon} from 'react-native-ui-lib';
+import {StyleSheet,TextInput, TouchableOpacity} from 'react-native';
+import {View, Text, Icon} from 'react-native-ui-lib';
 import React, { useState } from 'react'
 import Theme from '../../constants/theme';
 
