@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Text, View } from 'react-native-ui-lib';
 import Onboarding from './Onboarding';
 
 
@@ -9,7 +10,13 @@ import Onboarding from './Onboarding';
 const CreateProfile = () =>{
     const [stage, setStage] = useState(0); // 0 for onboard,
 
-    return <Onboarding onSwitch={()=> setStage(1)}/>;
+    if (stage === 0) <Onboarding onSwitch={()=> setStage(1)}/>;
+
+    return (
+        <View flex center>
+            <Text h2>Continuation</Text>
+        </View>
+    )
 }
 
 export default CreateProfile;
