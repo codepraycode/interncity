@@ -3,10 +3,10 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors, Text  } from 'react-native-ui-lib'
 import Theme from '../constants/theme';
 
-const CustomButton = ({text}) => {
+const CustomButton = ({text, disable}) => {
     return (
 
-        <TouchableOpacity style={styles.container} activeOpacity={0.6}>
+        <TouchableOpacity style={[styles.container, disable && styles.disable]} activeOpacity={0.6}>
             <Text label style={{color: Colors.white}}>{text}</Text>
         </TouchableOpacity>
     )
@@ -24,5 +24,8 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         alignItems:'center',
         justifyContent:'center',
+    },
+    disable:{
+        opacity: 0.5,
     }
 })
