@@ -45,7 +45,6 @@ export const createAccountSchema = {
     
 }
 
-
 export const profileInfoSchema = {
     institution: {
         type: "string",
@@ -78,3 +77,66 @@ export const profileInfoSchema = {
         label: "Workspace Type",
     },
 }
+
+export const CompanyLists = [
+    {
+        id: 1,
+        logo: 'google',
+        name: 'Google inc.',
+        about: `Sed ut perspiciatis unde omnis iste natus error sit voluptatem 
+            accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis 
+            et quasi architecto beatae vitae dicta sunt explicabo.
+
+            At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis 
+            praesentium voluptatum deleniti atque corrupti quos dolores et quas .
+        `,
+        website:'sample.com',
+        employee_size: 132231,
+        specialization: "Search technology, Web computing, Software and Online advertising",
+        location:{
+            Town: 'Ikeja',
+            city: 'Lagos',
+            country: 'Uniter states'
+        }
+    },
+    {
+        id: 2,
+        logo: 'twitter',
+        name: 'Twitter inc.',
+        location:{
+            Town: 'Ikeja',
+            city: 'Lagos',
+            country: 'Uniter states'
+        }
+    },
+    {
+        id: 3,
+        logo: 'dribble',
+        name: 'Dribble inc.',
+        location:{
+            Town: 'Ikeja',
+            city: 'Lagos',
+            country: 'Uniter states'
+        }
+    }
+
+]
+
+
+export const JobsLists = [
+    {
+        id: 1,
+        companyId: 1,
+        title: 'Cyber security intern',
+    },
+    {
+        id: 2,
+        companyId: 3,
+        title: 'Penetration tester',
+    },
+    {
+        id: 3,
+        companyId: 2,
+        title: 'Security Research Intern',
+    }
+]
