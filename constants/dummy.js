@@ -27,16 +27,6 @@ export const createAccountSchema = {
         placeholder: "Enter your email address",
         label: "Email",
     },
-    department: {
-        type: "select",
-        placeholder: "Select your department",
-        label: "Department",
-    },
-    institution: {
-        type: "string",
-        placeholder: "Eenter your institution",
-        label: "Name of institution",
-    },
     password: {
         type: "password",
         placeholder: "Enter password",
@@ -53,4 +43,38 @@ export const createAccountSchema = {
     //     label: "Date of birth",
     // },
     
+}
+
+
+export const profileInfoSchema = {
+    institution: {
+        type: "string",
+        placeholder: "Select your institution",
+        label: "School of study",
+    },
+    // department: {
+    //     type: "select",
+    //     placeholder: "Select your department",
+    //     label: "Department",
+    // },
+    course: {
+        type: "string",
+        placeholder: "Select your course",
+        label: "Course",
+    },
+    iTLocation: {
+        type: "string",
+        placeholder: "Select preferred IT location",
+        label: "Preferred IT location",
+    },
+    duration: {
+        type: "string",
+        placeholder: "Set duration",
+        label: "Duration",
+    },
+    workspace: {
+        type: "radio",
+        placeholder: "workspace Type",
+        label: "Workspace Type",
+    },
 }

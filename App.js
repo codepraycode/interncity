@@ -8,7 +8,7 @@ import Theme from './constants/theme';
 import typography from './constants/typography';
 import assets from './constants/assets';
 
-import Authentication from './features/authentication';
+import InterncityApp from './main';
 
 
 Colors.loadColors({
@@ -35,7 +35,7 @@ export default function App() {
 
     return (
       <SafeAreaView style={styles.container}>
-        <Authentication/>
+        <InterncityApp/>
         <StatusBar style="auto" />
       </SafeAreaView>
     );

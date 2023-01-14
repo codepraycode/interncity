@@ -7,7 +7,7 @@ import Form from '../../components/form';
     Login screen
 */
 
-const Login = ({ onSwitch })=>{
+const Login = ({ onSwitch, onAuthenticated })=>{
 
     return (
         <View style={styles.formContainer}>
@@ -19,7 +19,14 @@ const Login = ({ onSwitch })=>{
 
             {/* Auth form */}
             <View style={styles.container}>
-                <Form schema={authSchema} authLabel="LOGIN" remember={true} forgotPassword={true}/>
+                <Form 
+                  onSubmit={onAuthenticated} 
+                  schema={authSchema} 
+                  authLabel="LOGIN" 
+                  remember={true} 
+                  forgotPassword={true}
+                  sso = {true}
+                />
 
                 <View style={{alignItems:'center', justifyContent:'center'}}>
                     <Text small style={{marginTop: 20,}}>

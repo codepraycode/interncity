@@ -18,7 +18,12 @@ const CreateAccount = ({ onSwitch })=>{
 
             {/* Auth form */}
             <View style={styles.container}>
-                <Form schema={createAccountSchema} authLabel={"SIGN UP"}/>
+                <Form 
+                  onSubmit={onSwitch} 
+                  schema={createAccountSchema} 
+                  authLabel={"SIGN UP"}
+                  sso = {true}
+                />
 
                 <TouchableOpacity style={{alignItems:'center', justifyContent:'center'}}>
                     <Text small style={{marginTop: 20,}}>
