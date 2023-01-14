@@ -11,11 +11,11 @@ import Onboarding from './Onboarding';
 // on app initialization, not part of app's main screen
 // all profile screens are handled in index.js in feature's folder
 
-const CreateProfile = () =>{
+const CreateProfile = ({onDone}) =>{
     const [stage, setStage] = useState(0); // -1 for onboard, 1 for success, 0 for main content
 
-    if (stage === -1) return <Onboarding onSwitch={()=> setStage(0)}/>; // -1
-    if (stage === 1) return <SuccessScreen/> // 1
+    if (stage === -1) return <Onboarding onSwitch={()=> setStage(0)} />; // -1
+    if (stage === 1) return <SuccessScreen onCompleted={onDone}/> // 1
 
     return <ProfileFormScreen onSwitch={()=> setStage(1)}/> // 0
 }
@@ -23,7 +23,7 @@ const CreateProfile = () =>{
 export default CreateProfile;
 
 
-const SuccessScreen = () =>{
+const SuccessScreen = ({ onCompleted }) =>{
     return (
         <View flex>
             {/* Top view with wave and title */}
@@ -39,7 +39,7 @@ const SuccessScreen = () =>{
                     Your application information has been updated successfully!. You can now go ahead to apply for internship roles
                 </Text>
 
-                <Button text="Continue" onPress={()=>console.log("Proceed!")}/>
+                <Button text="Continue" onPress={()=>onCompleted()}/>
             </View>
 
             
