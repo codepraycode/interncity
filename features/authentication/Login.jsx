@@ -19,7 +19,14 @@ const Login = ({ onSwitch, onAuthenticated })=>{
 
             {/* Auth form */}
             <View style={styles.container}>
-                <Form onSubmit={onAuthenticated} schema={authSchema} authLabel="LOGIN" remember={true} forgotPassword={true}/>
+                <Form 
+                  onSubmit={onAuthenticated} 
+                  schema={authSchema} 
+                  authLabel="LOGIN" 
+                  remember={true} 
+                  forgotPassword={true}
+                  sso = {true}
+                />
 
                 <View style={{alignItems:'center', justifyContent:'center'}}>
                     <Text small style={{marginTop: 20,}}>

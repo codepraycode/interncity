@@ -10,7 +10,7 @@ import Theme from "../../constants/theme";
 export {TextInput, CheckBox}
 
 
-const Form = ({schema, remember, forgotPassword, authLabel, onSubmit})=>{
+const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso})=>{
     const [formData, setFormData] = useState({});
 
     const updateFormData = (field, value)=>{
@@ -60,11 +60,15 @@ const Form = ({schema, remember, forgotPassword, authLabel, onSubmit})=>{
             </View>
 
             {/* Call to action */}
-            <View 
-                style={[styles.container, styles.cta, {flexDirection:'column', marginTop:20,}]}
-            >
-                <SSO google={true}/>
-            </View>
+            {
+                sso && (
+                    <View 
+                        style={[styles.container, styles.cta, {flexDirection:'column', marginTop:20,}]}
+                    >
+                        <SSO google={true}/>
+                    </View>
+                )
+            }
         </>
     )
 }

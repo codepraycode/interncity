@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
+import Form from '../../components/form';
 import { profileInfoSchema } from '../../constants/dummy';
 import Onboarding from './Onboarding';
 
@@ -18,12 +19,12 @@ const CreateProfile = () =>{
         <ScrollView contentContainerStyle={styles.formContainer} >
             {/* Top view with wave and title */}
             <View style={styles.top} >
-                <Text h2>Profile Information</Text>
+                <Text h3>Profile Information</Text>
             </View>
 
             {/* Auth form */}
             <View style={styles.container}>
-                <Form 
+                <Form
                     onSubmit={()=>console.log("Submitted")} 
                     schema={profileInfoSchema} 
                     authLabel={"Finish"}
@@ -40,7 +41,7 @@ export default CreateProfile;
 
 const styles = StyleSheet.create({
   top: {
-    paddingVertical: 10,
+    paddingVertical: 20,
     alignItems:'center',
     justifyContent:'center'
   },
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
 
   formContainer:{
     // flex:1,
-    paddingBottom: 100,
+    paddingBottom: 20,
     paddingHorizontal: 20,
   },
 
