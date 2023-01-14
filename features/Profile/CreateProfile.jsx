@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { ScrollView } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
+import { profileInfoSchema } from '../../constants/dummy';
 import Onboarding from './Onboarding';
 
 
@@ -10,13 +12,48 @@ import Onboarding from './Onboarding';
 const CreateProfile = () =>{
     const [stage, setStage] = useState(0); // 0 for onboard,
 
-    if (stage === 0) <Onboarding onSwitch={()=> setStage(1)}/>;
+    if (stage === 0) return <Onboarding onSwitch={()=> setStage(1)}/>;
 
     return (
-        <View flex center>
-            <Text h2>Continuation</Text>
-        </View>
+        <ScrollView contentContainerStyle={styles.formContainer} >
+            {/* Top view with wave and title */}
+            <View style={styles.top} >
+                <Text h2>Profile Information</Text>
+            </View>
+
+            {/* Auth form */}
+            <View style={styles.container}>
+                <Form 
+                    onSubmit={()=>console.log("Submitted")} 
+                    schema={profileInfoSchema} 
+                    authLabel={"Finish"}
+                />
+            </View>
+
+            
+
+        </ScrollView>
     )
 }
 
 export default CreateProfile;
+
+const styles = StyleSheet.create({
+  top: {
+    paddingVertical: 10,
+    alignItems:'center',
+    justifyContent:'center'
+  },
+
+
+  formContainer:{
+    // flex:1,
+    paddingBottom: 100,
+    paddingHorizontal: 20,
+  },
+
+  container:{
+    paddingVertical: 30,
+  },
+  
+});
