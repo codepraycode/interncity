@@ -6,6 +6,8 @@ import eyeOpen from '../assets/images/eye1.png';
 import eyeClose from '../assets/images/eye2.png';
 import arrowRight from '../assets/images/arrow-right.png';
 import google from '../assets/images/google.png';
+import illu from '../assets/images/illu.png';
+
 export default  {
     logo,
     memoji,
@@ -14,6 +16,7 @@ export default  {
     eyeOpen,
     eyeClose,
     arrowRight,
-    google
+    google,
+    illu
 };
 
