@@ -17,9 +17,15 @@ const Typography = {
         fontFamily: "FontBold",
         color: Theme.main,
     },
+    h4: {
+        fontSize: 18,
+        fontFamily: "FontBold",
+        color: Theme.main,
+    },
     p: {
-        fontSize: 14,
+        fontSize: 12,
         fontFamily: "FontRegular",
+        color: Theme.grey400,
     },
     small: {
         fontSize: 12,

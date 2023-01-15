@@ -5,8 +5,11 @@ import wave from '../assets/images/wave.png';
 import eyeOpen from '../assets/images/eye1.png';
 import eyeClose from '../assets/images/eye2.png';
 import arrowRight from '../assets/images/arrow-right.png';
-import google from '../assets/images/google.png';
 import illu from '../assets/images/illu.png';
+
+import google from '../assets/images/google.png';
+import dribble from '../assets/images/dribble.png';
+import twitter from '../assets/images/twitter.png';
 
 export default  {
     logo,
@@ -17,6 +20,8 @@ export default  {
     eyeClose,
     arrowRight,
     google,
-    illu
+    illu,
+    dribble,
+    twitter
 };
 
