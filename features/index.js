@@ -78,7 +78,7 @@ const AppScreens = ()=>{
                     headerStyle:{
                         backgroundColor: Theme.grey100,
                     },
-                    headerTransparent:true,
+                    // headerTransparent:true,
 
                     headerRight: ()=> <Octicons name={'bell'} size={25} color={Theme.accent} style={{paddingRight: 20}}/>
                 })}

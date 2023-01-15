@@ -1,6 +1,8 @@
 import React from 'react'
 import { StyleSheet } from 'react-native';
 import { View, Text } from 'react-native-ui-lib';
+import Card from '../../components/Card';
+
 
 // Create the jobs screen
 const NoJob = () => {
@@ -13,11 +15,11 @@ const NoJob = () => {
 
 
 const JobItem = ()=>{
-    
+    return <Card/>
 }
 
 const JobLists = () => {
-    return <NoJob/>
+    return <JobItem/>; //<NoJob/>
 }
 
 export default JobLists;
