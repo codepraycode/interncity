@@ -1,12 +1,26 @@
 import React from 'react'
 import { StyleSheet } from 'react-native';
-import { View, Text } from 'react-native-ui-lib'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+// Screens
+import JobLists from './JobLists';
+
+const JobsStack = createNativeStackNavigator();
+
+
+const subScreenOptions = {
+    headerShown: false,
+}
+// Create the jobs screen
 const JobsStackScreen = () => {
     return (
-        <View flex center>
-            <Text>Job screen!</Text>
-        </View>
+        <JobsStack.Navigator>
+            <JobsStack.Screen 
+                name="JobLists" 
+                component={JobLists} 
+                options = { subScreenOptions }
+            />
+        </JobsStack.Navigator>
     )
 }
 
