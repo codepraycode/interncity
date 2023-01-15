@@ -81,11 +81,6 @@ const AppScreens = ()=>{
                     headerTransparent:true,
 
                     headerRight: ()=> <Octicons name={'bell'} size={25} color={Theme.accent} style={{paddingRight: 20}}/>
-                    // headerTitleStyle:{
-                    //     fontFamily:'FontBold',
-                    //     fontSize:20,
-                    //     color:Theme.main,
-                    // }
                 })}
             >
                 <Tab.Screen name="Jobs" component={JobsStackScreen} />
