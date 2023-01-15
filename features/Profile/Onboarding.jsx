@@ -45,9 +45,9 @@ roles based on your study major.</Text>
                 <TouchableOpacity 
                     onPress={()=>onSwitch()} 
                     style={{
-                        width:60, 
+                        width:60,
                         height:60,
-                        backgroundColor:Colors.main,
+                        backgroundColor:Theme.main,
                         borderRadius:30,
                         alignItems:'center',
                         justifyContent:'center',

@@ -1,10 +1,11 @@
 import React from 'react'
-import { StyleSheet } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { View, Text, Image } from 'react-native-ui-lib';
 import Card from '../../components/Card';
 import Tags from '../../components/Tags';
 import Button from '../../components/Button';
 import Theme from '../../constants/theme';
+import { CompanyLists, JobsLists } from '../../constants/dummy';
 
 // Create the jobs screen
 const NoJob = () => {
@@ -16,7 +17,12 @@ const NoJob = () => {
 }
 
 
-const JobItem = ()=>{
+const JobItem = ({jobItem})=>{
+    const company = CompanyLists.find(e=>e.id === jobItem.companyId) || {};
+    const title = jobItem.title || '';
+    const decription = `${company.name || '---'} ${company.headOffice.town || "---"} ${company.headOffice.city || "---"}`;
+    const tags = jobItem.tags || []
+    
     return (
         <Card>
             
@@ -34,17 +40,21 @@ const JobItem = ()=>{
                         borderRadius: 25,
                     }}
                 >
-                    <Image 
-                        assetName="google" 
-                        assetGroup="assets" 
-                        width={30} height={30}
-                        style={{
-                            marginVertical: 10,
-                        }}
-                    />
+                    {
+                        company.logo && (
+                            <Image 
+                                assetName={company.logo}
+                                assetGroup="assets" 
+                                width={30} height={30}
+                                style={{
+                                    marginVertical: 10,
+                                }}
+                            />
+                        )
+                    }
                 </View>
-                <Text h4>Google Incoporation</Text>
-                <Text p>Google inc. Ikeja, Lagos</Text>
+                <Text h4>{title}</Text>
+                <Text p>{decription}</Text>
             </View>
 
             <View
@@ -55,9 +65,9 @@ const JobItem = ()=>{
                     marginVertical: 10,
                 }}
             >
-                <Tags text="Full time"/>
-                <Tags text="Entry"/>
-                <Tags text="Real"/>
+                {
+                    tags.map((e, i)=><Tags text={e || '--'} key={i}/>)
+                }
             </View>
 
             <View 
@@ -67,7 +77,7 @@ const JobItem = ()=>{
                     alignItems:'center'
                 }}
             >
-                <Text p>25 minutes ago</Text>
+                <Text p>some minutes ago</Text>
 
                 <Button text={"View"} small={true} onPress={()=>{}}/>
             </View>
@@ -76,7 +86,13 @@ const JobItem = ()=>{
 }
 
 const JobLists = () => {
-    return <JobItem/>; //<NoJob/>
+    return (
+        <FlatList
+            data={ JobsLists }
+            renderItem = {()=><JobLists/>}
+            keyExtractor={item => item.id}
+        />
+    );
 }
 
 export default JobLists;
