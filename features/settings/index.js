@@ -2,13 +2,14 @@ import React from 'react'
 import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
 
-const ProfileStackScreen = () => {
+const AppStackScreen = () => {
     return (
         <View flex center>
-            <Text>Profile Screen!</Text>
+            <Text>App Setting screen!</Text>
         </View>
     )
 }
 
-export default ProfileStackScreen;
+export default AppStackScreen;
+
 const styles = StyleSheet.create({});

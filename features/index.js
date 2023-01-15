@@ -5,16 +5,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 // Screens
-import JobsLists from './JobsLists';
-import Logs from './Logs';
-import ProfileSetting from './ProfileSetting';
-import AppSetting from './AppSetting';
+import JobsStackScreen from './Jobs';
+import LogsStackScreen from './Reviews';
+import ProfileStackScreen from './Profile';
+import AppSetting from './settings';
 
 // Icon
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Theme from '../../constants/theme';
+import Theme from '../constants/theme';
 import { Text } from 'react-native-ui-lib';
 
 // Stack Navigator
@@ -53,11 +53,11 @@ const getHeaderTitle = (name) => {
             </Text>;
 }
 
-const HomeStackNavigator = ()=>{
+const AppScreens = ()=>{
     return (
         <NavigationContainer>
             {/* <Stack.Navigator>
-                <Stack.Screen name='Jobs' component={JobsLists}/>
+                <Stack.Screen name='Jobs' component={JobsStackScreen}/>
             </Stack.Navigator>         */}
 
             <Tab.Navigator
@@ -86,13 +86,13 @@ const HomeStackNavigator = ()=>{
                     // }
                 })}
             >
-                <Tab.Screen name="Jobs" component={JobsLists} />
-                <Tab.Screen name="Logs" component={Logs} />
-                <Tab.Screen name="ProfileSetting" component={ProfileSetting} />
+                <Tab.Screen name="Jobs" component={JobsStackScreen} />
+                <Tab.Screen name="Logs" component={LogsStackScreen} />
+                <Tab.Screen name="ProfileSetting" component={ProfileStackScreen} />
                 <Tab.Screen name="AppSetting" component={AppSetting} />
             </Tab.Navigator>
         </NavigationContainer>
     )
 }
 
-export default HomeStackNavigator;
+export default AppScreens;

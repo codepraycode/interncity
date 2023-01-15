@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Authentication from './features/authentication';
 import CreateProfile from './features/Profile/CreateProfile';
-import Home from './features/Home';
+import AppScreens from './features';
 
 // This file determines where the app will start from
 
@@ -12,7 +12,7 @@ const InterncityApp = ()=>{
     if (!isAuthenticated) return <Authentication isDone={()=>setIsAuthenticated(true)}/>
     if (!isUserProfileSet) return <CreateProfile onDone={()=>setIsUserProfileSet(true)}/>
 
-    return <Home/>
+    return <AppScreens/>
 
 }
 
