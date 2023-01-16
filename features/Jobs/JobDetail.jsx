@@ -1,5 +1,5 @@
-import React from 'react'
-import { FlatList, StyleSheet } from 'react-native';
+import React, { useState } from 'react'
+import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { View, Text, Image } from 'react-native-ui-lib';
 import Button from '../../components/Button';
 import Theme from '../../constants/theme';
@@ -105,29 +105,32 @@ const JobComapanyInfomation = ({company}) =>{
 
 const JobInfomation = ({job}) =>{
 
-    return <View center flex>
+    return <View center>
         <Text>About company job</Text>
     </View>
 }
 
-const Tab = ({text})=> (
-    <View 
+const Tab = ({text, onClick, active})=> (
+    <TouchableOpacity 
+        onPress={onClick}
         center 
         style={{
-            backgroundColor:Theme.secondary,
+            backgroundColor:active ? Theme.secondary : 'transparent',
             borderRadius: 6,
             paddingVertical: 8,
             paddingHorizontal: 15,
             marginHorizontal: 15,
         }}
     >
-        <Text label style={{color: Theme.white}}>{text}</Text>
-    </View>
+        <Text label style={{color: active ? Theme.white : Theme.accent }}>{text}</Text>
+    </TouchableOpacity>
 )
 
 const JobDetail = ({ route }) => {
     const { jobId } = route.params;
     const job = JobsLists.find(each => each.id === jobId);
+    const [tabNo, setTabNo] = useState(0);
+
     if (!Boolean(job)) return <JobNotFound/>;
 
     const company = CompanyLists.find(each => each.id === job.companyId);
@@ -143,7 +146,8 @@ const JobDetail = ({ route }) => {
         >
             <JobDetailHeader job = { job } company = {company}/>
 
-            <View >
+            <View>
+                {/* Tabs */}
                 <View centerH>
                     <View
                         style={{
@@ -156,12 +160,18 @@ const JobDetail = ({ route }) => {
                             // maxWidth: "80%"
                         }}
                     >
-                        <Tab text="About company"/>
-                        <Tab text="About job"/>
+                        <Tab text="About company" onClick={()=>setTabNo(0)} active={tabNo === 0}/>
+                        <Tab text="About job" onClick={()=>setTabNo(1)} active={tabNo === 1}/>
                     </View>
                 </View>
 
-                <JobComapanyInfomation/>
+                {
+                    tabNo === 0 ? 
+                    <JobComapanyInfomation company={company}/>
+                    :
+                    <JobInfomation job={job}/>
+                }
+                
             </View>
         </View>
     );
