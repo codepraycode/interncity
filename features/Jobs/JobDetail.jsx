@@ -98,9 +98,13 @@ const JobDetailHeader = ({job:jobInfo, company})=>{
 
 const JobComapanyInfomation = ({company}) =>{
 
-    return <View>
-        <Text>About company</Text>
-    </View>
+    return (
+        <View>
+            <Text h5 style={{marginLeft: 30,}}>About company</Text>
+
+            
+        </View>
+    )
 }
 
 const JobInfomation = ({job}) =>{
@@ -165,12 +169,20 @@ const JobDetail = ({ route }) => {
                     </View>
                 </View>
 
-                {
-                    tabNo === 0 ? 
-                    <JobComapanyInfomation company={company}/>
-                    :
-                    <JobInfomation job={job}/>
-                }
+
+                {/* Content */}
+                <View
+                    style={{
+                        paddingTop: 10,
+                    }}
+                >
+                    {
+                        tabNo === 0 ? 
+                        <JobComapanyInfomation company={company}/>
+                        :
+                        <JobInfomation job={job}/>
+                    }
+                </View>
                 
             </View>
         </View>
