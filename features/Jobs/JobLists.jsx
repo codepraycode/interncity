@@ -17,7 +17,7 @@ const NoJob = () => {
 }
 
 
-const JobItem = ({jobItem})=>{
+const JobItem = ({jobItem, onViewClick})=>{
     const company = CompanyLists.find(e=>e.id === jobItem.companyId) || {};
     const title = jobItem.title || '';
     const decription = `${company.name || '---'} ${company.headOffice.town || "---"} ${company.headOffice.city || "---"}`;
@@ -65,17 +65,20 @@ const JobItem = ({jobItem})=>{
             >
                 <Text p>some minutes ago</Text>
 
-                <Button text={"View"} small={true} onPress={()=>{}}/>
+                <Button text={"View"} small={true} onPress={()=>onViewClick()}/>
             </View>
         </Card>
     )
 }
 
-const JobLists = () => {
+const JobLists = ({ navigation }) => {
+    const handleNavigateToDetail = (jobItem)=>{
+        navigation.navigate("JobDetail");
+    }
     return (
         <FlatList
             data={ JobsLists }
-            renderItem = {({item})=><JobItem jobItem = { item}/>}
+            renderItem = {({item})=><JobItem jobItem = { item} onViewClick = {()=>handleNavigateToDetail(item)}/>}
             keyExtractor={item => item.id}
         />
     );
