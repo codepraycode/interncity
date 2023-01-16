@@ -333,6 +333,12 @@ const JobDetail = ({ route }) => {
                         <JobInfomation job={job}/>
                     }
                 </View>
+
+
+                {/* Call to action */}
+                <View center style={{marginVertical: 15}}>
+                    <Button text="Apply Now" onPress={()=>{}}/>
+                </View>
                 
             </View>
         </ScrollView>
