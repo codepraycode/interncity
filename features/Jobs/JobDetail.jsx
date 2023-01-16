@@ -11,22 +11,11 @@ import Octicons from 'react-native-vector-icons/Octicons';
 
 const Seperator = ()=> <View style={{width: 5, height: 5, borderRadius: 2.5, backgroundColor: Theme.accent}}></View>
 
-const JobDetail = ({ route }) => {
-    const { jobId } = route.params;
-    const JobInfo = JobsLists.find(each => each.id === jobId);
-    if (!Boolean(JobInfo)) return <JobNotFound/>;
 
-    const JobCompanyInfo = CompanyLists.find(each => each.id === JobInfo.companyId);
-    
-    if (!Boolean(JobCompanyInfo)) return <JobNotFound text={"Job company not found!"}/>;
+const JobDetailHeader = ({job:jobInfo, company})=>{
 
     return (
-        <View 
-            flex
-            style={{
-                backgroundColor:Theme.grey100
-            }}
-        >
+        <>
             <View 
                 center 
                 style={{
@@ -36,9 +25,9 @@ const JobDetail = ({ route }) => {
                 }}
             >
                 {
-                    JobCompanyInfo.logo && (
+                    company.logo && (
                         <Image 
-                            assetName={JobCompanyInfo.logo}
+                            assetName={company.logo}
                             assetGroup="assets" 
                             width={90} height={90}
                             style={{
@@ -61,7 +50,7 @@ const JobDetail = ({ route }) => {
                 <Text 
                     center 
                     h5
-                >{JobInfo.title}</Text>
+                >{jobInfo.title}</Text>
 
                 <View 
                     style={{
@@ -72,9 +61,9 @@ const JobDetail = ({ route }) => {
                         marginVertical: 15,
                     }}
                 >
-                    <Text center label>{JobCompanyInfo.name}</Text>
+                    <Text center label>{company.name}</Text>
                     <Seperator/>
-                    <Text center label>{JobInfo.location.city}</Text>
+                    <Text center label>{jobInfo.location.city}</Text>
                     <Seperator/>
                     <Text center label>2 days ago</Text>
                 </View>
@@ -103,13 +92,76 @@ const JobDetail = ({ route }) => {
                 </View>
                 
             </View>
+        </>
+    )
+}
 
-            <View
-                style={{
-                    // backgroundColor:Theme.white,
-                }}
-            >
-                <Text>Other content</Text>
+const JobComapanyInfomation = ({company}) =>{
+
+    return <View>
+        <Text>About company</Text>
+    </View>
+}
+
+const JobInfomation = ({job}) =>{
+
+    return <View center flex>
+        <Text>About company job</Text>
+    </View>
+}
+
+const Tab = ({text})=> (
+    <View 
+        center 
+        style={{
+            backgroundColor:Theme.secondary,
+            borderRadius: 6,
+            paddingVertical: 8,
+            paddingHorizontal: 15,
+            marginHorizontal: 15,
+        }}
+    >
+        <Text label style={{color: Theme.white}}>{text}</Text>
+    </View>
+)
+
+const JobDetail = ({ route }) => {
+    const { jobId } = route.params;
+    const job = JobsLists.find(each => each.id === jobId);
+    if (!Boolean(job)) return <JobNotFound/>;
+
+    const company = CompanyLists.find(each => each.id === job.companyId);
+    
+    if (!Boolean(company)) return <JobNotFound text={"Job company not found!"}/>;
+
+    return (
+        <View 
+            flex
+            style={{
+                backgroundColor:Theme.grey100
+            }}
+        >
+            <JobDetailHeader job = { job } company = {company}/>
+
+            <View >
+                <View centerH>
+                    <View
+                        style={{
+                            flexDirection:'row', 
+                            alignItems:'center', 
+                            justifyContent:'space-evenly',
+                            backgroundColor:Theme.white,
+                            padding: 5,
+                            borderRadius: 5,
+                            // maxWidth: "80%"
+                        }}
+                    >
+                        <Tab text="About company"/>
+                        <Tab text="About job"/>
+                    </View>
+                </View>
+
+                <JobComapanyInfomation/>
             </View>
         </View>
     );
