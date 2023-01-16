@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text } from 'react-native-ui-lib';
 
-const JobNotFound = () => {
+const JobNotFound = ({text}) => {
     return (
         <View flex center>
-            <Text>Job info not found</Text>
+            <Text>{text || "Job info not found"}</Text>
         </View>
     )
 }
