@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, Image, Colors} from 'react-native-ui-lib';
+import {View, Text, Image} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import Theme from '../../constants/theme';
 
@@ -7,7 +7,8 @@ import Theme from '../../constants/theme';
     Onboarding screen for create profile if profile isn't set or completed
 */
 
-const Onboarding = ({ onSwitch })=>{ // onboarding for authentication
+const Onboarding = ({ switchContent })=>{ // onboarding for authentication
+    console.log(switchContent);
     return (
         <>
             {/* Top container containing Logo */}
@@ -43,7 +44,7 @@ roles based on your study major.</Text>
                 
 
                 <TouchableOpacity 
-                    onPress={()=>onSwitch()} 
+                    onPress={()=>switchContent()} 
                     style={{
                         width:60,
                         height:60,
