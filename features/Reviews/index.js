@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
 
-const LogsStackScreen = () => {
+const LogsScreen = () => {
     return (
         <View flex center>
             <Text>Internship Logs screen</Text>
@@ -10,6 +10,6 @@ const LogsStackScreen = () => {
     )
 }
 
-export default LogsStackScreen;
+export default LogsScreen;
 
 const styles = StyleSheet.create({});

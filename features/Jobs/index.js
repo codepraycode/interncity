@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Screens
-import JobLists from './JobLists';
 import JobDetail from './JobDetail';
 
 const JobsStack = createNativeStackNavigator();
@@ -18,11 +17,6 @@ const JobsStackScreen = () => {
         <JobsStack.Navigator>
             <JobsStack.Screen 
                 name="Job" 
-                component={JobLists} 
-                options = { subScreenOptions }
-            />
-            <JobsStack.Screen 
-                name="JobDetail" 
                 component={JobDetail} 
                 options = { subScreenOptions }
             />

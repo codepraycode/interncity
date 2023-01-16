@@ -1,24 +1,28 @@
-// Home screen that covers base navigation for main screens
+// Home screen that covers base navigation for screens
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-// import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Text } from 'react-native-ui-lib';
 
-// Screens
+// Screen stacks
 import JobsStackScreen from './Jobs';
-import LogsStackScreen from './Reviews';
-import ProfileStackScreen from './Profile';
-import AppSetting from './settings';
 
 // Icon
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Theme from '../constants/theme';
-import { Text } from 'react-native-ui-lib';
+
+
+// Screens
+import LogsScreen from './Reviews';
+import ProfileScreen from './Profile';
+import AppSettingsScreen from './settings';
+import JobListsScreen from './Jobs/JobLists';
 
 // Stack Navigator
-// const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const getIcons = (name, focused, color, size) => {
@@ -53,41 +57,55 @@ const getHeaderTitle = (name) => {
             </Text>;
 }
 
+const HomeStack = ()=>{
+    return (
+
+        <Tab.Navigator
+            // initialRouteName = "Jobs"
+            screenOptions={({ route })=>({
+                tabBarIcon: ({focused, color, size})=> getIcons(route.name, focused, color, size),
+                tabBarActiveTintColor: Theme.accent,
+                tabBarInactiveTintColor: Theme.grey300,
+                tabBarShowLabel: false,
+
+                tabBarStyle:{
+                    height: 65,
+                    // position:'absolute',
+                },
+                headerTitle: ()=>getHeaderTitle(route.name),
+                headerTitleAlign: 'center',
+                headerShadowVisible:false,
+                headerStyle:{
+                    backgroundColor: Theme.grey100,
+                },
+                // headerTransparent:true,
+
+                headerRight: ()=> <Octicons name={'bell'} size={25} color={Theme.accent} style={{paddingRight: 20}}/>
+            })}
+        >
+            <Tab.Screen name="Jobs" component={JobListsScreen} />
+            <Tab.Screen name="Logs" component={LogsScreen} />
+            <Tab.Screen name="ProfileSetting" component={ProfileScreen} />
+            <Tab.Screen name="AppSetting" component={AppSettingsScreen} />
+        </Tab.Navigator>
+    )
+}
+
 const AppScreens = ()=>{
     return (
         <NavigationContainer>
-            {/* <Stack.Navigator>
-                <Stack.Screen name='Jobs' component={JobsStackScreen}/>
-            </Stack.Navigator>         */}
-
-            <Tab.Navigator
-                initialRouteName = "Jobs"
-                screenOptions={({ route })=>({
-                    tabBarIcon: ({focused, color, size})=> getIcons(route.name, focused, color, size),
-                    tabBarActiveTintColor: Theme.accent,
-                    tabBarInactiveTintColor: Theme.grey300,
-                    tabBarShowLabel: false,
-
-                    tabBarStyle:{
-                        height: 65,
-                        // position:'absolute',
-                    },
-                    headerTitle: ()=>getHeaderTitle(route.name),
-                    headerTitleAlign: 'center',
-                    headerShadowVisible:false,
-                    headerStyle:{
-                        backgroundColor: Theme.grey100,
-                    },
-                    // headerTransparent:true,
-
-                    headerRight: ()=> <Octicons name={'bell'} size={25} color={Theme.accent} style={{paddingRight: 20}}/>
-                })}
-            >
-                <Tab.Screen name="Jobs" component={JobsStackScreen} />
-                <Tab.Screen name="Logs" component={LogsStackScreen} />
-                <Tab.Screen name="ProfileSetting" component={ProfileStackScreen} />
-                <Tab.Screen name="AppSetting" component={AppSetting} />
-            </Tab.Navigator>
+            <Stack.Navigator>
+                {/* Hide header for home screens */}
+                <Stack.Screen 
+                    name="Home" 
+                    component = {HomeStack}
+                    options = {({ route })=>({
+                        headerShown: false
+                    })}
+                />
+                <Stack.Screen name="Job" component={JobsStackScreen} />
+                {/* <Stack.Screen name="Settings" component={Settings} /> */}
+            </Stack.Navigator>
         </NavigationContainer>
     )
 }
