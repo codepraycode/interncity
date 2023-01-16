@@ -73,7 +73,9 @@ const JobItem = ({jobItem, onViewClick})=>{
 
 const JobLists = ({ navigation }) => {
     const handleNavigateToDetail = (jobItem)=>{
-        navigation.navigate("JobDetail");
+        navigation.navigate("JobDetail", {
+            jobId: jobItem.id
+        });
     }
     return (
         <FlatList

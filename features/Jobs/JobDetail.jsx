@@ -8,10 +8,11 @@ import Theme from '../../constants/theme';
 import { CompanyLists, JobsLists } from '../../constants/dummy';
 
 
-const JobDetail = () => {
+const JobDetail = ({ route }) => {
+    const { jobId } = route.params;
     return (
         <Text>
-            Job Detail screen!
+            Job Detail for job#{jobId} screen!
         </Text>
     );
 }
