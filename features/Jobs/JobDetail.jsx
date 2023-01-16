@@ -7,10 +7,9 @@ import { CompanyLists, JobsLists } from '../../constants/dummy';
 import JobNotFound from '../../states/JobNotFound';
 
 const JobDetail = ({ route }) => {
-    // console.log(route.params);
-    // const { jobId } = route.params;
-    let jobId = "fdsafsd"
-    const JobInfo = null; JobsLists.find(each => each.id === jobId);
+    console.log(route.params);
+    const { jobId } = route.params;
+    const JobInfo = JobsLists.find(each => each.id === jobId);
 
     if (!Boolean(JobInfo)) return <JobNotFound/>;
 

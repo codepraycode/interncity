@@ -65,12 +65,10 @@ const JobItem = ({jobItem, onViewClick})=>{
 
 const JobListsScreen = ({ navigation }) => {
     const handleNavigateToDetail = (jobItem)=>{
-        navigation.navigate("Job", {jobId: jobItem.id});
-
-        // {
-            // screen: "JobDetail",
-            // params: {jobId: jobItem.id}
-        // }
+        navigation.navigate("Job", { 
+            screen: "JobDetail", 
+            params: {jobId: jobItem.id}
+        });
     }
     return (
         <FlatList
