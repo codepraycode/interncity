@@ -32,6 +32,12 @@ const Typography = {
         fontFamily: "FontRegular",
         color: Theme.grey400,
     },
+    i: {
+        fontSize: 12,
+        fontFamily: "FontRegular",
+        color: Theme.grey400,
+        fontStyle:'italic'
+    },
     small: {
         fontSize: 12,
         fontFamily: "FontRegular",

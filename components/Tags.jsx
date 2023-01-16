@@ -3,11 +3,26 @@ import { View,Text } from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import React from 'react'
 
-const Tags = ({text}) => {
+const Tags = ({tags}) => {
   return (
-    <View style={styles.cardContainer}>
-      <Text p center>{text}</Text>
-    </View>
+
+      <View
+          style={{
+              flexDirection:'row',
+              justifyContent:'space-between',
+              // alignItems:'center',
+              marginVertical: 4,
+          }}
+      >
+          {
+              tags.map((text, i)=>(
+                <View style={styles.cardContainer} key={i}>
+                  <Text p center>{text}</Text>
+                </View>)
+              )
+          }
+      </View>
+    
   )
 }
 

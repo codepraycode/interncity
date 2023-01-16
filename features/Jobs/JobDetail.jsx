@@ -7,6 +7,7 @@ import { CompanyLists, JobsLists } from '../../constants/dummy';
 import JobNotFound from '../../states/JobNotFound';
 
 import Octicons from 'react-native-vector-icons/Octicons';
+import Tags from '../../components/Tags';
 
 
 const Seperator = ()=> <View style={{width: 5, height: 5, borderRadius: 2.5, backgroundColor: Theme.accent}}></View>
@@ -185,9 +186,82 @@ const JobComapanyInfomation = ({company}) =>{
 
 const JobInfomation = ({job}) =>{
 
-    return <View center>
-        <Text>About company job</Text>
-    </View>
+    return(
+        <View>
+
+            <View style={{marginVertical: 10}}>
+
+                <Text h3 style={{marginVertical: 5}}>
+                    {job.title}
+                </Text>
+            </View>
+
+            <View>
+                <Text h5 style={{marginVertical: 10}}>About job</Text>
+
+                <Text p style={{marginVertical: 10}}>
+                    {job.about}
+                </Text>
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Duration
+                </Text>
+
+                <Text p>
+                    {job.duration}
+                </Text>
+            </View>
+
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Pay
+                </Text>
+
+                {job.pay ? 
+                    <Text p>
+                        {job.pay}
+                    </Text>
+                    : 
+                    <Text i>
+                        No pay
+                    </Text>
+                }
+                
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Location
+                </Text>
+
+                <Text p>
+                    Ikeja, Lagos
+                </Text>
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Tags
+                </Text>
+
+                <Tags tags={job.tags}/>
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Duration
+                </Text>
+
+                <Text p>
+                    {job.duration}
+                </Text>
+            </View>
+
+        </View>
+    )
 }
 
 const Tab = ({text, onClick, active})=> (

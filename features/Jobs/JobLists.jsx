@@ -35,18 +35,7 @@ const JobItem = ({jobItem, onViewClick})=>{
                 <Text p>{decription}</Text>
             </View>
 
-            <View
-                style={{
-                    flexDirection:'row',
-                    justifyContent:'space-between',
-                    // alignItems:'center',
-                    marginVertical: 4,
-                }}
-            >
-                {
-                    tags.map((e, i)=><Tags text={e || '--'} key={i}/>)
-                }
-            </View>
+            <Tags tags={tags}/>
 
             <View 
                 style={{
