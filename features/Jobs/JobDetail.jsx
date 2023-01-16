@@ -6,6 +6,8 @@ import Theme from '../../constants/theme';
 import { CompanyLists, JobsLists } from '../../constants/dummy';
 import JobNotFound from '../../states/JobNotFound';
 
+import Octicons from 'react-native-vector-icons/Octicons';
+
 
 const Seperator = ()=> <View style={{width: 5, height: 5, borderRadius: 2.5, backgroundColor: Theme.accent}}></View>
 
@@ -52,7 +54,7 @@ const JobDetail = ({ route }) => {
             <View
                 style={{
                     paddingTop: 30,
-                    paddingBottom: 20,
+                    paddingBottom: 5,
                     backgroundColor:Theme.grey101,
                 }}
             >
@@ -76,6 +78,30 @@ const JobDetail = ({ route }) => {
                     <Seperator/>
                     <Text center label>2 days ago</Text>
                 </View>
+            </View>
+
+            <View
+                center
+            >
+                <View
+                    center
+                    style={{
+                        flexDirection:'row',
+                        backgroundColor:Theme.lightRed,
+                        maxWidth: "80%",
+                        paddingHorizontal: 20,
+                        paddingVertical:10,
+                        borderRadius: 6,
+                        marginVertical: 10,
+                    }}
+                >
+                    <Octicons name="link-external" size={15} color={Theme.red}/>
+
+                    <Text style={{marginLeft: 10, color:Theme.red}}>
+                        Visit website
+                    </Text>
+                </View>
+                
             </View>
 
             <View
