@@ -94,14 +94,15 @@ const HomeStack = ()=>{
 const AppScreens = ()=>{
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator
+                screenOptions={{
+                    headerShown: false
+                }}
+            >
                 {/* Hide header for home screens */}
                 <Stack.Screen 
                     name="Home" 
                     component = {HomeStack}
-                    options = {({ route })=>({
-                        headerShown: false
-                    })}
                 />
                 <Stack.Screen name="Job" component={JobsStackScreen} />
                 {/* <Stack.Screen name="Settings" component={Settings} /> */}

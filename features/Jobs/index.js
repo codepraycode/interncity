@@ -8,9 +8,6 @@ import JobDetail from './JobDetail';
 const JobsStack = createNativeStackNavigator();
 
 
-const subScreenOptions = {
-    headerShown: false,
-}
 // Create the jobs screen
 const JobsStackScreen = () => {
     return (
@@ -18,7 +15,10 @@ const JobsStackScreen = () => {
             <JobsStack.Screen 
                 name="JobDetail" 
                 component={JobDetail} 
-                options = { subScreenOptions }
+                options = {{
+                    headerTransparent: true,
+                    headerTitle: ""
+                }}
             />
         </JobsStack.Navigator>
     )
