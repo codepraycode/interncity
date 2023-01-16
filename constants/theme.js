@@ -1,5 +1,6 @@
 const Theme = {
     grey100:"#F9F9F9",
+    grey101: "#F2F2F2",
     grey200: "#E6E1FF",
     grey300: "#AAA6B9",
     grey400: "#60778C",

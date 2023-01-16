@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Screens
 import JobDetail from './JobDetail';
+import Theme from '../../constants/theme';
 
 const JobsStack = createNativeStackNavigator();
 
@@ -17,7 +18,9 @@ const JobsStackScreen = () => {
                 component={JobDetail} 
                 options = {{
                     headerTransparent: true,
-                    headerTitle: ""
+                    // headerStyle: {backgroundColor: Theme.grey100},
+                    // headerShadowVisible: false,
+                    headerTitle:""
                 }}
             />
         </JobsStack.Navigator>

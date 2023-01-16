@@ -22,6 +22,11 @@ const Typography = {
         fontFamily: "FontBold",
         color: Theme.main,
     },
+    h5: {
+        fontSize: 16,
+        fontFamily: "FontBold",
+        color: Theme.main,
+    },
     p: {
         fontSize: 12,
         fontFamily: "FontRegular",
