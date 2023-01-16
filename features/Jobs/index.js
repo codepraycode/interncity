@@ -16,7 +16,7 @@ const JobsStackScreen = () => {
     return (
         <JobsStack.Navigator>
             <JobsStack.Screen 
-                name="JobLists" 
+                name="Job" 
                 component={JobLists} 
                 options = { subScreenOptions }
             />

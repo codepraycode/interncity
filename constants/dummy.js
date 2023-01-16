@@ -198,5 +198,35 @@ export const JobsLists = [
             city: 'Lagos',
             country: 'Uniter states'
         }
+    },
+    {
+        id: 4,
+        companyId: 3,
+        title: 'Security Research Internee',
+        tags:[
+            'paid',
+            'internship',
+            'entry-level',
+        ],
+        location:{
+            Town: 'Ikeja',
+            city: 'Lagos',
+            country: 'Uniter states'
+        }
+    },
+    {
+        id: 6,
+        companyId: 3,
+        title: 'Security Research Internee',
+        tags:[
+            'paid',
+            'internship',
+            'entry-level',
+        ],
+        location:{
+            Town: 'Ikeja',
+            city: 'Lagos',
+            country: 'Uniter states'
+        }
     }
 ]

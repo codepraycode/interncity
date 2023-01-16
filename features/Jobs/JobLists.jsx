@@ -26,33 +26,19 @@ const JobItem = ({jobItem})=>{
     return (
         <Card>
             
-            <View
-                style={{
-                    // padding: 10
-                }}
-            >
-                <View 
-                    center
-                    style={{
-                        backgroundColor:Theme.grey100, 
-                        width: 50, 
-                        height: 50,
-                        borderRadius: 25,
-                    }}
-                >
-                    {
-                        company.logo && (
-                            <Image 
-                                assetName={company.logo}
-                                assetGroup="assets" 
-                                width={30} height={30}
-                                style={{
-                                    marginVertical: 10,
-                                }}
-                            />
-                        )
-                    }
-                </View>
+            <View>
+                {
+                    company.logo && (
+                        <Image 
+                            assetName={company.logo}
+                            assetGroup="assets" 
+                            width={30} height={30}
+                            style={{
+                                marginVertical: 10,
+                            }}
+                        />
+                    )
+                }
                 <Text h4>{title}</Text>
                 <Text p>{decription}</Text>
             </View>
@@ -62,7 +48,7 @@ const JobItem = ({jobItem})=>{
                     flexDirection:'row',
                     justifyContent:'space-between',
                     // alignItems:'center',
-                    marginVertical: 10,
+                    marginVertical: 4,
                 }}
             >
                 {
@@ -89,7 +75,7 @@ const JobLists = () => {
     return (
         <FlatList
             data={ JobsLists }
-            renderItem = {()=><JobLists/>}
+            renderItem = {({item})=><JobItem jobItem = { item}/>}
             keyExtractor={item => item.id}
         />
     );
