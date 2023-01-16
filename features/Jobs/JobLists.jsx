@@ -8,14 +8,6 @@ import Theme from '../../constants/theme';
 import { CompanyLists, JobsLists } from '../../constants/dummy';
 
 // Create the jobs screen
-const NoJob = () => {
-    return (
-        <View flex center>
-            <Text>No Job screen!</Text>
-        </View>
-    )
-}
-
 
 const JobItem = ({jobItem, onViewClick})=>{
     const company = CompanyLists.find(e=>e.id === jobItem.companyId) || {};
