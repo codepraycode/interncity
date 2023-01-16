@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { FlatList, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { View, Text, Image } from 'react-native-ui-lib';
 import Button from '../../components/Button';
 import Theme from '../../constants/theme';
@@ -29,7 +29,7 @@ const JobDetailHeader = ({job:jobInfo, company})=>{
                         <Image 
                             assetName={company.logo}
                             assetGroup="assets" 
-                            width={90} height={90}
+                            width={70} height={70}
                             style={{
                                 position:'relative',
                                 bottom: -20,
@@ -100,9 +100,85 @@ const JobComapanyInfomation = ({company}) =>{
 
     return (
         <View>
-            <Text h5 style={{marginLeft: 30,}}>About company</Text>
+            <View>
+                <Text h5 style={{marginVertical: 10}}>About company</Text>
 
-            
+                <Text p style={{marginVertical: 10}}>
+                    {company.about}
+                </Text>
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Website
+                </Text>
+
+                <Text a secondary>
+                    {company.website}
+                </Text>
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Industry
+                </Text>
+
+                <Text p>
+                    Technology
+                </Text>
+            </View>
+
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Employee size
+                </Text>
+
+                <Text p>
+                    132, 121 employees
+                </Text>
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Head office
+                </Text>
+
+                <Text p>
+                    Ikeja, Lagos
+                </Text>
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Type
+                </Text>
+
+                <Text p>
+                    Multinational company
+                </Text>
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Since
+                </Text>
+
+                <Text p>
+                    1998
+                </Text>
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Specialization
+                </Text>
+
+                <Text p>
+                    {company.specialization}
+                </Text>
+            </View>
+
         </View>
     )
 }
@@ -142,9 +218,8 @@ const JobDetail = ({ route }) => {
     if (!Boolean(company)) return <JobNotFound text={"Job company not found!"}/>;
 
     return (
-        <View 
-            flex
-            style={{
+        <ScrollView 
+            contentContainerStyle={{
                 backgroundColor:Theme.grey100
             }}
         >
@@ -173,7 +248,8 @@ const JobDetail = ({ route }) => {
                 {/* Content */}
                 <View
                     style={{
-                        paddingTop: 10,
+                        paddingVertical: 10,
+                        marginHorizontal: 20,
                     }}
                 >
                     {
@@ -185,7 +261,7 @@ const JobDetail = ({ route }) => {
                 </View>
                 
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
