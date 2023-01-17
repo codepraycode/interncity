@@ -28,7 +28,7 @@ const Typography = {
         color: Theme.main,
     },
     p: {
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: "FontRegular",
         color: Theme.grey400,
     },

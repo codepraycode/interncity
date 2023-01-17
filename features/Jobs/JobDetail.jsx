@@ -348,7 +348,15 @@ const JobDetail = ({ route }) => {
                 </View>
             </ScrollView>
 
-            <AppModal show={showModal} onHide={()=>setShowModal(false)}/>
+            <AppModal show={showModal} onHide={()=>setShowModal(false)}>
+                <View center flex>
+                    <Text h4> Confirm application</Text>
+
+                    <Text p style={{marginVertical: 15}}>Your application will be submitted to {company.name}</Text>
+
+                    <Button text="Confirm" onPress={()=>setShowModal(false)}/>
+                </View>
+            </AppModal>
         </>
     );
 }
