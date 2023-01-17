@@ -20,6 +20,8 @@ import LogsScreen from './Reviews';
 import ProfileScreen from './Profile';
 import AppSettingsScreen from './settings';
 import JobListsScreen from './Jobs/JobLists';
+import NotificationScreen from './Notifications';
+import { TouchableOpacity } from 'react-native';
 
 // Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -62,7 +64,7 @@ const HomeStack = ()=>{
 
         <Tab.Navigator
             // initialRouteName = "Jobs"
-            screenOptions={({ route })=>({
+            screenOptions={({ route, navigation })=>({
                 tabBarIcon: ({focused, color, size})=> getIcons(route.name, focused, color, size),
                 tabBarActiveTintColor: Theme.accent,
                 tabBarInactiveTintColor: Theme.grey300,
@@ -80,7 +82,18 @@ const HomeStack = ()=>{
                 },
                 // headerTransparent:true,
 
-                headerRight: ()=> <Octicons name={'bell'} size={25} color={Theme.accent} style={{paddingRight: 20}}/>
+                headerRight: ()=> (
+                    <TouchableOpacity
+                        onPress={()=> navigation.navigate("Notification")}
+                    >
+                        <Octicons 
+                            name={'bell'} 
+                            size={25} 
+                            color={Theme.accent} 
+                            style={{paddingRight: 20}}
+                        />
+                    </TouchableOpacity> 
+                )
             })}
         >
             <Tab.Screen name="Jobs" component={JobListsScreen} />
@@ -91,13 +104,13 @@ const HomeStack = ()=>{
     )
 }
 
+const commonScreenOptions = { headerShown: false }
+
 const AppScreens = ()=>{
     return (
         <NavigationContainer>
             <Stack.Navigator
-                screenOptions={{
-                    headerShown: false
-                }}
+                screenOptions={ commonScreenOptions }
             >
                 {/* Hide header for home screens */}
                 <Stack.Screen 
@@ -105,7 +118,30 @@ const AppScreens = ()=>{
                     component = {HomeStack}
                 />
                 <Stack.Screen name="Job" component={JobsStackScreen} />
-                {/* <Stack.Screen name="Settings" component={Settings} /> */}
+
+                <Stack.Screen 
+                    name="Notification" 
+                    component={NotificationScreen} 
+                    options={{
+                        headerShown: true,
+                        // headerTransparent: true,
+                        headerStyle:{
+                            backgroundColor:Theme.grey100,
+                        },
+                        headerShadowVisible:false,
+                        headerTitleAlign:'center',
+                        headerTitle: ()=>(
+                            <Text 
+                                h3
+                                style={{
+                                    marginTop: 40,
+                                }}
+                            >
+                                Notifications
+                            </Text>
+                        )
+                    }}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     )
