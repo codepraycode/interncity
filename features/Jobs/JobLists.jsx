@@ -14,7 +14,7 @@ const JobItem = ({jobItem, onViewClick})=>{
     const title = jobItem.title || '';
     const decription = `${company.name || '---'} ${company.headOffice.town || "---"} ${company.headOffice.city || "---"}`;
     const tags = jobItem.tags || []
-    
+
     return (
         <Card>
             

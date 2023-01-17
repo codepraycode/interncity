@@ -135,6 +135,7 @@ const AppScreens = ()=>{
                                 h3
                                 style={{
                                     marginTop: 40,
+                                    paddingBottom: 10,
                                 }}
                             >
                                 Notifications

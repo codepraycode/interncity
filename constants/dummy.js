@@ -235,7 +235,7 @@ export const JobsLists = [
 ]
 
 
-export const Notifications = [
+export const NotificationsList = [
     {
         id: 1,
         title: 'Application sent',
