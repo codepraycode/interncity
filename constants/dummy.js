@@ -233,3 +233,61 @@ export const JobsLists = [
         }
     }
 ]
+
+
+export const Notifications = [
+    {
+        id: 1,
+        title: 'Application sent',
+        description: 'Application has entered for review',
+        time: '2 minutes ago',
+        data:{
+            jobId: 1
+        }
+    },
+    {
+        id: 2,
+        title: 'Application sent',
+        description: 'Application has entered for review',
+        time: '2 minutes ago',
+        data:{
+            jobId: 3
+        }
+    },
+    {
+        id: 3,
+        title: 'Application sent',
+        description: 'Application has entered for review',
+        time: '2 minutes ago',
+        data:{
+            jobId: 2
+        }
+    },
+    {
+        id: 4,
+        title: 'Application sent',
+        description: 'Application has entered for review',
+        time: '2 minutes ago',
+        data:{
+            jobId: 2
+        }
+    },
+    {
+        id: 5,
+        title: 'Application sent',
+        description: 'Application has entered for review',
+        time: '2 minutes ago',
+        data:{
+            jobId: 1
+        }
+    },
+    {
+        id: 6,
+        title: 'Application sent',
+        description: 'Application has entered for review',
+        time: '2 minutes ago',
+        data:{
+            jobId: 3
+        }
+    },
+]
