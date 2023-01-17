@@ -17,16 +17,33 @@ const Typography = {
         fontFamily: "FontBold",
         color: Theme.main,
     },
+    h4: {
+        fontSize: 18,
+        fontFamily: "FontBold",
+        color: Theme.main,
+    },
+    h5: {
+        fontSize: 16,
+        fontFamily: "FontBold",
+        color: Theme.main,
+    },
     p: {
         fontSize: 14,
         fontFamily: "FontRegular",
+        color: Theme.grey400,
+    },
+    i: {
+        fontSize: 12,
+        fontFamily: "FontRegular",
+        color: Theme.grey400,
+        fontStyle:'italic'
     },
     small: {
         fontSize: 12,
         fontFamily: "FontRegular",
     },
     a: {
-        textDecorationLine: 'underline'
+        textDecorationLine: 'underline',
     },
     label: {
         fontSize: 14,

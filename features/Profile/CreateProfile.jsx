@@ -14,7 +14,7 @@ import Onboarding from './Onboarding';
 const CreateProfile = ({onDone}) =>{
     const [stage, setStage] = useState(0); // -1 for onboard, 1 for success, 0 for main content
 
-    if (stage === -1) return <Onboarding onSwitch={()=> setStage(0)} />; // -1
+    if (stage === -1) return <Onboarding switchContent={()=> setStage(0)} />; // -1
     if (stage === 1) return <SuccessScreen onCompleted={onDone}/> // 1
 
     return <ProfileFormScreen onSwitch={()=> setStage(1)}/> // 0

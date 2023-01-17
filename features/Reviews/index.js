@@ -2,13 +2,14 @@ import React from 'react'
 import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
 
-const ProfileScreen = () => {
+const LogsScreen = () => {
     return (
         <View flex center>
-            <Text>Profile Screen!</Text>
+            <Text>Internship Logs screen</Text>
         </View>
     )
 }
 
-export default ProfileScreen;
+export default LogsScreen;
+
 const styles = StyleSheet.create({});
