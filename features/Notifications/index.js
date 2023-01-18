@@ -58,7 +58,15 @@ const NotificationScreen = () => {
             keyExtractor={item => item.id}
             contentContainerStyle={{
                 backgroundColor:Theme.grey100,
-                paddingBottom: 20
+                paddingBottom: 20,
+                shadowColor: Theme.grey200,
+                shadowOffset: {
+                    width: 0,
+                    height: 2,
+                },
+                shadowOpacity: 0.25,
+                shadowRadius: 5,
+                elevation: 5,
             }}
         />
     )
