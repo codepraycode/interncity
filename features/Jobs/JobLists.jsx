@@ -6,6 +6,7 @@ import Tags from '../../components/Tags';
 import Button from '../../components/Button';
 import Theme from '../../constants/theme';
 import { CompanyLists, JobsLists } from '../../constants/dummy';
+import { StatusBar } from 'expo-status-bar';
 
 // Create the jobs screen
 
@@ -60,11 +61,15 @@ const JobListsScreen = ({ navigation }) => {
         });
     }
     return (
-        <FlatList
-            data={ JobsLists }
-            renderItem = {({item})=><JobItem jobItem = { item} onViewClick = {()=>handleNavigateToDetail(item)}/>}
-            keyExtractor={item => item.id}
-        />
+        <>
+            {/* <StatusBar style="dark" /> */}
+            
+            <FlatList
+                data={ JobsLists }
+                renderItem = {({item})=><JobItem jobItem = { item} onViewClick = {()=>handleNavigateToDetail(item)}/>}
+                keyExtractor={item => item.id}
+            />
+        </>
     );
 }
 
