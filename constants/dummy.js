@@ -15,7 +15,7 @@ export const authSchema = {
         label: "Password",
     },
 }
-export const recoverySchema = {
+export const updatePasswordSchema = {
     password: {
         type: "password",
         placeholder: "Enter your current password",
