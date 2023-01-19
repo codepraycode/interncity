@@ -121,7 +121,14 @@ const HomeStack = ()=>{
                 )
             })}
             />
-            <Tab.Screen name="AppSetting" component={AppSettingsScreen} />
+            <Tab.Screen 
+                name="AppSetting" 
+                component={AppSettingsScreen} 
+                options={({ route, navigation })=>({
+                    headerTitle: ()=>getHeaderTitle("Settings"),
+                    headerRight: ()=> (null)
+                })}
+            />
         </Tab.Navigator>
     )
 }
