@@ -18,11 +18,6 @@ const settingsSections = [
         label: 'Password',
         further: true,
     },
-    // {
-    //     icon:'lock',
-    //     label: 'Password',
-    //     further: true,
-    // },
     {
         icon:'logout',
         label: 'Logout',

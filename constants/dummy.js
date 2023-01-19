@@ -15,6 +15,23 @@ export const authSchema = {
         label: "Password",
     },
 }
+export const recoverySchema = {
+    password: {
+        type: "password",
+        placeholder: "Enter your current password",
+        label: "Current password",
+    },
+    updatePassword: {
+        type: "password",
+        placeholder: "Enter your new password",
+        label: "New Password",
+    },
+    confirmPassword: {
+        type: "password",
+        placeholder: "Enter your new password again",
+        label: "Confirm new Password",
+    },
+}
 
 export const createAccountSchema = {
     fullname: {
