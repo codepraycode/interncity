@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text } from 'react-native-ui-lib';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Theme from '../../constants/theme';
@@ -11,6 +11,7 @@ const settingsSections = [
         icon:'bell',
         label: 'Notifications',
         further: false,
+        navigate:'Notification',
     },
     {
         icon:'lock',
@@ -30,12 +31,14 @@ const settingsSections = [
     },
 ]
 
-const SettignsContent = ({icon, label:text, further, material})=>{
+const SettignsContent = ({icon, label:text, further, material, onClick})=>{
     // A small card probably with a further icon
 
     return(
         <View center marginV-10>
-            <View
+            <TouchableOpacity 
+                activeOpacity={0.6}
+                onPress={onClick}
                 style={{
                     flexDirection:'row',
                     justifyContent:'space-between',
@@ -67,22 +70,31 @@ const SettignsContent = ({icon, label:text, further, material})=>{
                 </View>
 
                 {further && <Octicons name={'chevron-right'} size={20}/>}
-            </View>
+            </TouchableOpacity>
         </View>
     )
 }
 
-const AppSettingsScreen = () => {
+const AppSettingsScreen = ({navigation}) => {
+
+    const navigateOut = (screenName)=>{
+        navigation.navigate(screenName);
+    }
+
     return (
         <View style={{
             marginTop: 40,
         }}>
             {
                 settingsSections.map((each, i)=>{
-                    // const {further, label, icon} = each;
+                    const {navigate} = each;
 
                     return (
-                        <SettignsContent {...each}/>
+                        <SettignsContent {...each} onClick={()=>{
+                            if (!navigate) return
+
+                            navigateOut(navigate);
+                        }}/>
                     )
                 })
             }
