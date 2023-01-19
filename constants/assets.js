@@ -6,6 +6,7 @@ import eyeOpen from '../assets/images/eye1.png';
 import eyeClose from '../assets/images/eye2.png';
 import arrowRight from '../assets/images/arrow-right.png';
 import illu from '../assets/images/illu.png';
+import profileHeaderBg from '../assets/images/profileBg.png';
 
 import google from '../assets/images/google.png';
 import dribble from '../assets/images/dribble.png';
@@ -21,6 +22,7 @@ export default  {
     arrowRight,
     google,
     illu,
+    profileHeaderBg,
     dribble,
     twitter
 };
