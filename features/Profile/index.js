@@ -2,16 +2,20 @@ import React from 'react'
 import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet, ImageBackground  } from 'react-native';
 import assets from '../../constants/assets';
+import { StatusBar } from 'expo-status-bar';
 
 const ProfileScreen = () => {
+    
     return (
         <View flex>
+            <StatusBar translucent={true}/>
             {/* Header */}
             <ImageBackground 
-                source={{uri: assets.profileHeaderBg}}
+                source={assets.profileHeaderBg}
                 resizeMode = {"cover"}
                 style={{
                     justifyContent:'center',
+                    height: 300,
                 }}
             >
                 <Text>Sample header content</Text>

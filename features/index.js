@@ -38,7 +38,7 @@ const getIcons = (name, focused, color, size) => {
     return <MaterialIcons name={'apps'} size={size} color={color} />;    
 }
 
-const getHeaderTitle = (name) => {
+const getHeaderTitle = (name, color=null) => {
     let screenName = name.toLowerCase();
     
     let title = name;
@@ -52,12 +52,14 @@ const getHeaderTitle = (name) => {
                 style={{
                     fontFamily:'FontBold',
                     fontSize:20,
-                    color:Theme.main,
+                    color:color ? color: Theme.main,
                 }}
             >
                 {title}
             </Text>;
 }
+
+const commonScreenOptions = { headerShown: false }
 
 const HomeStack = ()=>{
     return (
@@ -98,13 +100,31 @@ const HomeStack = ()=>{
         >
             <Tab.Screen name="Jobs" component={JobListsScreen} />
             <Tab.Screen name="Logs" component={LogsScreen} />
-            <Tab.Screen name="ProfileSetting" component={ProfileScreen} />
+            <Tab.Screen 
+                name="ProfileSetting"
+                component={ProfileScreen} 
+                options={({ route, navigation })=>({
+                headerTitle: ()=>getHeaderTitle(route.name, Theme.grey100),
+                headerTransparent: true,
+
+                headerRight: ()=> (
+                    <TouchableOpacity
+                        onPress={()=> navigation.navigate("Notification")}
+                    >
+                        <Octicons 
+                            name={'bell'} 
+                            size={25} 
+                            color={Theme.grey100} 
+                            style={{paddingRight: 20}}
+                        />
+                    </TouchableOpacity> 
+                )
+            })}
+            />
             <Tab.Screen name="AppSetting" component={AppSettingsScreen} />
         </Tab.Navigator>
     )
 }
-
-const commonScreenOptions = { headerShown: false }
 
 const AppScreens = ()=>{
     return (
