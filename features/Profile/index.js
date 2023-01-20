@@ -58,7 +58,7 @@ const ProfileSettingsHeader = ()=>{
                                 <Text p style={{color: Theme.grey100, fontSize: 13}}>Change image</Text>
                             </TouchableOpacity>
                         </View>
-                    </ImageBackground>
+        </ImageBackground>
     )
 }
 
@@ -102,12 +102,6 @@ const ProfileScreen = () => {
                 </View>
             </ScrollView>
 
-                {/* Call to action */}
-                <View>
-
-                </View>
-
-            {/* <StatusBar style="light" /> */}
         </>
     )
 }

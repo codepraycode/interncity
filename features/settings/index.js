@@ -5,12 +5,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Screens
 import AppSettingsScreen from './AppSettings';
 import Theme from '../../constants/theme';
+import UpdatePasswordScreen from './UpdatePassword';
 
 const SettingsStack = createNativeStackNavigator();
 
 
 // Create the jobs screen
-const JobsStackScreen = () => {
+const SettingsStackScreen = () => {
     return (
         <SettingsStack.Navigator>
             <SettingsStack.Screen 
@@ -24,10 +25,21 @@ const JobsStackScreen = () => {
                     // headerTitle:""
                 }}
             />
+            {/* <SettingsStack.Screen 
+                name="settingUpdatePassword"
+                component={UpdatePasswordScreen} 
+                options = {{
+                    headerShown:false,
+                    // headerTransparent: false,
+                    headerStyle: {backgroundColor: Theme.grey100},
+                    headerShadowVisible: false,
+                    // headerTitle:""
+                }}
+            /> */}
         </SettingsStack.Navigator>
     )
 }
 
-export default JobsStackScreen;
+export default SettingsStackScreen;
 
 const styles = StyleSheet.create({})

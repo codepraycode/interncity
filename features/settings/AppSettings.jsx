@@ -17,6 +17,7 @@ const settingsSections = [
         icon:'lock',
         label: 'Password',
         further: true,
+        navigate: 'settingUpdatePassword',
     },
     {
         icon:'logout',
@@ -85,7 +86,7 @@ const AppSettingsScreen = ({navigation}) => {
                     const {navigate} = each;
 
                     return (
-                        <SettignsContent {...each} onClick={()=>{
+                        <SettignsContent {...each} key={i} onClick={()=>{
                             if (!navigate) return
 
                             navigateOut(navigate);

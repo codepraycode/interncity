@@ -22,6 +22,7 @@ import AppSettingsScreen from './settings';
 import JobListsScreen from './Jobs/JobLists';
 import NotificationScreen from './Notifications';
 import { TouchableOpacity } from 'react-native';
+import UpdatePasswordScreen from './settings/UpdatePassword';
 
 // Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -170,6 +171,33 @@ const AppScreens = ()=>{
                         )
                     }}
                 />
+
+
+                <Stack.Screen 
+                    name="settingUpdatePassword" 
+                    component={UpdatePasswordScreen} 
+                    options={{
+                        headerShown: true,
+                        // headerTransparent: true,
+                        headerStyle:{
+                            backgroundColor:Theme.grey100,
+                        },
+                        headerShadowVisible:false,
+                        headerTitleAlign:'center',
+                        headerTitle: ()=>(
+                            <Text 
+                                h3
+                                style={{
+                                    paddingTop: 60,
+                                    paddingBottom: 10,
+                                }}
+                            >
+                                Update password
+                            </Text>
+                        )
+                    }}
+                />
+
             </Stack.Navigator>
         </NavigationContainer>
     )
