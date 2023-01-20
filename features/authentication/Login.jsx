@@ -7,7 +7,7 @@ import Form from '../../components/form';
     Login screen
 */
 
-const Login = ({ onSwitch, onAuthenticated })=>{
+const Login = ({ navigation })=>{
 
     return (
         <View style={styles.formContainer}>
@@ -20,7 +20,7 @@ const Login = ({ onSwitch, onAuthenticated })=>{
             {/* Auth form */}
             <View style={styles.container}>
                 <Form 
-                  onSubmit={onAuthenticated} 
+                  onSubmit={()=>navigation.navigate("CreateProfile")} 
                   schema={authSchema} 
                   authLabel="LOGIN" 
                   remember={true} 
@@ -30,7 +30,7 @@ const Login = ({ onSwitch, onAuthenticated })=>{
 
                 <View style={{alignItems:'center', justifyContent:'center'}}>
                     <Text small style={{marginTop: 20,}}>
-                        <Text>You don't have an account yet?</Text>  <TouchableOpacity onPress={()=>onSwitch()}><Text secondary a>Sign Up</Text></TouchableOpacity>
+                        <Text>You don't have an account yet?</Text>  <TouchableOpacity onPress={()=>navigation.navigate("SignUp")}><Text secondary a>Sign Up</Text></TouchableOpacity>
                     </Text>
                 </View>
             </View>

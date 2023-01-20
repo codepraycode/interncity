@@ -9,8 +9,8 @@ const InterncityApp = ()=>{
     const [isUserProfileSet, setIsUserProfileSet] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    if (!isAuthenticated) return <Authentication isDone={()=>setIsAuthenticated(true)}/>
-    if (!isUserProfileSet) return <CreateProfile onDone={()=>setIsUserProfileSet(true)}/>
+    // if (!isAuthenticated) return <Authentication isDone={()=>setIsAuthenticated(true)}/>
+    // if (!isUserProfileSet) return <CreateProfile onDone={()=>setIsUserProfileSet(true)}/>
 
     return <AppScreens/>
 

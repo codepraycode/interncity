@@ -7,7 +7,7 @@ import Form from '../../components/form';
     CreateAccount screen
 */
 
-const CreateAccount = ({ onSwitch })=>{
+const CreateAccount = ({ navigation })=>{
     return (
         <ScrollView contentContainerStyle={styles.formContainer} >
             {/* Top view with wave and title */}
@@ -19,7 +19,7 @@ const CreateAccount = ({ onSwitch })=>{
             {/* Auth form */}
             <View style={styles.container}>
                 <Form 
-                  onSubmit={onSwitch} 
+                  onSubmit={()=>navigation.navigate("SignIn")} 
                   schema={createAccountSchema} 
                   authLabel={"SIGN UP"}
                   sso = {true}
@@ -27,7 +27,7 @@ const CreateAccount = ({ onSwitch })=>{
 
                 <TouchableOpacity style={{alignItems:'center', justifyContent:'center'}}>
                     <Text small style={{marginTop: 20,}}>
-                        <Text>Already have an account?</Text>  <TouchableOpacity onPress={()=>onSwitch()}><Text secondary a>Sign In</Text></TouchableOpacity>
+                        <Text>Already have an account?</Text>  <TouchableOpacity onPress={()=>navigation.navigate("SignIn")}><Text secondary a>Sign In</Text></TouchableOpacity>
                     </Text>
                 </TouchableOpacity>
 

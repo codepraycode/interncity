@@ -1,5 +1,5 @@
 // Home screen that covers base navigation for screens
-import React from 'react';
+import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -7,7 +7,7 @@ import { Text } from 'react-native-ui-lib';
 
 // Screen stacks
 import JobsStackScreen from './Jobs';
-
+import AuthenticationStack from './authentication';
 // Icon
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -23,6 +23,10 @@ import JobListsScreen from './Jobs/JobLists';
 import NotificationScreen from './Notifications';
 import { TouchableOpacity } from 'react-native';
 import UpdatePasswordScreen from './settings/UpdatePassword';
+import Onboarding from './Profile/Onboarding';
+import Login from './authentication/Login';
+import CreateAccount from './authentication/CreateAccount';
+import CreateProfile from './Profile/CreateProfile';
 
 // Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -62,7 +66,7 @@ const getHeaderTitle = (name, color=null) => {
 
 const commonScreenOptions = { headerShown: false }
 
-const HomeStack = ()=>{
+const TabsStack = ()=>{
     return (
 
         <Tab.Navigator
@@ -134,16 +138,13 @@ const HomeStack = ()=>{
     )
 }
 
-const AppScreens = ()=>{
+const HomeStack = ()=>{
     return (
-        <NavigationContainer>
-            <Stack.Navigator
-                screenOptions={ commonScreenOptions }
-            >
-                {/* Hide header for home screens */}
+        <>
+            {/* Hide header for home screens */}
                 <Stack.Screen 
                     name="Home" 
-                    component = {HomeStack}
+                    component = {TabsStack}
                 />
                 <Stack.Screen name="Job" component={JobsStackScreen} />
 
@@ -196,7 +197,50 @@ const AppScreens = ()=>{
                         )
                     }}
                 />
+        </>
+    )
+}
 
+const AppScreens = ()=>{
+    const [isUserProfileSet, setIsUserProfileSet] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    
+    let stackToRender;
+
+    if (!isAuthenticated) {
+        stackToRender = (
+            <>
+                <Stack.Screen 
+                    name="AuthOnboarding" 
+                    component={Onboarding} 
+                    // options = {{headerShown: false}}
+                />
+                <Stack.Screen 
+                    name="SignIn" 
+                    component={Login} 
+                    // options = {{headerShown: false}}
+                />
+                <Stack.Screen 
+                    name="SignUp" 
+                    component={CreateAccount} 
+                    // options = {{headerShown: false}}
+                />
+                <Stack.Screen 
+                    name="CreateProfile" 
+                    component={CreateProfile} 
+                    // options = {{headerShown: false}}
+                />
+            </>
+        )
+    }
+    // if (!isUserProfileSet) stackToRender = <Create
+    else stackToRender = <HomeStack/>
+    return (
+        <NavigationContainer>
+            <Stack.Navigator
+                screenOptions={ commonScreenOptions }
+            >
+                {stackToRender}
             </Stack.Navigator>
         </NavigationContainer>
     )
