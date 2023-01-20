@@ -3,11 +3,14 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-ui-lib'
 import Theme from '../constants/theme';
 
-const CustomButton = ({text, disable, onPress, small}) => {
+const CustomButton = ({text, disable, onPress, small, style}) => {
+    const customStyles = style || null;
+    // console.log(customStyles);
+
     return (
 
         <TouchableOpacity 
-            style={[small ? styles.btnSmall : styles.container, disable && styles.disable]}
+            style={[small ? styles.btnSmall : styles.container, disable && styles.disable, customStyles]}
             activeOpacity={0.6}
             onPress={onPress}
         >

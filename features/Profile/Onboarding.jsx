@@ -7,8 +7,8 @@ import Theme from '../../constants/theme';
     Onboarding screen for create profile if profile isn't set or completed
 */
 
-const Onboarding = ({ switchContent })=>{ // onboarding for authentication
-    console.log(switchContent);
+const Onboarding = ({ navigation })=>{ // onboarding for authentication
+    // console.log(navigation);
     return (
         <>
             {/* Top container containing Logo */}
@@ -44,7 +44,7 @@ roles based on your study major.</Text>
                 
 
                 <TouchableOpacity 
-                    onPress={()=>switchContent()} 
+                    onPress={()=>navigation.navigate("ProfileForm")} 
                     style={{
                         width:60,
                         height:60,

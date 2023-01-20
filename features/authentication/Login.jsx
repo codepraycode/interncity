@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, Text, Image, Icon, Colors} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import {authSchema} from '../../constants/dummy';
 import Form from '../../components/form';
+import AppContext from '../../app/context';
 /* 
     Login screen
 */
 
-const Login = ({ onSwitch, onAuthenticated })=>{
+const Login = ({ navigation })=>{
+    const {signIn} = useContext(AppContext);
 
     return (
         <View style={styles.formContainer}>
@@ -20,7 +22,7 @@ const Login = ({ onSwitch, onAuthenticated })=>{
             {/* Auth form */}
             <View style={styles.container}>
                 <Form 
-                  onSubmit={onAuthenticated} 
+                  onSubmit={()=>signIn("sample data")} 
                   schema={authSchema} 
                   authLabel="LOGIN" 
                   remember={true} 
@@ -30,7 +32,7 @@ const Login = ({ onSwitch, onAuthenticated })=>{
 
                 <View style={{alignItems:'center', justifyContent:'center'}}>
                     <Text small style={{marginTop: 20,}}>
-                        <Text>You don't have an account yet?</Text>  <TouchableOpacity onPress={()=>onSwitch()}><Text secondary a>Sign Up</Text></TouchableOpacity>
+                        <Text>You don't have an account yet?</Text>  <TouchableOpacity onPress={()=>navigation.navigate("SignUp")}><Text secondary a>Sign Up</Text></TouchableOpacity>
                     </Text>
                 </View>
             </View>

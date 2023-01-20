@@ -25,17 +25,6 @@ const SettingsStackScreen = () => {
                     // headerTitle:""
                 }}
             />
-            {/* <SettingsStack.Screen 
-                name="settingUpdatePassword"
-                component={UpdatePasswordScreen} 
-                options = {{
-                    headerShown:false,
-                    // headerTransparent: false,
-                    headerStyle: {backgroundColor: Theme.grey100},
-                    headerShadowVisible: false,
-                    // headerTitle:""
-                }}
-            /> */}
         </SettingsStack.Navigator>
     )
 }

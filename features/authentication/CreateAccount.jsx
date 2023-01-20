@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, Text, Image, Icon, Colors} from 'react-native-ui-lib';
 import { ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import {createAccountSchema} from '../../constants/dummy';
 import Form from '../../components/form';
+import AppContext from '../../app/context';
 /* 
     CreateAccount screen
 */
 
-const CreateAccount = ({ onSwitch })=>{
+const CreateAccount = ({ navigation })=>{
+    const {signUp} = useContext(AppContext);
+    
     return (
         <ScrollView contentContainerStyle={styles.formContainer} >
             {/* Top view with wave and title */}
@@ -19,7 +22,10 @@ const CreateAccount = ({ onSwitch })=>{
             {/* Auth form */}
             <View style={styles.container}>
                 <Form 
-                  onSubmit={onSwitch} 
+                  onSubmit={()=>{
+                    signUp("sample data");
+                    navigation.navigate("SignIn");
+                  }} 
                   schema={createAccountSchema} 
                   authLabel={"SIGN UP"}
                   sso = {true}
@@ -27,7 +33,7 @@ const CreateAccount = ({ onSwitch })=>{
 
                 <TouchableOpacity style={{alignItems:'center', justifyContent:'center'}}>
                     <Text small style={{marginTop: 20,}}>
-                        <Text>Already have an account?</Text>  <TouchableOpacity onPress={()=>onSwitch()}><Text secondary a>Sign In</Text></TouchableOpacity>
+                        <Text>Already have an account?</Text>  <TouchableOpacity onPress={()=>navigation.navigate("SignIn")}><Text secondary a>Sign In</Text></TouchableOpacity>
                     </Text>
                 </TouchableOpacity>
 
