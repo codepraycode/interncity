@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native-ui-lib';
+import { View } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
 import { updatePasswordSchema } from '../../constants/dummy';
 import Form from '../../components/form';
