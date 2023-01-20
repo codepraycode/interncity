@@ -83,10 +83,9 @@ const AuthBottomSheet = ({show, onDismiss}) => {
 
             renderAction={(option, index, onOptionPress)=>{
                 return (
-                    <View center marginV-10>
+                    <View center marginV-10 key={index} >
                         <Button 
                             text={option.label} 
-                            key={index} 
                             onPress={()=>{
                                 if (index === 0) return signOut();
                                 onDismiss();
