@@ -172,7 +172,6 @@ const AppScreens = ()=>{
                     }}
                 />
 
-
                 <Stack.Screen 
                     name="settingUpdatePassword" 
                     component={UpdatePasswordScreen} 

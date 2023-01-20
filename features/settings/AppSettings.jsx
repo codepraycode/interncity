@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Theme from '../../constants/theme';
+import BottomSheet from '../../components/BottomSheet';
 
 
 const settingsSections = [
@@ -24,6 +25,7 @@ const settingsSections = [
         label: 'Logout',
         further: true,
         material: true,
+        logout:true
     },
 ]
 
@@ -77,23 +79,32 @@ const AppSettingsScreen = ({navigation}) => {
         navigation.navigate(screenName);
     }
 
+    const [logginOut, setLoggingOut] = useState(false);
+
     return (
         <View style={{
             marginTop: 40,
         }}>
             {
                 settingsSections.map((each, i)=>{
-                    const {navigate} = each;
+                    const {navigate, logout} = each;
 
                     return (
                         <SettignsContent {...each} key={i} onClick={()=>{
-                            if (!navigate) return
-
-                            navigateOut(navigate);
+                            if (navigate) return navigateOut(navigate);
+                            if (logout) setLoggingOut(true);
                         }}/>
                     )
                 })
             }
+
+
+            <BottomSheet 
+                show={logginOut} 
+                onDismiss={()=>setLoggingOut(false)}
+                // onLogout={()=>navigateOut("")}
+                authOut={true}
+            />
         </View>
     )
 }
