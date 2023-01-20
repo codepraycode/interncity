@@ -17,9 +17,9 @@ const JobsStackScreen = () => {
                 name="JobDetail" 
                 component={JobDetail} 
                 options = {{
-                    headerTransparent: true,
-                    // headerStyle: {backgroundColor: Theme.grey100},
-                    // headerShadowVisible: false,
+                    headerTransparent: false,
+                    headerStyle: {backgroundColor: Theme.grey100},
+                    headerShadowVisible: false,
                     headerTitle:""
                 }}
             />

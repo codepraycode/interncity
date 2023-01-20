@@ -1,15 +1,45 @@
 import React from 'react'
-import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const AppSettingsScreen = () => {
+// Screens
+import AppSettingsScreen from './AppSettings';
+import Theme from '../../constants/theme';
+import UpdatePasswordScreen from './UpdatePassword';
+
+const SettingsStack = createNativeStackNavigator();
+
+
+// Create the jobs screen
+const SettingsStackScreen = () => {
     return (
-        <View flex center>
-            <Text>App Setting screen!</Text>
-        </View>
+        <SettingsStack.Navigator>
+            <SettingsStack.Screen 
+                name="settingAll" 
+                component={AppSettingsScreen} 
+                options = {{
+                    headerShown:false,
+                    headerTransparent: false,
+                    headerStyle: {backgroundColor: Theme.grey100},
+                    headerShadowVisible: false,
+                    // headerTitle:""
+                }}
+            />
+            {/* <SettingsStack.Screen 
+                name="settingUpdatePassword"
+                component={UpdatePasswordScreen} 
+                options = {{
+                    headerShown:false,
+                    // headerTransparent: false,
+                    headerStyle: {backgroundColor: Theme.grey100},
+                    headerShadowVisible: false,
+                    // headerTitle:""
+                }}
+            /> */}
+        </SettingsStack.Navigator>
     )
 }
 
-export default AppSettingsScreen;
+export default SettingsStackScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({})

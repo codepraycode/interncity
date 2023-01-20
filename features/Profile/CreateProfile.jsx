@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Image, Text, View } from 'react-native-ui-lib';
 import Button from '../../components/Button';
 import Form from '../../components/form';
@@ -50,24 +51,26 @@ const SuccessScreen = ({ onCompleted }) =>{
 
 const ProfileFormScreen = ({onSwitch}) =>{
     return (
-        <ScrollView contentContainerStyle={styles.formContainer} >
-            {/* Top view with wave and title */}
-            <View style={styles.top} >
-                <Text h3>Profile Information</Text>
-            </View>
+        <SafeAreaView style={{flex: 1, paddingTop: 20}}>
+            <ScrollView contentContainerStyle={styles.formContainer} >
+                {/* Top view with wave and title */}
+                <View style={styles.top} >
+                    <Text h3>Profile Information</Text>
+                </View>
 
-            {/* Auth form */}
-            <View style={styles.container}>
-                <Form
-                    onSubmit={()=>onSwitch()} 
-                    schema={profileInfoSchema} 
-                    authLabel={"Finish"}
-                />
-            </View>
+                {/* Auth form */}
+                <View style={styles.container}>
+                    <Form
+                        onSubmit={()=>onSwitch()} 
+                        schema={profileInfoSchema} 
+                        authLabel={"Finish"}
+                    />
+                </View>
 
-            
+                
 
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 

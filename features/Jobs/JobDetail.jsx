@@ -9,6 +9,7 @@ import JobNotFound from '../../states/JobNotFound';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Tags from '../../components/Tags';
 import AppModal from '../../components/Modal';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const Seperator = ()=> <View style={{width: 5, height: 5, borderRadius: 2.5, backgroundColor: Theme.accent}}></View>
@@ -22,7 +23,7 @@ const JobDetailHeader = ({job:jobInfo, company})=>{
                 center 
                 style={{
                     // backgroundColor:Theme.white,
-                    paddingTop: 30,
+                    paddingTop: 0,
                     zIndex:1,
                 }}
             >
@@ -294,70 +295,59 @@ const JobDetail = ({ route }) => {
     if (!Boolean(company)) return <JobNotFound text={"Job company not found!"}/>;
 
     return (
-        <>
 
-            <ScrollView 
-                contentContainerStyle={{
-                    backgroundColor:Theme.grey100
-                }}
-            >
+        <ScrollView 
+            contentContainerStyle={{
+                backgroundColor:Theme.grey100,
+            }}
+        >
 
-                <JobDetailHeader job = { job } company = {company}/>
+            <JobDetailHeader job = { job } company = {company}/>
 
-                <View>
-                    {/* Tabs */}
-                    <View centerH>
-                        <View
-                            style={{
-                                flexDirection:'row', 
-                                alignItems:'center', 
-                                justifyContent:'space-evenly',
-                                backgroundColor:Theme.white,
-                                padding: 5,
-                                borderRadius: 5,
-                                // maxWidth: "80%"
-                            }}
-                        >
-                            <Tab text="About company" onClick={()=>setTabNo(0)} active={tabNo === 0}/>
-                            <Tab text="About job" onClick={()=>setTabNo(1)} active={tabNo === 1}/>
-                        </View>
-                    </View>
-
-
-                    {/* Content */}
+            <View>
+                {/* Tabs */}
+                <View centerH>
                     <View
                         style={{
-                            paddingVertical: 10,
-                            marginHorizontal: 20,
+                            flexDirection:'row', 
+                            alignItems:'center', 
+                            justifyContent:'space-evenly',
+                            backgroundColor:Theme.white,
+                            padding: 5,
+                            borderRadius: 5,
+                            // maxWidth: "80%"
                         }}
                     >
-                        {
-                            tabNo === 0 ? 
-                            <JobComapanyInfomation company={company}/>
-                            :
-                            <JobInfomation job={job}/>
-                        }
+                        <Tab text="About company" onClick={()=>setTabNo(0)} active={tabNo === 0}/>
+                        <Tab text="About job" onClick={()=>setTabNo(1)} active={tabNo === 1}/>
                     </View>
-
-
-                    {/* Call to action */}
-                    <View center style={{marginVertical: 15}}>
-                        <Button text="Apply Now" onPress={()=>setShowModal(p=>!p)}/>
-                    </View>
-                    
                 </View>
-            </ScrollView>
 
-            <AppModal show={showModal} onHide={()=>setShowModal(false)}>
-                <View center flex>
-                    <Text h4> Confirm application</Text>
 
-                    <Text p style={{marginVertical: 15}}>Your application will be submitted to {company.name}</Text>
-
-                    <Button text="Confirm" onPress={()=>setShowModal(false)}/>
+                {/* Content */}
+                <View
+                    style={{
+                        paddingVertical: 10,
+                        marginHorizontal: 20,
+                    }}
+                >
+                    {
+                        tabNo === 0 ? 
+                        <JobComapanyInfomation company={company}/>
+                        :
+                        <JobInfomation job={job}/>
+                    }
                 </View>
-            </AppModal>
-        </>
+
+
+                {/* Call to action */}
+                <View center style={{marginVertical: 15}}>
+                    <Button text="Apply Now" onPress={()=>setShowModal(p=>!p)}/>
+                </View>
+                
+            </View>
+        </ScrollView>
+
     );
 }
 

@@ -22,6 +22,7 @@ import AppSettingsScreen from './settings';
 import JobListsScreen from './Jobs/JobLists';
 import NotificationScreen from './Notifications';
 import { TouchableOpacity } from 'react-native';
+import UpdatePasswordScreen from './settings/UpdatePassword';
 
 // Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -38,7 +39,7 @@ const getIcons = (name, focused, color, size) => {
     return <MaterialIcons name={'apps'} size={size} color={color} />;    
 }
 
-const getHeaderTitle = (name) => {
+const getHeaderTitle = (name, color=null) => {
     let screenName = name.toLowerCase();
     
     let title = name;
@@ -52,12 +53,14 @@ const getHeaderTitle = (name) => {
                 style={{
                     fontFamily:'FontBold',
                     fontSize:20,
-                    color:Theme.main,
+                    color:color ? color: Theme.main,
                 }}
             >
                 {title}
             </Text>;
 }
+
+const commonScreenOptions = { headerShown: false }
 
 const HomeStack = ()=>{
     return (
@@ -98,13 +101,38 @@ const HomeStack = ()=>{
         >
             <Tab.Screen name="Jobs" component={JobListsScreen} />
             <Tab.Screen name="Logs" component={LogsScreen} />
-            <Tab.Screen name="ProfileSetting" component={ProfileScreen} />
-            <Tab.Screen name="AppSetting" component={AppSettingsScreen} />
+            <Tab.Screen 
+                name="ProfileSetting"
+                component={ProfileScreen} 
+                options={({ route, navigation })=>({
+                headerTitle: ()=>getHeaderTitle(route.name, Theme.grey100),
+                headerTransparent: true,
+
+                headerRight: ()=> (
+                    <TouchableOpacity
+                        onPress={()=> navigation.navigate("Notification")}
+                    >
+                        <Octicons 
+                            name={'bell'} 
+                            size={25} 
+                            color={Theme.grey100} 
+                            style={{paddingRight: 20}}
+                        />
+                    </TouchableOpacity> 
+                )
+            })}
+            />
+            <Tab.Screen 
+                name="AppSetting" 
+                component={AppSettingsScreen} 
+                options={({ route, navigation })=>({
+                    headerTitle: ()=>getHeaderTitle("Settings"),
+                    headerRight: ()=> (null)
+                })}
+            />
         </Tab.Navigator>
     )
 }
-
-const commonScreenOptions = { headerShown: false }
 
 const AppScreens = ()=>{
     return (
@@ -143,6 +171,33 @@ const AppScreens = ()=>{
                         )
                     }}
                 />
+
+
+                <Stack.Screen 
+                    name="settingUpdatePassword" 
+                    component={UpdatePasswordScreen} 
+                    options={{
+                        headerShown: true,
+                        // headerTransparent: true,
+                        headerStyle:{
+                            backgroundColor:Theme.grey100,
+                        },
+                        headerShadowVisible:false,
+                        headerTitleAlign:'center',
+                        headerTitle: ()=>(
+                            <Text 
+                                h3
+                                style={{
+                                    paddingTop: 60,
+                                    paddingBottom: 10,
+                                }}
+                            >
+                                Update password
+                            </Text>
+                        )
+                    }}
+                />
+
             </Stack.Navigator>
         </NavigationContainer>
     )
