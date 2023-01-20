@@ -128,7 +128,7 @@ export const AppContextSubscriber = ({children})=>{
             <AppContext.Consumer>
                 {(context)=>{
 
-                    console.log(context);
+                    // console.log(context);
 
                     return (
                     <>

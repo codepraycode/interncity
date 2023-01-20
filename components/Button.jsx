@@ -5,7 +5,7 @@ import Theme from '../constants/theme';
 
 const CustomButton = ({text, disable, onPress, small, style}) => {
     const customStyles = style || null;
-    console.log(customStyles);
+    // console.log(customStyles);
 
     return (
 

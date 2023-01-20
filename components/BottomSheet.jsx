@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {View, Text, ActionSheet} from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import Button from '../components/Button';
+import AppContext from '../app/context';
 
 // const useCases = [
 //   {label: 'Default (Android/iOS)', useNativeIOS: false, icons: false},
@@ -46,6 +47,8 @@ const BottomSheet = (props) => {
 
 const AuthBottomSheet = ({show, onDismiss}) => {
 
+    const {signOut} = useContext(AppContext);
+
     const pickOption = (index) =>{
         console.log("Picked", index);
     }
@@ -85,6 +88,7 @@ const AuthBottomSheet = ({show, onDismiss}) => {
                             text={option.label} 
                             key={index} 
                             onPress={()=>{
+                                if (index === 0) return signOut();
                                 onDismiss();
                             }}
                             style={{
