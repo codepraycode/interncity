@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, Text, Image, Icon, Colors} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import {authSchema} from '../../constants/dummy';
 import Form from '../../components/form';
+import AppContext from '../../app/context';
 /* 
     Login screen
 */
 
 const Login = ({ navigation })=>{
+    const {signIn} = useContext(AppContext);
 
     return (
         <View style={styles.formContainer}>
@@ -20,7 +22,7 @@ const Login = ({ navigation })=>{
             {/* Auth form */}
             <View style={styles.container}>
                 <Form 
-                  onSubmit={()=>navigation.navigate("CreateProfile")} 
+                  onSubmit={()=>signIn("sample data")} 
                   schema={authSchema} 
                   authLabel="LOGIN" 
                   remember={true} 

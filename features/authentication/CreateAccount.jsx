@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, Text, Image, Icon, Colors} from 'react-native-ui-lib';
 import { ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import {createAccountSchema} from '../../constants/dummy';
 import Form from '../../components/form';
+import AppContext from '../../app/context';
 /* 
     CreateAccount screen
 */
 
 const CreateAccount = ({ navigation })=>{
+    const {signUp} = useContext(AppContext);
+    
     return (
         <ScrollView contentContainerStyle={styles.formContainer} >
             {/* Top view with wave and title */}
@@ -19,7 +22,10 @@ const CreateAccount = ({ navigation })=>{
             {/* Auth form */}
             <View style={styles.container}>
                 <Form 
-                  onSubmit={()=>navigation.navigate("SignIn")} 
+                  onSubmit={()=>{
+                    signUp("sample data");
+                    navigation.navigate("SignIn");
+                  }} 
                   schema={createAccountSchema} 
                   authLabel={"SIGN UP"}
                   sso = {true}

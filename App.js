@@ -8,19 +8,18 @@ import Theme from './constants/theme';
 import typography from './constants/typography';
 import assets from './constants/assets';
 
-import InterncityApp from './main';
+import AppScreens from './features';
+import { AppContextProvider, AppContextSubscriber } from './app/context';
 
 
 Colors.loadColors({
       ...Theme,
       lightSecondary: Colors.rgba(Theme.secondary, 0.2),
     });
-    Typography.loadTypographies(typography);
-
-
-    Assets.loadAssetsGroup('assets', {
-      ...assets
-    });
+Typography.loadTypographies(typography);
+Assets.loadAssetsGroup('assets', {
+  ...assets
+});
 
 export default function App() {
 
@@ -35,7 +34,12 @@ export default function App() {
 
     return (
       <View style={styles.container}>
-        <InterncityApp/>
+        <AppContextProvider>
+          <AppContextSubscriber>
+            <AppScreens/>
+          </AppContextSubscriber>
+        </AppContextProvider>
+        
         <StatusBar style="auto" />
       </View>
     );

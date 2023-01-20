@@ -6,7 +6,7 @@ import { StyleSheet, TouchableOpacity} from 'react-native';
     Onboarding screen for new users or after fresh installation
 */
 
-const Onboarding = ({ onSwitch })=>{ // onboarding for authentication
+const Onboarding = ({navigation})=>{ // onboarding for AuthenticationStackco
     return (
         <>
             {/* Top container containing Logo */}
@@ -38,7 +38,7 @@ const Onboarding = ({ onSwitch })=>{ // onboarding for authentication
                 
 
                 <TouchableOpacity 
-                    onPress={()=>onSwitch()} 
+                    onPress={()=>navigation.navigate("SignIn")} 
                     style={{
                         width:60, 
                         height:60,

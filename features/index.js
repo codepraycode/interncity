@@ -1,5 +1,5 @@
 // Home screen that covers base navigation for screens
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -7,7 +7,8 @@ import { Text } from 'react-native-ui-lib';
 
 // Screen stacks
 import JobsStackScreen from './Jobs';
-import AuthenticationStack from './authentication';
+// import AuthenticationStack from './authentication';
+
 // Icon
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -17,16 +18,16 @@ import Theme from '../constants/theme';
 
 // Screens
 import LogsScreen from './Reviews';
-import ProfileScreen from './Profile';
+import ProfileScreen, { ProfileCreationOnboarding, ProfileFormScreen, ProfileSettingScreen, SuccessScreen } from './Profile';
 import AppSettingsScreen from './settings';
 import JobListsScreen from './Jobs/JobLists';
 import NotificationScreen from './Notifications';
 import { TouchableOpacity } from 'react-native';
 import UpdatePasswordScreen from './settings/UpdatePassword';
-import Onboarding from './Profile/Onboarding';
-import Login from './authentication/Login';
-import CreateAccount from './authentication/CreateAccount';
-import CreateProfile from './Profile/CreateProfile';
+
+import AppContext, { AppContextSubscriber } from '../app/context';
+
+import { AuthOnboardingScreen, CreateAccountScreen, LoginScreen } from './authentication';
 
 // Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -107,7 +108,7 @@ const TabsStack = ()=>{
             <Tab.Screen name="Logs" component={LogsScreen} />
             <Tab.Screen 
                 name="ProfileSetting"
-                component={ProfileScreen} 
+                component={ProfileSettingScreen} 
                 options={({ route, navigation })=>({
                 headerTitle: ()=>getHeaderTitle(route.name, Theme.grey100),
                 headerTransparent: true,
@@ -138,103 +139,117 @@ const TabsStack = ()=>{
     )
 }
 
-const HomeStack = ()=>{
-    return (
-        <>
-            {/* Hide header for home screens */}
-                <Stack.Screen 
-                    name="Home" 
-                    component = {TabsStack}
-                />
-                <Stack.Screen name="Job" component={JobsStackScreen} />
-
-                <Stack.Screen 
-                    name="Notification" 
-                    component={NotificationScreen} 
-                    options={{
-                        headerShown: true,
-                        // headerTransparent: true,
-                        headerStyle:{
-                            backgroundColor:Theme.grey100,
-                        },
-                        headerShadowVisible:false,
-                        headerTitleAlign:'center',
-                        headerTitle: ()=>(
-                            <Text 
-                                h3
-                                style={{
-                                    marginTop: 40,
-                                    paddingBottom: 10,
-                                }}
-                            >
-                                Notifications
-                            </Text>
-                        )
-                    }}
-                />
-
-                <Stack.Screen 
-                    name="settingUpdatePassword" 
-                    component={UpdatePasswordScreen} 
-                    options={{
-                        headerShown: true,
-                        // headerTransparent: true,
-                        headerStyle:{
-                            backgroundColor:Theme.grey100,
-                        },
-                        headerShadowVisible:false,
-                        headerTitleAlign:'center',
-                        headerTitle: ()=>(
-                            <Text 
-                                h3
-                                style={{
-                                    paddingTop: 60,
-                                    paddingBottom: 10,
-                                }}
-                            >
-                                Update password
-                            </Text>
-                        )
-                    }}
-                />
-        </>
-    )
-}
-
 const AppScreens = ()=>{
-    const [isUserProfileSet, setIsUserProfileSet] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const { userToken, userProfile } = useContext(AppContext);
     
     let stackToRender;
 
-    if (!isAuthenticated) {
+    console.log(userToken, userProfile);
+
+    if (!userToken) {
         stackToRender = (
             <>
                 <Stack.Screen 
                     name="AuthOnboarding" 
-                    component={Onboarding} 
+                    component={AuthOnboardingScreen} 
                     // options = {{headerShown: false}}
                 />
                 <Stack.Screen 
                     name="SignIn" 
-                    component={Login} 
+                    component={LoginScreen} 
                     // options = {{headerShown: false}}
                 />
                 <Stack.Screen 
                     name="SignUp" 
-                    component={CreateAccount} 
-                    // options = {{headerShown: false}}
-                />
-                <Stack.Screen 
-                    name="CreateProfile" 
-                    component={CreateProfile} 
+                    component={CreateAccountScreen} 
                     // options = {{headerShown: false}}
                 />
             </>
         )
     }
-    // if (!isUserProfileSet) stackToRender = <Create
-    else stackToRender = <HomeStack/>
+    else if (!userProfile || !userProfile.allSet){
+        stackToRender = (
+            <>
+                <Stack.Screen 
+                    name="ProfileOnboarding" 
+                    component={ProfileCreationOnboarding}
+                />
+                <Stack.Screen 
+                    name="ProfileForm" 
+                    component={ProfileFormScreen} 
+                    // options = {{headerShown: false}}
+                />
+                <Stack.Screen 
+                    name="ProfileSuccess" 
+                    component={SuccessScreen} 
+                    // options = {{headerShown: false}}
+                />
+            </>
+        )
+    }
+    else{
+        stackToRender = (
+            <>
+                {/* Hide header for home screens */}
+                    <Stack.Screen 
+                        name="Home" 
+                        component = {TabsStack}
+                    />
+                    <Stack.Screen name="Job" component={JobsStackScreen} />
+
+                    <Stack.Screen 
+                        name="Notification" 
+                        component={NotificationScreen} 
+                        options={{
+                            headerShown: true,
+                            // headerTransparent: true,
+                            headerStyle:{
+                                backgroundColor:Theme.grey100,
+                            },
+                            headerShadowVisible:false,
+                            headerTitleAlign:'center',
+                            headerTitle: ()=>(
+                                <Text 
+                                    h3
+                                    style={{
+                                        marginTop: 40,
+                                        paddingBottom: 10,
+                                    }}
+                                >
+                                    Notifications
+                                </Text>
+                            )
+                        }}
+                    />
+
+                    <Stack.Screen 
+                        name="settingUpdatePassword" 
+                        component={UpdatePasswordScreen} 
+                        options={{
+                            headerShown: true,
+                            // headerTransparent: true,
+                            headerStyle:{
+                                backgroundColor:Theme.grey100,
+                            },
+                            headerShadowVisible:false,
+                            headerTitleAlign:'center',
+                            headerTitle: ()=>(
+                                <Text 
+                                    h3
+                                    style={{
+                                        paddingTop: 60,
+                                        paddingBottom: 10,
+                                    }}
+                                >
+                                    Update password
+                                </Text>
+                            )
+                        }}
+                    />
+            </>
+        )
+    }
+
     return (
         <NavigationContainer>
             <Stack.Navigator

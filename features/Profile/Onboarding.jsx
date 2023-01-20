@@ -44,7 +44,7 @@ roles based on your study major.</Text>
                 
 
                 <TouchableOpacity 
-                    onPress={()=>navigation.navigate("SignIn")} 
+                    onPress={()=>navigation.navigate("ProfileForm")} 
                     style={{
                         width:60,
                         height:60,
