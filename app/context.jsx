@@ -45,7 +45,6 @@ export const AppContextProvider = ({children})=>{
                     userToken: null,
                 };
             case 'UPDATE_PROFILE':
-                console.log(action)
                 return {
                     ...prev,
                     userProfile:{
@@ -115,7 +114,15 @@ export const AppContextProvider = ({children})=>{
 
     return (
         <AppContext.Provider value={appContextData}>
-            {children}
+            <AppContext.Consumer>
+                {
+                    ()=>(
+                        <>
+                            {children}
+                        </>
+                    )
+                }
+            </AppContext.Consumer>
         </AppContext.Provider>
     )
 }
