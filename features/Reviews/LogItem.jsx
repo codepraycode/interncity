@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import Theme from '../../constants/theme';
 import { getDayVerbose } from '../../app/utils';
 
-const LogItem = ({date}) => {
+const LogItem = ({date, editLog}) => {
 
     const realDate = new Date(date);
 
@@ -18,8 +18,9 @@ const LogItem = ({date}) => {
     const breakLength = 188;
     
     return (
-        <TouchableOpacity activeOpacity={0.4} 
-            // center 
+        <TouchableOpacity 
+            activeOpacity={0.4} 
+            onPress={editLog}
             style={{
                 backgroundColor:Theme.white,                
                 padding: 10,
