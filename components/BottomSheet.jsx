@@ -134,6 +134,7 @@ export const LogBottomSheet = ({show,data, onDismiss}) => {
             renderAction={(option, index, onOptionPress)=>{
                 return (
                     <TextInput
+                        key={index}
                         editable
                         multiline
                         numberOfLines={20}
