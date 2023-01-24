@@ -7,7 +7,12 @@ import Button from '../../components/Button';
 
 
 const SuccessScreen = ({ navigation }) =>{
-    const {updateProfile} = useContext(AppContext);
+    const {updateProfile, userType} = useContext(AppContext);
+    let term = '';
+
+    if (userType === 'organization') term = "Organization";
+    else if (userType === 'intern') term = "Internship";
+
     return (
 
         <View flex>
@@ -21,7 +26,7 @@ const SuccessScreen = ({ navigation }) =>{
                 <Text h3>Profile update successful</Text>
 
                 <Text p marginV-30 style={{width:"70%", textAlign:'center', }}>
-                    Your application information has been updated successfully!. You can now go ahead to apply for internship roles
+                    Your {userType === 'intern' && "application"} information has been updated successfully!. {userType === 'intern' && "You can now go ahead to apply for internship roles"}
                 </Text>
 
                 <Button text="Continue" onPress={()=>{
