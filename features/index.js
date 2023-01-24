@@ -18,27 +18,34 @@ import Theme from '../constants/theme';
 
 // Screens
 import LogsScreen from './Reviews';
-import ProfileScreen, { ProfileCreationOnboarding, ProfileFormScreen, ProfileSettingScreen, SuccessScreen } from './Profile';
+import { ProfileCreationOnboarding, ProfileFormScreen, ProfileSettingScreen, SuccessScreen } from './Profile';
 import AppSettingsScreen from './settings';
-import JobListsScreen from './Jobs/JobLists';
+import {JobApplyListsScreen,JobListsScreen} from './Jobs/JobLists';
 import NotificationScreen from './Notifications';
 import { TouchableOpacity } from 'react-native';
 import UpdatePasswordScreen from './settings/UpdatePassword';
 
-import AppContext, { AppContextSubscriber } from '../app/context';
+import AppContext from '../app/context';
 
 import { AuthOnboardingScreen, CreateAccountScreen, LoginScreen } from './authentication';
+import InternScreen from './Interns';
 
 // Stack Navigator
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const getIcons = (name, focused, color, size) => {
+const getIcons = (name, focused, color, size, isOrganization) => {
     let screenName = name.toLowerCase();
 
     if (screenName === 'jobs') return <Octicons name={'list-unordered'} size={size} color={color} />;
     else if (screenName === 'logs') return <Octicons name={'file-badge'} size={size} color={color} />;
-    else if (screenName === 'profilesetting') return <FontAwesome name={focused ? 'user':'user-o'} size={size} color={color} />;
+    else if (screenName === 'interns') return <Octicons name={'people'} size={size} color={color} />;
+    else if (screenName === 'profilesetting') return (
+        isOrganization ? 
+        <Octicons name={"organization"} size={size} color={color} />
+        :
+        <FontAwesome name={focused ? 'user':'user-o'} size={size} color={color} />
+    )
     else if (screenName === 'appsetting') return <MaterialIcons name={focused ? 'cog' : 'cog-outline'} size={size} color={color} />;    
     
     return <MaterialIcons name={'apps'} size={size} color={color} />;    
@@ -68,12 +75,36 @@ const getHeaderTitle = (name, color=null) => {
 const commonScreenOptions = { headerShown: false }
 
 const TabsStack = ()=>{
+    const {userType} = useContext(AppContext);
+
+    const isOrganization = userType === 'organization';
+    // const isSupervisor = userType === 'suppervisor';
+
+    const renderScreen = ()=>{
+
+
+
+        if (isOrganization) return (
+            <>
+                <Tab.Screen name="Jobs" component={JobListsScreen} />
+                <Tab.Screen name="Interns" component={InternScreen} />
+            </>
+        )
+
+        return (
+            <>
+                <Tab.Screen name="Jobs" component={JobApplyListsScreen} />
+                <Tab.Screen name="Logs" component={LogsScreen} />
+            </>
+        )
+    }
+
     return (
 
         <Tab.Navigator
             // initialRouteName = "Jobs"
             screenOptions={({ route, navigation })=>({
-                tabBarIcon: ({focused, color, size})=> getIcons(route.name, focused, color, size),
+                tabBarIcon: ({focused, color, size})=> getIcons(route.name, focused, color, size, isOrganization),
                 tabBarActiveTintColor: Theme.accent,
                 tabBarInactiveTintColor: Theme.grey300,
                 tabBarShowLabel: false,
@@ -104,8 +135,8 @@ const TabsStack = ()=>{
                 )
             })}
         >
-            <Tab.Screen name="Jobs" component={JobListsScreen} />
-            <Tab.Screen name="Logs" component={LogsScreen} />
+            {renderScreen()}
+
             <Tab.Screen 
                 name="ProfileSetting"
                 component={ProfileSettingScreen} 

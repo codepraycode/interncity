@@ -53,7 +53,7 @@ const JobItem = ({jobItem, onViewClick})=>{
     )
 }
 
-const JobListsScreen = ({ navigation }) => {
+export const JobApplyListsScreen = ({ navigation }) => {
     const handleNavigateToDetail = (jobItem)=>{
         navigation.navigate("Job", { 
             screen: "JobDetail", 
@@ -73,7 +73,26 @@ const JobListsScreen = ({ navigation }) => {
     );
 }
 
-export default JobListsScreen;
+export const JobListsScreen = ({ navigation }) => {
+    const handleNavigateToDetail = (jobItem)=>{
+        navigation.navigate("Job", { 
+            screen: "JobDetail", 
+            params: {jobId: jobItem.id}
+        });
+    }
+    return (
+        <>
+            {/* <StatusBar style="dark" /> */}
+            
+            <FlatList
+                data={ JobsLists }
+                renderItem = {({item})=><JobItem jobItem = { item} onViewClick = {()=>handleNavigateToDetail(item)}/>}
+                keyExtractor={item => item.id}
+            />
+        </>
+    );
+}
+
 
 
 
