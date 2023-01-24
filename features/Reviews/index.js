@@ -13,8 +13,6 @@ const LogsScreen = () => {
 
     const autoSaveLog = (data)=>{
 
-        console.log(data);
-
         setDateEditing(null);
     }
 
