@@ -45,7 +45,6 @@ export const AppContextProvider = ({children})=>{
                     userToken: null,
                 };
             case 'UPDATE_PROFILE':
-                console.log(action)
                 return {
                     ...prev,
                     userProfile:{
@@ -110,12 +109,20 @@ export const AppContextProvider = ({children})=>{
             dispatch({ type: 'UPDATE_PROFILE', payload: {name:'BulaBlu Blu', ...data} });
         },
 
-    }), [contextData.isSignout, contextData.userToken]);
+    }), [contextData.isSignout, contextData.userToken, contextData.userProfile]);
 
 
     return (
         <AppContext.Provider value={appContextData}>
-            {children}
+            <AppContext.Consumer>
+                {
+                    ()=>(
+                        <>
+                            {children}
+                        </>
+                    )
+                }
+            </AppContext.Consumer>
         </AppContext.Provider>
     )
 }

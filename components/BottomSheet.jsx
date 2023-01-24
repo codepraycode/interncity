@@ -1,17 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import {View, Text, ActionSheet} from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import Button from '../components/Button';
 import AppContext from '../app/context';
-
-// const useCases = [
-//   {label: 'Default (Android/iOS)', useNativeIOS: false, icons: false},
-//   {label: 'Default with icons', useNativeIOS: false, icons: true},
-//   {label: 'Native IOS', useNativeIOS: true}
-// ];
-// const collectionsIcon = require('../../assets/icons/collections.png');
-// const starIcon = require('../../assets/icons/star.png');
-// const shareIcon = require('../../assets/icons/share.png');
+import { TextInput } from 'react-native';
 
 
 const BottomSheet = (props) => {
@@ -55,8 +47,6 @@ const AuthBottomSheet = ({show, onDismiss}) => {
 
     return (
         <ActionSheet
-            // title={'Title'}
-            // message={'Message of action sheet'}
             renderTitle = {()=>(
                 <View center style={{marginVertical: 0}}>
                     <View 
@@ -72,10 +62,6 @@ const AuthBottomSheet = ({show, onDismiss}) => {
                     <Text h4 center>Log out</Text>
                 </View>
             )}
-            // cancelButtonIndex={1}
-            // destructiveButtonIndex={0}
-            // useNativeIOS={false}
-            // migrateDialog
             options={[
             {label: 'Yes', onPress: () => pickOption('option 1')},
             {label: 'Cancel', onPress: () => pickOption('option 2')},            
@@ -83,10 +69,9 @@ const AuthBottomSheet = ({show, onDismiss}) => {
 
             renderAction={(option, index, onOptionPress)=>{
                 return (
-                    <View center marginV-10>
+                    <View center marginV-10 key={index} >
                         <Button 
                             text={option.label} 
-                            key={index} 
                             onPress={()=>{
                                 if (index === 0) return signOut();
                                 onDismiss();
@@ -112,6 +97,62 @@ const AuthBottomSheet = ({show, onDismiss}) => {
             dialogStyle={{
                 height:300,
                 // borderWidth:4,
+            }}
+            containerStyle={{
+                backgroundColor:'transparent'
+            }}
+            visible={show}
+            onDismiss={() => onDismiss()}
+        />
+    );
+}
+
+
+export const LogBottomSheet = ({show,data, onDismiss}) => {
+
+    return (
+        <ActionSheet
+            renderTitle = {()=>(
+                <View center style={{marginVertical: 0}}>
+                    <View 
+                        style={{
+                            width:30, 
+                            borderWidth:2, 
+                            borderStyle:'solid', 
+                            borderColor:"rgba(19, 1, 96, 1)", 
+                            borderRadius:10,
+                            marginVertical:15,
+                        }}
+                    ></View>
+                    <Text h4 center>Log today</Text>
+                </View>
+            )}
+            options={[
+                {label: 'Option 1', onPress: () =>{}},
+            ]}
+
+            renderAction={(option, index, onOptionPress)=>{
+                return (
+                    <TextInput
+                        editable
+                        multiline
+                        numberOfLines={20}
+                        onChangeText={text => console.log(text)}
+                        style={{paddingVertical: 10, fontSize: 18}}
+                        placeholder="Enter log here"
+                        textAlignVertical="top"
+                    />
+                )
+            }}
+            optionsStyle={
+                {
+                    height:'100%',
+                    paddingTop:50,
+
+                }
+            }
+            dialogStyle={{
+                height:500,
             }}
             containerStyle={{
                 backgroundColor:'transparent'
