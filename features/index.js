@@ -75,10 +75,7 @@ const getHeaderTitle = (name, color=null) => {
 const commonScreenOptions = { headerShown: false }
 
 const TabsStack = ()=>{
-    const {userType} = useContext(AppContext);
-
-    const isOrganization = userType === 'organization';
-    // const isSupervisor = userType === 'suppervisor';
+    const {isOrganization} = useContext(AppContext);
 
     const renderScreen = ()=>{
 
