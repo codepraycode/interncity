@@ -14,6 +14,7 @@ export const AppContextProvider = ({children})=>{
         userAccount: null,
         userProfile: null,
         userAllset: false,
+        userType:"organization"
     }
 
     const reducers = (prev, action) =>{

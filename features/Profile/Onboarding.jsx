@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, Text, Image} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import Theme from '../../constants/theme';
+import AppContext from '../../app/context';
 
 /* 
     Onboarding screen for create profile if profile isn't set or completed
 */
 
 const Onboarding = ({ navigation })=>{ // onboarding for authentication
-    // console.log(navigation);
+    const {userType} = useContext(AppContext)
+    // console.log(userType);
+    let term = '';
+
+    if (userType === 'organization') term = "Organization";
+    else if (userType === 'intern') term = "Internship";
+
     return (
         <>
             {/* Top container containing Logo */}
@@ -33,12 +40,20 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
                 >
                     <Text h1 style={{width:"75%", color: Theme.main}}>
                         <Text>Provide Your </Text>
-                        <Text secondary a>Internship </Text>
+                        <Text secondary a>{term} </Text>
                         <Text>Information!</Text>
                     </Text>
 
-                    <Text p style={{width:"75%", color: Theme.accent}}>Explore all the most exciting internship
-roles based on your study major.</Text>
+
+                    {
+                        userType === 'intern' && (
+                            
+                            <Text p style={{width:"75%", color: Theme.accent}}>
+                                Explore all the most exciting internship
+                                roles based on your study major.
+                            </Text>
+                        )
+                    }
                     
                 </View>
                 
