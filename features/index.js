@@ -155,6 +155,7 @@ const TabsStack = ()=>{
                 )
             })}
             />
+
             <Tab.Screen 
                 name="AppSetting" 
                 component={AppSettingsScreen} 

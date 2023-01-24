@@ -1,5 +1,5 @@
-import React from 'react'
-import { FlatList, StyleSheet } from 'react-native';
+import React, { useContext } from 'react'
+import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { View, Text, Image } from 'react-native-ui-lib';
 import Card from '../../components/Card';
 import Tags from '../../components/Tags';
@@ -7,17 +7,19 @@ import Button from '../../components/Button';
 import Theme from '../../constants/theme';
 import { CompanyLists, JobsLists } from '../../constants/dummy';
 import { StatusBar } from 'expo-status-bar';
+import Octicons from 'react-native-vector-icons/Octicons';
+import AppContext from '../../app/context';
 
 // Create the jobs screen
 
-const JobItem = ({jobItem, onViewClick})=>{
+const JobItem = ({jobItem, editor, onViewClick})=>{
     const company = CompanyLists.find(e=>e.id === jobItem.companyId) || {};
     const title = jobItem.title || '';
     const decription = `${company.name || '---'} ${company.headOffice.town || "---"} ${company.headOffice.city || "---"}`;
     const tags = jobItem.tags || []
 
     return (
-        <Card>
+        <Card clickable={editor} onPress={onViewClick}>
             
             <View>
                 {
@@ -47,7 +49,10 @@ const JobItem = ({jobItem, onViewClick})=>{
             >
                 <Text p>some minutes ago</Text>
 
-                <Button text={"View"} small={true} onPress={()=>onViewClick()}/>
+                {
+                    !editor && <Button text={"View"} small={true} onPress={()=>onViewClick()}/>
+                }
+                
             </View>
         </Card>
     )
@@ -74,21 +79,38 @@ export const JobApplyListsScreen = ({ navigation }) => {
 }
 
 export const JobListsScreen = ({ navigation }) => {
-    const handleNavigateToDetail = (jobItem)=>{
-        navigation.navigate("Job", { 
-            screen: "JobDetail", 
-            params: {jobId: jobItem.id}
-        });
-    }
+    const {isOrganization} = useContext(AppContext);
+    // console.log("ord",isOrganization);
     return (
         <>
             {/* <StatusBar style="dark" /> */}
             
             <FlatList
                 data={ JobsLists }
-                renderItem = {({item})=><JobItem jobItem = { item} onViewClick = {()=>handleNavigateToDetail(item)}/>}
+                renderItem = {({item})=><JobItem 
+                    jobItem = { item}
+                    editor = {isOrganization}
+                    onViewClick = {()=>{}}
+                />}
                 keyExtractor={item => item.id}
             />
+
+            <TouchableOpacity
+                activeOpacity={0.8}
+                style={{
+                    position:'absolute',
+                    bottom:10,
+                    right:0,
+                    width:60,
+                    height: 60,
+                    borderRadius: 30,
+                    backgroundColor:Theme.accent,
+                    alignItems:'center',
+                    justifyContent:'center'
+                }}
+            >
+                <Octicons name={'plus'} size={30} color={Theme.white} />
+            </TouchableOpacity>
         </>
     );
 }
