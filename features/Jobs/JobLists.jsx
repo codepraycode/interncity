@@ -1,14 +1,13 @@
 import React, { useContext, useState } from 'react'
-import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { FlatList, StyleSheet } from 'react-native';
 import { View, Text, Image } from 'react-native-ui-lib';
 import Card from '../../components/Card';
 import Tags from '../../components/Tags';
 import Button from '../../components/Button';
-import Theme from '../../constants/theme';
 import { CompanyLists, JobsLists } from '../../constants/dummy';
-import Octicons from 'react-native-vector-icons/Octicons';
 import AppContext from '../../app/context';
 import { JobBottomSheet } from '../../components/BottomSheet';
+import FloatingButton from '../../components/FloatingButton';
 
 // Create the jobs screen
 
@@ -95,23 +94,7 @@ export const JobListsScreen = ({ navigation }) => {
                 keyExtractor={item => item.id}
             />
 
-            <TouchableOpacity
-                activeOpacity={0.8}
-                style={{
-                    position:'absolute',
-                    bottom:10,
-                    right:5,
-                    width:60,
-                    height: 60,
-                    borderRadius: 30,
-                    backgroundColor:Theme.accent,
-                    alignItems:'center',
-                    justifyContent:'center'
-                }}
-                onPress={()=>setJobUpdate(p=>({}))}
-            >
-                <Octicons name={'plus'} size={30} color={Theme.white} />
-            </TouchableOpacity>
+            <FloatingButton onPress={()=>setJobUpdate(p=>({}))}/>
 
             <JobBottomSheet data={jobUpdate || {}} show={Boolean(jobUpdate)} onDismiss={()=>setJobUpdate(p=>null)}/>
         </>

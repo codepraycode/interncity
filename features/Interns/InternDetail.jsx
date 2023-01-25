@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import { ScrollView,Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { View, Text, } from 'react-native-ui-lib';
 import Theme from '../../constants/theme';
-import { CompanyLists, InternLists, JobsLists } from '../../constants/dummy';
+import { InternLists, JobsLists } from '../../constants/dummy';
 import JobNotFound from '../../states/JobNotFound';
 
 import Octicons from 'react-native-vector-icons/Octicons';
 import assets from '../../constants/assets';
 import InternInfo from './InternInfo';
 import InternWeekelyReview from './InternWeeklyReview';
+import { LogBottomSheet } from '../../components/BottomSheet';
 
 const InternDetailHeader = ({data})=>{
 
@@ -108,50 +109,61 @@ const InternsDetailScreen = ({ route }) => {
     const internData = InternLists.find(each => each.id === internId);
     const internJob = JobsLists.find(each => each.id === internData.jobId);
 
-    const [tabNo, setTabNo] = useState(0);
-    const [showModal, setShowModal] = useState(false);
+    const [tabNo, setTabNo] = useState(0);    
+    const [weekEditing, setWeekEditing] = useState(null);
+
+
+    const autoSaveLog = (data)=>{
+
+        setWeekEditing(null);
+    }
 
     if (!Boolean(internData)) return <JobNotFound/>;
 
     return (
         <>
-        <View 
-            contentContainerStyle={{
-                backgroundColor:Theme.grey100,
-            }}
-        >
-
-            <InternDetailHeader intern = { internData }/>
-
-            {/* Tabs */}
             <View 
-                centerH
+                contentContainerStyle={{
+                    backgroundColor:Theme.grey100,
+                }}
             >
-                <View
+
+                <InternDetailHeader intern = { internData }/>
+
+                {/* Tabs */}
+                <View 
+                    centerH
                     style={{
-                        flexDirection:'row', 
-                        alignItems:'center', 
-                        justifyContent:'space-evenly',
-                        backgroundColor:Theme.white,
-                        padding: 5,
-                        borderRadius: 5,
-                        // maxWidth: "80%"
+                        marginBottom: 10,
                     }}
                 >
-                    <Tab text="Intern Info" onClick={()=>setTabNo(0)} active={tabNo === 0}/>
-                    <Tab text="Weekly Reviews" onClick={()=>setTabNo(1)} active={tabNo === 1}/>
+                    <View
+                        style={{
+                            flexDirection:'row', 
+                            alignItems:'center', 
+                            justifyContent:'space-evenly',
+                            backgroundColor:Theme.white,
+                            padding: 5,
+                            borderRadius: 5,
+                            // maxWidth: "80%"
+                        }}
+                    >
+                        <Tab text="Intern Info" onClick={()=>setTabNo(0)} active={tabNo === 0}/>
+                        <Tab text="Weekly Reviews" onClick={()=>setTabNo(1)} active={tabNo === 1}/>
+                    </View>
                 </View>
             </View>
-        </View>
 
-        {/* Content */}
-            
-        {
-            tabNo === 0 ? 
-            <InternInfo/>
-            :
-            <InternWeekelyReview/>
-        }
+            {/* Content */}
+                
+            {
+                tabNo === 0 ? 
+                <InternInfo/>
+                :
+                <InternWeekelyReview onEditLog={(weekNumber)=>setWeekEditing(weekNumber)}/>
+            }
+
+            <LogBottomSheet weekly={true} show={Boolean(weekEditing)} data={weekEditing} onDismiss={autoSaveLog}/>
         </>
 
     );
