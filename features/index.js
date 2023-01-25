@@ -170,20 +170,19 @@ const TabsStack = ()=>{
 }
 
 const AppScreens = ()=>{
-    const { userToken, userProfile } = useContext(AppContext);
+    const { userToken, userProfile, isIntern } = useContext(AppContext);
     
-    let stackToRender;
-
-    console.log(userToken, userProfile);
+    let stackToRender;    
 
     if (!userToken) {
         stackToRender = (
             <>
-                <Stack.Screen 
-                    name="AuthOnboarding" 
-                    component={AuthOnboardingScreen} 
-                    // options = {{headerShown: false}}
-                />
+                { isIntern && (
+                    <Stack.Screen 
+                        name="AuthOnboarding" 
+                        component={AuthOnboardingScreen}
+                    />)
+                }
                 <Stack.Screen 
                     name="SignIn" 
                     component={LoginScreen} 

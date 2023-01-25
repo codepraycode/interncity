@@ -14,7 +14,7 @@ export const AppContextProvider = ({children})=>{
         userAccount: null,
         userProfile: null,
         userAllset: false,
-        userType:"organization"
+        userType:'supervisor'//"organization"
     }
 
     const reducers = (prev, action) =>{
@@ -84,6 +84,7 @@ export const AppContextProvider = ({children})=>{
         ...contextData,
         isOrganization:contextData.userType === 'organization',
         isSupervisor:contextData.userType === 'supervisor',
+        isIntern:contextData.userType === 'intern',
         signIn: async (data) => {
             console.log("SIGN IN",data);
             // In a production app, we need to send some data (usually username, password) to server and get a token

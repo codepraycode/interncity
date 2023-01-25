@@ -9,12 +9,12 @@ import AppContext from '../../app/context';
 */
 
 const Onboarding = ({ navigation })=>{ // onboarding for authentication
-    const {userType} = useContext(AppContext)
+    const {userType, isOrganization, isIntern} = useContext(AppContext)
     // console.log(userType);
     let term = '';
 
-    if (userType === 'organization') term = "Organization";
-    else if (userType === 'intern') term = "Internship";
+    if (isOrganization) term = "Organization";
+    else if (isIntern) term = "Internship";
 
     return (
         <>
