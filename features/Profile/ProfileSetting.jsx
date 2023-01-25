@@ -36,7 +36,7 @@ const ProfileSettingsHeader = ()=>{
                 {/* Image */}
                 <View center style={{width: 60, height: 60, borderRadius: 30}}>
                     <Image
-                        source={assets.user}
+                        source={isOrganization ? assets.google : assets.user}
                         // resizeMethod={"auto"}
                         resizeMode="cover"
                     />
