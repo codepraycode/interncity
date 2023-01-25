@@ -91,16 +91,33 @@ const InternInformation = ({data}) =>{
 
     return (
         <View>
-            <View>
-                <Text h5 style={{marginVertical: 10}}>Name</Text>
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 10}}>Phone number</Text>
 
-                <Text p style={{marginVertical: 10}}>
-                    {data.firstname} {data.lastname}
+                <Text p>
+                    +234 8000000000
                 </Text>
             </View>
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 10}}>Address</Text>
 
-            <View style={{marginVertical: 10}} center>
-                <Text>Other intern data</Text>
+                <Text p style={{marginVertical: 0}}>
+                    Ota, Lagos.
+                </Text>
+            </View>
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 10}}>Department</Text>
+
+                <Text p style={{marginVertical: 0}}>
+                    Cyber security
+                </Text>
+            </View>
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 10}}>School</Text>
+
+                <Text p style={{marginVertical: 0}}>
+                    Federal University of Technology Akure
+                </Text>
             </View>
 
         </View>
