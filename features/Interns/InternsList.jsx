@@ -10,10 +10,8 @@ import Card from '../../components/Card';
 const InternItem = ({data, onViewClick})=>{
     const {firstname, lastname} = data;
 
-    // const name = `${firstname}`
-
     return (
-        <Card>
+        <Card clickable={true} onPress={onViewClick}>
             
             <View style={{flexDirection:'row', alignItems:'center', marginVertical:5,}}>
 
@@ -31,13 +29,18 @@ const InternItem = ({data, onViewClick})=>{
     )
 }
 
-const InternsListScreen = () => {
+const InternsListScreen = ({navigation}) => {
 
-    // console.log(dateIntervals);
+    const handleNavigateToDetail = (internItem)=>{
+        navigation.navigate("Intern", { 
+            screen: "InternDetail", 
+            params: {internId: internItem.id}
+        });
+    }
     return (
         <FlatList
             data={ InternLists }
-            renderItem = {({item})=><InternItem data = { item} onViewClick = {()=>{}}/>}
+            renderItem = {({item})=><InternItem data = { item} onViewClick = {()=>handleNavigateToDetail(item)}/>}
             keyExtractor={item => item.id}
         />
     )

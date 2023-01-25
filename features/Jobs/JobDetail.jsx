@@ -8,9 +8,6 @@ import JobNotFound from '../../states/JobNotFound';
 
 import Octicons from 'react-native-vector-icons/Octicons';
 import Tags from '../../components/Tags';
-import AppModal from '../../components/Modal';
-import { SafeAreaView } from 'react-native-safe-area-context';
-
 
 const Seperator = ()=> <View style={{width: 5, height: 5, borderRadius: 2.5, backgroundColor: Theme.accent}}></View>
 
