@@ -13,13 +13,14 @@ const Seperator = ()=> <View style={{width: 5, height: 5, borderRadius: 2.5, bac
 
 const InternDetailHeader = ({data})=>{
 
+    const name = `Lorem Ipsum`;
+    const school = "Federal University of Technology Akure"
+
     return (
         <>
             <View 
-                center 
+                center
                 style={{
-                    // backgroundColor:Theme.white,
-                    paddingTop: 0,
                     zIndex:1,
                 }}
             >
@@ -27,7 +28,7 @@ const InternDetailHeader = ({data})=>{
                 <Image
                     source={assets.user}
                     resizeMode="cover"
-                    width={70} height={70}
+                    width={80} height={80}
                     style={{
                         position:'relative',
                         bottom: -20,
@@ -47,22 +48,15 @@ const InternDetailHeader = ({data})=>{
                 <Text 
                     center 
                     h5
-                >Info 1</Text>
+                >{name}</Text>                
 
                 <View 
                     style={{
-                        flexDirection:'row', 
-                        justifyContent:'space-evenly', 
-                        alignItems:'center',
-
-                        marginVertical: 15,
+                        marginVertical: 10,
                     }}
                 >
-                    <Text center label>{"school"}</Text>
-                    <Seperator/>
-                    <Text center label>{"location"}</Text>
-                    <Seperator/>
-                    <Text center label>2 days ago</Text>
+                    <Text center label>{"IT intern"}</Text>
+                    <Text center label>{school}</Text>
                 </View>
             </View>
 
