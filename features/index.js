@@ -30,6 +30,7 @@ import AppContext from '../app/context';
 
 import { AuthOnboardingScreen, CreateAccountScreen, LoginScreen } from './authentication';
 import StudentListScreen from './Students/StudentList';
+import HeaderRight from '../components/HeaderRight';
 
 
 // Stack Navigator
@@ -127,19 +128,13 @@ const TabsStack = ()=>{
                 // headerTransparent:true,
 
                 headerRight: ()=> (
-                    <TouchableOpacity
+                    <HeaderRight 
+                        type={isSupervisor ? "settings": 'notification'} 
                         onPress={()=> {
                             if (isSupervisor) return navigation.navigate("SupervisorAppSetting")
                             navigation.navigate("Notification")
                         }}
-                    >
-                        <MaterialIcons 
-                            name={'cog-outline'} 
-                            size={25} 
-                            color={Theme.accent} 
-                            style={{paddingRight: 20}}
-                        />
-                    </TouchableOpacity> 
+                    />
                 )
             })}
         >
@@ -153,16 +148,14 @@ const TabsStack = ()=>{
                 headerTransparent: true,
 
                 headerRight: ()=> (
-                    <TouchableOpacity
-                        onPress={()=> navigation.navigate("Notification")}
-                    >
-                        <Octicons 
-                            name={'bell'} 
-                            size={25} 
-                            color={Theme.grey100} 
-                            style={{paddingRight: 20}}
-                        />
-                    </TouchableOpacity> 
+                    <HeaderRight 
+                        type={isSupervisor ? "settings": 'notification'}
+                        light={true}
+                        onPress={()=> {
+                            if (isSupervisor) return navigation.navigate("SupervisorAppSetting")
+                            navigation.navigate("Notification")
+                        }}
+                    />
                 )
             })}
             />
