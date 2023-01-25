@@ -1,20 +1,34 @@
 import React from 'react'
-import { View, Text} from 'react-native-ui-lib';
-import { StyleSheet } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Screens
+import Theme from '../../constants/theme';
+import InternsDetailScreen from './InternDetail';
+import InternsListScreen from './InternsList';
+
+const InternsStack = createNativeStackNavigator();
 
 
-const InternScreen = () => {
-
-    // console.log(dateIntervals);
+// Create the jobs screen
+const InternsStackScreen = () => {
     return (
-        <View flex center>
-
-            <Text>Inters screen</Text>
-            
-        </View>
+        <InternsStack.Navigator>
+            <InternsStack.Screen 
+                name="InternDetail" 
+                component={InternsDetailScreen} 
+                options = {{
+                    headerTransparent: false,
+                    headerStyle: {backgroundColor: Theme.grey100},
+                    headerShadowVisible: false,
+                    headerTitle:""
+                }}
+            />
+        </InternsStack.Navigator>
     )
 }
 
-export default InternScreen;
-
-const styles = StyleSheet.create({});
+export {
+    InternsStackScreen,
+    // InternsDetailScreen,
+    InternsListScreen
+};

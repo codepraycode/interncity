@@ -7,7 +7,7 @@ import { Text } from 'react-native-ui-lib';
 
 // Screen stacks
 import JobsStackScreen from './Jobs';
-// import AuthenticationStack from './authentication';
+
 
 // Icon
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -24,11 +24,12 @@ import {JobApplyListsScreen,JobListsScreen} from './Jobs/JobLists';
 import NotificationScreen from './Notifications';
 import { TouchableOpacity } from 'react-native';
 import UpdatePasswordScreen from './settings/UpdatePassword';
+import {InternsListScreen, InternsStackScreen} from './Interns';
 
 import AppContext from '../app/context';
 
 import { AuthOnboardingScreen, CreateAccountScreen, LoginScreen } from './authentication';
-import InternScreen from './Interns';
+
 
 // Stack Navigator
 const Stack = createNativeStackNavigator();
@@ -84,7 +85,7 @@ const TabsStack = ()=>{
         if (isOrganization) return (
             <>
                 <Tab.Screen name="Jobs" component={JobListsScreen} />
-                <Tab.Screen name="Interns" component={InternScreen} />
+                <Tab.Screen name="Interns" component={InternsListScreen} />
             </>
         )
 
@@ -225,6 +226,7 @@ const AppScreens = ()=>{
                         component = {TabsStack}
                     />
                     <Stack.Screen name="Job" component={JobsStackScreen} />
+                    <Stack.Screen name="Intern" component={InternsStackScreen} />
 
                     <Stack.Screen 
                         name="Notification" 
