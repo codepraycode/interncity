@@ -3,7 +3,12 @@ import React from 'react'
 
 const InternInfo = () => {
   return (
-        <View>
+        <View
+            style={{
+                paddingVertical: 10,
+                marginHorizontal: 30,
+            }}
+        >
             <View style={{marginVertical: 10}}>
                 <Text h5 style={{marginVertical: 10}}>Phone number</Text>
 

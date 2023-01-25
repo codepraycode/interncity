@@ -114,8 +114,8 @@ const InternsDetailScreen = ({ route }) => {
     if (!Boolean(internData)) return <JobNotFound/>;
 
     return (
-
-        <ScrollView 
+        <>
+        <View 
             contentContainerStyle={{
                 backgroundColor:Theme.grey100,
             }}
@@ -123,42 +123,36 @@ const InternsDetailScreen = ({ route }) => {
 
             <InternDetailHeader intern = { internData }/>
 
-            <View>
-                {/* Tabs */}
-                <View centerH>
-                    <View
-                        style={{
-                            flexDirection:'row', 
-                            alignItems:'center', 
-                            justifyContent:'space-evenly',
-                            backgroundColor:Theme.white,
-                            padding: 5,
-                            borderRadius: 5,
-                            // maxWidth: "80%"
-                        }}
-                    >
-                        <Tab text="Intern Info" onClick={()=>setTabNo(0)} active={tabNo === 0}/>
-                        <Tab text="Weekly Reviews" onClick={()=>setTabNo(1)} active={tabNo === 1}/>
-                    </View>
-                </View>
-
-
-                {/* Content */}
+            {/* Tabs */}
+            <View 
+                centerH
+            >
                 <View
                     style={{
-                        paddingVertical: 10,
-                        marginHorizontal: 20,
+                        flexDirection:'row', 
+                        alignItems:'center', 
+                        justifyContent:'space-evenly',
+                        backgroundColor:Theme.white,
+                        padding: 5,
+                        borderRadius: 5,
+                        // maxWidth: "80%"
                     }}
                 >
-                    {
-                        tabNo === 0 ? 
-                        <InternInfo/>
-                        :
-                        <InternWeekelyReview/>
-                    }
-                </View>                
+                    <Tab text="Intern Info" onClick={()=>setTabNo(0)} active={tabNo === 0}/>
+                    <Tab text="Weekly Reviews" onClick={()=>setTabNo(1)} active={tabNo === 1}/>
+                </View>
             </View>
-        </ScrollView>
+        </View>
+
+        {/* Content */}
+            
+        {
+            tabNo === 0 ? 
+            <InternInfo/>
+            :
+            <InternWeekelyReview/>
+        }
+        </>
 
     );
 }
