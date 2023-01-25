@@ -29,6 +29,7 @@ import {InternsListScreen, InternsStackScreen} from './Interns';
 import AppContext from '../app/context';
 
 import { AuthOnboardingScreen, CreateAccountScreen, LoginScreen } from './authentication';
+import StudentListScreen from './Students/StudentList';
 
 
 // Stack Navigator
@@ -40,7 +41,7 @@ const getIcons = (name, focused, color, size, isOrganization) => {
 
     if (screenName === 'jobs') return <Octicons name={'list-unordered'} size={size} color={color} />;
     else if (screenName === 'logs') return <Octicons name={'file-badge'} size={size} color={color} />;
-    else if (screenName === 'interns') return <Octicons name={'people'} size={size} color={color} />;
+    else if ((screenName === 'interns') || (screenName === 'students')) return <Octicons name={'people'} size={size} color={color} />;
     else if (screenName === 'profilesetting') return (
         isOrganization ? 
         <Octicons name={"organization"} size={size} color={color} />
@@ -76,7 +77,7 @@ const getHeaderTitle = (name, color=null) => {
 const commonScreenOptions = { headerShown: false }
 
 const TabsStack = ()=>{
-    const {isOrganization} = useContext(AppContext);
+    const {isOrganization, isSupervisor} = useContext(AppContext);
 
     const renderScreen = ()=>{
 
@@ -86,6 +87,12 @@ const TabsStack = ()=>{
             <>
                 <Tab.Screen name="Jobs" component={JobListsScreen} />
                 <Tab.Screen name="Interns" component={InternsListScreen} />
+            </>
+        )
+
+        if (isSupervisor) return (
+            <>
+                <Tab.Screen name="Students" component={StudentListScreen} />
             </>
         )
 
@@ -121,10 +128,13 @@ const TabsStack = ()=>{
 
                 headerRight: ()=> (
                     <TouchableOpacity
-                        onPress={()=> navigation.navigate("Notification")}
+                        onPress={()=> {
+                            if (isSupervisor) return navigation.navigate("SupervisorAppSetting")
+                            navigation.navigate("Notification")
+                        }}
                     >
-                        <Octicons 
-                            name={'bell'} 
+                        <MaterialIcons 
+                            name={'cog-outline'} 
                             size={25} 
                             color={Theme.accent} 
                             style={{paddingRight: 20}}
@@ -157,20 +167,24 @@ const TabsStack = ()=>{
             })}
             />
 
-            <Tab.Screen 
-                name="AppSetting" 
-                component={AppSettingsScreen} 
-                options={({ route, navigation })=>({
-                    headerTitle: ()=>getHeaderTitle("Settings"),
-                    headerRight: ()=> (null)
-                })}
-            />
+            {
+                !isSupervisor && (
+                    <Tab.Screen 
+                        name="AppSetting" 
+                        component={AppSettingsScreen} 
+                        options={({ route, navigation })=>({
+                            headerTitle: ()=>getHeaderTitle("Settings"),
+                            headerRight: ()=> (null)
+                        })}
+                    />
+                )
+            }
         </Tab.Navigator>
     )
 }
 
 const AppScreens = ()=>{
-    const { userToken, userProfile, isIntern } = useContext(AppContext);
+    const { userToken, userProfile, isIntern,isSupervisor } = useContext(AppContext);
     
     let stackToRender;    
 
@@ -275,6 +289,21 @@ const AppScreens = ()=>{
                                 </Text>
                             )
                         }}
+                    />
+
+                    <Stack.Screen 
+                        name="SupervisorAppSetting" 
+                        component={AppSettingsScreen} 
+                        options={({ route, navigation })=>({
+                            headerTitle: ()=>getHeaderTitle("Settings"),
+                            headerRight: ()=> (null),
+                            headerShown: true,
+                            headerTitleAlign: 'center',
+                            headerShadowVisible:false,
+                            headerStyle:{
+                                backgroundColor: Theme.grey100,
+                            },
+                        })}
                     />
             </>
         )
