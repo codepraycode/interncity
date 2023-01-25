@@ -134,6 +134,7 @@ export const LogBottomSheet = ({show,data, onDismiss}) => {
             renderAction={(option, index, onOptionPress)=>{
                 return (
                     <TextInput
+                        key={index}
                         editable
                         multiline
                         numberOfLines={20}
@@ -159,6 +160,97 @@ export const LogBottomSheet = ({show,data, onDismiss}) => {
             }}
             visible={show}
             onDismiss={() => onDismiss()}
+        />
+    );
+}
+
+
+export const JobBottomSheet = ({show, data, onDismiss}) => {
+
+    const {id} = data;
+
+    const isUpdate = Boolean(id);
+
+    const inputStyle = {
+        paddingVertical: 10, fontSize: 18, paddingLeft:10,
+        marginVertical:15,
+        maxWidth:'90%',
+        width: 300,
+    }
+
+    return (
+        <ActionSheet
+            renderTitle = {()=>(
+                <View center style={{marginVertical: 0}}>
+                    <View 
+                        style={{
+                            width:30, 
+                            borderWidth:2, 
+                            borderStyle:'solid', 
+                            borderColor:"rgba(19, 1, 96, 1)", 
+                            borderRadius:10,
+                            marginVertical:15,
+                        }}
+                    ></View>
+                    <Text h4 center>{isUpdate ? 'Update Job' : "Create Job"}</Text>
+                </View>
+            )}
+            options={[
+                {label: 'Option 1', onPress: () =>{}},
+            ]}
+            optionsStyle={
+                {
+                    height:'100%',
+                    paddingTop:50,
+                }
+            }
+            dialogStyle={{
+                height:600,
+            }}
+            containerStyle={{
+                backgroundColor:'transparent'
+            }}
+            visible={show}
+            onDismiss={() => onDismiss()}
+
+            renderAction={(option, index, onOptionPress)=>{
+                return (
+                    <View centerH key={index}>
+                        <TextInput
+                            onChangeText={text => console.log(text)}
+                            style={inputStyle}
+                            placeholder="Enter Job title"
+                            autoFocus={true}
+                        />
+
+                        <TextInput
+                            onChangeText={text => console.log(text)}
+                            style={inputStyle}
+                            placeholder="Select job city"
+                        />
+
+                        <TextInput
+                            onChangeText={text => console.log(text)}
+                            style={inputStyle}
+                            placeholder="Enter stipend"
+                        />
+                        <TextInput
+                            onChangeText={text => console.log(text)}
+                            style={inputStyle}
+                            placeholder="Enter stipend interval"
+                        />
+                        <TextInput
+                            onChangeText={text => console.log(text)}
+                            style={inputStyle}
+                            placeholder="Select sectors"
+                        />
+
+
+                        <Button text={"Save"} style={{marginTop: 20,}} onPress={onDismiss}/>
+                    </View>
+                )
+            }}
+            
         />
     );
 }

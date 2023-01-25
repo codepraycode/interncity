@@ -308,3 +308,47 @@ export const NotificationsList = [
         }
     },
 ]
+
+
+export const InternLists = [
+    {
+        id: 1,
+        firstname:"Lorem",
+        lastname:"Ipsum",
+    },
+    {
+        id: 2,
+        firstname:"Lorem",
+        lastname:"Ipsum",
+    },
+    {
+        id: 3,
+        firstname:"Lorem",
+        lastname:"Ipsum",
+    },
+    {
+        id: 4,
+        firstname:"Lorem",
+        lastname:"Ipsum",
+    },
+    {
+        id: 5,
+        firstname:"Lorem",
+        lastname:"Ipsum",
+    },
+    {
+        id: 6,
+        firstname:"Lorem",
+        lastname:"Ipsum",
+    },
+    {
+        id: 7,
+        firstname:"Lorem",
+        lastname:"Ipsum",
+    },
+    {
+        id: 8,
+        firstname:"Lorem",
+        lastname:"Ipsum",
+    }
+]

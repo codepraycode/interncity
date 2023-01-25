@@ -14,6 +14,7 @@ export const AppContextProvider = ({children})=>{
         userAccount: null,
         userProfile: null,
         userAllset: false,
+        userType:"organization"
     }
 
     const reducers = (prev, action) =>{
@@ -81,6 +82,8 @@ export const AppContextProvider = ({children})=>{
 
     const appContextData = React.useMemo(() => ({
         ...contextData,
+        isOrganization:contextData.userType === 'organization',
+        isSupervisor:contextData.userType === 'supervisor',
         signIn: async (data) => {
             console.log("SIGN IN",data);
             // In a production app, we need to send some data (usually username, password) to server and get a token

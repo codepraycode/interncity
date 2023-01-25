@@ -1,23 +1,24 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { FlatList, StyleSheet } from 'react-native';
 import { View, Text, Image } from 'react-native-ui-lib';
 import Card from '../../components/Card';
 import Tags from '../../components/Tags';
 import Button from '../../components/Button';
-import Theme from '../../constants/theme';
 import { CompanyLists, JobsLists } from '../../constants/dummy';
-import { StatusBar } from 'expo-status-bar';
+import AppContext from '../../app/context';
+import { JobBottomSheet } from '../../components/BottomSheet';
+import FloatingButton from '../../components/FloatingButton';
 
 // Create the jobs screen
 
-const JobItem = ({jobItem, onViewClick})=>{
+const JobItem = ({jobItem, editor, onViewClick})=>{
     const company = CompanyLists.find(e=>e.id === jobItem.companyId) || {};
     const title = jobItem.title || '';
     const decription = `${company.name || '---'} ${company.headOffice.town || "---"} ${company.headOffice.city || "---"}`;
     const tags = jobItem.tags || []
 
     return (
-        <Card>
+        <Card clickable={editor} onPress={onViewClick}>
             
             <View>
                 {
@@ -47,13 +48,16 @@ const JobItem = ({jobItem, onViewClick})=>{
             >
                 <Text p>some minutes ago</Text>
 
-                <Button text={"View"} small={true} onPress={()=>onViewClick()}/>
+                {
+                    !editor && <Button text={"View"} small={true} onPress={()=>onViewClick()}/>
+                }
+                
             </View>
         </Card>
     )
 }
 
-const JobListsScreen = ({ navigation }) => {
+export const JobApplyListsScreen = ({ navigation }) => {
     const handleNavigateToDetail = (jobItem)=>{
         navigation.navigate("Job", { 
             screen: "JobDetail", 
@@ -73,7 +77,30 @@ const JobListsScreen = ({ navigation }) => {
     );
 }
 
-export default JobListsScreen;
+export const JobListsScreen = ({ navigation }) => {
+    const {isOrganization} = useContext(AppContext);
+    const [jobUpdate, setJobUpdate] = useState(null);
+
+    return (
+        <>
+            
+            <FlatList
+                data={ JobsLists }
+                renderItem = {({item})=><JobItem 
+                    jobItem = { item}
+                    editor = {isOrganization}
+                    onViewClick = {()=>setJobUpdate(p=>item)}
+                />}
+                keyExtractor={item => item.id}
+            />
+
+            <FloatingButton onPress={()=>setJobUpdate(p=>({}))}/>
+
+            <JobBottomSheet data={jobUpdate || {}} show={Boolean(jobUpdate)} onDismiss={()=>setJobUpdate(p=>null)}/>
+        </>
+    );
+}
+
 
 
 

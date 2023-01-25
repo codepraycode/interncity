@@ -1,9 +1,19 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { View } from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import React from 'react'
 
-const Card = ({children}) => {
+const Card = ({children, clickable, onPress}) => {
+  if (clickable) return (
+    <TouchableOpacity 
+      style={styles.cardContainer}
+      onPress={onPress}
+      activeOpacity={.7}
+    >
+      {children}
+    </TouchableOpacity>
+  )
+  
   return (
     <View style={styles.cardContainer}>
       {children}
