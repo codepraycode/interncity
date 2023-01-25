@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { View, Text, Image } from 'react-native-ui-lib';
 import Card from '../../components/Card';
@@ -6,9 +6,9 @@ import Tags from '../../components/Tags';
 import Button from '../../components/Button';
 import Theme from '../../constants/theme';
 import { CompanyLists, JobsLists } from '../../constants/dummy';
-import { StatusBar } from 'expo-status-bar';
 import Octicons from 'react-native-vector-icons/Octicons';
 import AppContext from '../../app/context';
+import { JobBottomSheet } from '../../components/BottomSheet';
 
 // Create the jobs screen
 
@@ -80,17 +80,17 @@ export const JobApplyListsScreen = ({ navigation }) => {
 
 export const JobListsScreen = ({ navigation }) => {
     const {isOrganization} = useContext(AppContext);
-    // console.log("ord",isOrganization);
+    const [jobUpdate, setJobUpdate] = useState(null);
+
     return (
         <>
-            {/* <StatusBar style="dark" /> */}
             
             <FlatList
                 data={ JobsLists }
                 renderItem = {({item})=><JobItem 
                     jobItem = { item}
                     editor = {isOrganization}
-                    onViewClick = {()=>{}}
+                    onViewClick = {()=>setJobUpdate(p=>item)}
                 />}
                 keyExtractor={item => item.id}
             />
@@ -100,7 +100,7 @@ export const JobListsScreen = ({ navigation }) => {
                 style={{
                     position:'absolute',
                     bottom:10,
-                    right:0,
+                    right:5,
                     width:60,
                     height: 60,
                     borderRadius: 30,
@@ -108,9 +108,12 @@ export const JobListsScreen = ({ navigation }) => {
                     alignItems:'center',
                     justifyContent:'center'
                 }}
+                onPress={()=>setJobUpdate(p=>({}))}
             >
                 <Octicons name={'plus'} size={30} color={Theme.white} />
             </TouchableOpacity>
+
+            <JobBottomSheet data={jobUpdate || {}} show={Boolean(jobUpdate)} onDismiss={()=>setJobUpdate(p=>null)}/>
         </>
     );
 }

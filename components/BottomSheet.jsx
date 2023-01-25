@@ -165,4 +165,65 @@ export const LogBottomSheet = ({show,data, onDismiss}) => {
 }
 
 
+export const JobBottomSheet = ({show, data, onDismiss}) => {
+
+    const {id} = data;
+
+    const isUpdate = Boolean(id);
+
+    return (
+        <ActionSheet
+            renderTitle = {()=>(
+                <View center style={{marginVertical: 0}}>
+                    <View 
+                        style={{
+                            width:30, 
+                            borderWidth:2, 
+                            borderStyle:'solid', 
+                            borderColor:"rgba(19, 1, 96, 1)", 
+                            borderRadius:10,
+                            marginVertical:15,
+                        }}
+                    ></View>
+                    <Text h4 center>{isUpdate ? 'Update Job' : "Create Job"}</Text>
+                </View>
+            )}
+            options={[
+                {label: 'Option 1', onPress: () =>{}},
+            ]}
+
+            renderAction={(option, index, onOptionPress)=>{
+                return (
+                    <TextInput
+                        key={index}
+                        editable
+                        multiline
+                        numberOfLines={20}
+                        onChangeText={text => console.log(text)}
+                        style={{paddingVertical: 10, fontSize: 18}}
+                        placeholder="Enter Job info here"
+                        textAlignVertical="top"
+                    />
+                )
+            }}
+            optionsStyle={
+                {
+                    height:'100%',
+                    paddingTop:50,
+
+                }
+            }
+            dialogStyle={{
+                height:500,
+            }}
+            containerStyle={{
+                backgroundColor:'transparent'
+            }}
+            visible={show}
+            onDismiss={() => onDismiss()}
+        />
+    );
+}
+
+
 export default BottomSheet;
