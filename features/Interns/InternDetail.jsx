@@ -7,9 +7,8 @@ import JobNotFound from '../../states/JobNotFound';
 
 import Octicons from 'react-native-vector-icons/Octicons';
 import assets from '../../constants/assets';
-
-const Seperator = ()=> <View style={{width: 5, height: 5, borderRadius: 2.5, backgroundColor: Theme.accent}}></View>
-
+import InternInfo from './InternInfo';
+import InternWeekelyReview from './InternWeeklyReview';
 
 const InternDetailHeader = ({data})=>{
 
@@ -87,55 +86,10 @@ const InternDetailHeader = ({data})=>{
     )
 }
 
-const InternInformation = ({data}) =>{
-
-    return (
-        <View>
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 10}}>Phone number</Text>
-
-                <Text p>
-                    +234 8000000000
-                </Text>
-            </View>
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 10}}>Address</Text>
-
-                <Text p style={{marginVertical: 0}}>
-                    Ota, Lagos.
-                </Text>
-            </View>
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 10}}>Department</Text>
-
-                <Text p style={{marginVertical: 0}}>
-                    Cyber security
-                </Text>
-            </View>
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 10}}>School</Text>
-
-                <Text p style={{marginVertical: 0}}>
-                    Federal University of Technology Akure
-                </Text>
-            </View>
-
-        </View>
-    )
-}
-
-const InternReview = () =>{
-
-    return(
-        <View center>
-            <Text>Intern review log</Text>
-        </View>
-    )
-}
-
 const Tab = ({text, onClick, active})=> (
     <TouchableOpacity 
         onPress={onClick}
+        activeOpacity={0.6}
         center 
         style={{
             backgroundColor:active ? Theme.secondary : 'transparent',
@@ -198,9 +152,9 @@ const InternsDetailScreen = ({ route }) => {
                 >
                     {
                         tabNo === 0 ? 
-                        <InternInformation data={internData}/>
+                        <InternInfo/>
                         :
-                        <InternReview/>
+                        <InternWeekelyReview/>
                     }
                 </View>                
             </View>
