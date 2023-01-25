@@ -89,9 +89,6 @@ const ProfileSettingScreen = () => {
                     top: -80,
                     minHeight:'60%',
                 }}
-                // StickyHeaderComponent={undefined}
-                // stickyHeaderIndices={[0]}
-                // stickyHeaderHiddenOnScroll={true}
             >   
 
                 <View style={{
