@@ -2,6 +2,7 @@ import {StyleSheet,TextInput, TouchableOpacity} from 'react-native';
 import {View, Text, Icon} from 'react-native-ui-lib';
 import React, { useState } from 'react'
 import Theme from '../../constants/theme';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 const CustomTextInput = (props) => {
     const {schema} = props;
@@ -36,6 +37,7 @@ const NormalInput = ({schema, onChange, name, value})=>{
 }
 
 const EmailInput = ({schema, onChange, name, value})=>{
+    
     return (
         <TextInput
             placeholder = {schema.placeholder}
@@ -66,7 +68,7 @@ const PasswordInput = (props)=>{
             />
 
             <TouchableOpacity activeOpacity={0.6} onPress={()=>setHidePassword(p=>!p)}>
-                <Icon assetName={hidePassword ? "eyeOpen": 'eyeClose'} assetGroup="assets" size={30}/>
+                <Octicons name={hidePassword ? "eye":'eye-closed'} size={30} color={Theme.grey400} />
             </TouchableOpacity>
         </View>
     )
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
         
         
         color:Theme.accent,
-        fontSize: 12,
+        fontSize: 16,
 
     },
 

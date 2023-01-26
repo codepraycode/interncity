@@ -5,7 +5,6 @@ import { Text, View } from "react-native-ui-lib";
 import Button from '../Button';
 import SSO from "../SSO";
 import { useState } from "react";
-import Theme from "../../constants/theme";
 
 export {TextInput, CheckBox}
 
@@ -56,7 +55,7 @@ const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso})=>{
             </View>
 
             <View style={[styles.container, styles.cta]}>
-                <Button text={authLabel || 'Continue'} onPress={onSubmit}/>
+                <Button text={authLabel || 'Continue'} onPress={()=>onSubmit(formData)}/>
             </View>
 
             {/* Call to action */}
