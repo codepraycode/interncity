@@ -95,7 +95,15 @@ export const AppContextProvider = ({children})=>{
             // We will also need to handle errors if sign in failed
             // After getting token, we need to persist the token using `SecureStore`
             // In the example, we'll use a dummy token
-            dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+            // dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+            let user;
+            try{
+                user = await UserAccount.signInUser(auth, data);
+            }catch (err){
+                throw (err);
+            }
+            
+            // console.log("Sign In user:", user);
         },
         signOut: () => dispatch({ type: 'SIGN_OUT' }),
         signUp: async (data) => {
@@ -113,7 +121,7 @@ export const AppContextProvider = ({children})=>{
                 throw (err);
             }
             
-            console.log("Created user:", user);
+            // console.log("Created user:", user);
 
         },
         updateProfile: async (data) => {

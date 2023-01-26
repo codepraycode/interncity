@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import {View, Text, Image, Icon, Colors} from 'react-native-ui-lib';
+import React, { useContext, useState } from 'react';
+import {View, Text, Image } from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import {authSchema} from '../../constants/dummy';
 import Form from '../../components/form';
@@ -10,6 +10,7 @@ import AppContext from '../../app/context';
 
 const Login = ({ navigation })=>{
     const {signIn} = useContext(AppContext);
+    const [formErrors, setFormErrors] = useState({});
 
     return (
         <View style={styles.formContainer}>
@@ -22,12 +23,27 @@ const Login = ({ navigation })=>{
             {/* Auth form */}
             <View style={styles.container}>
                 <Form 
-                  onSubmit={()=>signIn("sample data")} 
+                  // onSubmit={()=>{signIn("sample data")}} 
+                  onSubmit={(data)=>{
+                    signIn(data)
+                    .then(()=>{
+                      console.log("Signed in account!");
+                      navigation.navigate("SignIn");
+                    })
+                    .catch((error)=>{
+                      // console.log("error here:", error);
+                      setFormErrors(()=>error);
+                    })
+
+                    // Clear errors first
+                    setFormErrors(()=>({}));
+                  }} 
                   schema={authSchema} 
                   authLabel="LOGIN" 
                   remember={true} 
                   forgotPassword={true}
                   sso = {true}
+                  errors={formErrors}
                 />
 
                 <View style={{alignItems:'center', justifyContent:'center'}}>
