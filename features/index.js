@@ -22,7 +22,6 @@ import { ProfileCreationOnboarding, ProfileFormScreen, ProfileSettingScreen, Suc
 import AppSettingsScreen from './settings';
 import {JobApplyListsScreen,JobListsScreen} from './Jobs/JobLists';
 import NotificationScreen from './Notifications';
-import { TouchableOpacity } from 'react-native';
 import UpdatePasswordScreen from './settings/UpdatePassword';
 import {InternsListScreen, InternsStackScreen} from './Interns';
 
