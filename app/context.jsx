@@ -1,5 +1,10 @@
 import React, { createContext, useEffect, useReducer, useState } from 'react';
 import SecureStore from 'expo-secure-store';
+import { UserAccount } from './models/User';
+import {app} from './firebaseConfig';
+import { getAuth } from 'firebase/auth';
+
+const auth = getAuth(app);
 
 const AppContext = createContext();
 
@@ -10,7 +15,6 @@ export const AppContextProvider = ({children})=>{
     const initialState = {
         isLoading: true,
         isSignout: false,
-        userToken: null,
         userAccount: null,
         userProfile: null,
         userAllset: false,
@@ -101,7 +105,16 @@ export const AppContextProvider = ({children})=>{
             // After getting token, we need to persist the token using `SecureStore`
             // In the example, we'll use a dummy token
 
-            dispatch({ type: 'SIGN_UP', payload: {email:'sample@mail.com', password:'letmein'}});
+            // dispatch({ type: 'SIGN_UP', payload: {email:'sample@mail.com', password:'letmein'}});
+            let user;
+            try{
+                user = await UserAccount.createUser(auth, data);
+            }catch (err){
+                throw (err);
+            }
+            
+            console.log("Created user:", user);
+
         },
         updateProfile: async (data) => {
             console.log("UPDATE PROFILE",data);

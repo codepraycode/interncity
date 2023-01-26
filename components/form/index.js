@@ -5,11 +5,12 @@ import { Text, View } from "react-native-ui-lib";
 import Button from '../Button';
 import SSO from "../SSO";
 import { useState } from "react";
+import Theme from '../../constants/theme';
 
 export {TextInput, CheckBox}
 
 
-const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso})=>{
+const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso, errors})=>{
     const [formData, setFormData] = useState({});
 
     const updateFormData = (field, value)=>{
@@ -18,14 +19,13 @@ const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso})=>{
         setFormData((prev)=>{
             return {...prev, [field]:value};
         })
-
     }
 
 
     return (
         <>
         
-            {/* <Text style={{color: Theme.red}}>Error message</Text> */}
+            <Text style={{color: Theme.red}}>{errors?.message}</Text>
 
             {
                 Object.entries(schema).map(([field, fieldSchema], i)=>(

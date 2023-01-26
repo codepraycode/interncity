@@ -4,8 +4,6 @@ import { ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
 import {CreateAccountFormSchema} from '../../constants/FormSchema';
 import Form from '../../components/form';
 import AppContext from '../../app/context';
-// import Octicons from 'react-native-vector-icons/Octicons';
-// import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Theme from '../../constants/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 /* 
@@ -18,16 +16,16 @@ const SelectType = ({onSelected})=>{
           {/*Options  */}
           <Text h3>Select account type?</Text>
           
-          <TouchableOpacity onPress={onSelected} activeOpacity={0.7} style={styles.option}>
+          <TouchableOpacity onPress={()=>onSelected("student")} activeOpacity={0.7} style={styles.option}>
             <Text label style={styles.optionText}>Student</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity onPress={onSelected}  activeOpacity={0.7} style={styles.option}>
+          <TouchableOpacity onPress={()=>onSelected("organization")}  activeOpacity={0.7} style={styles.option}>
             {/* <Octicons name={"organization"} size={30} color={Theme.accent} /> */}
             <Text label style={styles.optionText}>Organization</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={onSelected} activeOpacity={0.7} style={styles.option}>
+          <TouchableOpacity onPress={()=>onSelected("supervisor")} activeOpacity={0.7} style={styles.option}>
             <Text label style={styles.optionText}>School Supervisor</Text>
           </TouchableOpacity>
       </View>
@@ -37,6 +35,7 @@ const SelectType = ({onSelected})=>{
 const CreateAccount = ({ navigation })=>{
     const {signUp} = useContext(AppContext);
     const [accountType, setAccountType] = useState(null);
+    const [formErrors, setFormErrors] = useState({});
 
     const {type, ...restFormSchema} = CreateAccountFormSchema;
 
@@ -47,7 +46,12 @@ const CreateAccount = ({ navigation })=>{
         <ScrollView contentContainerStyle={styles.formContainer} >
             {/* Top view with wave and title */}
             <View style={styles.top} >
-                <Image assetName="wave" assetGroup="assets" width={71} height={71}/>
+                <Image 
+                  assetName="wave" 
+                  assetGroup="assets" 
+                  width={71} 
+                  height={71}
+                />
                 <Text h2>Create Account</Text>
             </View>
 
@@ -55,13 +59,24 @@ const CreateAccount = ({ navigation })=>{
             <View style={styles.container}>
                 <Form 
                   onSubmit={(data)=>{
-                    console.log(data);
-                    // signUp("sample data");
-                    // navigation.navigate("SignIn");
+                    signUp({...data, type: accountType})
+                    .then(()=>{
+                      console.log("Done creating account!");
+                      navigation.navigate("SignIn");
+                    })
+                    .catch((error)=>{
+                      // console.log("error here:", error);
+                      setFormErrors(()=>error);
+                    })
+
+
+                    // Clear errors first
+                    setFormErrors(()=>({}));
                   }} 
                   schema={restFormSchema} 
                   authLabel={"SIGN UP"}
                   sso = {true}
+                  errors={formErrors}
                 />
 
                 <TouchableOpacity style={{alignItems:'center', justifyContent:'center'}}>
