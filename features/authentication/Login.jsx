@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
 
 
   container:{
-    paddingVertical: 30,
+    paddingVertical: 10,
   },
   
 });
