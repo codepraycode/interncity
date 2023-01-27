@@ -6,7 +6,7 @@ import Button from '../../components/Button';
 
 
 
-const SuccessScreen = ({ navigation }) =>{
+const ProfileSuccessScreen = ({ navigation }) =>{
     const {updateProfile, userType} = useContext(AppContext);
     let term = '';
 
@@ -40,4 +40,4 @@ const SuccessScreen = ({ navigation }) =>{
     )
 }
 
-export default SuccessScreen;
+export default ProfileSuccessScreen;
