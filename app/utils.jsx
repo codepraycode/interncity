@@ -1,3 +1,10 @@
+
+export const userTypes = {
+    STUDENTS:'student',
+    ORGANIZATION:'organization',
+    SUPERVISOR:'supervisor',
+}
+
 export const getDateLists = (start, end=null)=>{
 
     const listDate = [];
