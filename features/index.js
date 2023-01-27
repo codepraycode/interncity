@@ -18,7 +18,14 @@ import Theme from '../constants/theme';
 
 // Screens
 import LogsScreen from './Reviews';
-import { ProfileCreationOnboarding, ProfileFormScreen, ProfileSettingScreen, SuccessScreen } from './Profile';
+import { 
+    ProfileFormScreen,
+    ProfileCreationOnboarding,
+    ProfileSuccessScreen,
+
+    ProfileSettingScreen,
+    ProfileUserTypeScreen
+} from './Profile';
 import AppSettingsScreen from './settings';
 import {JobApplyListsScreen,JobListsScreen} from './Jobs/JobLists';
 import NotificationScreen from './Notifications';
@@ -210,13 +217,26 @@ const AppScreens = ()=>{
                     component={ProfileCreationOnboarding}
                 />
                 <Stack.Screen 
+                    name="ProfileUserType" 
+                    component={ProfileUserTypeScreen}
+                />
+                <Stack.Screen 
                     name="ProfileForm" 
                     component={ProfileFormScreen} 
-                    // options = {{headerShown: false}}
+                    options = {{
+                        headerShown: true,
+                        // headerTransparent: true,
+                        headerShadowVisible: false,
+                        headerStyle:{
+                            backgroundColor: Theme.grey100,
+                        },
+                        headerTitle: ()=>getHeaderTitle("Create profile"),
+                        headerTitleAlign:'center'
+                    }}
                 />
                 <Stack.Screen 
                     name="ProfileSuccess" 
-                    component={SuccessScreen} 
+                    component={ProfileSuccessScreen} 
                     // options = {{headerShown: false}}
                 />
             </>
