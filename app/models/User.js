@@ -35,6 +35,41 @@ class UserAccount {
         return value;
     }
 
+    static getCreateAccountSchema(){
+        return {
+            email: {
+                type: "email",
+                placeholder: "Enter your email address",
+                label: "Email",
+            },
+            password: {
+                type: "password",
+                placeholder: "Enter your password",
+                label: "Password",
+            },
+            confirmPassword: {
+                type: "password",
+                placeholder: "Enter your password",
+                label: "Password",
+            },
+        }
+    }
+
+    static getAuthSchema(){
+        return {
+            email: {
+                type: "email",
+                placeholder: "Enter your email address",
+                label: "Email",
+            },
+            password: {
+                type: "password",
+                placeholder: "Enter your password",
+                label: "Password",
+            },
+        }
+    }
+
 }
 
 

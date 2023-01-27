@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import {View, Text, Image } from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
-import {authSchema} from '../../constants/dummy';
 import Form from '../../components/form';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {app} from '../../app/firebaseConfig';
@@ -21,6 +20,8 @@ const Login = ({ navigation })=>{
 
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
+
+    const formSchema = UserAccount.getAuthSchema();
 
     const handleLogin = (loginData)=>{
       
@@ -79,7 +80,7 @@ const Login = ({ navigation })=>{
             <View style={styles.container}>
                 <Form 
                   onSubmit={(data)=> handleLogin(data)}
-                  schema={authSchema} 
+                  schema={formSchema} 
                   authLabel={loading ? "Loging In..." :"LOGIN" }
                   remember={true} 
                   forgotPassword={true}
