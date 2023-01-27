@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, ScrollView } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-const AuthLayout = ({children}) => {
+const SafeAreaLayout = ({children}) => {
     return (
         <SafeAreaView style={{flex:1,}}>
             <ScrollView contentContainerStyle={styles.formContainer} >
@@ -12,7 +12,7 @@ const AuthLayout = ({children}) => {
     )
 }
 
-export default AuthLayout;
+export default SafeAreaLayout;
 
 const styles = StyleSheet.create({
     formContainer:{
