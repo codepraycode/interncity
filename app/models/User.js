@@ -1,4 +1,5 @@
 // User Data and User Account Model
+// import Joi from 'joi';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 // import {app} from '../firebaseConfig';
 
@@ -8,14 +9,20 @@ const AUTH_ERRORS = {
     "auth/email-already-in-use":"Email already exist",
     "auth/network-request-failed":"Network error, check your internet connection and try again",
     "auth/email-already-in-use":"Email already in use",
-    "auth/user-not-found":"Invalid email/password"
+    "auth/user-not-found":"Invalid email/password",
+    "auth/wrong-password":"Invalid email/password"
 }
-
-const log = (obj)=> console.log(JSON.stringify(obj, null, 4))
 
 class UserAccount {
     
-    
+    // static validateAuthData(authData){
+    //     const authDataSchema = Joi.object({
+    //         email: Joi.string().email().required(),
+    //         password: Joi.string().email().required(),
+    //     });
+
+    //     return authDataSchema.validate(authData);
+    // }
     static async createUser(auth, newUserData){
         // create user data from firebase
         // on Promise fulfiled, account has been created
@@ -69,7 +76,7 @@ class UserAccount {
         try{
             userCredential = await signInWithEmailAndPassword(
                 auth, 
-                "me@ccodepraycode.com", "letmein"
+                "me@ccodepraycode.com", "letmeinn"
             );
         }
         catch (err){
@@ -83,7 +90,7 @@ class UserAccount {
             });
         }
 
-        log(userCredential.user);
+        // JSONLog(userCredential.user);
         // consoleuserCredential.user;
 
     }

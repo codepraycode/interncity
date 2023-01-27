@@ -1,5 +1,5 @@
 import {StyleSheet,TextInput, TouchableOpacity} from 'react-native';
-import {View, Text, Icon} from 'react-native-ui-lib';
+import {View, Text} from 'react-native-ui-lib';
 import React, { useState } from 'react'
 import Theme from '../../constants/theme';
 import Octicons from 'react-native-vector-icons/Octicons';
@@ -18,6 +18,7 @@ const CustomTextInput = (props) => {
             {
                 template
             }
+            <Text style={{color: Theme.red}}></Text>
         </View>
     )
 }

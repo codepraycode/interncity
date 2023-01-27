@@ -4,13 +4,36 @@ import { StyleSheet, TouchableOpacity} from 'react-native';
 import {authSchema} from '../../constants/dummy';
 import Form from '../../components/form';
 import AppContext from '../../app/context';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {app} from '../../app/firebaseConfig';
+import {HandleFirebaseError, JSONLog} from '../../app/utils';
+
 /* 
     Login screen
 */
 
 const Login = ({ navigation })=>{
+    const auth = getAuth(app);
+
     const {signIn} = useContext(AppContext);
     const [formErrors, setFormErrors] = useState({});
+
+
+    const handleLogin = (loginData)=>{
+      console.log("Login with:", loginData);
+      const {email, password} = loginData;
+
+      signInWithEmailAndPassword(auth,"me@ccodepraycode.com", "letmein" )
+      .then((userCredential)=>{
+        console.log("Signed in");
+        JSONLog(userCredential.user);
+      })
+      .catch((error)=>{
+          const err = HandleFirebaseError(error);
+          setFormErrors(()=>err);
+      })
+      setFormErrors(()=>({}));
+    }
 
     return (
         <View style={styles.formContainer}>
@@ -23,20 +46,19 @@ const Login = ({ navigation })=>{
             {/* Auth form */}
             <View style={styles.container}>
                 <Form 
-                  // onSubmit={()=>{signIn("sample data")}} 
                   onSubmit={(data)=>{
-                    signIn(data)
-                    .then(()=>{
-                      console.log("Signed in account!");
-                      navigation.navigate("SignIn");
-                    })
-                    .catch((error)=>{
-                      // console.log("error here:", error);
-                      setFormErrors(()=>error);
-                    })
+                    // signIn(data)
+                    // .then(()=>{
+                    //   console.log("Signed in account!");
+                    //   navigation.navigate("SignIn");
+                    // })
+                    // .catch((error)=>{
+                    //   setFormErrors(()=>error);
+                    // })
+                    handleLogin(data);
 
                     // Clear errors first
-                    setFormErrors(()=>({}));
+                    
                   }} 
                   schema={authSchema} 
                   authLabel="LOGIN" 

@@ -43,3 +43,28 @@ export const getDayVerbose = (dayNumber)=>{
     }
 
 }
+
+export const JSONLog = (obj)=> console.log(JSON.stringify(obj, null, 4))
+
+const FIREBASE_ERRORS = {
+    "auth/email-already-in-use":"Email already exist",
+    "auth/network-request-failed":"Network error, check your internet connection and try again",
+    "auth/email-already-in-use":"Email already in use",
+    "auth/user-not-found":"Invalid email/password",
+    "auth/wrong-password":"Invalid email/password"
+}
+
+export const HandleFirebaseError = (errObject) =>{
+    // Returns a useable version of the error
+    // which will contain a message
+    const code = errObject.code;
+    const _default = 'Cannot sign into account, check input and try again.';
+
+    console.log("Error code:", code);
+    return (
+        {
+            code,
+            message: FIREBASE_ERRORS[code] || _default
+        }
+    )
+}
