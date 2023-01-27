@@ -1,6 +1,5 @@
 // User Data and User Account Model
 
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { HandlerJoiError, JSONLog } from "../utils";
 import { authDataSchema, createAccountDataSchema } from "./base";
 // import {app} from '../firebaseConfig';

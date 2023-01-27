@@ -176,11 +176,13 @@ const TabsStack = ()=>{
 }
 
 const AppScreens = ()=>{
-    const { userToken, userProfile, isIntern,isSupervisor } = useContext(AppContext);
+    const { userAccount, userProfile, isIntern,isSupervisor } = useContext(AppContext);
+
+    console.log(userAccount);
     
     let stackToRender;    
 
-    if (!userToken) {
+    if (!userAccount?.token) {
         stackToRender = (
             <>
                 { isIntern && (
@@ -202,7 +204,7 @@ const AppScreens = ()=>{
             </>
         )
     }
-    else if (!userProfile || !userProfile.allSet){
+    else if (!userProfile || !userProfile.completed){
         stackToRender = (
             <>
                 <Stack.Screen 
