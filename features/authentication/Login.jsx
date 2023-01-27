@@ -8,6 +8,7 @@ import {app} from '../../app/firebaseConfig';
 import {HandleFirebaseError, JSONLog} from '../../app/utils';
 import { UserAccount } from '../../app/models/User';
 import AuthLayout from './AuthLayout';
+import Theme from '../../constants/theme';
 
 /* 
     Login screen
@@ -17,16 +18,18 @@ const Login = ({ navigation })=>{
     const auth = getAuth(app);
 
     const [formErrors, setFormErrors] = useState({});
-
+    const [loading, setLoading] = useState(false);
 
     const handleLogin = (loginData)=>{
-      // console.log("Login with:", loginData);
-      const {email, password} = loginData;
-
+      
+      if (loading) return;
+      
       // const demo = {
       //   email:"me@ccodepraycode.com",
       //   password: "letmein123"
       // }
+      const {email, password} = loginData;
+
 
       UserAccount.validateAuthData({email, password})
       .then((value)=>{
@@ -34,17 +37,21 @@ const Login = ({ navigation })=>{
           .then((userCredential)=>{
             console.log("Signed in");
             JSONLog(userCredential.user);
+            setLoading(false)
           })
           .catch((error)=>{
               const err = HandleFirebaseError(error);
               setFormErrors(()=>err);
+              setLoading(false)
           })
       })
       .catch(err=>{
           setFormErrors(()=>err);
+          setLoading(false)
       })
 
       
+      setLoading(true)
       setFormErrors(()=>({}));
     }
 
@@ -62,18 +69,31 @@ const Login = ({ navigation })=>{
                 <Form 
                   onSubmit={(data)=> handleLogin(data)}
                   schema={authSchema} 
-                  authLabel="LOGIN" 
+                  authLabel={loading ? "Loging In..." :"LOGIN" }
                   remember={true} 
                   forgotPassword={true}
                   sso = {true}
                   errors={formErrors}
+                  disable={loading}
                 />
 
-                <View style={{alignItems:'center', justifyContent:'center'}}>
-                    <Text small style={{marginTop: 20,}}>
-                        <Text>You don't have an account yet?</Text>  <TouchableOpacity onPress={()=>navigation.navigate("SignUp")}><Text secondary a>Sign Up</Text></TouchableOpacity>
+                {
+                  !loading && (
+                    <TouchableOpacity 
+                      onPress={()=>navigation.navigate("SignUp")}
+                      style={{
+                        alignItems:'center',
+                        justifyContent:'center'
+                      }}
+                    >
+                      <Text 
+                        style={{marginTop: 20, color: Theme.accent}}
+                      >
+                        <Text>You don't have an account yet?</Text> <Text secondary a>Sign Up</Text>
                     </Text>
-                </View>
+                  </TouchableOpacity>
+                  )
+                }
             </View>
 
         </AuthLayout>

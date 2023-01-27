@@ -10,7 +10,7 @@ import Theme from '../../constants/theme';
 export {TextInput, CheckBox}
 
 
-const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso, errors})=>{
+const Form = ({schema, remember, forgotPassword,disable, authLabel, onSubmit, sso, errors})=>{
     const [formData, setFormData] = useState({});
 
     const updateFormData = (field, value)=>{
@@ -56,7 +56,11 @@ const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso, error
             </View>
 
             <View style={[styles.container, styles.cta]}>
-                <Button text={authLabel || 'Continue'} onPress={()=>onSubmit(formData)}/>
+                <Button 
+                    text={authLabel || 'Continue'} 
+                    onPress={()=>onSubmit(formData)}
+                    disable={disable}
+                />
             </View>
 
             {/* Call to action */}

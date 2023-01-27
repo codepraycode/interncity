@@ -43,10 +43,14 @@ const CreateAccount = ({ navigation })=>{
 
     const [accountType, setAccountType] = useState(null);
     const [formErrors, setFormErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const {type, ...restFormSchema} = CreateAccountFormSchema;
 
     const handleCreateAccount = (userData) =>{
+      
+      if (loading) return;
+
       const demo = {
         email:"me@codepraycode.com",
         password: "letmein123",
@@ -61,17 +65,21 @@ const CreateAccount = ({ navigation })=>{
           .then((userCredential)=>{
             console.log("Signed in");
             JSONLog(userCredential.user);
+            setLoading(false)
           })
           .catch((error)=>{
               const err = HandleFirebaseError(error);
               setFormErrors(()=>err);
+              setLoading(false)
           })
       })
       .catch(err=>{
-        console.log("Error", err);
+          // console.log("Error", err);
           setFormErrors(()=>err);
+          setLoading(false)
       });
-
+      
+      setLoading(true)
       setFormErrors(()=>({}));
     }
 
@@ -96,16 +104,30 @@ const CreateAccount = ({ navigation })=>{
                 <Form 
                   onSubmit={(data)=> handleCreateAccount(data)}
                   schema={restFormSchema} 
-                  authLabel={"SIGN UP"}
+                  authLabel={loading ? "Signing Up..." : "SIGN UP" }
                   sso = {true}
                   errors={formErrors}
+                  disable={loading}
                 />
 
-                <TouchableOpacity style={{alignItems:'center', justifyContent:'center'}}>
-                    <Text small style={{marginTop: 20,}}>
-                        <Text>Already have an account?</Text>  <TouchableOpacity onPress={()=>navigation.navigate("SignIn")}><Text secondary a>Sign In</Text></TouchableOpacity>
-                    </Text>
-                </TouchableOpacity>
+                {
+                  !loading && (
+                    <TouchableOpacity 
+                        onPress={()=>navigation.navigate("SignIn")}
+                        style={{
+                          alignItems:'center',
+                          justifyContent:'center'
+                        }}
+                      >
+                        <Text 
+                          style={{marginTop: 20, color: Theme.accent}}
+                        >
+                          <Text>Already have an account?</Text> <Text secondary a>Sign In</Text>
+                      </Text>
+                    </TouchableOpacity>
+                  )
+                }
+                
 
             </View>
             
