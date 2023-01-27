@@ -8,7 +8,12 @@ export default AppContext;
 export const AppContextProvider = ({children})=>{
 
     const initialState = {
-        userAccount: null,
+        userAccount: {
+            name:"Smaple name",
+            token:{
+                access:"dfakslkjflask"
+            }
+        },
         userProfile: null,
         userType:'supervisor'//"organization"
     }
