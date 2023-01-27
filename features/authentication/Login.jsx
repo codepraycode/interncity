@@ -7,6 +7,7 @@ import AppContext from '../../app/context';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {app} from '../../app/firebaseConfig';
 import {HandleFirebaseError, JSONLog} from '../../app/utils';
+import { UserAccount } from '../../app/models/User';
 
 /* 
     Login screen
@@ -23,15 +24,28 @@ const Login = ({ navigation })=>{
       console.log("Login with:", loginData);
       const {email, password} = loginData;
 
-      signInWithEmailAndPassword(auth,"me@ccodepraycode.com", "letmein" )
-      .then((userCredential)=>{
-        console.log("Signed in");
-        JSONLog(userCredential.user);
+      // const demo = {
+      //   email:"me@ccodepraycode.com",
+      //   password: "letmein123"
+      // }
+
+      UserAccount.validateAuthData({email, password})
+      .then((value)=>{
+          signInWithEmailAndPassword(auth,value.email, value.password)
+          .then((userCredential)=>{
+            console.log("Signed in");
+            JSONLog(userCredential.user);
+          })
+          .catch((error)=>{
+              const err = HandleFirebaseError(error);
+              setFormErrors(()=>err);
+          })
       })
-      .catch((error)=>{
-          const err = HandleFirebaseError(error);
+      .catch(err=>{
           setFormErrors(()=>err);
       })
+
+      
       setFormErrors(()=>({}));
     }
 
@@ -46,20 +60,7 @@ const Login = ({ navigation })=>{
             {/* Auth form */}
             <View style={styles.container}>
                 <Form 
-                  onSubmit={(data)=>{
-                    // signIn(data)
-                    // .then(()=>{
-                    //   console.log("Signed in account!");
-                    //   navigation.navigate("SignIn");
-                    // })
-                    // .catch((error)=>{
-                    //   setFormErrors(()=>error);
-                    // })
-                    handleLogin(data);
-
-                    // Clear errors first
-                    
-                  }} 
+                  onSubmit={(data)=> handleLogin(data)}
                   schema={authSchema} 
                   authLabel="LOGIN" 
                   remember={true} 

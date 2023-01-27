@@ -68,3 +68,20 @@ export const HandleFirebaseError = (errObject) =>{
         }
     )
 }
+
+export const HandlerJoiError = (joiErrorObject, generalMessage=null) =>{
+    const {details} = joiErrorObject;
+
+    // Details is an array
+    const errorObj = {
+        message: generalMessage,
+    };
+
+    details.forEach((eachError)=>{
+        const {message, context} = eachError;
+
+        errorObj[context.key] = message;
+    })
+
+    throw (errorObj);
+}

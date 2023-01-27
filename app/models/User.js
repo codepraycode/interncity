@@ -1,6 +1,9 @@
 // User Data and User Account Model
-// import Joi from 'joi';
+
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { authSchema } from "../../constants/dummy";
+import { HandlerJoiError, JSONLog } from "../utils";
+import { Joi, authDataSchema } from "./base";
 // import {app} from '../firebaseConfig';
 
 // const auth = getAuth(app);
@@ -15,14 +18,16 @@ const AUTH_ERRORS = {
 
 class UserAccount {
     
-    // static validateAuthData(authData){
-    //     const authDataSchema = Joi.object({
-    //         email: Joi.string().email().required(),
-    //         password: Joi.string().email().required(),
-    //     });
+    static async validateAuthData(authData){
+        
+        const {error, value} = authDataSchema.validate(authData);
 
-    //     return authDataSchema.validate(authData);
-    // }
+        if (error){
+            HandlerJoiError(error, "Invalid Login credentials");
+        }
+        return value;
+    }
+
     static async createUser(auth, newUserData){
         // create user data from firebase
         // on Promise fulfiled, account has been created
@@ -66,34 +71,6 @@ class UserAccount {
 
     }
 
-    static async signInUser(auth, authData){
-        
-        const {email, password} = authData;
-
-        // Sign in account
-        let userCredential;
-
-        try{
-            userCredential = await signInWithEmailAndPassword(
-                auth, 
-                "me@ccodepraycode.com", "letmeinn"
-            );
-        }
-        catch (err){
-            const code = err.code;
-
-            console.log("Error code:", code);
-
-            throw ({
-                code,
-                message: AUTH_ERRORS[code] || 'Cannot sign into account, check input and try again.'
-            });
-        }
-
-        // JSONLog(userCredential.user);
-        // consoleuserCredential.user;
-
-    }
 }
 
 

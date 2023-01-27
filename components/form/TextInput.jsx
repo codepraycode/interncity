@@ -5,7 +5,7 @@ import Theme from '../../constants/theme';
 import Octicons from 'react-native-vector-icons/Octicons';
 
 const CustomTextInput = (props) => {
-    const {schema} = props;
+    const {schema, error} = props;
     let template;
 
     if (schema.type === 'password') template = <PasswordInput {...props}/>;
@@ -18,7 +18,7 @@ const CustomTextInput = (props) => {
             {
                 template
             }
-            <Text style={{color: Theme.red}}></Text>
+            <Text style={{color: Theme.red}}>{error}</Text>
         </View>
     )
 }

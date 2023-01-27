@@ -35,6 +35,7 @@ const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso, error
                         key={i} 
                         value={formData[field]} 
                         onChange={updateFormData}
+                        error={errors[field]}
                     />
                 ))
             }
