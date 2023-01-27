@@ -58,7 +58,7 @@ const CreateAccount = ({ navigation })=>{
       }
 
 
-      UserAccount.validateCreateAccountData(demo)
+      UserAccount.validateCreateAccountData(userData)
       .then((value)=>{
         // navigation.navigate("SignIn");
           createUserWithEmailAndPassword(auth, value.email, value.password)
