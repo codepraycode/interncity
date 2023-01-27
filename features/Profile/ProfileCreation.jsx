@@ -8,10 +8,11 @@ import Theme from '../../constants/theme';
 import { UserAccount } from '../../app/models/User.js'
 import SafeAreaLayout from '../../components/Layout';
 
-const ProfileFormScreen = ({navigation}) =>{
+const ProfileFormScreen = ({navigation, route}) =>{
     const {updateProfile} = useContext(AppContext);
-    
-    const [accountType, setAccountType] = useState(null);
+
+    const {profileType} = route.params;
+      
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
@@ -22,7 +23,7 @@ const ProfileFormScreen = ({navigation}) =>{
       // navigation.navigate("ProfileSuccess");
     }
 
-    const formSchema = UserAccount.getProfileSchema(accountType);
+    const formSchema = UserAccount.getProfileSchema(profileType);
 
     return (
         <SafeAreaLayout scrollStyle={{marginTop:-35}}>
