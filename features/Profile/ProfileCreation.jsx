@@ -25,12 +25,7 @@ const ProfileFormScreen = ({navigation}) =>{
     const formSchema = UserAccount.getProfileSchema(accountType);
 
     return (
-        <SafeAreaLayout>
-            {/* Top view with wave and title */}
-            <View center style={styles.top} >
-                <Text h3>Profile Information</Text>
-            </View>
-
+        <SafeAreaLayout scrollStyle={{marginTop:-35}}>
             {/* Auth form */}
             <View style={styles.container}>
                 <Form
@@ -47,11 +42,12 @@ const ProfileFormScreen = ({navigation}) =>{
 
 const styles = StyleSheet.create({
   top: {
-    paddingVertical: 0,
+    paddingBottom: 10,
+    margin:0,
   },
 
   container:{
-    paddingVertical: 10,
+    paddingVertical: 0,
     width: 300,
     maxWidth: "85%"
   },
