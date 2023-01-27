@@ -177,8 +177,6 @@ const TabsStack = ()=>{
 
 const AppScreens = ()=>{
     const { userAccount, userProfile, isIntern,isSupervisor } = useContext(AppContext);
-
-    console.log(userAccount);
     
     let stackToRender;    
 
