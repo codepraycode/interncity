@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import {View, Text, Image } from 'react-native-ui-lib';
 import { ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
-import {CreateAccountFormSchema} from '../../constants/FormSchema';
 import Form from '../../components/form';
 import AppContext from '../../app/context';
 import Theme from '../../constants/theme';
@@ -15,37 +14,16 @@ import {HandleFirebaseError, JSONLog} from '../../app/utils';
     CreateAccount screen
 */
 
-const SelectType = ({onSelected})=>{
-    return (
-      <View center flex style={styles.optionContainer}>
-          {/*Options  */}
-          <Text h3>Select account type?</Text>
-          
-          <TouchableOpacity onPress={()=>onSelected("student")} activeOpacity={0.7} style={styles.option}>
-            <Text label style={styles.optionText}>Student</Text>
-          </TouchableOpacity>
-          
-          <TouchableOpacity onPress={()=>onSelected("organization")}  activeOpacity={0.7} style={styles.option}>
-            {/* <Octicons name={"organization"} size={30} color={Theme.accent} /> */}
-            <Text label style={styles.optionText}>Organization</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity onPress={()=>onSelected("supervisor")} activeOpacity={0.7} style={styles.option}>
-            <Text label style={styles.optionText}>School Supervisor</Text>
-          </TouchableOpacity>
-      </View>
-    )
-}
 
 const CreateAccount = ({ navigation })=>{
     const auth = getAuth(app);
     const {updateAccount} = useContext(AppContext);
 
-    const [accountType, setAccountType] = useState(null);
+    
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const {type, ...restFormSchema} = CreateAccountFormSchema;
+    const formSchema = UserAccount.getCreateAccountSchema();
 
     const handleCreateAccount = (userData) =>{
       
@@ -89,7 +67,7 @@ const CreateAccount = ({ navigation })=>{
       setFormErrors(()=>({}));
     }
 
-    if (!accountType) return <SelectType onSelected={(typeSelected)=>setAccountType(typeSelected)}/>
+
     
     return (
 
@@ -109,7 +87,7 @@ const CreateAccount = ({ navigation })=>{
             <View style={styles.container}>
                 <Form 
                   onSubmit={(data)=> handleCreateAccount(data)}
-                  schema={restFormSchema} 
+                  schema={formSchema} 
                   authLabel={loading ? "Signing Up..." : "SIGN UP" }
                   sso = {true}
                   errors={formErrors}
