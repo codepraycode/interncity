@@ -1,9 +1,8 @@
 // User Data and User Account Model
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { authSchema } from "../../constants/dummy";
 import { HandlerJoiError, JSONLog } from "../utils";
-import { Joi, authDataSchema, createAccountDataSchema } from "./base";
+import { authDataSchema, createAccountDataSchema } from "./base";
 // import {app} from '../firebaseConfig';
 
 // const auth = getAuth(app);
@@ -35,49 +34,6 @@ class UserAccount {
             HandlerJoiError(error, "Invalid user credentials");
         }
         return value;
-    }
-
-    static async createUser(auth, newUserData){
-        // create user data from firebase
-        // on Promise fulfiled, account has been created
-        // on Promise rejected, account was not created with error messages
-        
-
-        // Create an account with email and password,
-        // when that is successful, then bootstrap a profile with type field
-        const {type, email, password, confirmPassword} = newUserData;
-
-        // Validate email
-
-        // Validate password
-        if (!Object.is(confirmPassword, password)){
-            throw ({
-                message: 'Password does not match',
-            }); 
-        }
-
-        // Create account
-        let userCredential;
-
-        try{
-            userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        }
-        catch (err){
-            const code = err.code;
-            // const message = err.message;
-
-            console.log("Error code:", code);
-            // console.log("Error message:", message);
-
-            throw ({
-                code,
-                message: AUTH_ERRORS[code] || 'Cannot create account, check input and try again.'
-            });
-        }
-
-        // log(userCredential.user);
-        // consoleuserCredential.user;
-
     }
 
 }

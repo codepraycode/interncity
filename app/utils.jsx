@@ -49,7 +49,7 @@ export const JSONLog = (obj)=> console.log(JSON.stringify(obj, null, 4))
 const FIREBASE_ERRORS = {
     "auth/email-already-in-use":"Email already exist",
     "auth/network-request-failed":"Network error, check your internet connection and try again",
-    "auth/email-already-in-use":"Email already in use",
+    "auth/email-already-in-use":"Account with credentials already exist",
     "auth/user-not-found":"Invalid email/password",
     "auth/wrong-password":"Invalid email/password"
 }
@@ -57,6 +57,7 @@ const FIREBASE_ERRORS = {
 export const HandleFirebaseError = (errObject) =>{
     // Returns a useable version of the error
     // which will contain a message
+    // console.log(errObject);
     const code = errObject.code;
     const _default = 'Cannot sign into account, check input and try again.';
 
@@ -70,6 +71,7 @@ export const HandleFirebaseError = (errObject) =>{
 }
 
 export const HandlerJoiError = (joiErrorObject, generalMessage=null) =>{
+    // JSONLog(joiErrorObject);
     const {details} = joiErrorObject;
 
     // Details is an array
@@ -80,7 +82,11 @@ export const HandlerJoiError = (joiErrorObject, generalMessage=null) =>{
     details.forEach((eachError)=>{
         const {message, context} = eachError;
 
-        errorObj[context.key] = message;
+        let label = context.key;
+
+        if(!label) label = context.peer;
+
+        errorObj[label] = message;
     })
 
     throw (errorObj);

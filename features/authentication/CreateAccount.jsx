@@ -9,6 +9,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {app} from '../../app/firebaseConfig';
 import AuthLayout from './AuthLayout';
+import { UserAccount } from '../../app/models/User';
+import {HandleFirebaseError, JSONLog} from '../../app/utils';
+
 /* 
     CreateAccount screen
 */
@@ -45,26 +48,27 @@ const CreateAccount = ({ navigation })=>{
 
     const handleCreateAccount = (userData) =>{
       const demo = {
-        email:"me@ccodepraycode.com",
+        email:"me@codepraycode.com",
         password: "letmein123",
         confirmPassword: "letmein123",
       }
 
 
-      userAccount.validateCreateAccountData(userData)
+      UserAccount.validateCreateAccountData(demo)
       .then((value)=>{
         // navigation.navigate("SignIn");
-          // signInWithEmailAndPassword(auth,value.email, value.password)
-          // .then((userCredential)=>{
-          //   console.log("Signed in");
-          //   JSONLog(userCredential.user);
-          // })
-          // .catch((error)=>{
-          //     const err = HandleFirebaseError(error);
-          //     setFormErrors(()=>err);
-          // })
+          createUserWithEmailAndPassword(auth, value.email, value.password)
+          .then((userCredential)=>{
+            console.log("Signed in");
+            JSONLog(userCredential.user);
+          })
+          .catch((error)=>{
+              const err = HandleFirebaseError(error);
+              setFormErrors(()=>err);
+          })
       })
       .catch(err=>{
+        console.log("Error", err);
           setFormErrors(()=>err);
       });
 
