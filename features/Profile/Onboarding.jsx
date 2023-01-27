@@ -59,7 +59,7 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
                 
 
                 <TouchableOpacity 
-                    onPress={()=>navigation.navigate("ProfileForm")} 
+                    onPress={()=>navigation.navigate("ProfileUserType")} 
                     style={{
                         width:60,
                         height:60,
