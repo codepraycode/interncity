@@ -6,6 +6,9 @@ import Form from '../../components/form';
 import AppContext from '../../app/context';
 import Theme from '../../constants/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {app} from '../../app/firebaseConfig';
+import AuthLayout from './AuthLayout';
 /* 
     CreateAccount screen
 */
@@ -33,17 +36,46 @@ const SelectType = ({onSelected})=>{
 }
 
 const CreateAccount = ({ navigation })=>{
-    const {signUp} = useContext(AppContext);
+    const auth = getAuth(app);
+
     const [accountType, setAccountType] = useState(null);
     const [formErrors, setFormErrors] = useState({});
 
     const {type, ...restFormSchema} = CreateAccountFormSchema;
 
+    const handleCreateAccount = (userData) =>{
+      const demo = {
+        email:"me@ccodepraycode.com",
+        password: "letmein123",
+        confirmPassword: "letmein123",
+      }
+
+
+      userAccount.validateCreateAccountData(userData)
+      .then((value)=>{
+        // navigation.navigate("SignIn");
+          // signInWithEmailAndPassword(auth,value.email, value.password)
+          // .then((userCredential)=>{
+          //   console.log("Signed in");
+          //   JSONLog(userCredential.user);
+          // })
+          // .catch((error)=>{
+          //     const err = HandleFirebaseError(error);
+          //     setFormErrors(()=>err);
+          // })
+      })
+      .catch(err=>{
+          setFormErrors(()=>err);
+      });
+
+      setFormErrors(()=>({}));
+    }
+
     if (!accountType) return <SelectType onSelected={(typeSelected)=>setAccountType(typeSelected)}/>
     
     return (
-      <SafeAreaView style={{flex:1,}}>
-        <ScrollView contentContainerStyle={styles.formContainer} >
+
+        <AuthLayout>
             {/* Top view with wave and title */}
             <View style={styles.top} >
                 <Image 
@@ -58,21 +90,7 @@ const CreateAccount = ({ navigation })=>{
             {/* Auth form */}
             <View style={styles.container}>
                 <Form 
-                  onSubmit={(data)=>{
-                    signUp({...data, type: accountType})
-                    .then(()=>{
-                      console.log("Done creating account!");
-                      navigation.navigate("SignIn");
-                    })
-                    .catch((error)=>{
-                      // console.log("error here:", error);
-                      setFormErrors(()=>error);
-                    })
-
-
-                    // Clear errors first
-                    setFormErrors(()=>({}));
-                  }} 
+                  onSubmit={(data)=> handleCreateAccount(data)}
                   schema={restFormSchema} 
                   authLabel={"SIGN UP"}
                   sso = {true}
@@ -86,11 +104,8 @@ const CreateAccount = ({ navigation })=>{
                 </TouchableOpacity>
 
             </View>
-
             
-
-        </ScrollView>
-      </SafeAreaView>
+        </AuthLayout>      
     )
 }
 
@@ -101,12 +116,6 @@ const styles = StyleSheet.create({
   top: {
     alignItems:'center',
     justifyContent:'flex-end'
-  },
-
-  formContainer:{
-    alignItems:'center',
-    justifyContent:'center',
-    paddingTop: 60,
   },
 
   container:{

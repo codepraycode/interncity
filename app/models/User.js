@@ -3,7 +3,7 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { authSchema } from "../../constants/dummy";
 import { HandlerJoiError, JSONLog } from "../utils";
-import { Joi, authDataSchema } from "./base";
+import { Joi, authDataSchema, createAccountDataSchema } from "./base";
 // import {app} from '../firebaseConfig';
 
 // const auth = getAuth(app);
@@ -24,6 +24,15 @@ class UserAccount {
 
         if (error){
             HandlerJoiError(error, "Invalid Login credentials");
+        }
+        return value;
+    }
+    static async validateCreateAccountData(userData){
+        
+        const {error, value} = createAccountDataSchema.validate(userData);
+
+        if (error){
+            HandlerJoiError(error, "Invalid user credentials");
         }
         return value;
     }

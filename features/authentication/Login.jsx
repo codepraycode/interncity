@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {View, Text, Image } from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import {authSchema} from '../../constants/dummy';
 import Form from '../../components/form';
-import AppContext from '../../app/context';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {app} from '../../app/firebaseConfig';
 import {HandleFirebaseError, JSONLog} from '../../app/utils';
 import { UserAccount } from '../../app/models/User';
+import AuthLayout from './AuthLayout';
 
 /* 
     Login screen
@@ -16,12 +16,11 @@ import { UserAccount } from '../../app/models/User';
 const Login = ({ navigation })=>{
     const auth = getAuth(app);
 
-    const {signIn} = useContext(AppContext);
     const [formErrors, setFormErrors] = useState({});
 
 
     const handleLogin = (loginData)=>{
-      console.log("Login with:", loginData);
+      // console.log("Login with:", loginData);
       const {email, password} = loginData;
 
       // const demo = {
@@ -50,7 +49,8 @@ const Login = ({ navigation })=>{
     }
 
     return (
-        <View style={styles.formContainer}>
+
+        <AuthLayout>
             {/* Top view with wave and title */}
             <View style={styles.top} >
                 <Image assetName="wave" assetGroup="assets" width={71} height={71}/>
@@ -76,7 +76,7 @@ const Login = ({ navigation })=>{
                 </View>
             </View>
 
-        </View>
+        </AuthLayout>
     )
 }
 
@@ -85,19 +85,10 @@ export default Login;
 
 const styles = StyleSheet.create({
   top: {
-    // flex: 1,
-    // flex:1,
-    height:"25%",
-    // paddingBottom:25,
     alignItems:'center',
     justifyContent:'flex-end'
   },
 
-
-  formContainer:{
-    flex:1,
-    paddingHorizontal: 20,
-  },
 
   container:{
     paddingVertical: 30,

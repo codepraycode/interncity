@@ -28,7 +28,7 @@ const NormalInput = ({schema, onChange, name, value})=>{
     return (
         <TextInput
             placeholder = {schema.placeholder}
-            placeholderTextColor = {Theme.accent}
+            placeholderTextColor = {styles.placeholderTextColor}
             onChangeText = {(str)=>onChange(name, str)}
             style = {[styles.input, styles.normalInput]}
             autoComplete = {"off"}
@@ -42,7 +42,7 @@ const EmailInput = ({schema, onChange, name, value})=>{
     return (
         <TextInput
             placeholder = {schema.placeholder}
-            placeholderTextColor = {Theme.accent}
+            placeholderTextColor = {styles.placeholderTextColor}
             onChangeText = {(str)=>onChange(name, str)}
             style = {[styles.input, styles.normalInput]}
             autoComplete = {"off"}
@@ -60,7 +60,7 @@ const PasswordInput = (props)=>{
         <View style={styles.passwordContainer}>
             <TextInput
                 placeholder={schema.placeholder}
-                placeholderTextColor = {Theme.accent}
+                placeholderTextColor = {styles.placeholderTextColor}
                 onChangeText={(str)=>{onChange(name, str)}}
                 style={[styles.passwordinput, styles.input]}
                 autoComplete={"off"}
@@ -81,23 +81,21 @@ export default CustomTextInput;
 
 const styles = StyleSheet.create({
     container:{
-        marginVertical: 15,
+        marginVertical: 4,
     },
     label:{
         marginBottom: 10,
         color: Theme.main,
     },
+    placeholderTextColor: Theme.grey300,
     input: {
-        height: 50,
-        
-        paddingVertical: 17,
+        height: 55,
+
         paddingLeft: 16,
         paddingRight: 10,
         
-        
         color:Theme.accent,
         fontSize: 16,
-
     },
 
     normalInput:{
@@ -105,7 +103,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor:Theme.white,
         borderColor:Theme.white,
-        elevation: 2,
+        elevation: 1,
         shadowOffset: 1,
     },
 
@@ -119,10 +117,6 @@ const styles = StyleSheet.create({
         // justifyContent: 'space-between',
         backgroundColor:Theme.white,
         borderRadius: 10,
-        elevation: 2,
-        // shadowOffset: 1,
-        // shadowOpacity: .5,
-        // shadowColor: Colors.$backgroundElevated,
-        // shadowRadius: 3,
+        elevation: 1,
     }
 })

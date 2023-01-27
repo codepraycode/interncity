@@ -84,14 +84,14 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'space-between',
 
-        marginTop: 15,
+        marginTop: 10,
     },
 
     cta:{
         justifyContent:'center', 
         alignItems:'center',
         flexDirection:'column',
-        marginTop:30,
+        marginTop:20,
         // textDecorationLine: 'underline'
     }
 
