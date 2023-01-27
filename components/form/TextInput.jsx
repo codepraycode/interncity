@@ -1,10 +1,11 @@
 import {StyleSheet,TextInput, TouchableOpacity} from 'react-native';
-import {View, Text, Icon} from 'react-native-ui-lib';
+import {View, Text} from 'react-native-ui-lib';
 import React, { useState } from 'react'
 import Theme from '../../constants/theme';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 const CustomTextInput = (props) => {
-    const {schema} = props;
+    const {schema, error} = props;
     let template;
 
     if (schema.type === 'password') template = <PasswordInput {...props}/>;
@@ -17,6 +18,7 @@ const CustomTextInput = (props) => {
             {
                 template
             }
+            <Text style={{color: Theme.red}}>{error}</Text>
         </View>
     )
 }
@@ -26,7 +28,7 @@ const NormalInput = ({schema, onChange, name, value})=>{
     return (
         <TextInput
             placeholder = {schema.placeholder}
-            placeholderTextColor = {Theme.accent}
+            placeholderTextColor = {styles.placeholderTextColor}
             onChangeText = {(str)=>onChange(name, str)}
             style = {[styles.input, styles.normalInput]}
             autoComplete = {"off"}
@@ -36,10 +38,11 @@ const NormalInput = ({schema, onChange, name, value})=>{
 }
 
 const EmailInput = ({schema, onChange, name, value})=>{
+    
     return (
         <TextInput
             placeholder = {schema.placeholder}
-            placeholderTextColor = {Theme.accent}
+            placeholderTextColor = {styles.placeholderTextColor}
             onChangeText = {(str)=>onChange(name, str)}
             style = {[styles.input, styles.normalInput]}
             autoComplete = {"off"}
@@ -57,7 +60,7 @@ const PasswordInput = (props)=>{
         <View style={styles.passwordContainer}>
             <TextInput
                 placeholder={schema.placeholder}
-                placeholderTextColor = {Theme.accent}
+                placeholderTextColor = {styles.placeholderTextColor}
                 onChangeText={(str)=>{onChange(name, str)}}
                 style={[styles.passwordinput, styles.input]}
                 autoComplete={"off"}
@@ -66,7 +69,7 @@ const PasswordInput = (props)=>{
             />
 
             <TouchableOpacity activeOpacity={0.6} onPress={()=>setHidePassword(p=>!p)}>
-                <Icon assetName={hidePassword ? "eyeOpen": 'eyeClose'} assetGroup="assets" size={30}/>
+                <Octicons name={hidePassword ? "eye":'eye-closed'} size={30} color={Theme.grey400} />
             </TouchableOpacity>
         </View>
     )
@@ -78,23 +81,21 @@ export default CustomTextInput;
 
 const styles = StyleSheet.create({
     container:{
-        marginVertical: 15,
+        marginVertical: 4,
     },
     label:{
         marginBottom: 10,
         color: Theme.main,
     },
+    placeholderTextColor: Theme.grey300,
     input: {
-        height: 50,
-        
-        paddingVertical: 17,
+        height: 55,
+
         paddingLeft: 16,
         paddingRight: 10,
         
-        
         color:Theme.accent,
-        fontSize: 12,
-
+        fontSize: 16,
     },
 
     normalInput:{
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor:Theme.white,
         borderColor:Theme.white,
-        elevation: 2,
+        elevation: 1,
         shadowOffset: 1,
     },
 
@@ -116,10 +117,6 @@ const styles = StyleSheet.create({
         // justifyContent: 'space-between',
         backgroundColor:Theme.white,
         borderRadius: 10,
-        elevation: 2,
-        // shadowOffset: 1,
-        // shadowOpacity: .5,
-        // shadowColor: Colors.$backgroundElevated,
-        // shadowRadius: 3,
+        elevation: 1,
     }
 })

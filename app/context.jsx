@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer, useState } from 'react';
+import React, { createContext, useEffect, useReducer } from 'react';
 import SecureStore from 'expo-secure-store';
 
 const AppContext = createContext();
@@ -8,50 +8,40 @@ export default AppContext;
 export const AppContextProvider = ({children})=>{
 
     const initialState = {
-        isLoading: true,
-        isSignout: false,
-        userToken: null,
         userAccount: null,
+        // {
+        //     name:"Smaple name",
+        //     token:{
+        //         access:"dfakslkjflask"
+        //     }
+        // },
         userProfile: null,
-        userAllset: false,
-        userType:"organization"
+        userType:'supervisor'//"organization"
+    }
+
+    const ActionTypes = {
+        UPDATE_ACCOUNT_PROFILE:"UPDATE_ACCOUNT_PROFILE",
+        UPDATE_ACCOUNT:"UPDATE_ACCOUNT",
     }
 
     const reducers = (prev, action) =>{
         switch (action.type) {
-            case 'RESTORE_TOKEN':
-                return {
-                    ...prev,
-                    userToken: action.token,
-                    isLoading: false,
-                };
-            case 'SIGN_IN':
-                return {
-                    ...prev,
-                    isSignout: false,
-                    userToken: action.token,
-                };
-            case 'SIGN_UP':
-                return {
-                    ...prev,
-                    isSignout: false,
-                    userAccount: action.payload,
-                    userProfile: null,
-                    userToken: null,
-                };
-            case 'SIGN_OUT':
-                return {
-                    ...prev,
-                    isSignout: true,
-                    userToken: null,
-                };
-            case 'UPDATE_PROFILE':
+            case ActionTypes.UPDATE_ACCOUNT_PROFILE:
                 return {
                     ...prev,
                     userProfile:{
                         ...action.payload
                     }
                 };
+            case ActionTypes.UPDATE_ACCOUNT:
+                return {
+                    ...prev,
+                    userAccount:{
+                        ...action.payload
+                    }
+                };
+            default:
+                return {...prev}
         }
     }
 
@@ -62,19 +52,22 @@ export const AppContextProvider = ({children})=>{
         // Fetch the token from storage then navigate to our appropriate place
         
         const bootstrapAsync = async () => {
+            // if (contextData.userAccount?.token) return;
+            
             let userToken;
             
             try {
                 userToken = await SecureStore.getItemAsync('userToken');
             } catch (e) {
                 // Restoring token failed
+                // console.log(e)
             }
 
             // After restoring token, we may need to validate it in production apps
 
             // This will switch to the App screen or Auth screen and this loading
             // screen will be unmounted and thrown away.
-            dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+            // dispatch({ type: 'RESTORE_TOKEN', token: userToken });
         };
         
         bootstrapAsync();
@@ -84,36 +77,31 @@ export const AppContextProvider = ({children})=>{
         ...contextData,
         isOrganization:contextData.userType === 'organization',
         isSupervisor:contextData.userType === 'supervisor',
-        signIn: async (data) => {
-            console.log("SIGN IN",data);
-            // In a production app, we need to send some data (usually username, password) to server and get a token
-            // We will also need to handle errors if sign in failed
-            // After getting token, we need to persist the token using `SecureStore`
-            // In the example, we'll use a dummy token
-            dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
-        },
+        isIntern:contextData.userType === 'intern',
+        
         signOut: () => dispatch({ type: 'SIGN_OUT' }),
-        signUp: async (data) => {
-            console.log("SIGN UP",data);
+        updateAccountProfile: (data) => {
+            console.log("UPDATE Account Profile");
             // In a production app, we need to send user data to server and get a token
             // We will also need to handle errors if sign up failed
             // After getting token, we need to persist the token using `SecureStore`
             // In the example, we'll use a dummy token
 
-            dispatch({ type: 'SIGN_UP', payload: {email:'sample@mail.com', password:'letmein'}});
+            dispatch({ type: ActionTypes.UPDATE_ACCOUNT_PROFILE, payload: data });
         },
-        updateProfile: async (data) => {
-            console.log("UPDATE PROFILE",data);
+        updateAccount: (data) => {
+            console.log("UPDATE Account");
             // In a production app, we need to send user data to server and get a token
             // We will also need to handle errors if sign up failed
             // After getting token, we need to persist the token using `SecureStore`
             // In the example, we'll use a dummy token
 
-            dispatch({ type: 'UPDATE_PROFILE', payload: {name:'BulaBlu Blu', ...data} });
+            // Must include token
+
+            dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: data});
         },
 
-    }), [contextData.isSignout, contextData.userToken, contextData.userProfile]);
-
+    }),[contextData.userProfile, contextData.userAccount]);
 
     return (
         <AppContext.Provider value={appContextData}>
@@ -137,8 +125,6 @@ export const AppContextSubscriber = ({children})=>{
         <>
             <AppContext.Consumer>
                 {(context)=>{
-
-                    // console.log(context);
 
                     return (
                     <>

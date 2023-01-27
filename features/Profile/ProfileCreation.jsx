@@ -1,66 +1,70 @@
-import React, { useContext } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { ScrollView, StyleSheet,TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text, View } from 'react-native-ui-lib';
 import AppContext from '../../app/context';
 import Form from '../../components/form';
-import { profileInfoSchema } from '../../constants/dummy';
+import Theme from '../../constants/theme';
+import { UserAccount } from '../../app/models/User.js'
+import SafeAreaLayout from '../../components/Layout';
 
-
-
-
-const ProfileFormScreen = ({navigation}) =>{
+const ProfileFormScreen = ({navigation, route}) =>{
     const {updateProfile} = useContext(AppContext);
 
+    const {profileType} = route.params;
+      
+    const [formErrors, setFormErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+
+    const handleCreateProfile = (data)=>{
+      if (loading) return;
+      console.log("create profile",data);
+      // updateProfile({dt:"sample data"});
+      // navigation.navigate("ProfileSuccess");
+    }
+
+    const formSchema = UserAccount.getProfileSchema(profileType);
+
     return (
-        <SafeAreaView style={{flex: 1, paddingTop: 20}}>
-            <ScrollView contentContainerStyle={styles.formContainer} >
-                {/* Top view with wave and title */}
-                <View style={styles.top} >
-                    <Text h3>Profile Information</Text>
-                </View>
-
-                {/* Auth form */}
-                <View style={styles.container}>
-                    <Form
-                        onSubmit={()=>{
-                          updateProfile({dt:"sample data"});
-                          navigation.navigate("ProfileSuccess");
-                        }} 
-                        schema={profileInfoSchema} 
-                        authLabel={"Finish"}
-                    />
-                </View>
-
-                
-
-            </ScrollView>
-        </SafeAreaView>
+        <SafeAreaLayout scrollStyle={{marginTop:-35}}>
+            {/* Auth form */}
+            <View style={styles.container}>
+                <Form
+                    onSubmit={(data)=> handleCreateProfile(data)} 
+                    schema={formSchema} 
+                    authLabel={ loading ? "Creating profile...":"Create Profile"}
+                    errors={formErrors}
+                    disable={loading}
+                />
+            </View>
+        </SafeAreaLayout>
     )
 }
 
 const styles = StyleSheet.create({
   top: {
-    paddingVertical: 20,
-    alignItems:'center',
-    justifyContent:'center'
+    paddingBottom: 10,
+    margin:0,
   },
-
-
-  formContainer:{
-    // flex:1,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-  },
-//   successContainer:{
-//     flex:1,
-//     // paddingBottom: 20,
-//     // paddingHorizontal: 20,
-//   },
 
   container:{
-    paddingVertical: 30,
+    paddingVertical: 0,
+    width: 300,
+    maxWidth: "85%"
   },
+
+  option:{
+    backgroundColor:Theme.grey101,
+    borderRadius: 5,
+    alignItems:'center',
+    justifyContent:'center',
+    borderColor:Theme.lightSecondary,
+    borderWidth:1,
+    elevation:3,
+    width: 150,
+    height: 150,
+    marginTop:20,
+  }
   
 });
 

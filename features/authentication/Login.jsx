@@ -1,18 +1,75 @@
-import React, { useContext } from 'react';
-import {View, Text, Image, Icon, Colors} from 'react-native-ui-lib';
+import React, { useContext, useState } from 'react';
+import {View, Text, Image } from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
-import {authSchema} from '../../constants/dummy';
 import Form from '../../components/form';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {app} from '../../app/firebaseConfig';
+import {HandleFirebaseError, JSONLog} from '../../app/utils';
+import { UserAccount } from '../../app/models/User';
+import SafeAreaLayout from '../../components/Layout';
+import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
+
 /* 
     Login screen
 */
 
 const Login = ({ navigation })=>{
-    const {signIn} = useContext(AppContext);
+    const auth = getAuth(app);
+    const {updateAccount} = useContext(AppContext);
+
+    const [formErrors, setFormErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+
+    const formSchema = UserAccount.getAuthSchema();
+
+    const handleLogin = (loginData)=>{
+      
+      if (loading) return;
+      
+      // const demo = {
+      //   email:"me@ccodepraycode.com",
+      //   password: "letmein123"
+      // }
+      const {email, password} = loginData;
+
+
+      UserAccount.validateAuthData({email, password})
+      .then((value)=>{
+          signInWithEmailAndPassword(auth,value.email, value.password)
+          .then((userCredential)=>{
+            // console.log("Signed in");
+            // JSONLog(userCredential.user);
+            const {providerData, stsTokenManager} = userCredential.user;
+
+            // updateProfile(providerData[0]);
+            const userD = providerData[0] || {}
+            updateAccount({
+              ...userD,
+              token: stsTokenManager
+            });
+
+            setLoading(false)
+          })
+          .catch((error)=>{
+              const err = HandleFirebaseError(error);
+              setFormErrors(()=>err);
+              setLoading(false)
+          })
+      })
+      .catch(err=>{
+          setFormErrors(()=>err);
+          setLoading(false)
+      })
+
+      
+      setLoading(true)
+      setFormErrors(()=>({}));
+    }
 
     return (
-        <View style={styles.formContainer}>
+
+        <SafeAreaLayout>
             {/* Top view with wave and title */}
             <View style={styles.top} >
                 <Image assetName="wave" assetGroup="assets" width={71} height={71}/>
@@ -22,22 +79,36 @@ const Login = ({ navigation })=>{
             {/* Auth form */}
             <View style={styles.container}>
                 <Form 
-                  onSubmit={()=>signIn("sample data")} 
-                  schema={authSchema} 
-                  authLabel="LOGIN" 
+                  onSubmit={(data)=> handleLogin(data)}
+                  schema={formSchema} 
+                  authLabel={loading ? "Loging In..." :"LOGIN" }
                   remember={true} 
                   forgotPassword={true}
                   sso = {true}
+                  errors={formErrors}
+                  disable={loading}
                 />
 
-                <View style={{alignItems:'center', justifyContent:'center'}}>
-                    <Text small style={{marginTop: 20,}}>
-                        <Text>You don't have an account yet?</Text>  <TouchableOpacity onPress={()=>navigation.navigate("SignUp")}><Text secondary a>Sign Up</Text></TouchableOpacity>
+                {
+                  !loading && (
+                    <TouchableOpacity 
+                      onPress={()=>navigation.navigate("SignUp")}
+                      style={{
+                        alignItems:'center',
+                        justifyContent:'center'
+                      }}
+                    >
+                      <Text 
+                        style={{marginTop: 20, color: Theme.accent}}
+                      >
+                        <Text>You don't have an account yet?</Text> <Text secondary a>Sign Up</Text>
                     </Text>
-                </View>
+                  </TouchableOpacity>
+                  )
+                }
             </View>
 
-        </View>
+        </SafeAreaLayout>
     )
 }
 
@@ -46,22 +117,13 @@ export default Login;
 
 const styles = StyleSheet.create({
   top: {
-    // flex: 1,
-    // flex:1,
-    height:"25%",
-    // paddingBottom:25,
     alignItems:'center',
     justifyContent:'flex-end'
   },
 
 
-  formContainer:{
-    flex:1,
-    paddingHorizontal: 20,
-  },
-
   container:{
-    paddingVertical: 30,
+    paddingVertical: 10,
   },
   
 });

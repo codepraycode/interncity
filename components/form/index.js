@@ -5,12 +5,12 @@ import { Text, View } from "react-native-ui-lib";
 import Button from '../Button';
 import SSO from "../SSO";
 import { useState } from "react";
-import Theme from "../../constants/theme";
+import Theme from '../../constants/theme';
 
 export {TextInput, CheckBox}
 
 
-const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso})=>{
+const Form = ({schema, remember, forgotPassword,disable, authLabel, onSubmit, sso, errors})=>{
     const [formData, setFormData] = useState({});
 
     const updateFormData = (field, value)=>{
@@ -19,14 +19,13 @@ const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso})=>{
         setFormData((prev)=>{
             return {...prev, [field]:value};
         })
-
     }
 
 
     return (
         <>
         
-            {/* <Text style={{color: Theme.red}}>Error message</Text> */}
+            <Text style={{color: Theme.red}}>{errors?.message}</Text>
 
             {
                 Object.entries(schema).map(([field, fieldSchema], i)=>(
@@ -36,6 +35,7 @@ const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso})=>{
                         key={i} 
                         value={formData[field]} 
                         onChange={updateFormData}
+                        error={errors[field]}
                     />
                 ))
             }
@@ -56,7 +56,11 @@ const Form = ({schema, remember, forgotPassword, authLabel, onSubmit, sso})=>{
             </View>
 
             <View style={[styles.container, styles.cta]}>
-                <Button text={authLabel || 'Continue'} onPress={onSubmit}/>
+                <Button 
+                    text={authLabel || 'Continue'} 
+                    onPress={()=>onSubmit(formData)}
+                    disable={disable}
+                />
             </View>
 
             {/* Call to action */}
@@ -84,14 +88,14 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'space-between',
 
-        marginTop: 15,
+        marginTop: 10,
     },
 
     cta:{
         justifyContent:'center', 
         alignItems:'center',
         flexDirection:'column',
-        marginTop:30,
+        marginTop:20,
         // textDecorationLine: 'underline'
     }
 

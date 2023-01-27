@@ -18,17 +18,25 @@ import Theme from '../constants/theme';
 
 // Screens
 import LogsScreen from './Reviews';
-import { ProfileCreationOnboarding, ProfileFormScreen, ProfileSettingScreen, SuccessScreen } from './Profile';
+import { 
+    ProfileFormScreen,
+    ProfileCreationOnboarding,
+    ProfileSuccessScreen,
+
+    ProfileSettingScreen,
+    ProfileUserTypeScreen
+} from './Profile';
 import AppSettingsScreen from './settings';
 import {JobApplyListsScreen,JobListsScreen} from './Jobs/JobLists';
 import NotificationScreen from './Notifications';
-import { TouchableOpacity } from 'react-native';
 import UpdatePasswordScreen from './settings/UpdatePassword';
 import {InternsListScreen, InternsStackScreen} from './Interns';
 
 import AppContext from '../app/context';
 
 import { AuthOnboardingScreen, CreateAccountScreen, LoginScreen } from './authentication';
+import StudentListScreen from './Students/StudentList';
+import HeaderRight from '../components/HeaderRight';
 
 
 // Stack Navigator
@@ -40,7 +48,7 @@ const getIcons = (name, focused, color, size, isOrganization) => {
 
     if (screenName === 'jobs') return <Octicons name={'list-unordered'} size={size} color={color} />;
     else if (screenName === 'logs') return <Octicons name={'file-badge'} size={size} color={color} />;
-    else if (screenName === 'interns') return <Octicons name={'people'} size={size} color={color} />;
+    else if ((screenName === 'interns') || (screenName === 'students')) return <Octicons name={'people'} size={size} color={color} />;
     else if (screenName === 'profilesetting') return (
         isOrganization ? 
         <Octicons name={"organization"} size={size} color={color} />
@@ -76,7 +84,7 @@ const getHeaderTitle = (name, color=null) => {
 const commonScreenOptions = { headerShown: false }
 
 const TabsStack = ()=>{
-    const {isOrganization} = useContext(AppContext);
+    const {isOrganization, isSupervisor} = useContext(AppContext);
 
     const renderScreen = ()=>{
 
@@ -86,6 +94,12 @@ const TabsStack = ()=>{
             <>
                 <Tab.Screen name="Jobs" component={JobListsScreen} />
                 <Tab.Screen name="Interns" component={InternsListScreen} />
+            </>
+        )
+
+        if (isSupervisor) return (
+            <>
+                <Tab.Screen name="Students" component={StudentListScreen} />
             </>
         )
 
@@ -120,16 +134,13 @@ const TabsStack = ()=>{
                 // headerTransparent:true,
 
                 headerRight: ()=> (
-                    <TouchableOpacity
-                        onPress={()=> navigation.navigate("Notification")}
-                    >
-                        <Octicons 
-                            name={'bell'} 
-                            size={25} 
-                            color={Theme.accent} 
-                            style={{paddingRight: 20}}
-                        />
-                    </TouchableOpacity> 
+                    <HeaderRight 
+                        type={isSupervisor ? "settings": 'notification'} 
+                        onPress={()=> {
+                            if (isSupervisor) return navigation.navigate("SupervisorAppSetting")
+                            navigation.navigate("Notification")
+                        }}
+                    />
                 )
             })}
         >
@@ -143,47 +154,48 @@ const TabsStack = ()=>{
                 headerTransparent: true,
 
                 headerRight: ()=> (
-                    <TouchableOpacity
-                        onPress={()=> navigation.navigate("Notification")}
-                    >
-                        <Octicons 
-                            name={'bell'} 
-                            size={25} 
-                            color={Theme.grey100} 
-                            style={{paddingRight: 20}}
-                        />
-                    </TouchableOpacity> 
+                    <HeaderRight 
+                        type={isSupervisor ? "settings": 'notification'}
+                        light={true}
+                        onPress={()=> {
+                            if (isSupervisor) return navigation.navigate("SupervisorAppSetting")
+                            navigation.navigate("Notification")
+                        }}
+                    />
                 )
             })}
             />
 
-            <Tab.Screen 
-                name="AppSetting" 
-                component={AppSettingsScreen} 
-                options={({ route, navigation })=>({
-                    headerTitle: ()=>getHeaderTitle("Settings"),
-                    headerRight: ()=> (null)
-                })}
-            />
+            {
+                !isSupervisor && (
+                    <Tab.Screen 
+                        name="AppSetting" 
+                        component={AppSettingsScreen} 
+                        options={({ route, navigation })=>({
+                            headerTitle: ()=>getHeaderTitle("Settings"),
+                            headerRight: ()=> (null)
+                        })}
+                    />
+                )
+            }
         </Tab.Navigator>
     )
 }
 
 const AppScreens = ()=>{
-    const { userToken, userProfile } = useContext(AppContext);
+    const { userAccount, userProfile, isIntern,isSupervisor } = useContext(AppContext);
     
-    let stackToRender;
+    let stackToRender;    
 
-    console.log(userToken, userProfile);
-
-    if (!userToken) {
+    if (!userAccount?.token) {
         stackToRender = (
             <>
-                <Stack.Screen 
-                    name="AuthOnboarding" 
-                    component={AuthOnboardingScreen} 
-                    // options = {{headerShown: false}}
-                />
+                { isIntern && (
+                    <Stack.Screen 
+                        name="AuthOnboarding" 
+                        component={AuthOnboardingScreen}
+                    />)
+                }
                 <Stack.Screen 
                     name="SignIn" 
                     component={LoginScreen} 
@@ -197,7 +209,7 @@ const AppScreens = ()=>{
             </>
         )
     }
-    else if (!userProfile || !userProfile.allSet){
+    else if (!userProfile || !userProfile.completed){
         stackToRender = (
             <>
                 <Stack.Screen 
@@ -205,13 +217,26 @@ const AppScreens = ()=>{
                     component={ProfileCreationOnboarding}
                 />
                 <Stack.Screen 
+                    name="ProfileUserType" 
+                    component={ProfileUserTypeScreen}
+                />
+                <Stack.Screen 
                     name="ProfileForm" 
                     component={ProfileFormScreen} 
-                    // options = {{headerShown: false}}
+                    options = {{
+                        headerShown: true,
+                        // headerTransparent: true,
+                        headerShadowVisible: false,
+                        headerStyle:{
+                            backgroundColor: Theme.grey100,
+                        },
+                        headerTitle: ()=>getHeaderTitle("Create profile"),
+                        headerTitleAlign:'center'
+                    }}
                 />
                 <Stack.Screen 
                     name="ProfileSuccess" 
-                    component={SuccessScreen} 
+                    component={ProfileSuccessScreen} 
                     // options = {{headerShown: false}}
                 />
             </>
@@ -276,6 +301,21 @@ const AppScreens = ()=>{
                                 </Text>
                             )
                         }}
+                    />
+
+                    <Stack.Screen 
+                        name="SupervisorAppSetting" 
+                        component={AppSettingsScreen} 
+                        options={({ route, navigation })=>({
+                            headerTitle: ()=>getHeaderTitle("Settings"),
+                            headerRight: ()=> (null),
+                            headerShown: true,
+                            headerTitleAlign: 'center',
+                            headerShadowVisible:false,
+                            headerStyle:{
+                                backgroundColor: Theme.grey100,
+                            },
+                        })}
                     />
             </>
         )
