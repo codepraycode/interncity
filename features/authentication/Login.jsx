@@ -6,7 +6,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {app} from '../../app/firebaseConfig';
 import {HandleFirebaseError, JSONLog} from '../../app/utils';
 import { UserAccount } from '../../app/models/User';
-import AuthLayout from './AuthLayout';
+import SafeAreaLayout from '../../components/Layout';
 import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
 
@@ -69,7 +69,7 @@ const Login = ({ navigation })=>{
 
     return (
 
-        <AuthLayout>
+        <SafeAreaLayout>
             {/* Top view with wave and title */}
             <View style={styles.top} >
                 <Image assetName="wave" assetGroup="assets" width={71} height={71}/>
@@ -108,7 +108,7 @@ const Login = ({ navigation })=>{
                 }
             </View>
 
-        </AuthLayout>
+        </SafeAreaLayout>
     )
 }
 

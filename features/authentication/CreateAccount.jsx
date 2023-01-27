@@ -7,7 +7,7 @@ import Theme from '../../constants/theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {app} from '../../app/firebaseConfig';
-import AuthLayout from './AuthLayout';
+import SafeAreaLayout from '../../components/Layout';
 import { UserAccount } from '../../app/models/User';
 import {HandleFirebaseError, JSONLog} from '../../app/utils';
 /* 
@@ -71,7 +71,7 @@ const CreateAccount = ({ navigation })=>{
     
     return (
 
-        <AuthLayout>
+        <SafeAreaLayout>
             {/* Top view with wave and title */}
             <View style={styles.top} >
                 <Image 
@@ -115,7 +115,7 @@ const CreateAccount = ({ navigation })=>{
 
             </View>
             
-        </AuthLayout>      
+        </SafeAreaLayout>      
     )
 }
 
