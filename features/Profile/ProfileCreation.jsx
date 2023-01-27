@@ -26,7 +26,7 @@ const ProfileFormScreen = ({navigation, route}) =>{
     const formSchema = UserAccount.getProfileSchema(profileType);
 
     return (
-        <SafeAreaLayout scrollStyle={{marginTop:-35}}>
+        <SafeAreaLayout scrollStyle={{marginTop:-35}} style={{paddingTop: 0}}>
             {/* Auth form */}
             <View style={styles.container}>
                 <Form
