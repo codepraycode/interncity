@@ -11,7 +11,6 @@ import {app} from '../../app/firebaseConfig';
 import AuthLayout from './AuthLayout';
 import { UserAccount } from '../../app/models/User';
 import {HandleFirebaseError, JSONLog} from '../../app/utils';
-
 /* 
     CreateAccount screen
 */
@@ -40,6 +39,7 @@ const SelectType = ({onSelected})=>{
 
 const CreateAccount = ({ navigation })=>{
     const auth = getAuth(app);
+    const {updateAccount} = useContext(AppContext);
 
     const [accountType, setAccountType] = useState(null);
     const [formErrors, setFormErrors] = useState({});
@@ -51,11 +51,11 @@ const CreateAccount = ({ navigation })=>{
       
       if (loading) return;
 
-      const demo = {
-        email:"me@codepraycode.com",
-        password: "letmein123",
-        confirmPassword: "letmein123",
-      }
+      // const demo = {
+      //   email:"me@codeprayccode.com",
+      //   password: "letmein123",
+      //   confirmPassword: "letmein123",
+      // }
 
 
       UserAccount.validateCreateAccountData(userData)
@@ -63,9 +63,15 @@ const CreateAccount = ({ navigation })=>{
         // navigation.navigate("SignIn");
           createUserWithEmailAndPassword(auth, value.email, value.password)
           .then((userCredential)=>{
-            console.log("Signed in");
-            JSONLog(userCredential.user);
-            setLoading(false)
+            // console.log("Signed up");
+            const {providerData, stsTokenManager} = userCredential.user;
+
+            // updateProfile(providerData[0]);
+            const userD = providerData[0] || {}
+            updateAccount({
+              ...userD,
+              token: stsTokenManager
+            });
           })
           .catch((error)=>{
               const err = HandleFirebaseError(error);
