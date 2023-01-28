@@ -2,17 +2,16 @@
 
 import { HandlerJoiError, JSONLog, userTypes} from "../utils";
 import { authDataSchema, createAccountDataSchema } from "./base";
-
-// const auth = getAuth(app);
-
-const AUTH_ERRORS = {
-    "auth/email-already-in-use":"Email already exist",
-    "auth/network-request-failed":"Network error, check your internet connection and try again",
-    "auth/email-already-in-use":"Email already in use",
-    "auth/user-not-found":"Invalid email/password",
-    "auth/wrong-password":"Invalid email/password"
-}
-
+import { 
+  collection, 
+//   addDoc, 
+  getDocs,
+  doc,
+  getDoc,
+//   updateDoc,
+//   deleteDoc
+} from 'firebase/firestore';
+import { collectionNames, database } from "../firebaseConfig";
 
 const studentProfileSchema = {
     fullname:{
@@ -122,6 +121,20 @@ const organizationProfileSchema = {
     },
 }
 
+
+// const UserProfileConverter = {
+//     toFirestore: (profile) => {
+//         return {
+//             name: city.name,
+//             state: city.state,
+//             country: city.country
+//             };
+//     },
+//     fromFirestore: (snapshot, options) => {
+//         const data = snapshot.data(options);
+//         return new City(data.name, data.state, data.country);
+//     }
+// }
 class UserAccount {
     
     static async validateAuthData(authData){
@@ -184,6 +197,44 @@ class UserAccount {
         if (type === userTypes.ORGANIZATION) return organizationProfileSchema;
         
         return studentProfileSchema;
+    }
+
+    static async getProfile(auth){
+        /* 
+            description: get the profile of the authenticated user
+            returns: an instance of UserAccount of the user profile, or
+                    null if profile is not completed/exist
+        */
+
+        // User is expected to have been authenticated when calling this method
+        // const {uid} = auth.currentUser || {};
+        const uid = "BTQDspokspSbAB9kU4NJJSBIgA42";
+
+        console.log("Login user id:", uid);
+
+        const userProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
+
+        let snapshot;
+        try{
+            // snapshot = await getDocs(userProfileCollectionRef);
+            const profileRef = doc(database,collectionNames.USER_PROFILE, 'one');
+            snapshot = await getDoc(profileRef);
+        }
+        catch(err){
+            console.log("Error fetching profile:", err);
+            return null
+        }
+
+        if (snapshot.exists()){
+            JSONLog(snapshot.data())
+        }else{
+            console.log("No Profile");
+        }
+        
+        
+
+        // JSONLog(snapshot.docs.map(item=> ({...item.data(), id:item.id})));        
+
     }
 
 }

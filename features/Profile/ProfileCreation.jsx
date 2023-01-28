@@ -6,7 +6,7 @@ import Form from '../../components/form';
 import Theme from '../../constants/theme';
 import { UserAccount } from '../../app/models/User.js'
 import SafeAreaLayout from '../../components/Layout';
-import { database, collectionNames} from '../../app/firebaseConfig';
+import { app, database, collectionNames} from '../../app/firebaseConfig';
 import { 
   collection, 
   addDoc, 
@@ -15,9 +15,12 @@ import {
   updateDoc,
   deleteDoc
 } from 'firebase/firestore';
+import { getAuth } from "firebase/auth";
 import { JSONLog } from '../../app/utils';
 
 const ProfileFormScreen = ({navigation, route}) =>{
+    const auth = getAuth(app);
+
     const userProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
 
     const {updateProfile} = useContext(AppContext);
@@ -82,6 +85,8 @@ const ProfileFormScreen = ({navigation, route}) =>{
         console.log(err.message);
       })
     }
+
+    UserAccount.getProfile(auth);
 
     useEffect(()=>{
       
