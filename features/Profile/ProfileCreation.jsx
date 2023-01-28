@@ -113,8 +113,8 @@ const styles = StyleSheet.create({
 
   container:{
     paddingVertical: 0,
-    width: 300,
-    maxWidth: "85%"
+    width: 400,
+    maxWidth: "90%"
   },
 
   option:{

@@ -84,9 +84,9 @@ const superVisorProfileSchema = {
 
 const organizationProfileSchema = {
     name:{
-        type: "tel",
-        placeholder: "Enter phone number",
-        label: "Phone number",
+        type: "text",
+        placeholder: "Enter organization name",
+        label: "Organization name",
     },
     address:{
         type: "text",
