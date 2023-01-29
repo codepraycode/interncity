@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
 
 // Store in env for production
 const configurations = {
@@ -12,3 +13,9 @@ const configurations = {
 };
 
 export const app = initializeApp(configurations);
+export const database = getFirestore(app);
+
+export const collectionNames = {
+     USER_ACCOUNT:"userAccounts",
+     USER_PROFILE:"userProfiles"
+}

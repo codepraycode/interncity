@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     formContainer:{
         alignItems:'center',
         paddingBottom: 50,
+        paddingTop:50,
         // height:'100%'
         // backgroundColor:'red'
     },

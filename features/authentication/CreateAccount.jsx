@@ -30,32 +30,45 @@ const CreateAccount = ({ navigation })=>{
       if (loading) return;
 
       // const demo = {
-      //   email:"me@codeprayccode.com",
+      //   email:"me@codepraycodde.com",
       //   password: "letmein123",
       //   confirmPassword: "letmein123",
       // }
 
 
       UserAccount.validateCreateAccountData(userData)
-      .then((value)=>{
-        // navigation.navigate("SignIn");
-          createUserWithEmailAndPassword(auth, value.email, value.password)
-          .then((userCredential)=>{
-            // console.log("Signed up");
-            const {providerData, stsTokenManager} = userCredential.user;
+      .then( async (value)=>{
 
-            // updateProfile(providerData[0]);
-            const userD = providerData[0] || {}
-            updateAccount({
-              ...userD,
-              token: stsTokenManager
-            });
-          })
-          .catch((error)=>{
+          let userCredential;
+
+          try{
+            userCredential = await createUserWithEmailAndPassword(auth, value.email, value.password)
+          }
+          catch(error){
               const err = HandleFirebaseError(error);
               setFormErrors(()=>err);
-              setLoading(false)
-          })
+              setLoading(false);
+
+              return;
+          }
+
+          const {providerData, stsTokenManager} = userCredential.user;
+
+          // updateProfile(providerData[0]);
+          const userD = providerData[0] || {}
+
+          try{
+            await UserAccount.intializeProfile(auth);
+          }catch(err){
+              setFormErrors(()=>err);
+              setLoading(false);
+              return;
+          }
+
+          updateAccount({
+            ...userD,
+            token: stsTokenManager
+          });
       })
       .catch(err=>{
           // console.log("Error", err);
