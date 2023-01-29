@@ -41,7 +41,7 @@ export const Preloader = ({show, text}) => {
             transparent={true}
             visible={show}
             onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
+                // Alert.alert('Modal has been closed.');
             }}
             onBackgroundPress={()=>{}}
         >
@@ -58,7 +58,9 @@ export const Preloader = ({show, text}) => {
   );
 };
 
-export const ErrorModal = ({show, text, ctaText}) => {
+export const ErrorModal = ({show, text, ctaText, cta}) => {
+
+  const cTa = cta || function (){}
   
   return (
     <View style={styles.centeredView}>
@@ -87,7 +89,7 @@ export const ErrorModal = ({show, text, ctaText}) => {
                           marginTop:20,
                         }}
                         activeOpacity={0.6}
-                        onPress={()=>{}}
+                        onPress={()=>cTa()}
                     >
                         <Text 
                             label 
