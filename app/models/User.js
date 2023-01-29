@@ -1,7 +1,7 @@
 // User Data and User Account Model
 
 import { HandlerJoiError, JSONLog, userTypes} from "../utils";
-import { authDataSchema, createAccountDataSchema } from "./base";
+import { authDataSchema, createAccountDataSchema, userProfileDataSchema } from "./base";
 import { 
   collection, 
 //   addDoc, 
@@ -9,6 +9,7 @@ import {
   doc,
   getDoc,
   addDoc,
+  query, where
 //   updateDoc,
 //   deleteDoc
 } from 'firebase/firestore';
@@ -156,6 +157,15 @@ class UserAccount {
         }
         return value;
     }
+    static async validateUserProfileData(userProfile){
+        
+        const {error, value} = createAccountDataSchema.validate(userData);
+
+        if (error){
+            HandlerJoiError(error, "Invalid user credentials");
+        }
+        return value;
+    }
 
     static getCreateAccountSchema(){
         return {
@@ -205,37 +215,83 @@ class UserAccount {
             description: get the profile of the authenticated user
             returns: an instance of UserAccount of the user profile, or
                     null if profile is not completed/exist
+
+
+            Note: This method returns an object of:
+            {
+                message:[a description or issue],
+                data: [user profile data],
+                isComplete: [true or false to check if all is well]
+            }
+
+            message will be used to update user to know why the screen is showing
+            data will be null if the user has no profile
+            isComplete will determine if the create profile screen will show
+
+            this method will throw error, which will make the screen not proceed
         */
 
         // User is expected to have been authenticated when calling this method
         // const {uid} = auth.currentUser || {};
-        const uid = "BTQDspokspSbAB9kU4NJJSBIgA42";
+        // eGAtI4pXeoReYrJIRo832cmzFBI3
+        const uid = "BTQDspokspSbAB9kU4NJJSBIgA42"; // authenticated user id
 
         console.log("Login user id:", uid);
 
-        const userProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
+        const usersProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
+        // queries
+        const q = query(usersProfileCollectionRef, where("user", "==", uid));
 
         let snapshot;
         try{
-            // snapshot = await getDocs(userProfileCollectionRef);
-            const profileRef = doc(database,collectionNames.USER_PROFILE, 'one');
-            snapshot = await getDoc(profileRef);
+            snapshot = await getDocs(q);
         }
         catch(err){
             console.log("Error fetching profile:", err);
-            return null
-        }
+            throw ("Could not fetch user profile")
+        }        
+        
 
-        if (snapshot.exists()){
-            JSONLog(snapshot.data())
-        }else{
+        if (snapshot.empty){
             console.log("No Profile");
+            return {
+                message:"No Profile found",
+                data: null,
+                isComplete: false,
+            };   
         }
-        
-        
 
-        // JSONLog(snapshot.docs.map(item=> ({...item.data(), id:item.id})));        
+        const results = snapshot.docs.map((edoc)=>({...edoc.data(), id: edoc.id}));
 
+        const {id, ...userQuery} = results[0];
+        // firest result is to be used
+
+        const {error, value:validatedData} = userProfileDataSchema.validate(userQuery);
+
+        if (error){
+            try{
+                HandlerJoiError(error, "Incomplete profile");
+            }catch (err){
+                console.log(err);
+                const {message} = err;
+                return {
+                    message,
+                    data: validatedData,
+                    isComplete:false
+                }
+            }
+        }
+
+        const userProfile = {
+            id,
+            ...validatedData
+        }
+        JSONLog(userProfile);
+        return {
+            message:"Fetched user data",
+            data:userProfile,
+            isComplete:true
+        };
     }
 
     static async intializeProfile(auth){

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, } from 'react-native';
 import { View } from 'react-native-ui-lib';
 import AppContext from '../../app/context';
@@ -17,6 +17,7 @@ import {
 } from 'firebase/firestore';
 import { getAuth } from "firebase/auth";
 import { JSONLog } from '../../app/utils';
+import HeaderTitle from '../../components/HeaderTitle';
 
 const ProfileFormScreen = ({navigation, route}) =>{
     const auth = getAuth(app);
@@ -24,7 +25,8 @@ const ProfileFormScreen = ({navigation, route}) =>{
     const userProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
 
     const {updateProfile} = useContext(AppContext);
-    const {profileType} = route.params;
+    
+    const {profileType, inCompleteProfile, title} = route.params;
       
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
@@ -86,21 +88,41 @@ const ProfileFormScreen = ({navigation, route}) =>{
       })
     }
 
-    UserAccount.getProfile(auth);
-
     useEffect(()=>{
+
+      if (Boolean(title)){
+        navigation.setOptions({
+          headerTitle: ()=><HeaderTitle title={title}/>,
+        })
+      }
       
+    },[title]);
+
+    let formSchema = UserAccount.getProfileSchema(profileType);    
+    const getPreviousValues = useCallback(()=>{
+      // process the previous values
+      let prev = {}
+      
+      if (!inCompleteProfile) return prev
+      
+      Object.keys(formSchema).forEach((fieldName)=>{
+        if (!inCompleteProfile[fieldName]) return
+
+        prev[fieldName] = inCompleteProfile[fieldName];
+      });
+
+      return prev;
     })
 
-    const formSchema = UserAccount.getProfileSchema(profileType);
 
     return (
         <SafeAreaLayout scrollStyle={{marginTop:-35}} style={{paddingTop: 0}}>
             {/* Auth form */}
             <View style={styles.container}>
                 <Form
-                    onSubmit={(data)=> handleCreateProfile(data)} 
+                    onSubmit={(data)=> handleCreateProfile(data)}
                     schema={formSchema} 
+                    getPreviousValues={getPreviousValues}
                     authLabel={ loading ? "Creating profile...":"Create Profile"}
                     errors={formErrors}
                     disable={loading}

@@ -10,8 +10,8 @@ import Theme from '../../constants/theme';
 export {TextInput, CheckBox}
 
 
-const Form = ({schema, remember, forgotPassword,disable, authLabel, onSubmit, sso, errors})=>{
-    const [formData, setFormData] = useState({});
+const Form = ({schema, getPreviousValues, remember, forgotPassword,disable, authLabel, onSubmit, sso, errors})=>{
+    const [formData, setFormData] = useState(getPreviousValues());
 
     const updateFormData = (field, value)=>{
         if (Object.is(formData[field], value)) return;
