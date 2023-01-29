@@ -1,5 +1,6 @@
 import "fast-text-encoding";
 import Joi from 'joi';
+import { userTypes } from "../utils";
 
 
 const passwordRegex = new RegExp('^[a-zA-Z0-9]{7,30}$');
@@ -44,9 +45,40 @@ const createAccountDataSchema = Joi.object({
                 }).required(),
     confirmPassword: Joi.ref('password')
         // .pattern(new RegExp('^[a-zA-Z0-9]{7,30}$')),
-}).with('password', 'confirmPassword');;
+}).with('password', 'confirmPassword');
+
+
+const userProfileDataSchema = Joi.object({
+    type: Joi.string()
+        .valid(userTypes.STUDENTS)
+        .valid(userTypes.ORGANIZATION)
+        .valid(userTypes.SUPERVISOR)
+        .lowercase()
+        .required(),
+
+    user: Joi.string(),
+    fullname: Joi.string(),
+    email: Joi.string()
+        .email({ tlds: { allow: false } })
+        .required(),
+    
+    schoolId: Joi.string(),
+    departmentId: Joi.string(),
+
+    name: Joi.string(),
+    address: Joi.string(),
+
+
+    phoneNumber: Joi.string(),
+    city: Joi.string(),
+    country: Joi.string(),
+    cv: Joi.string(),
+    sectors: Joi.string(),
+    
+}) // add constraints later
 
 export {
     authDataSchema,
     createAccountDataSchema,
+    userProfileDataSchema
 }

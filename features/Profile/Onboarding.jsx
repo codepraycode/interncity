@@ -3,31 +3,79 @@ import {View, Text, Image} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
-import {Preloader} from '../../components/Modal';
+import {ErrorModal, Preloader} from '../../components/Modal';
+import { UserAccount } from '../../app/models/User';
+import { app } from '../../app/firebaseConfig';
+import { getAuth } from "firebase/auth";
+import { JSONLog } from '../../app/utils';
 
 /* 
     Onboarding screen for create profile if profile isn't set or completed
 */
 
 const Onboarding = ({ navigation })=>{ // onboarding for authentication
-    const {userType, isOrganization, isIntern} = useContext(AppContext)
-    // console.log(userType);
+    const auth = getAuth(app);
+    const {userType,updateAccountProfile, isOrganization, isIntern} = useContext(AppContext)
     let term = '';
 
     const [isCheckingForProfile, setIsCheckingForProfile] = useState(true);
+    const [loadProfileError, setLoadProfileError] = useState(null);
 
     if (isOrganization) term = "Organization";
     else if (isIntern) term = "Internship";
 
-    useEffect(()=>{
-        const i = setTimeout(()=>setIsCheckingForProfile(false), 3000);
+    const loadProfile = () =>{
+        // if profile was completed, update context
+        // if profile isn't completed:
+        //      if type is not specified, navigate to profiletypeselect screen
+        //      otherwise navigate to create profile screen
 
-        console.log("Action Id:", i);
-        // clearTimeout(i);
-    },[])
+        UserAccount.getProfile(auth)
+        .then(({ message, data, isComplete})=>{
+            // check data and do the needful
+
+            // JSONLog(data);
+            // if no data, that means profile does not exist
+            if (!data || !data?.type) {return setIsCheckingForProfile(false)}; // continue
+
+            if(isComplete) {
+                // Update app context
+                JSONLog(data);
+                return updateAccountProfile(data);
+            }
+
+            // at this point, its regarded as incomplete
+            // navigate to createProfile screen
+            // Navigate to form screen passing the incomplete profile with it
+            return navigation.navigate("ProfileForm", {
+                inCompleteProfile: data,
+                title: "Complete profile"
+            });
+        })
+        .catch((errorMessage)=>{
+            // Message will be displayed in modal
+            setLoadProfileError(errorMessage);
+        })
+
+        // Clear errorMessage if there is.
+        if (Boolean(loadProfileError)) setLoadProfileError(null);
+
+    }
+
+    let modal;
+    
+    if (isCheckingForProfile) modal = <Preloader show={true} text={"Loading..."}/>;
+
+    else if (loadProfileError) modal = <ErrorModal show={true} text={loadProfileError}/>
+
+    useEffect(()=>{
+        loadProfile();
+    },[isCheckingForProfile, loadProfileError])
 
     return (
         <>
+            {modal}
+
             {/* Top container containing Logo */}
             <View style={styles.top}>
                 <Image assetName="logo" assetGroup="assets" width={86} height={43}/>
@@ -86,7 +134,6 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
                 
             </View>
 
-            <Preloader show={isCheckingForProfile} text={"Loading..."}/>
         </>
     )
 }

@@ -209,7 +209,7 @@ const AppScreens = ()=>{
             </>
         )
     }
-    else if (!userProfile || !userProfile.completed){
+    else if (!userProfile){
         stackToRender = (
             <>
                 <Stack.Screen 
