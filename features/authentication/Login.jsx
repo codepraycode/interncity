@@ -6,7 +6,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {app} from '../../app/firebaseConfig';
 import {HandleFirebaseError, JSONLog} from '../../app/utils';
 import { UserAccount } from '../../app/models/User';
-import SafeAreaLayout from '../../components/Layout';
+import AuthLayout from '../../components/Layout';
 import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
 
@@ -35,11 +35,20 @@ const Login = ({ navigation })=>{
 
 
       UserAccount.validateAuthData({email, password})
-      .then((value)=>{
-          signInWithEmailAndPassword(auth,value.email, value.password)
-          .then((userCredential)=>{
-            // console.log("Signed in");
-            // JSONLog(userCredential.user);
+      .then( async (value)=>{
+        
+            let userCredential;
+
+            try{
+              userCredential = await signInWithEmailAndPassword(auth,value.email, value.password);
+            }
+            catch(error){
+              const err = HandleFirebaseError(error);
+              setFormErrors(()=>err);
+              setLoading(false)
+              return // end it
+            }
+
             const {providerData, stsTokenManager} = userCredential.user;
 
             // updateProfile(providerData[0]);
@@ -49,13 +58,8 @@ const Login = ({ navigation })=>{
               token: stsTokenManager
             });
 
-            setLoading(false)
-          })
-          .catch((error)=>{
-              const err = HandleFirebaseError(error);
-              setFormErrors(()=>err);
-              setLoading(false)
-          })
+            setLoading(false);
+          
       })
       .catch(err=>{
           setFormErrors(()=>err);
@@ -69,7 +73,7 @@ const Login = ({ navigation })=>{
 
     return (
 
-        <SafeAreaLayout>
+        <AuthLayout>
             {/* Top view with wave and title */}
             <View style={styles.top} >
                 <Image assetName="wave" assetGroup="assets" width={71} height={71}/>
@@ -108,7 +112,7 @@ const Login = ({ navigation })=>{
                 }
             </View>
 
-        </SafeAreaLayout>
+        </AuthLayout>
     )
 }
 

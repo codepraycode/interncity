@@ -8,6 +8,7 @@ import {
   getDocs,
   doc,
   getDoc,
+  addDoc,
 //   updateDoc,
 //   deleteDoc
 } from 'firebase/firestore';
@@ -234,6 +235,31 @@ class UserAccount {
         
 
         // JSONLog(snapshot.docs.map(item=> ({...item.data(), id:item.id})));        
+
+    }
+
+    static async intializeProfile(auth){
+
+        const {uid} = auth.currentUser || {};
+
+        if (!uid){
+            throw({
+                message:"Authentication required!"
+            })
+        }
+
+        const userProfileCollectionRef = collection(database, collectionNames.USER_PROFILE);
+
+        try{
+            await addDoc(userProfileCollectionRef, { userId: uid })
+        }catch(err){
+            console.log("Error initializing profile:", err);
+            throw({
+                message: "Could not create profile"
+            })
+        }
+
+        return true;
 
     }
 
