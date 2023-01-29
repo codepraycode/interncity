@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {View, Text, Image} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import Theme from '../../constants/theme';
@@ -24,12 +24,20 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
     if (isOrganization) term = "Organization";
     else if (isIntern) term = "Internship";
 
-    const loadProfile = () =>{
-        // if profile was completed, update context
-        // if profile isn't completed:
-        //      if type is not specified, navigate to profiletypeselect screen
-        //      otherwise navigate to create profile screen
+    let modal;
+    const reFetch = ()=>{
+        setLoadProfileError(null);
+        setIsCheckingForProfile(true);
+    }
+    
+    if (isCheckingForProfile) modal = <Preloader show={true} text={"Loading..."}/>;
 
+    else if (loadProfileError) modal = <ErrorModal show={true} text={loadProfileError} cta={reFetch}/>
+
+    console.log([isCheckingForProfile, loadProfileError]);
+    useEffect(()=>{
+        // loadProfile();
+        // console.log("Runnin")
         UserAccount.getProfile(auth)
         .then(({ message, data, isComplete})=>{
             // check data and do the needful
@@ -54,22 +62,12 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
         })
         .catch((errorMessage)=>{
             // Message will be displayed in modal
-            setLoadProfileError(errorMessage);
+            // console.log("ErrorM:", errorMessage, typeof errorMessage);
+            if ((typeof errorMessage) !== "string") setLoadProfileError("Could not fetch profile");
+            else setLoadProfileError(String(errorMessage));
+
+            setIsCheckingForProfile(false);
         })
-
-        // Clear errorMessage if there is.
-        if (Boolean(loadProfileError)) setLoadProfileError(null);
-
-    }
-
-    let modal;
-    
-    if (isCheckingForProfile) modal = <Preloader show={true} text={"Loading..."}/>;
-
-    else if (loadProfileError) modal = <ErrorModal show={true} text={loadProfileError}/>
-
-    useEffect(()=>{
-        loadProfile();
     },[isCheckingForProfile, loadProfileError])
 
     return (

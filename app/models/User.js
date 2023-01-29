@@ -238,6 +238,10 @@ class UserAccount {
 
         console.log("Login user id:", uid);
 
+        if (!uid) {
+            throw("Authentication is required!");
+        }
+
         const usersProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
         // queries
         const q = query(usersProfileCollectionRef, where("user", "==", uid));
