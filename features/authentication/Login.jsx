@@ -86,9 +86,9 @@ const Login = ({ navigation })=>{
                   onSubmit={(data)=> handleLogin(data)}
                   schema={formSchema} 
                   authLabel={loading ? "Loging In..." :"LOGIN" }
-                  remember={true} 
-                  forgotPassword={true}
-                  sso = {true}
+                  remember={false} 
+                  forgotPassword={false}
+                  sso = {false}
                   errors={formErrors}
                   disable={loading}
                 />
