@@ -9,7 +9,7 @@ import {
   doc,
   getDoc,
   addDoc,
-  query, where
+  query, where, updateDoc
 //   updateDoc,
 //   deleteDoc
 } from 'firebase/firestore';
@@ -267,10 +267,11 @@ class UserAccount {
 
         const results = snapshot.docs.map((edoc)=>({...edoc.data(), id: edoc.id}));
 
-        const {id, ...userQuery} = results[0];
+        const userQuery = results[0];
+        const {id, ...userQueryData} = userQuery;
         // firest result is to be used
 
-        const {error, value:validatedData} = userProfileDataSchema.validate(userQuery);
+        const {error, value:validatedData} = userProfileDataSchema.validate(userQueryData);
 
         if (error){
             try{
@@ -280,20 +281,20 @@ class UserAccount {
                 const {message} = err;
                 return {
                     message,
-                    data: validatedData,
+                    data: userQuery,
                     isComplete:false
                 }
             }
         }
 
-        const userProfile = {
-            id,
-            ...validatedData
-        }
-        JSONLog(userProfile);
+        // const userProfile = {
+        //     id,
+        //     ...validatedData
+        // }
+        JSONLog(userQuery);
         return {
             message:"Fetched user data",
-            data:userProfile,
+            data:userQuery,
             isComplete:true
         };
     }
@@ -316,6 +317,50 @@ class UserAccount {
             console.log("Error initializing profile:", err);
             throw({
                 message: "Could not create profile"
+            })
+        }
+
+        return true;
+
+    }
+
+
+    static async updateProfile(auth, profileData){
+
+        const {uid} = auth.currentUser || {};
+
+        if (!uid){
+            throw({
+                message:"Could not update profile!"
+            })
+        }
+
+        const {id, ...restProfileData} = profileData;
+
+        const {error, value:validatedData} = userProfileDataSchema.validate(restProfileData);
+
+        if (error){
+            try{
+                HandlerJoiError(error, "Incomplete profile");
+            }catch (err){
+                console.log(err);
+                // const {message} = err;
+                throw ({
+                    ...err,
+                    data: validatedData,
+                    isComplete:false
+                })
+            }
+        }
+
+
+        try{
+            const docToUpdate = doc(database, collectionNames.USER_PROFILE, id);
+            await updateDoc(docToUpdate, validatedData)
+        }catch(err){
+            console.log("Error updating profile:", err.message);
+            throw({
+                message: "Could not update profile"
             })
         }
 

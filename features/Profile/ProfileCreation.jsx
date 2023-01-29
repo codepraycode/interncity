@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, } from 'react-native';
-import { View } from 'react-native-ui-lib';
+import { Text, View } from 'react-native-ui-lib';
 import AppContext from '../../app/context';
 import Form from '../../components/form';
 import Theme from '../../constants/theme';
@@ -18,36 +18,47 @@ import {
 import { getAuth } from "firebase/auth";
 import { JSONLog } from '../../app/utils';
 import HeaderTitle from '../../components/HeaderTitle';
+import { Preloader } from '../../components/Modal';
 
 const ProfileFormScreen = ({navigation, route}) =>{
     const auth = getAuth(app);
 
     const userProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
 
-    const {updateProfile} = useContext(AppContext);
+    const {updateAccountProfile} = useContext(AppContext);
     
     const {profileType, inCompleteProfile, title} = route.params;
       
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const handleCreateProfile = (data)=>{
+    const handleCreateProfile = (updatedData)=>{
       if (loading) return;
+
+      const data = {
+        ...(inCompleteProfile || {}),
+        ...updatedData
+      }
+
       console.log("create profile",data);
 
-      addDoc(userProfileCollectionRef,{
-        name:"Sample name",
-        type: profileType,
-      })
+      setLoading(true);
+      setFormErrors(()=>({}));
+
+      UserAccount.updateProfile(auth, data)
       .then(()=>{
         console.log("Created document")
+        // return updateAccountProfile(data);
+        navigation.navigate("ProfileSuccess", {
+          profile: data,
+        });
+        setLoading(false);
       })
       .catch((err)=>{
-        console.log("Error creating document")
-        console.log(err);
+        console.log("Error updating document")
+        setFormErrors(()=>err);
+        setLoading(false)
       })
-      // updateProfile({dt:"sample data"});
-      // navigation.navigate("ProfileSuccess");
     }
 
     const getAllDocs = ()=>{
@@ -96,7 +107,7 @@ const ProfileFormScreen = ({navigation, route}) =>{
         })
       }
       
-    },[title]);
+    },[]);
 
     let formSchema = UserAccount.getProfileSchema(profileType);    
     const getPreviousValues = useCallback(()=>{
@@ -117,13 +128,16 @@ const ProfileFormScreen = ({navigation, route}) =>{
 
     return (
         <SafeAreaLayout scrollStyle={{marginTop:-35}} style={{paddingTop: 0}}>
+            
+            <Preloader show={loading} text="loading"/>
+            
             {/* Auth form */}
             <View style={styles.container}>
                 <Form
                     onSubmit={(data)=> handleCreateProfile(data)}
                     schema={formSchema} 
                     getPreviousValues={getPreviousValues}
-                    authLabel={ loading ? "Creating profile...":"Create Profile"}
+                    authLabel={ !loading ? "Continue":"Loading..."}
                     errors={formErrors}
                     disable={loading}
                 />

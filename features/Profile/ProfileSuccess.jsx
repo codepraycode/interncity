@@ -5,8 +5,8 @@ import Button from '../../components/Button';
 
 
 
-
-const ProfileSuccessScreen = ({ navigation }) =>{
+const ProfileSuccessScreen = ({ navigation, route }) =>{
+    console.log(route.params);
     const {updateProfile, userType} = useContext(AppContext);
     let term = '';
 

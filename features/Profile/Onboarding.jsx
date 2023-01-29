@@ -55,8 +55,9 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
             // at this point, its regarded as incomplete
             // navigate to createProfile screen
             // Navigate to form screen passing the incomplete profile with it
+            const email = auth.currentUser.providerData[0].email
             return navigation.navigate("ProfileForm", {
-                inCompleteProfile: data,
+                inCompleteProfile: {...data, email},
                 title: "Complete profile"
             });
         })
