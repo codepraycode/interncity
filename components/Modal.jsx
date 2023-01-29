@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import {Modal,View} from 'react-native-ui-lib';
+import { Alert, StyleSheet } from 'react-native';
+import {Modal,View, Text, Image} from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 
 const AppModal = ({show, onHide, children}) => {
@@ -29,6 +29,35 @@ const AppModal = ({show, onHide, children}) => {
     </View>
   );
 };
+
+
+export const Preloader = ({show, text}) => {
+  
+  return (
+    <View style={styles.centeredView}>
+        <Modal
+            // animationType="slide"
+            transparent={true}
+            visible={show}
+            onRequestClose={() => {
+                Alert.alert('Modal has been closed.');
+            }}
+            onBackgroundPress={()=>{}}
+        >
+
+            <View center style={styles.modalContainerView}>
+
+                <View center style={styles.modalContentContainer}>
+                    <Image assetName="logo" assetGroup="assets" width={100} height={50}/>
+                    <Text p style={{marginTop: 20}}>{text || "Loading..."}</Text>
+                </View>
+            </View>
+        </Modal>
+    </View>
+  );
+};
+
+
 
 const styles = StyleSheet.create({
   modalContainerView: {

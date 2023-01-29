@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {View, Text, Image} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
+import {Preloader} from '../../components/Modal';
 
 /* 
     Onboarding screen for create profile if profile isn't set or completed
@@ -13,8 +14,17 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
     // console.log(userType);
     let term = '';
 
+    const [isCheckingForProfile, setIsCheckingForProfile] = useState(true);
+
     if (isOrganization) term = "Organization";
     else if (isIntern) term = "Internship";
+
+    useEffect(()=>{
+        const i = setTimeout(()=>setIsCheckingForProfile(false), 3000);
+
+        console.log("Action Id:", i);
+        // clearTimeout(i);
+    },[])
 
     return (
         <>
@@ -75,6 +85,8 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
                 </TouchableOpacity>
                 
             </View>
+
+            <Preloader show={isCheckingForProfile} text={"Loading..."}/>
         </>
     )
 }
