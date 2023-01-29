@@ -11,7 +11,11 @@ export {TextInput, CheckBox}
 
 
 const Form = ({schema, getPreviousValues, remember, forgotPassword,disable, authLabel, onSubmit, sso, errors})=>{
-    const [formData, setFormData] = useState(getPreviousValues());
+    const loadPreviousValues = getPreviousValues || function (){
+        return {}
+    }
+
+    const [formData, setFormData] = useState(loadPreviousValues());
 
     const updateFormData = (field, value)=>{
         if (Object.is(formData[field], value)) return;
@@ -35,7 +39,7 @@ const Form = ({schema, getPreviousValues, remember, forgotPassword,disable, auth
                         key={i} 
                         value={formData[field]} 
                         onChange={updateFormData}
-                        error={errors[field]}
+                        error={errors && errors[field]}
                     />
                 ))
             }

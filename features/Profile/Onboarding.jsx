@@ -15,7 +15,7 @@ import { JSONLog } from '../../app/utils';
 
 const Onboarding = ({ navigation })=>{ // onboarding for authentication
     const auth = getAuth(app);
-    const {userType,updateAccountProfile, isOrganization, isIntern} = useContext(AppContext)
+    const {updateAccountProfile, isOrganization, isIntern} = useContext(AppContext)
     let term = '';
 
     const [isCheckingForProfile, setIsCheckingForProfile] = useState(true);
@@ -103,7 +103,7 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
 
 
                     {
-                        userType === 'intern' && (
+                        isIntern && (
                             
                             <Text p style={{width:"75%", color: Theme.accent}}>
                                 Explore all the most exciting internship

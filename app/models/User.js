@@ -277,7 +277,7 @@ class UserAccount {
             try{
                 HandlerJoiError(error, "Incomplete profile");
             }catch (err){
-                console.log(err);
+                console.log("Error::", err);
                 const {message} = err;
                 return {
                     message,

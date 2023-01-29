@@ -8,14 +8,14 @@ export default AppContext;
 export const AppContextProvider = ({children})=>{
 
     const initialState = {
-        userAccount: {
-            name:"Smaple name",
-            token:{
-                access:"dfakslkjflask"
-            }
-        },
+        userAccount: null,
+        // {
+        //     name:"Smaple name",
+        //     token:{
+        //         access:"dfakslkjflask"
+        //     }
+        // },
         userProfile: null,
-        userType:'supervisor'//"organization"
     }
 
     const ActionTypes = {
@@ -59,7 +59,6 @@ export const AppContextProvider = ({children})=>{
                 userToken = await SecureStore.getItemAsync('userToken');
             } catch (e) {
                 // Restoring token failed
-                // console.log(e)
             }
 
             // After restoring token, we may need to validate it in production apps
@@ -74,9 +73,9 @@ export const AppContextProvider = ({children})=>{
 
     const appContextData = React.useMemo(() => ({
         ...contextData,
-        isOrganization:contextData.userType === 'organization',
-        isSupervisor:contextData.userType === 'supervisor',
-        isIntern:contextData.userType === 'intern',
+        isOrganization:contextData.userProfile?.type === 'organization',
+        isSupervisor:contextData.userProfile?.type === 'supervisor',
+        isIntern:contextData.userProfile?.type === 'intern',
         
         signOut: () => dispatch({ type: 'SIGN_OUT' }),
         updateAccountProfile: (data) => {

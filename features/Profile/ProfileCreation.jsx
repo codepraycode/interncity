@@ -24,8 +24,6 @@ const ProfileFormScreen = ({navigation, route}) =>{
     const auth = getAuth(app);
 
     const userProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
-
-    const {updateAccountProfile} = useContext(AppContext);
     
     const {profileType, inCompleteProfile, title} = route.params;
       
