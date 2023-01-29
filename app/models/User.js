@@ -232,9 +232,9 @@ class UserAccount {
         */
 
         // User is expected to have been authenticated when calling this method
-        // const {uid} = auth.currentUser || {};
+        const {uid} = auth.currentUser || {};
         // eGAtI4pXeoReYrJIRo832cmzFBI3
-        const uid = "BTQDspokspSbAB9kU4NJJSBIgA42"; // authenticated user id
+        // const uid = "BTQDspokspSbAB9kU4NJJSBIgA42"; // authenticated user id
 
         console.log("Login user id:", uid);
 
