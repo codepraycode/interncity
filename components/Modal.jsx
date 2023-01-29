@@ -1,7 +1,8 @@
 import React from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { Alert, StyleSheet,TouchableOpacity } from 'react-native';
 import {Modal,View, Text, Image} from 'react-native-ui-lib';
 import Theme from '../constants/theme';
+import CustomButton from './Button';
 
 const AppModal = ({show, onHide, children}) => {
   
@@ -57,6 +58,55 @@ export const Preloader = ({show, text}) => {
   );
 };
 
+export const ErrorModal = ({show, text, ctaText}) => {
+  
+  return (
+    <View style={styles.centeredView}>
+        <Modal
+            // animationType="slide"
+            transparent={true}
+            visible={show}
+            onRequestClose={() => {
+                Alert.alert('Modal has been closed.');
+            }}
+            onBackgroundPress={()=>{}}
+        >
+
+            <View center style={styles.modalContainerView}>
+
+                <View center style={[styles.modalContentContainer, styles.errorContainer]}>
+                    <Image assetName="logo" assetGroup="assets" width={100} height={50}/>
+                    <Text h5 center style={{marginTop: 20, color:Theme.red}}>{text || "Error occured"}</Text>
+
+                    <TouchableOpacity
+                        style={{
+                          backgroundColor:Theme.secondary,
+                          paddingVertical:10,
+                          width: 150,
+                          borderRadius: 5,
+                          marginTop:20,
+                        }}
+                        activeOpacity={0.6}
+                        onPress={()=>{}}
+                    >
+                        <Text 
+                            label 
+                            style={{
+                                color: Theme.white,
+                                fontSize: 14,
+                                textAlign:'center'
+                            }}
+                        >
+                            {ctaText || "Try again"}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </Modal>
+    </View>
+  );
+};
+
 
 
 const styles = StyleSheet.create({
@@ -83,6 +133,15 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+
+  errorContainer:{
+    shadowColor:Theme.secondary,
+    borderColor:Theme.secondary,
+    borderWidth:1,
+    maxWidth: 300,
+
+    justifyContent:'space-between'
+  }
 });
 
 export default AppModal;
