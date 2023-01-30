@@ -69,7 +69,7 @@ export const ErrorModal = ({show, text, ctaText, cta}) => {
             transparent={true}
             visible={show}
             onRequestClose={() => {
-                Alert.alert('Modal has been closed.');
+                // Alert.alert('Modal has been closed.');
             }}
             onBackgroundPress={()=>{}}
         >
