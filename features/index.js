@@ -37,6 +37,7 @@ import AppContext from '../app/context';
 import { AuthOnboardingScreen, CreateAccountScreen, LoginScreen } from './authentication';
 import StudentListScreen from './Students/StudentList';
 import HeaderRight from '../components/HeaderRight';
+import HeaderTitle from '../components/HeaderTitle';
 
 
 // Stack Navigator
@@ -70,15 +71,7 @@ const getHeaderTitle = (name, color=null) => {
     else if (screenName === 'profilesetting') title =  "Profile Settings";
     else if (screenName === 'appsetting') title =  "App Settings";
     
-    return <Text 
-                style={{
-                    fontFamily:'FontBold',
-                    fontSize:20,
-                    color:color ? color: Theme.main,
-                }}
-            >
-                {title}
-            </Text>;
+    return (<HeaderTitle title={title} color={color}/>);
 }
 
 const commonScreenOptions = { headerShown: false }
@@ -183,11 +176,17 @@ const TabsStack = ()=>{
 }
 
 const AppScreens = ()=>{
-    const { userAccount, userProfile, isIntern,isSupervisor } = useContext(AppContext);
+    const { 
+        userAccount, 
+        userProfile, 
+        isIntern,
+        isLoggedIn,
+        isProfileComplete
+    } = useContext(AppContext);
     
     let stackToRender;    
 
-    if (!userAccount?.token) {
+    if (!isLoggedIn) {
         stackToRender = (
             <>
                 { isIntern && (
@@ -209,7 +208,7 @@ const AppScreens = ()=>{
             </>
         )
     }
-    else if (!userProfile || !userProfile.completed){
+    else if (!isProfileComplete){
         stackToRender = (
             <>
                 <Stack.Screen 

@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import SecureStore from 'expo-secure-store';
+// import SecureStore from 'expo-secure-store';
 
 const AppContext = createContext();
 
@@ -16,7 +16,6 @@ export const AppContextProvider = ({children})=>{
         //     }
         // },
         userProfile: null,
-        userType:'supervisor'//"organization"
     }
 
     const ActionTypes = {
@@ -48,36 +47,38 @@ export const AppContextProvider = ({children})=>{
     // const [contextData, setContextData] = useState('dfdsd');
     const [contextData, dispatch] = useReducer(reducers, initialState);
     
-    useEffect(() => {
-        // Fetch the token from storage then navigate to our appropriate place
+    // useEffect(() => {
+    //     // Fetch the token from storage then navigate to our appropriate place
         
-        const bootstrapAsync = async () => {
-            // if (contextData.userAccount?.token) return;
+    //     const bootstrapAsync = async () => {
+    //         // if (contextData.userAccount?.token) return;
             
-            let userToken;
+    //         let userToken;
             
-            try {
-                userToken = await SecureStore.getItemAsync('userToken');
-            } catch (e) {
-                // Restoring token failed
-                // console.log(e)
-            }
+    //         try {
+    //             userToken = await SecureStore.getItemAsync('userToken');
+    //         } catch (e) {
+    //             // Restoring token failed
+    //         }
 
-            // After restoring token, we may need to validate it in production apps
+    //         // After restoring token, we may need to validate it in production apps
 
-            // This will switch to the App screen or Auth screen and this loading
-            // screen will be unmounted and thrown away.
-            // dispatch({ type: 'RESTORE_TOKEN', token: userToken });
-        };
+    //         // This will switch to the App screen or Auth screen and this loading
+    //         // screen will be unmounted and thrown away.
+    //         // dispatch({ type: 'RESTORE_TOKEN', token: userToken });
+    //     };
         
-        bootstrapAsync();
-    }, []);
+    //     bootstrapAsync();
+    // }, []);
 
     const appContextData = React.useMemo(() => ({
         ...contextData,
-        isOrganization:contextData.userType === 'organization',
-        isSupervisor:contextData.userType === 'supervisor',
-        isIntern:contextData.userType === 'intern',
+        isOrganization:contextData.userProfile?.type === 'organization',
+        isSupervisor:contextData.userProfile?.type === 'supervisor',
+        isIntern:contextData.userProfile?.type === 'intern',
+
+        isLoggedIn: Boolean(contextData.userAccount?.token),
+        isProfileComplete: Boolean(contextData.userProfile) && Boolean(contextData.userProfile.type) && Boolean(contextData.userProfile.isComplete),
         
         signOut: () => dispatch({ type: 'SIGN_OUT' }),
         updateAccountProfile: (data) => {

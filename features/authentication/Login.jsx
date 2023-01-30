@@ -33,6 +33,8 @@ const Login = ({ navigation })=>{
       // }
       const {email, password} = loginData;
 
+      setLoading(true)
+      setFormErrors(()=>({}));
 
       UserAccount.validateAuthData({email, password})
       .then( async (value)=>{
@@ -65,10 +67,6 @@ const Login = ({ navigation })=>{
           setFormErrors(()=>err);
           setLoading(false)
       })
-
-      
-      setLoading(true)
-      setFormErrors(()=>({}));
     }
 
     return (
@@ -86,9 +84,9 @@ const Login = ({ navigation })=>{
                   onSubmit={(data)=> handleLogin(data)}
                   schema={formSchema} 
                   authLabel={loading ? "Loging In..." :"LOGIN" }
-                  remember={true} 
-                  forgotPassword={true}
-                  sso = {true}
+                  remember={false} 
+                  forgotPassword={false}
+                  sso = {false}
                   errors={formErrors}
                   disable={loading}
                 />

@@ -10,8 +10,14 @@ import Theme from '../../constants/theme';
 export {TextInput, CheckBox}
 
 
-const Form = ({schema, remember, forgotPassword,disable, authLabel, onSubmit, sso, errors})=>{
-    const [formData, setFormData] = useState({});
+const Form = ({schema, getPreviousValues, remember, forgotPassword,disable, authLabel, onSubmit, sso, errors})=>{
+    const loadPreviousValues = getPreviousValues || function (){
+        return {}
+    }
+
+    const [formData, setFormData] = useState(()=>{
+        return loadPreviousValues();
+    });
 
     const updateFormData = (field, value)=>{
         if (Object.is(formData[field], value)) return;
@@ -35,7 +41,7 @@ const Form = ({schema, remember, forgotPassword,disable, authLabel, onSubmit, ss
                         key={i} 
                         value={formData[field]} 
                         onChange={updateFormData}
-                        error={errors[field]}
+                        error={errors && errors[field]}
                     />
                 ))
             }

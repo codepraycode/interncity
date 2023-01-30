@@ -1,23 +1,82 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {View, Text, Image} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
+import {ErrorModal, Preloader} from '../../components/Modal';
+import { UserAccount } from '../../app/models/User';
+import { app } from '../../app/firebaseConfig';
+import { getAuth } from "firebase/auth";
+import { JSONLog } from '../../app/utils';
 
 /* 
     Onboarding screen for create profile if profile isn't set or completed
 */
 
 const Onboarding = ({ navigation })=>{ // onboarding for authentication
-    const {userType, isOrganization, isIntern} = useContext(AppContext)
-    // console.log(userType);
+    const auth = getAuth(app);
+    const {updateAccountProfile, isOrganization, isIntern} = useContext(AppContext)
     let term = '';
+
+    const [isCheckingForProfile, setIsCheckingForProfile] = useState(true);
+    const [loadProfileError, setLoadProfileError] = useState(null);
 
     if (isOrganization) term = "Organization";
     else if (isIntern) term = "Internship";
 
+    let modal;
+    const reFetch = ()=>{
+        setLoadProfileError(null);
+        setIsCheckingForProfile(true);
+    }
+    
+    if (isCheckingForProfile) modal = <Preloader show={true} text={"Loading..."}/>;
+
+    else if (loadProfileError) modal = <ErrorModal show={true} text={loadProfileError} cta={reFetch}/>
+
+    useEffect(()=>{
+        // loadProfile();
+        // console.log("Runnin")
+        UserAccount.getProfile(auth)
+        .then(({ message, data, isComplete})=>{
+            // check data and do the needful
+
+            // Get the data, update context.
+            updateAccountProfile({
+                email: auth.currentUser.providerData[0].email,
+                ...data,
+                isComplete,
+            });
+
+            JSONLog(data);
+            if (isComplete) return;
+
+            if (!data.type) {
+                return setIsCheckingForProfile(false)
+            }; // continue
+
+            // at this point, its regarded as incomplete
+            // navigate to createProfile screen
+            // Navigate to form screen passing the incomplete profile with it
+            
+            return navigation.navigate("ProfileForm", {
+                title: "Complete profile"
+            });
+        })
+        .catch((errorMessage)=>{
+            // Message will be displayed in modal
+            // console.log("ErrorM:", errorMessage, typeof errorMessage);
+            if ((typeof errorMessage) !== "string") setLoadProfileError("Could not fetch profile");
+            else setLoadProfileError(String(errorMessage));
+
+            setIsCheckingForProfile(false);
+        })
+    },[isCheckingForProfile, loadProfileError])
+
     return (
         <>
+            {modal}
+
             {/* Top container containing Logo */}
             <View style={styles.top}>
                 <Image assetName="logo" assetGroup="assets" width={86} height={43}/>
@@ -46,7 +105,7 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
 
 
                     {
-                        userType === 'intern' && (
+                        isIntern && (
                             
                             <Text p style={{width:"75%", color: Theme.accent}}>
                                 Explore all the most exciting internship
@@ -75,6 +134,7 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
                 </TouchableOpacity>
                 
             </View>
+
         </>
     )
 }

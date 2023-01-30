@@ -102,7 +102,7 @@ const CreateAccount = ({ navigation })=>{
                   onSubmit={(data)=> handleCreateAccount(data)}
                   schema={formSchema} 
                   authLabel={loading ? "Signing Up..." : "SIGN UP" }
-                  sso = {true}
+                  sso = {false}
                   errors={formErrors}
                   disable={loading}
                 />

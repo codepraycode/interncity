@@ -1,17 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Image, Text, View } from 'react-native-ui-lib';
 import AppContext from '../../app/context';
 import Button from '../../components/Button';
 
 
 
+const ProfileSuccessScreen = () =>{
+    // console.log(route.params);
+    
+    const {updateAccountProfile, userProfile, isOrganization, isIntern} = useContext(AppContext);
+    const [loading, setLoading] = useState(false);
 
-const ProfileSuccessScreen = ({ navigation }) =>{
-    const {updateProfile, userType} = useContext(AppContext);
     let term = '';
 
-    if (userType === 'organization') term = "Organization";
-    else if (userType === 'intern') term = "Internship";
+    if (isOrganization) term = "Organization";
+    else if (isIntern) term = "Internship";
 
     return (
 
@@ -26,11 +29,14 @@ const ProfileSuccessScreen = ({ navigation }) =>{
                 <Text h3>Profile update successful</Text>
 
                 <Text p marginV-30 style={{width:"70%", textAlign:'center', }}>
-                    Your {userType === 'intern' && "application"} information has been updated successfully!. {userType === 'intern' && "You can now go ahead to apply for internship roles"}
+                    Your {isIntern && "application"} information has been updated successfully!. {isIntern && "You can now go ahead to apply for internship roles"}
                 </Text>
 
-                <Button text="Continue" onPress={()=>{
-                    updateProfile({allSet:true})
+                <Button 
+                    text={loading ? "Finishing up..." : "Finish"}
+                    onPress={()=>{
+                    updateAccountProfile({...userProfile, isComplete: true});
+                    setLoading(true);
                 }}/>
             </View>
 
