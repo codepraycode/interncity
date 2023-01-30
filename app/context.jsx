@@ -104,14 +104,32 @@ export const AppContextProvider = ({children})=>{
 
         dispatch({ type: ActionTypes.UPDATE_DEPARTMENTS, payload: departments });
     }
+
+    const loadSectors = async ()=>{
+        if (Array.isArray(contextData.sectors) && contextData.sectors.length > 1) return
+
+        const depratmentsCollectionRef = collection(database,collectionNames.SECTORS);
+        let snapshot;
+        try{
+            snapshot = await getDocs(depratmentsCollectionRef);
+        }
+        catch(err){
+            console.log("Error fetching all sectors", err);
+        }
+
+        const sectors = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+
+        dispatch({ type: ActionTypes.UPDATE_SECTORS, payload: sectors });
+    }
     
     useEffect(() => {
 
         const bootstrapAsync = async () => {
-            // Load all schools
+            
             loadSchools()
 
             loadDepartments();
+            loadSectors()
 
         };
         
