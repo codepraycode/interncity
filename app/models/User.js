@@ -89,21 +89,6 @@ const organizationProfileSchema = {
         placeholder: "Enter organization name",
         label: "Organization name",
     },
-    address:{
-        type: "text",
-        placeholder: "Enter official address",
-        label: "Official address",
-    },
-    city:{
-        type: "text",
-        placeholder: "Enter residential city",
-        label: "City",
-    },
-    country:{
-        type: "text",
-        placeholder: "Enter residential country",
-        label: "Country",
-    },
     email:{
         type: "email",
         placeholder: "Enter official email",
@@ -120,6 +105,21 @@ const organizationProfileSchema = {
         type: "url",
         placeholder: "Enter official website",
         label: "Official website",
+    },
+    address:{
+        type: "text",
+        placeholder: "Enter official address",
+        label: "Official address",
+    },
+    city:{
+        type: "text",
+        placeholder: "Enter residential city",
+        label: "City",
+    },
+    country:{
+        type: "text",
+        placeholder: "Enter residential country",
+        label: "Country",
     },
 }
 
