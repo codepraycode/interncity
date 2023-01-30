@@ -15,7 +15,9 @@ const Form = ({schema, getPreviousValues, remember, forgotPassword,disable, auth
         return {}
     }
 
-    const [formData, setFormData] = useState(loadPreviousValues());
+    const [formData, setFormData] = useState(()=>{
+        return loadPreviousValues();
+    });
 
     const updateFormData = (field, value)=>{
         if (Object.is(formData[field], value)) return;
