@@ -7,7 +7,7 @@ import {
 //   addDoc, 
   getDocs,
   doc,
-  getDoc,
+//   getDoc,
   addDoc,
   query, where, updateDoc
 //   updateDoc,
