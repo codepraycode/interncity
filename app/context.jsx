@@ -76,6 +76,9 @@ export const AppContextProvider = ({children})=>{
         isOrganization:contextData.userProfile?.type === 'organization',
         isSupervisor:contextData.userProfile?.type === 'supervisor',
         isIntern:contextData.userProfile?.type === 'intern',
+
+        isLoggedIn: Boolean(contextData.userAccount?.token),
+        isProfileComplete: Boolean(contextData.userProfile) && Boolean(contextData.userProfile.type) && Boolean(contextData.userProfile.isComplete),
         
         signOut: () => dispatch({ type: 'SIGN_OUT' }),
         updateAccountProfile: (data) => {
