@@ -25,7 +25,7 @@ const ProfileFormScreen = ({navigation, route}) =>{
 
     const { updateAccountProfile, userProfile } = useContext(AppContext);
     
-    const {profileType, title} = route.params;
+    const {selectedProfileType, title} = route.params;
       
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
@@ -72,7 +72,9 @@ const ProfileFormScreen = ({navigation, route}) =>{
       
     },[]);
 
-    let formSchema = UserAccount.getProfileSchema(profileType);    
+    const profileType = userProfile?.type || selectedProfileType;
+
+    let formSchema = UserAccount.getProfileSchema(profileType);
     const getPreviousValues = useCallback(()=>{
       // process the previous values
       let prev = {
