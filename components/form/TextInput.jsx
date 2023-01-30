@@ -4,6 +4,7 @@ import React from 'react'
 import Theme from '../../constants/theme';
 
 import { 
+    DepartmentSelect,
     EmailInput, 
     NormalInput, 
     PasswordInput, 
@@ -17,6 +18,7 @@ const CustomTextInput = (props) => {
     if (schema.type === 'password') template = <PasswordInput {...props}/>;
     else if (schema.type === 'email') template = <EmailInput {...props}/>;
     else if (schema.type === 'school') template = <SchoolSelect {...props}/>;
+    else if (schema.type === 'department') template = <DepartmentSelect {...props}/>;
     else template = <NormalInput {...props}/>;
     
     return (

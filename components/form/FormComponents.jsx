@@ -72,15 +72,47 @@ const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
             placeholderTextColor={styles.placeholderTextColor}
             value={value}
             enableModalBlur={false}
-            onChange={({label, value}) => {
-                onChange(name, value)
-                console.log("Picked", label);
-            }}
-            topBarProps={{title: 'Languages'}}
+            onChange={({value}) => onChange(name, value)}
+            topBarProps={{title: 'Select school'}}
             style = {[styles.input, styles.normalInput, { height: "100%" }]}
             containerStyle= {{ height:55 }}
             showSearch
-            searchPlaceholder={'Search a language'}
+            searchPlaceholder={'Search school'}
+            searchStyle={{color:Theme.accent, fontFamily:"FontBold"}}
+            migrateTextField
+        >
+        {options.map((option, i)=> (
+            <Picker.Item 
+                key={i} 
+                value={option.id} 
+                label={option.name} 
+                disabled={false} 
+                labelStyle={{color: Theme.accent}}
+            />
+        ))}
+        </Picker>
+
+    )
+})
+
+const DepartmentSelect = React.memo(({schema, onChange, name, value})=>{
+
+    const {departments} = useContext(AppContext);    
+
+    const options = departments || [];
+
+    return (
+        <Picker
+            placeholder="Click to select department"
+            placeholderTextColor={styles.placeholderTextColor}
+            value={value}
+            enableModalBlur={false}
+            onChange={({value}) => onChange(name, value)}
+            topBarProps={{title: 'Select department'}}
+            style = {[styles.input, styles.normalInput, { height: "100%" }]}
+            containerStyle= {{ height:55 }}
+            showSearch
+            searchPlaceholder={'Search department'}
             searchStyle={{color:Theme.accent, fontFamily:"FontBold"}}
             migrateTextField
         >
@@ -104,6 +136,7 @@ export {
     EmailInput,
     PasswordInput,
     SchoolSelect,
+    DepartmentSelect,
 }
 
 
