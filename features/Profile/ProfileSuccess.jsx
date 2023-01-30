@@ -5,10 +5,10 @@ import Button from '../../components/Button';
 
 
 
-const ProfileSuccessScreen = ({ navigation, route }) =>{
+const ProfileSuccessScreen = () =>{
     // console.log(route.params);
-    const {profile} = route.params;
-    const {updateAccountProfile, isOrganization, isIntern} = useContext(AppContext);
+    
+    const {updateAccountProfile, userProfile, isOrganization, isIntern} = useContext(AppContext);
     const [loading, setLoading] = useState(false);
 
     let term = '';
@@ -35,7 +35,7 @@ const ProfileSuccessScreen = ({ navigation, route }) =>{
                 <Button 
                     text={loading ? "Finishing up..." : "Finish"}
                     onPress={()=>{
-                    updateAccountProfile(profile);
+                    updateAccountProfile({...userProfile, isComplete: true});
                     setLoading(true);
                 }}/>
             </View>

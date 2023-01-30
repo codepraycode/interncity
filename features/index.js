@@ -202,7 +202,7 @@ const AppScreens = ()=>{
             </>
         )
     }
-    else if (!userProfile){
+    else if (!userProfile || !userProfile.type || !userProfile.isComplete){
         stackToRender = (
             <>
                 <Stack.Screen 

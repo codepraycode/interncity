@@ -258,11 +258,12 @@ class UserAccount {
 
         if (snapshot.empty){
             console.log("No Profile");
-            return {
-                message:"No Profile found",
-                data: null,
-                isComplete: false,
-            };   
+            throw("User account not established!")
+            // return {
+            //     message:"No Profile found",
+            //     data: null,
+            //     isComplete: false,
+            // };   
         }
 
         const results = snapshot.docs.map((edoc)=>({...edoc.data(), id: edoc.id}));
@@ -287,10 +288,6 @@ class UserAccount {
             }
         }
 
-        // const userProfile = {
-        //     id,
-        //     ...validatedData
-        // }
         JSONLog(userQuery);
         return {
             message:"Fetched user data",
@@ -312,7 +309,7 @@ class UserAccount {
         const userProfileCollectionRef = collection(database, collectionNames.USER_PROFILE);
 
         try{
-            await addDoc(userProfileCollectionRef, { userId: uid })
+            await addDoc(userProfileCollectionRef, { user: uid })
         }catch(err){
             console.log("Error initializing profile:", err);
             throw({

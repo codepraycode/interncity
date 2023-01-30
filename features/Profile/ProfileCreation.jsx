@@ -23,9 +23,9 @@ import { Preloader } from '../../components/Modal';
 const ProfileFormScreen = ({navigation, route}) =>{
     const auth = getAuth(app);
 
-    const userProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
+    const { updateAccountProfile, userProfile } = useContext(AppContext);
     
-    const {profileType, inCompleteProfile, title} = route.params;
+    const {profileType, title} = route.params;
       
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
@@ -33,10 +33,13 @@ const ProfileFormScreen = ({navigation, route}) =>{
     const handleCreateProfile = (updatedData)=>{
       if (loading) return;
 
-      const data = {
-        ...(inCompleteProfile || {}),
-        ...updatedData
+      const combinedData = {
+        type: profileType, // new type selected
+        ...(userProfile || {}), // previous userProfile in context
+        ...updatedData // latest data update
       }
+
+      const {isComplete, ...data} = combinedData;
 
       console.log("create profile",data);
 
@@ -46,54 +49,16 @@ const ProfileFormScreen = ({navigation, route}) =>{
       UserAccount.updateProfile(auth, data)
       .then(()=>{
         console.log("Created document")
-        // return updateAccountProfile(data);
-        navigation.navigate("ProfileSuccess", {
-          profile: data,
-        });
+        updateAccountProfile(data);
+        
+        navigation.navigate("ProfileSuccess");
+
         setLoading(false);
       })
       .catch((err)=>{
         console.log("Error updating document")
         setFormErrors(()=>err);
         setLoading(false)
-      })
-    }
-
-    const getAllDocs = ()=>{
-      getDocs(userProfileCollectionRef)
-      .then((res)=>{
-        JSONLog(res.docs.map(item=> ({...item.data(), id:item.id})));
-      })
-      .catch(err=>{
-        console.log("getDocs error:", err);
-      })
-    }
-
-    const updateDocs = ()=>{
-      const id = "1NOSUypqidOFc9OJcESp";
-      const docToUpdate = doc(database, collectionNames.USER_PROFILE, id);
-
-      updateDoc(docToUpdate, {
-        email:"Abs@maile.com"
-      })
-      .then(()=>{
-        console.log("Data updated")
-      })
-      .catch(err=>{
-        console.log(err.message);
-      })
-    }
-
-    const deleteADoc = ()=>{
-      const id = "1NOSUypqidOFc9OJcESp";
-      const docToDelete = doc(database, collectionNames.USER_PROFILE, id);
-
-      deleteDoc(docToDelete)
-      .then(()=>{
-        console.log("Data deleted")
-      })
-      .catch(err=>{
-        console.log(err.message);
       })
     }
 
@@ -110,14 +75,17 @@ const ProfileFormScreen = ({navigation, route}) =>{
     let formSchema = UserAccount.getProfileSchema(profileType);    
     const getPreviousValues = useCallback(()=>{
       // process the previous values
-      let prev = {}
-      
-      if (!inCompleteProfile) return prev
+      let prev = {
+        email: auth.currentUser.providerData[0].email
+      }
+
+      if (!userProfile) return prev;
       
       Object.keys(formSchema).forEach((fieldName)=>{
-        if (!inCompleteProfile[fieldName]) return
+        // if key not in prevProfile, continue;
+        if (!userProfile[fieldName]) return
 
-        prev[fieldName] = inCompleteProfile[fieldName];
+        prev[fieldName] = userProfile[fieldName]; // set value.
       });
 
       return prev;

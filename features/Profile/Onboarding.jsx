@@ -34,7 +34,6 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
 
     else if (loadProfileError) modal = <ErrorModal show={true} text={loadProfileError} cta={reFetch}/>
 
-    console.log([isCheckingForProfile, loadProfileError]);
     useEffect(()=>{
         // loadProfile();
         // console.log("Runnin")
@@ -42,22 +41,25 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
         .then(({ message, data, isComplete})=>{
             // check data and do the needful
 
-            // JSONLog(data);
-            // if no data, that means profile does not exist
-            if (!data || !data?.type) {return setIsCheckingForProfile(false)}; // continue
+            // Get the data, update context.
+            updateAccountProfile({
+                email: auth.currentUser.providerData[0].email,
+                ...data,
+                isComplete,
+            });
 
-            if(isComplete) {
-                // Update app context
-                JSONLog(data);
-                return updateAccountProfile(data);
-            }
+            JSONLog(data);
+            if (isComplete) return;
+
+            if (!data.type) {
+                return setIsCheckingForProfile(false)
+            }; // continue
 
             // at this point, its regarded as incomplete
             // navigate to createProfile screen
             // Navigate to form screen passing the incomplete profile with it
-            const email = auth.currentUser.providerData[0].email
+            
             return navigation.navigate("ProfileForm", {
-                inCompleteProfile: {...data, email},
                 title: "Complete profile"
             });
         })
