@@ -1,5 +1,9 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-// import SecureStore from 'expo-secure-store';
+import { 
+  collection,
+  getDocs,
+} from 'firebase/firestore';
+import { collectionNames, database } from './firebaseConfig';
 
 const AppContext = createContext();
 
@@ -8,19 +12,24 @@ export default AppContext;
 export const AppContextProvider = ({children})=>{
 
     const initialState = {
-        userAccount: null,
-        // {
-        //     name:"Smaple name",
-        //     token:{
-        //         access:"dfakslkjflask"
-        //     }
-        // },
+        userAccount: {
+            name:"Smaple name",
+            token:{
+                access:"dfakslkjflask"
+            }
+        },
         userProfile: null,
+        schools: [],
+        departments:[],
+        sectors:[],
     }
 
     const ActionTypes = {
         UPDATE_ACCOUNT_PROFILE:"UPDATE_ACCOUNT_PROFILE",
         UPDATE_ACCOUNT:"UPDATE_ACCOUNT",
+        UPDATE_SCHOOLS:"UPDATE_SCHOOLS",
+        UPDATE_DEPARTMENTS:"UPDATE_DEPARTMENTS",
+        UPDATE_SECTORS:"UPDATE_SECTORS",
     }
 
     const reducers = (prev, action) =>{
@@ -29,6 +38,7 @@ export const AppContextProvider = ({children})=>{
                 return {
                     ...prev,
                     userProfile:{
+                        ...prev.userProfile,
                         ...action.payload
                     }
                 };
@@ -36,40 +46,71 @@ export const AppContextProvider = ({children})=>{
                 return {
                     ...prev,
                     userAccount:{
+                        ...prev.userAccount,
                         ...action.payload
                     }
+                };
+            case ActionTypes.UPDATE_SCHOOLS:
+                return {
+                    ...prev,
+                    schools: action.payload
+                };
+            case ActionTypes.UPDATE_DEPARTMENTS:
+                return {
+                    ...prev,
+                    departments: action.payload
+                };
+            case ActionTypes.UPDATE_SECTORS:
+                return {
+                    ...prev,
+                    sectors: action.payload
                 };
             default:
                 return {...prev}
         }
     }
-
-    // const [contextData, setContextData] = useState('dfdsd');
+    
     const [contextData, dispatch] = useReducer(reducers, initialState);
     
-    // useEffect(() => {
-    //     // Fetch the token from storage then navigate to our appropriate place
-        
-    //     const bootstrapAsync = async () => {
-    //         // if (contextData.userAccount?.token) return;
-            
-    //         let userToken;
-            
-    //         try {
-    //             userToken = await SecureStore.getItemAsync('userToken');
-    //         } catch (e) {
-    //             // Restoring token failed
-    //         }
+    useEffect(() => {
+        // Fetch the token from storage then navigate to our appropriate place
+        const schoolsCollectionRef = collection(database,collectionNames.SCHOOLS);
+        const depratmentsCollectionRef = collection(database,collectionNames.DEPARTMENTS);
 
-    //         // After restoring token, we may need to validate it in production apps
+        const bootstrapAsync = async () => {
+            // Load all schools
 
-    //         // This will switch to the App screen or Auth screen and this loading
-    //         // screen will be unmounted and thrown away.
-    //         // dispatch({ type: 'RESTORE_TOKEN', token: userToken });
-    //     };
+            if (Array.isArray(contextData.schools) && contextData.schools.length < 1){
+                let snapshot;
+                try{
+                    snapshot = await getDocs(schoolsCollectionRef);
+                }
+                catch(err){
+                    console.log("Error fetching all schools", err);
+                }
+
+                let schools = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+                dispatch({ type: ActionTypes.UPDATE_SCHOOLS, payload: schools });
+            }
+
+            if (Array.isArray(contextData.departments) && contextData.departments.length < 1){
+                let snapshot2;
+                try{
+                    snapshot2 = await getDocs(depratmentsCollectionRef);
+                }
+                catch(err){
+                    console.log("Error fetching all departments", err);
+                }
+
+                const departments = snapshot2.docs.map((item)=>({...item.data(), id: item.id}));
+
+                dispatch({ type: ActionTypes.UPDATE_DEPARTMENTS, payload: departments });
+            }
+
+        };
         
-    //     bootstrapAsync();
-    // }, []);
+        bootstrapAsync();
+    }, [contextData.schools, contextData.departments, contextData.sectors]);
 
     const appContextData = React.useMemo(() => ({
         ...contextData,

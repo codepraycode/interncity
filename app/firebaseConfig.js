@@ -17,5 +17,8 @@ export const database = getFirestore(app);
 
 export const collectionNames = {
      USER_ACCOUNT:"userAccounts",
-     USER_PROFILE:"userProfiles"
+     USER_PROFILE:"userProfiles",
+     SCHOOLS:"schools",
+     DEPARTMENTS:"departments",
+     SECTORS:"sectors",
 }

@@ -1,8 +1,10 @@
 import {View, Picker} from 'react-native-ui-lib';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {StyleSheet,TextInput, TouchableOpacity} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Theme from '../../constants/theme';
+import AppContext from '../../app/context';
+import { JSONLog } from '../../app/utils';
 
 const NormalInput = ({schema, onChange, name, value})=>{
     return (
@@ -58,35 +60,43 @@ const PasswordInput = (props)=>{
     )
 }
 
-const SchoolSelect = ({schema, onChange, name, value})=>{
+const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const options = [
-        'Option 1',
-        "Option 2",
-        "Optiona 3"
-    ]
+    const {schools} = useContext(AppContext);    
+
+    const options = schools || [];
 
     return (
         <Picker
-            placeholder="Select school"
+            placeholder="Click to select school"
             placeholderTextColor={styles.placeholderTextColor}
-            value={"value"}
+            value={value}
             enableModalBlur={false}
-            onChange={item => console.log(item)}
+            onChange={({label, value}) => {
+                onChange(name, value)
+                console.log("Picked", label);
+            }}
             topBarProps={{title: 'Languages'}}
             style = {[styles.input, styles.normalInput, { height: "100%" }]}
             containerStyle= {{ height:55 }}
             showSearch
             searchPlaceholder={'Search a language'}
+            searchStyle={{color:Theme.accent, fontFamily:"FontBold"}}
             migrateTextField
         >
         {options.map((option, i)=> (
-            <Picker.Item key={i} value={option} label={option} disabled={false} labelStyle={{color: Theme.accent}}/>
+            <Picker.Item 
+                key={i} 
+                value={option.id} 
+                label={option.name} 
+                disabled={false} 
+                labelStyle={{color: Theme.accent}}
+            />
         ))}
         </Picker>
 
     )
-}
+})
 
 
 export {
