@@ -12,12 +12,13 @@ export default AppContext;
 export const AppContextProvider = ({children})=>{
 
     const initialState = {
-        userAccount: {
-            name:"Smaple name",
-            token:{
-                access:"dfakslkjflask"
-            }
-        },
+        userAccount: null,
+        // {
+        //     name:"Smaple name",
+        //     token:{
+        //         access:"dfakslkjflask"
+        //     }
+        // },
         userProfile: null,
         schools: [],
         departments:[],
