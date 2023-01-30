@@ -62,8 +62,8 @@ const userProfileDataSchema = Joi.object({
         .email({ tlds: { allow: false } })
         .required(),
     
-    schoolId: Joi.string(),
-    departmentId: Joi.string(),
+    school: Joi.string(),
+    department: Joi.string(),
 
     name: Joi.string(),
     address: Joi.string(),

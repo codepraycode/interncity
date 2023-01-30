@@ -71,41 +71,47 @@ export const AppContextProvider = ({children})=>{
     }
     
     const [contextData, dispatch] = useReducer(reducers, initialState);
+
+    const loadSchools = async ()=>{
+        if (Array.isArray(contextData.schools) && contextData.schools.length > 1) return
+
+        const schoolsCollectionRef = collection(database,collectionNames.SCHOOLS);
+        let snapshot;
+        try{
+            snapshot = await getDocs(schoolsCollectionRef);
+        }
+        catch(err){
+            console.log("Error fetching all schools", err);
+        }
+
+        let schools = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+        dispatch({ type: ActionTypes.UPDATE_SCHOOLS, payload: schools });
+    }
+
+    const loadDepartments = async ()=>{
+        if (Array.isArray(contextData.departments) && contextData.departments.length > 1) return
+
+        const depratmentsCollectionRef = collection(database,collectionNames.DEPARTMENTS);
+        let snapshot;
+        try{
+            snapshot = await getDocs(depratmentsCollectionRef);
+        }
+        catch(err){
+            console.log("Error fetching all departments", err);
+        }
+
+        const departments = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+
+        dispatch({ type: ActionTypes.UPDATE_DEPARTMENTS, payload: departments });
+    }
     
     useEffect(() => {
-        // Fetch the token from storage then navigate to our appropriate place
-        const schoolsCollectionRef = collection(database,collectionNames.SCHOOLS);
-        const depratmentsCollectionRef = collection(database,collectionNames.DEPARTMENTS);
 
         const bootstrapAsync = async () => {
             // Load all schools
+            loadSchools()
 
-            if (Array.isArray(contextData.schools) && contextData.schools.length < 1){
-                let snapshot;
-                try{
-                    snapshot = await getDocs(schoolsCollectionRef);
-                }
-                catch(err){
-                    console.log("Error fetching all schools", err);
-                }
-
-                let schools = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
-                dispatch({ type: ActionTypes.UPDATE_SCHOOLS, payload: schools });
-            }
-
-            if (Array.isArray(contextData.departments) && contextData.departments.length < 1){
-                let snapshot2;
-                try{
-                    snapshot2 = await getDocs(depratmentsCollectionRef);
-                }
-                catch(err){
-                    console.log("Error fetching all departments", err);
-                }
-
-                const departments = snapshot2.docs.map((item)=>({...item.data(), id: item.id}));
-
-                dispatch({ type: ActionTypes.UPDATE_DEPARTMENTS, payload: departments });
-            }
+            loadDepartments();
 
         };
         
@@ -124,21 +130,11 @@ export const AppContextProvider = ({children})=>{
         signOut: () => dispatch({ type: 'SIGN_OUT' }),
         updateAccountProfile: (data) => {
             console.log("UPDATE Account Profile");
-            // In a production app, we need to send user data to server and get a token
-            // We will also need to handle errors if sign up failed
-            // After getting token, we need to persist the token using `SecureStore`
-            // In the example, we'll use a dummy token
 
             dispatch({ type: ActionTypes.UPDATE_ACCOUNT_PROFILE, payload: data });
         },
         updateAccount: (data) => {
             console.log("UPDATE Account");
-            // In a production app, we need to send user data to server and get a token
-            // We will also need to handle errors if sign up failed
-            // After getting token, we need to persist the token using `SecureStore`
-            // In the example, we'll use a dummy token
-
-            // Must include token
 
             dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: data});
         },

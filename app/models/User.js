@@ -70,12 +70,12 @@ const superVisorProfileSchema = {
         placeholder: "Enter official email",
         label: "Official email",
     },
-    schoolId:{
+    school:{
         type: "school",
         placeholder: "Select school",
         label: "School",
     },
-    departmentId:{
+    department:{
         type: "department",
         placeholder: "Select department",
         label: "School Department",
@@ -259,11 +259,6 @@ class UserAccount {
         if (snapshot.empty){
             console.log("No Profile");
             throw("User account not established!")
-            // return {
-            //     message:"No Profile found",
-            //     data: null,
-            //     isComplete: false,
-            // };   
         }
 
         const results = snapshot.docs.map((edoc)=>({...edoc.data(), id: edoc.id}));
