@@ -71,12 +71,12 @@ const superVisorProfileSchema = {
         label: "Official email",
     },
     schoolId:{
-        type: "text",
+        type: "school",
         placeholder: "Select school",
         label: "School",
     },
     departmentId:{
-        type: "text",
+        type: "department",
         placeholder: "Select department",
         label: "School Department",
     },
