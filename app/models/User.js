@@ -42,17 +42,17 @@ const studentProfileSchema = {
         label: "CV/Resume",
     },
     sectors:{
-        type: "text",
+        type: "sector",
         placeholder: "Select sectors",
         label: "Sector",
     },
-    schoolId:{
-        type: "text",
+    school:{
+        type: "school",
         placeholder: "Select school",
         label: "School",
     },
-    departmentId:{
-        type: "text",
+    department:{
+        type: "department",
         placeholder: "Select department",
         label: "School Department",
     },
