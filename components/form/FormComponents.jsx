@@ -6,7 +6,7 @@ import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
 import { JSONLog } from '../../app/utils';
 
-const NormalInput = ({schema, onChange, name, value})=>{
+const NormalInput = React.memo(({schema, onChange, name, value})=>{
     return (
         <TextInput
             placeholder = {schema.placeholder}
@@ -18,9 +18,9 @@ const NormalInput = ({schema, onChange, name, value})=>{
             inputMode={"text"}
         />
     )
-}
+})
 
-const EmailInput = ({schema, onChange, name, value})=>{
+const EmailInput = React.memo(({schema, onChange, name, value})=>{
     
     return (
         <TextInput
@@ -31,12 +31,41 @@ const EmailInput = ({schema, onChange, name, value})=>{
             autoComplete = {"off"}
             value = {value}
             textContentType = {"emailAddress"}
-            inputMode={"email"}
+            // inputMode={"email"}
+            keyboardType={"email-address"}
         />
     )
-}
+})
 
-const PasswordInput = (props)=>{
+const UrlInput = React.memo(({schema, onChange, name, value})=>{
+    return (
+        <TextInput
+            placeholder = {schema.placeholder}
+            placeholderTextColor = {styles.placeholderTextColor}
+            onChangeText = {(str)=>onChange(name, str)}
+            style = {[styles.input, styles.normalInput]}
+            value = {value}
+            textContentType={"URL"}
+            keyboardType={"url"}
+        />
+    )
+})
+
+const PhoneInput = React.memo(({schema, onChange, name, value})=>{
+    return (
+        <TextInput
+            placeholder = {schema.placeholder}
+            placeholderTextColor = {styles.placeholderTextColor}
+            onChangeText = {(str)=>onChange(name, str)}
+            style = {[styles.input, styles.normalInput]}
+            value = {value}
+            textContentType={"telephoneNumber"}
+            keyboardType={"phone-pad"}
+        />
+    )
+})
+
+const PasswordInput = React.memo((props)=>{
     const {schema, onChange, name, value} = props;
     const [hidePassword, setHidePassword] = useState(true);
     
@@ -58,7 +87,7 @@ const PasswordInput = (props)=>{
             </TouchableOpacity>
         </View>
     )
-}
+})
 
 const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
@@ -169,10 +198,12 @@ const SectorSelect = React.memo(({schema, onChange, name, value})=>{
 export {
     NormalInput,
     EmailInput,
+    PhoneInput,
     PasswordInput,
     SchoolSelect,
     DepartmentSelect,
-    SectorSelect
+    SectorSelect,
+    UrlInput
 }
 
 

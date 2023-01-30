@@ -21,6 +21,11 @@ const studentProfileSchema = {
         placeholder: "Enter full name",
         label: "Full name",
     },
+    cv:{
+        type: "url",
+        placeholder: "Enter link to CV",
+        label: "CV/Resume",
+    },
     phoneNumber:{
         type: "tel",
         placeholder: "Enter phone number",
@@ -35,11 +40,6 @@ const studentProfileSchema = {
         type: "text",
         placeholder: "Enter residential country",
         label: "Country",
-    },
-    cv:{
-        type: "file",
-        placeholder: "Enter link to CV",
-        label: "CV/Resume",
     },
     sectors:{
         type: "sector",
