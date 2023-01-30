@@ -130,6 +130,41 @@ const DepartmentSelect = React.memo(({schema, onChange, name, value})=>{
     )
 })
 
+const SectorSelect = React.memo(({schema, onChange, name, value})=>{
+
+    const {sectors} = useContext(AppContext);    
+
+    const options = sectors || [];
+
+    return (
+        <Picker
+            placeholder="Click to select sector"
+            placeholderTextColor={styles.placeholderTextColor}
+            value={value}
+            enableModalBlur={false}
+            onChange={({value}) => onChange(name, value)}
+            topBarProps={{title: 'Select sector'}}
+            style = {[styles.input, styles.normalInput, { height: "100%" }]}
+            containerStyle= {{ height:55 }}
+            showSearch
+            searchPlaceholder={'Search sector'}
+            searchStyle={{color:Theme.accent, fontFamily:"FontBold"}}
+            migrateTextField
+        >
+        {options.map((option, i)=> (
+            <Picker.Item 
+                key={i} 
+                value={option.id} 
+                label={option.name} 
+                disabled={false} 
+                labelStyle={{color: Theme.accent}}
+            />
+        ))}
+        </Picker>
+
+    )
+})
+
 
 export {
     NormalInput,
@@ -137,6 +172,7 @@ export {
     PasswordInput,
     SchoolSelect,
     DepartmentSelect,
+    SectorSelect
 }
 
 

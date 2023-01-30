@@ -8,7 +8,8 @@ import {
     EmailInput, 
     NormalInput, 
     PasswordInput, 
-    SchoolSelect 
+    SchoolSelect, 
+    SectorSelect
 } from './FormComponents';
 
 const CustomTextInput = (props) => {
@@ -19,6 +20,7 @@ const CustomTextInput = (props) => {
     else if (schema.type === 'email') template = <EmailInput {...props}/>;
     else if (schema.type === 'school') template = <SchoolSelect {...props}/>;
     else if (schema.type === 'department') template = <DepartmentSelect {...props}/>;
+    else if (schema.type === 'sector') template = <SectorSelect {...props}/>;
     else template = <NormalInput {...props}/>;
     
     return (
