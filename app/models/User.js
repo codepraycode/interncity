@@ -95,7 +95,7 @@ const organizationProfileSchema = {
         label: "Official email",
     },
     about:{
-        type: "text",
+        type: "long",
         placeholder: "Enter short description about organization",
         label: "About organization",
         maxLength: 300,

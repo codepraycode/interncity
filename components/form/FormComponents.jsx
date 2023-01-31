@@ -20,6 +20,23 @@ const NormalInput = React.memo(({schema, onChange, name, value})=>{
     )
 })
 
+const LongTextInput = React.memo(({schema, onChange, name, value})=>{
+    return (
+        <TextInput
+            placeholder = {schema.placeholder}
+            placeholderTextColor = {styles.placeholderTextColor}
+            onChangeText = {(str)=>onChange(name, str)}
+            style = {[styles.input, styles.normalInput, {height: 105, paddingTop: 10,}]}
+            autoComplete = {"off"}
+            value = {value}
+            inputMode={"text"}
+            multiline={true}
+            textAlignVertical={"top"}
+            maxLength={300}
+        />
+    )
+})
+
 const EmailInput = React.memo(({schema, onChange, name, value})=>{
     
     return (
@@ -203,7 +220,8 @@ export {
     SchoolSelect,
     DepartmentSelect,
     SectorSelect,
-    UrlInput
+    UrlInput,
+    LongTextInput
 }
 
 
