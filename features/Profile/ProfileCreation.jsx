@@ -1,20 +1,13 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { StyleSheet, } from 'react-native';
-import { Text, View } from 'react-native-ui-lib';
+import { View } from 'react-native-ui-lib';
 import AppContext from '../../app/context';
 import Form from '../../components/form';
 import Theme from '../../constants/theme';
 import { UserAccount } from '../../app/models/User.js'
 import SafeAreaLayout from '../../components/Layout';
-import { app, database, collectionNames} from '../../app/firebaseConfig';
-import { 
-  collection, 
-  addDoc, 
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc
-} from 'firebase/firestore';
+import { app } from '../../app/firebaseConfig';
+
 import { getAuth } from "firebase/auth";
 import { JSONLog } from '../../app/utils';
 import HeaderTitle from '../../components/HeaderTitle';

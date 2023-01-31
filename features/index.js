@@ -177,8 +177,6 @@ const TabsStack = ()=>{
 
 const AppScreens = ()=>{
     const { 
-        userAccount, 
-        userProfile, 
         isIntern,
         isLoggedIn,
         isProfileComplete
