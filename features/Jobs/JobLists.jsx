@@ -8,36 +8,38 @@ import { CompanyLists, JobsLists } from '../../constants/dummy';
 import AppContext from '../../app/context';
 import { JobBottomSheet } from '../../components/BottomSheet';
 import FloatingButton from '../../components/FloatingButton';
+import useJob from '../../hooks/useJobs';
+import assets from '../../constants/assets'
+import Theme from '../../constants/theme';
+import NoJobs from '../../states/NoJobs';
 
 // Create the jobs screen
 
 const JobItem = ({jobItem, editor, onViewClick})=>{
-    const company = CompanyLists.find(e=>e.id === jobItem.companyId) || {};
-    const title = jobItem.title || '';
-    const decription = `${company.name || '---'} ${company.headOffice.town || "---"} ${company.headOffice.city || "---"}`;
-    const tags = jobItem.tags || []
+    // const company = CompanyLists.find(e=>e.id === jobItem.companyId) || {};
+    // const title = jobItem.title || '';
+    // const decription = `${company.name || '---'} ${company.headOffice.town || "---"} ${company.headOffice.city || "---"}`;
+    // const tags = jobItem.tags || []
+
+    const {title, location, company, sectors, } = jobItem;
 
     return (
         <Card clickable={editor} onPress={onViewClick}>
             
             <View>
-                {
-                    company.logo && (
-                        <Image 
-                            assetName={company.logo}
-                            assetGroup="assets" 
-                            width={30} height={30}
-                            style={{
-                                marginVertical: 10,
-                            }}
-                        />
-                    )
-                }
+                <Image 
+                    assetName={assets.google}
+                    assetGroup="assets" 
+                    width={30} height={30}
+                    style={{
+                        marginVertical: 10,
+                    }}
+                />
                 <Text h4>{title}</Text>
-                <Text p>{decription}</Text>
+                <Text p>{company.name} -- {location.city} {location.state}</Text>
             </View>
 
-            <Tags tags={tags}/>
+            <Tags tags={sectors}/>
 
             <View 
                 style={{
@@ -80,18 +82,24 @@ export const JobApplyListsScreen = ({ navigation }) => {
 export const JobListsScreen = ({ navigation }) => {
     const {isOrganization} = useContext(AppContext);
     const [jobUpdate, setJobUpdate] = useState(null);
+    const [_, jobs] = useJob();
+
+    console.log(jobs)
 
     return (
         <>
             
             <FlatList
-                data={ JobsLists }
+                data={ jobs }
                 renderItem = {({item})=><JobItem 
                     jobItem = { item}
                     editor = {isOrganization}
                     onViewClick = {()=>setJobUpdate(p=>item)}
                 />}
                 keyExtractor={item => item.id}
+                ListEmptyComponent={
+                    <NoJobs isOrganization={isOrganization}/>
+                }
             />
 
             <FloatingButton onPress={()=>setJobUpdate(p=>({}))}/>

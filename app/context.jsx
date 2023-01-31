@@ -23,6 +23,7 @@ export const AppContextProvider = ({children})=>{
         schools: [],
         departments:[],
         sectors:[],
+        jobs:[],
     }
 
     const ActionTypes = {
@@ -31,6 +32,7 @@ export const AppContextProvider = ({children})=>{
         UPDATE_SCHOOLS:"UPDATE_SCHOOLS",
         UPDATE_DEPARTMENTS:"UPDATE_DEPARTMENTS",
         UPDATE_SECTORS:"UPDATE_SECTORS",
+        UPDATE_JOBS:"UPDATE_JOBS",
     }
 
     const reducers = (prev, action) =>{
@@ -66,6 +68,11 @@ export const AppContextProvider = ({children})=>{
                     ...prev,
                     sectors: action.payload
                 };
+            case ActionTypes.UPDATE_JOBS:
+                return {
+                    ...prev,
+                    jobs: action.payload
+                };
             default:
                 return {...prev}
         }
@@ -87,6 +94,22 @@ export const AppContextProvider = ({children})=>{
 
         let schools = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
         dispatch({ type: ActionTypes.UPDATE_SCHOOLS, payload: schools });
+    }
+
+    const loadJobs = async (organizationId=null)=>{
+        // If organization id is null, load all jobs then
+
+        const jobsCollectionRef = collection(database,collectionNames.JOBS);
+        let snapshot;
+        try{
+            snapshot = await getDocs(jobsCollectionRef);
+        }
+        catch(err){
+            console.log("Error fetching jobs", err);
+        }
+
+        let jobs = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+        dispatch({ type: ActionTypes.UPDATE_JOBS, payload: jobs });
     }
 
     const loadDepartments = async ()=>{
@@ -132,10 +155,17 @@ export const AppContextProvider = ({children})=>{
             loadDepartments();
             loadSectors()
 
+            // loadJobs()
+
         };
         
         bootstrapAsync();
-    }, [contextData.schools, contextData.departments, contextData.sectors]);
+    }, [
+        contextData.schools, 
+        contextData.departments, 
+        contextData.sectors,
+        contextData.jobs,
+    ]);
 
     const appContextData = React.useMemo(() => ({
         ...contextData,
@@ -157,6 +187,7 @@ export const AppContextProvider = ({children})=>{
 
             dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: data});
         },
+        loadJobs,
 
     }),[contextData.userProfile, contextData.userAccount]);
 

@@ -21,4 +21,5 @@ export const collectionNames = {
      SCHOOLS:"schools",
      DEPARTMENTS:"departments",
      SECTORS:"sectors",
+     JOBS:"jobs",
 }
