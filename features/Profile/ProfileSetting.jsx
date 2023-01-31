@@ -3,14 +3,12 @@ import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet, ImageBackground, Image, TouchableOpacity, ScrollView  } from 'react-native';
 import assets from '../../constants/assets';
 import Theme from '../../constants/theme';
-import { createAccountSchema, profileInfoSchema } from '../../constants/dummy';
 import Form from '../../components/form';
 import AppContext from '../../app/context';
 import useProfile from '../../hooks/useProfile';
 import { UserAccount } from '../../app/models/User';
 import { setUpWithPreviousValue } from '../../app/utils';
 import { Preloader } from '../../components/Modal';
-// import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
 
 const ProfileSettingsHeader = ()=>{
     const {isOrganization} = useContext(AppContext);
