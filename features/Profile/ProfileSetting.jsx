@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet, ImageBackground, Image, TouchableOpacity, ScrollView  } from 'react-native';
 import assets from '../../constants/assets';
@@ -6,6 +6,9 @@ import Theme from '../../constants/theme';
 import { createAccountSchema, profileInfoSchema } from '../../constants/dummy';
 import Form from '../../components/form';
 import AppContext from '../../app/context';
+import useProfile from '../../hooks/useProfile';
+import { UserAccount } from '../../app/models/User';
+import { setUpWithPreviousValue } from '../../app/utils';
 // import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
 
 const ProfileSettingsHeader = ()=>{
@@ -69,7 +72,34 @@ const ProfileSettingsHeader = ()=>{
 
 const ProfileSettingScreen = () => {
 
-    // setStatusBarStyle('dark');
+    const [userProfile, updateProfile] = useProfile();
+    const [loading, setLoading] = useState(false);
+    const [formErrors, setFormErrors] = useState({});
+
+    let formSchema = UserAccount.getProfileSchema(userProfile.type);
+
+    const getPreviousValues = useCallback(()=>{
+      // process the previous values
+      return setUpWithPreviousValue(formSchema, userProfile);
+    })
+
+
+    const handleOnUpdate = (updatedData)=>{
+      if (loading) return;
+
+      setLoading(true);
+      setFormErrors(()=>({}));
+
+      updateProfile(updatedData)
+      .then(()=>{
+        setLoading(false);
+      })
+      .catch((err)=>{
+        setFormErrors(()=>err);
+        setLoading(false)
+      })
+    }
+
     
     return (
         <>
@@ -95,10 +125,14 @@ const ProfileSettingScreen = () => {
                     paddingBottom: 20,
                     paddingHorizontal: 30,
                 }}>
+
                     <Form
-                        onSubmit={()=>{}} 
-                        schema={{...createAccountSchema,...profileInfoSchema}} 
-                        authLabel={"Update"}
+                        onSubmit={(data)=> handleOnUpdate(data)}
+                        schema={formSchema} 
+                        getPreviousValues={getPreviousValues}
+                        authLabel={ !loading ? "Update":"Updating..."}
+                        errors={formErrors}
+                        disable={loading}
                     />
                 </View>
             </ScrollView>

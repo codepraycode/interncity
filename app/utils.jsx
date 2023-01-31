@@ -5,6 +5,25 @@ export const userTypes = {
     SUPERVISOR:'supervisor',
 }
 
+export const setUpWithPreviousValue = (schema, data=null, seed={})=>{
+
+    let prev = {
+        ...seed,
+    }
+
+    if (!data) return prev;
+
+    Object.keys(schema).forEach((fieldName)=>{
+        // if key not in prevProfile, continue;
+        if (!data[fieldName]) return
+
+        prev[fieldName] = data[fieldName]; // set value.
+    });
+
+    return prev;
+
+}
+
 export const getDateLists = (start, end=null)=>{
 
     const listDate = [];
