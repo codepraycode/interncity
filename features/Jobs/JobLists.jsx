@@ -12,6 +12,7 @@ import useJob from '../../hooks/useJobs';
 import assets from '../../constants/assets'
 import Theme from '../../constants/theme';
 import NoJobs from '../../states/NoJobs';
+import LoadingJobs from '../../states/LoadingJobs';
 
 // Create the jobs screen
 
@@ -98,7 +99,8 @@ export const JobListsScreen = ({ navigation }) => {
                 />}
                 keyExtractor={item => item.id}
                 ListEmptyComponent={
-                    <NoJobs isOrganization={isOrganization}/>
+                    // <NoJobs isOrganization={isOrganization}/>
+                    <LoadingJobs isOrganization={isOrganization}/>
                 }
             />
 
