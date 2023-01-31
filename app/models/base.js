@@ -57,6 +57,7 @@ const userProfileDataSchema = Joi.object({
         .required(),
 
     about: Joi.string(),
+    website: Joi.string(),
     user: Joi.string(),
     fullname: Joi.string(),
     email: Joi.string()

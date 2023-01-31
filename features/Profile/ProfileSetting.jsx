@@ -9,6 +9,7 @@ import AppContext from '../../app/context';
 import useProfile from '../../hooks/useProfile';
 import { UserAccount } from '../../app/models/User';
 import { setUpWithPreviousValue } from '../../app/utils';
+import { Preloader } from '../../components/Modal';
 // import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
 
 const ProfileSettingsHeader = ()=>{
@@ -20,9 +21,13 @@ const ProfileSettingsHeader = ()=>{
             resizeMode = {"contain"}
             style={{
                 justifyContent:'center',
-                minHeight: 380,
+                height: 380,
                 overflow: 'hidden',
                 paddingTop: 10,
+                paddingLeft: 5,
+                position:'absolute',
+                width:'100%',
+                // zIndex:1
             }}
             imageStyle={{
                 resizeMode:'stretch'
@@ -100,43 +105,41 @@ const ProfileSettingScreen = () => {
       })
     }
 
-    
+    //  console.log(loading, formErrors)
     return (
         <>
             {/* Header */}
             <ProfileSettingsHeader/>
             {/* Form content */}
-            <ScrollView
-                contentContainerStyle={{
-                                        
-                }}
-                centerContent={true}
-                style={{
-                    // backgroundColor:'red',
-                    // flex:1,
-                    margin:0,
-                    position: 'relative',
-                    top: -80,
-                    minHeight:'60%',
-                }}
-            >   
+            <View flex>
+                <ScrollView
+                    contentContainerStyle={{
+                        paddingTop: 300,
+                    }}
+                    centerContent={true}
+                    style={{
+                        zIndex:-1,
+                    }}
+                >   
 
-                <View style={{
-                    paddingBottom: 20,
-                    paddingHorizontal: 30,
-                }}>
+                    <View style={{
+                        paddingBottom: 20,
+                        paddingHorizontal: 30,
+                    }}>
 
-                    <Form
-                        onSubmit={(data)=> handleOnUpdate(data)}
-                        schema={formSchema} 
-                        getPreviousValues={getPreviousValues}
-                        authLabel={ !loading ? "Update":"Updating..."}
-                        errors={formErrors}
-                        disable={loading}
-                    />
-                </View>
-            </ScrollView>
+                        <Form
+                            onSubmit={(data)=> handleOnUpdate(data)}
+                            schema={formSchema} 
+                            getPreviousValues={getPreviousValues}
+                            authLabel={ !loading ? "Update profile":"Updating..."}
+                            errors={formErrors}
+                            disable={loading}
+                        />
+                    </View>
+                </ScrollView>
+            </View>
 
+            <Preloader show={loading} text="Updating profile..."/>
         </>
     )
 }
