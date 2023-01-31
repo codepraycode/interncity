@@ -14,7 +14,6 @@ const Form = ({schema, getPreviousValues, remember, forgotPassword,disable, auth
     const loadPreviousValues = getPreviousValues || function (){
         return {}
     }
-
     const [formData, setFormData] = useState(()=>{
         return loadPreviousValues();
     });
@@ -26,7 +25,6 @@ const Form = ({schema, getPreviousValues, remember, forgotPassword,disable, auth
             return {...prev, [field]:value};
         })
     }
-
 
     return (
         <>

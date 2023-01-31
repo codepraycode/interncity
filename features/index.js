@@ -27,7 +27,7 @@ import {
     ProfileUserTypeScreen
 } from './Profile';
 import AppSettingsScreen from './settings';
-import {JobApplyListsScreen,JobListsScreen} from './Jobs/JobLists';
+import {JobListsScreen} from './Jobs/JobLists';
 import NotificationScreen from './Notifications';
 import UpdatePasswordScreen from './settings/UpdatePassword';
 import {InternsListScreen, InternsStackScreen} from './Interns';
@@ -81,11 +81,8 @@ const TabsStack = ()=>{
 
     const renderScreen = ()=>{
 
-
-
         if (isOrganization) return (
             <>
-                <Tab.Screen name="Jobs" component={JobListsScreen} />
                 <Tab.Screen name="Interns" component={InternsListScreen} />
             </>
         )
@@ -98,7 +95,6 @@ const TabsStack = ()=>{
 
         return (
             <>
-                <Tab.Screen name="Jobs" component={JobApplyListsScreen} />
                 <Tab.Screen name="Logs" component={LogsScreen} />
             </>
         )
@@ -137,6 +133,8 @@ const TabsStack = ()=>{
                 )
             })}
         >
+            <Tab.Screen name="Jobs" component={JobListsScreen} />
+
             {renderScreen()}
 
             <Tab.Screen 
@@ -177,8 +175,6 @@ const TabsStack = ()=>{
 
 const AppScreens = ()=>{
     const { 
-        userAccount, 
-        userProfile, 
         isIntern,
         isLoggedIn,
         isProfileComplete

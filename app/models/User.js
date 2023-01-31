@@ -7,7 +7,7 @@ import {
 //   addDoc, 
   getDocs,
   doc,
-  getDoc,
+//   getDoc,
   addDoc,
   query, where, updateDoc
 //   updateDoc,
@@ -20,6 +20,11 @@ const studentProfileSchema = {
         type: "text",
         placeholder: "Enter full name",
         label: "Full name",
+    },
+    cv:{
+        type: "url",
+        placeholder: "Enter link to CV",
+        label: "CV/Resume",
     },
     phoneNumber:{
         type: "tel",
@@ -36,23 +41,18 @@ const studentProfileSchema = {
         placeholder: "Enter residential country",
         label: "Country",
     },
-    cv:{
-        type: "file",
-        placeholder: "Enter link to CV",
-        label: "CV/Resume",
-    },
     sectors:{
-        type: "text",
+        type: "sector",
         placeholder: "Select sectors",
         label: "Sector",
     },
-    schoolId:{
-        type: "text",
+    school:{
+        type: "school",
         placeholder: "Select school",
         label: "School",
     },
-    departmentId:{
-        type: "text",
+    department:{
+        type: "department",
         placeholder: "Select department",
         label: "School Department",
     },
@@ -70,13 +70,13 @@ const superVisorProfileSchema = {
         placeholder: "Enter official email",
         label: "Official email",
     },
-    schoolId:{
-        type: "text",
+    school:{
+        type: "school",
         placeholder: "Select school",
         label: "School",
     },
-    departmentId:{
-        type: "text",
+    department:{
+        type: "department",
         placeholder: "Select department",
         label: "School Department",
     },
@@ -88,6 +88,23 @@ const organizationProfileSchema = {
         type: "text",
         placeholder: "Enter organization name",
         label: "Organization name",
+    },
+    email:{
+        type: "email",
+        placeholder: "Enter official email",
+        label: "Official email",
+    },
+    about:{
+        type: "long",
+        placeholder: "Enter short description about organization",
+        label: "About organization",
+        maxLength: 300,
+        long: true,
+    },
+    website:{
+        type: "url",
+        placeholder: "Enter official website",
+        label: "Official website",
     },
     address:{
         type: "text",
@@ -103,23 +120,6 @@ const organizationProfileSchema = {
         type: "text",
         placeholder: "Enter residential country",
         label: "Country",
-    },
-    email:{
-        type: "email",
-        placeholder: "Enter official email",
-        label: "Official email",
-    },
-    about:{
-        type: "text",
-        placeholder: "Enter short description about organization",
-        label: "About organization",
-        maxLength: 300,
-        long: true,
-    },
-    website:{
-        type: "url",
-        placeholder: "Enter official website",
-        label: "Official website",
     },
 }
 
@@ -259,11 +259,6 @@ class UserAccount {
         if (snapshot.empty){
             console.log("No Profile");
             throw("User account not established!")
-            // return {
-            //     message:"No Profile found",
-            //     data: null,
-            //     isComplete: false,
-            // };   
         }
 
         const results = snapshot.docs.map((edoc)=>({...edoc.data(), id: edoc.id}));

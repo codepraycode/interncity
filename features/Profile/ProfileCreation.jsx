@@ -1,65 +1,54 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { StyleSheet, } from 'react-native';
-import { Text, View } from 'react-native-ui-lib';
+import { View } from 'react-native-ui-lib';
 import AppContext from '../../app/context';
 import Form from '../../components/form';
 import Theme from '../../constants/theme';
 import { UserAccount } from '../../app/models/User.js'
 import SafeAreaLayout from '../../components/Layout';
-import { app, database, collectionNames} from '../../app/firebaseConfig';
-import { 
-  collection, 
-  addDoc, 
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc
-} from 'firebase/firestore';
+import { app } from '../../app/firebaseConfig';
+
 import { getAuth } from "firebase/auth";
-import { JSONLog } from '../../app/utils';
+import { JSONLog, setUpWithPreviousValue } from '../../app/utils';
 import HeaderTitle from '../../components/HeaderTitle';
 import { Preloader } from '../../components/Modal';
+import useProfile from '../../hooks/useProfile';
 
 const ProfileFormScreen = ({navigation, route}) =>{
-    const auth = getAuth(app);
-
-    const { updateAccountProfile, userProfile } = useContext(AppContext);
     
-    const {profileType, title} = route.params;
+  const auth = getAuth(app);
+    
+    const {selectedProfileType, title} = route.params;
       
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
+    const [userProfile, updateProfile] = useProfile();
 
     const handleCreateProfile = (updatedData)=>{
       if (loading) return;
 
       const combinedData = {
         type: profileType, // new type selected
-        ...(userProfile || {}), // previous userProfile in context
+        // ...(userProfile || {}), // previous userProfile in context
         ...updatedData // latest data update
       }
 
       const {isComplete, ...data} = combinedData;
 
-      console.log("create profile",data);
 
       setLoading(true);
       setFormErrors(()=>({}));
 
-      UserAccount.updateProfile(auth, data)
+      updateProfile(data)
       .then(()=>{
-        console.log("Created document")
-        updateAccountProfile(data);
-        
         navigation.navigate("ProfileSuccess");
-
         setLoading(false);
       })
       .catch((err)=>{
-        console.log("Error updating document")
         setFormErrors(()=>err);
         setLoading(false)
       })
+
     }
 
     useEffect(()=>{
@@ -72,23 +61,29 @@ const ProfileFormScreen = ({navigation, route}) =>{
       
     },[]);
 
-    let formSchema = UserAccount.getProfileSchema(profileType);    
+    const profileType = userProfile?.type || selectedProfileType;
+
+    let formSchema = UserAccount.getProfileSchema(profileType);
     const getPreviousValues = useCallback(()=>{
       // process the previous values
-      let prev = {
+
+      let seedValue = {
         email: auth.currentUser.providerData[0].email
       }
 
-      if (!userProfile) return prev;
+      return setUpWithPreviousValue(formSchema, userProfile, seedValue);
+
+
+      // if (!userProfile) return prev;
       
-      Object.keys(formSchema).forEach((fieldName)=>{
-        // if key not in prevProfile, continue;
-        if (!userProfile[fieldName]) return
+      // Object.keys(formSchema).forEach((fieldName)=>{
+      //   // if key not in prevProfile, continue;
+      //   if (!userProfile[fieldName]) return
 
-        prev[fieldName] = userProfile[fieldName]; // set value.
-      });
+      //   prev[fieldName] = userProfile[fieldName]; // set value.
+      // });
 
-      return prev;
+      // return prev;
     })
 
 

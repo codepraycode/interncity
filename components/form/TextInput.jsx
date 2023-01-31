@@ -1,8 +1,19 @@
-import {StyleSheet,TextInput, TouchableOpacity} from 'react-native';
-import {View, Text} from 'react-native-ui-lib';
-import React, { useState } from 'react'
+import { StyleSheet } from 'react-native';
+import { View, Text } from 'react-native-ui-lib';
+import React from 'react'
 import Theme from '../../constants/theme';
-import Octicons from 'react-native-vector-icons/Octicons';
+
+import { 
+    DepartmentSelect,
+    EmailInput, 
+    LongTextInput, 
+    NormalInput, 
+    PasswordInput, 
+    PhoneInput,
+    SchoolSelect, 
+    SectorSelect,
+    UrlInput
+} from './FormComponents';
 
 const CustomTextInput = (props) => {
     const {schema, error} = props;
@@ -10,6 +21,12 @@ const CustomTextInput = (props) => {
 
     if (schema.type === 'password') template = <PasswordInput {...props}/>;
     else if (schema.type === 'email') template = <EmailInput {...props}/>;
+    else if (schema.type === 'school') template = <SchoolSelect {...props}/>;
+    else if (schema.type === 'department') template = <DepartmentSelect {...props}/>;
+    else if (schema.type === 'sector') template = <SectorSelect {...props}/>;
+    else if (schema.type === 'tel') template = <PhoneInput {...props}/>;
+    else if (schema.type === 'url') template = <UrlInput {...props}/>;
+    else if (schema.type === 'long') template = <LongTextInput {...props}/>;
     else template = <NormalInput {...props}/>;
     
     return (
@@ -24,56 +41,7 @@ const CustomTextInput = (props) => {
 }
 
 
-const NormalInput = ({schema, onChange, name, value})=>{
-    return (
-        <TextInput
-            placeholder = {schema.placeholder}
-            placeholderTextColor = {styles.placeholderTextColor}
-            onChangeText = {(str)=>onChange(name, str)}
-            style = {[styles.input, styles.normalInput]}
-            autoComplete = {"off"}
-            value = {value}
-        />
-    )
-}
 
-const EmailInput = ({schema, onChange, name, value})=>{
-    
-    return (
-        <TextInput
-            placeholder = {schema.placeholder}
-            placeholderTextColor = {styles.placeholderTextColor}
-            onChangeText = {(str)=>onChange(name, str)}
-            style = {[styles.input, styles.normalInput]}
-            autoComplete = {"off"}
-            value = {value}
-            textContentType = {"emailAddress"}
-        />
-    )
-}
-
-const PasswordInput = (props)=>{
-    const {schema, onChange, name, value} = props;
-    const [hidePassword, setHidePassword] = useState(true);
-    
-    return (
-        <View style={styles.passwordContainer}>
-            <TextInput
-                placeholder={schema.placeholder}
-                placeholderTextColor = {styles.placeholderTextColor}
-                onChangeText={(str)=>{onChange(name, str)}}
-                style={[styles.passwordinput, styles.input]}
-                autoComplete={"off"}
-                value = {value}
-                secureTextEntry = {hidePassword}
-            />
-
-            <TouchableOpacity activeOpacity={0.6} onPress={()=>setHidePassword(p=>!p)}>
-                <Octicons name={hidePassword ? "eye":'eye-closed'} size={30} color={Theme.grey400} />
-            </TouchableOpacity>
-        </View>
-    )
-}
 
 
 export default CustomTextInput;
@@ -87,36 +55,5 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         color: Theme.main,
     },
-    placeholderTextColor: Theme.grey300,
-    input: {
-        height: 55,
 
-        paddingLeft: 16,
-        paddingRight: 10,
-        
-        color:Theme.accent,
-        fontSize: 16,
-    },
-
-    normalInput:{
-        borderWidth: 1,
-        borderRadius: 10,
-        backgroundColor:Theme.white,
-        borderColor:Theme.white,
-        elevation: 1,
-        shadowOffset: 1,
-    },
-
-    passwordinput:{
-        width:"85%",
-    },
-
-    passwordContainer:{
-        flexDirection:'row',
-        alignItems:'center',
-        // justifyContent: 'space-between',
-        backgroundColor:Theme.white,
-        borderRadius: 10,
-        elevation: 1,
-    }
 })

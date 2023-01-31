@@ -21,7 +21,7 @@ const HeaderRight = ({type, onPress, light}) => {
         <Octicons 
             name={'bell'} 
             size={25} 
-            color={Theme.grey100} 
+            color={light ? Theme.grey100 : Theme.accent} 
             style={{paddingRight: 20}}
         />
     )

@@ -1,12 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet, ImageBackground, Image, TouchableOpacity, ScrollView  } from 'react-native';
 import assets from '../../constants/assets';
 import Theme from '../../constants/theme';
-import { createAccountSchema, profileInfoSchema } from '../../constants/dummy';
 import Form from '../../components/form';
 import AppContext from '../../app/context';
-// import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
+import useProfile from '../../hooks/useProfile';
+import { UserAccount } from '../../app/models/User';
+import { setUpWithPreviousValue } from '../../app/utils';
+import { Preloader } from '../../components/Modal';
 
 const ProfileSettingsHeader = ()=>{
     const {isOrganization} = useContext(AppContext);
@@ -17,9 +19,13 @@ const ProfileSettingsHeader = ()=>{
             resizeMode = {"contain"}
             style={{
                 justifyContent:'center',
-                minHeight: 380,
+                height: 380,
                 overflow: 'hidden',
                 paddingTop: 10,
+                paddingLeft: 5,
+                position:'absolute',
+                width:'101%',
+                // zIndex:1
             }}
             imageStyle={{
                 resizeMode:'stretch'
@@ -69,40 +75,69 @@ const ProfileSettingsHeader = ()=>{
 
 const ProfileSettingScreen = () => {
 
-    // setStatusBarStyle('dark');
-    
+    const [userProfile, updateProfile] = useProfile();
+    const [loading, setLoading] = useState(false);
+    const [formErrors, setFormErrors] = useState({});
+
+    let formSchema = UserAccount.getProfileSchema(userProfile.type);
+
+    const getPreviousValues = useCallback(()=>{
+      // process the previous values
+      return setUpWithPreviousValue(formSchema, userProfile);
+    })
+
+
+    const handleOnUpdate = (updatedData)=>{
+      if (loading) return;
+
+      setLoading(true);
+      setFormErrors(()=>({}));
+
+      updateProfile(updatedData)
+      .then(()=>{
+        setLoading(false);
+      })
+      .catch((err)=>{
+        setFormErrors(()=>err);
+        setLoading(false)
+      })
+    }
+
+    //  console.log(loading, formErrors)
     return (
         <>
             {/* Header */}
             <ProfileSettingsHeader/>
             {/* Form content */}
-            <ScrollView
-                contentContainerStyle={{
-                                        
-                }}
-                centerContent={true}
-                style={{
-                    // backgroundColor:'red',
-                    // flex:1,
-                    margin:0,
-                    position: 'relative',
-                    top: -80,
-                    minHeight:'60%',
-                }}
-            >   
+            <View flex>
+                <ScrollView
+                    contentContainerStyle={{
+                        paddingTop: 300,
+                    }}
+                    centerContent={true}
+                    style={{
+                        zIndex:-1,
+                    }}
+                >   
 
-                <View style={{
-                    paddingBottom: 20,
-                    paddingHorizontal: 30,
-                }}>
-                    <Form
-                        onSubmit={()=>{}} 
-                        schema={{...createAccountSchema,...profileInfoSchema}} 
-                        authLabel={"Update"}
-                    />
-                </View>
-            </ScrollView>
+                    <View style={{
+                        paddingBottom: 20,
+                        paddingHorizontal: 30,
+                    }}>
 
+                        <Form
+                            onSubmit={(data)=> handleOnUpdate(data)}
+                            schema={formSchema} 
+                            getPreviousValues={getPreviousValues}
+                            authLabel={ !loading ? "Update profile":"Updating..."}
+                            errors={formErrors}
+                            disable={loading}
+                        />
+                    </View>
+                </ScrollView>
+            </View>
+
+            <Preloader show={loading} text="Updating profile..."/>
         </>
     )
 }
