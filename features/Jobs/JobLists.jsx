@@ -52,7 +52,7 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
                     alignItems:'center'
                 }}
             >
-                <Text p>some minutes ago</Text>
+                {/* <Text p>some minutes ago</Text> */}
 
                 {
                     !editor && <Button text={"View"} small={true} onPress={()=>onViewClick()}/>
@@ -63,26 +63,6 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
     )
 }
 
-
-export const JobApplyListsScreen = ({ navigation }) => {
-    const handleNavigateToDetail = (jobItem)=>{
-        navigation.navigate("Job", { 
-            screen: "JobDetail", 
-            params: {jobId: jobItem.id}
-        });
-    }
-    return (
-        <>
-            {/* <StatusBar style="dark" /> */}
-            
-            <FlatList
-                data={ JobsLists }
-                renderItem = {({item})=><JobItem jobItem = { item} onViewClick = {()=>handleNavigateToDetail(item)}/>}
-                keyExtractor={item => item.id}
-            />
-        </>
-    );
-}
 
 export const JobListsScreen = ({ navigation }) => {
     const {isOrganization} = useContext(AppContext);
@@ -100,6 +80,13 @@ export const JobListsScreen = ({ navigation }) => {
         console.error(error);
     }
 
+    const navToApplyJob = (jobId)=>{
+        navigation.navigate("Job", { 
+            screen: "JobDetail", 
+            params: { jobId }
+        });
+    }
+
 
     return (
         <>
@@ -109,15 +96,26 @@ export const JobListsScreen = ({ navigation }) => {
                 renderItem = {({item})=><JobItem 
                     jobItem = { item}
                     editor = {isOrganization}
-                    onViewClick = {()=>setJobUpdate(p=>item)}
+                    onViewClick = {()=>{
+                        if (isOrganization) return navToApplyJob(item.id)
+                        
+                        // Otherwise
+                        setJobUpdate(p=>item)
+                    }}
                 />}
                 keyExtractor={item => item.id}
                 ListEmptyComponent={ emptyComponent }
             />
 
-            <FloatingButton onPress={()=>setJobUpdate(p=>({}))}/>
+            {
+                isOrganization && (
+                    <>
+                        <FloatingButton onPress={()=>setJobUpdate(p=>({}))}/>
+                        <JobBottomSheet data={jobUpdate || {}} show={Boolean(jobUpdate)} onDismiss={()=>setJobUpdate(p=>null)}/>
+                    </>
+                )
+            }
 
-            <JobBottomSheet data={jobUpdate || {}} show={Boolean(jobUpdate)} onDismiss={()=>setJobUpdate(p=>null)}/>
         </>
     );
 }
