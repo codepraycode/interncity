@@ -26,7 +26,7 @@ const ProfileSettingsHeader = ()=>{
                 paddingTop: 10,
                 paddingLeft: 5,
                 position:'absolute',
-                width:'100%',
+                width:'101%',
                 // zIndex:1
             }}
             imageStyle={{
