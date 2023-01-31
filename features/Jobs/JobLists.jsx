@@ -4,13 +4,10 @@ import { View, Text, Image } from 'react-native-ui-lib';
 import Card from '../../components/Card';
 import Tags from '../../components/Tags';
 import Button from '../../components/Button';
-import { CompanyLists, JobsLists } from '../../constants/dummy';
 import AppContext from '../../app/context';
 import { JobBottomSheet } from '../../components/BottomSheet';
 import FloatingButton from '../../components/FloatingButton';
 import { useJob, useJobs } from '../../hooks/useJobs';
-import assets from '../../constants/assets'
-import Theme from '../../constants/theme';
 import NoJobs from '../../states/NoJobs';
 import LoadingJobs from '../../states/LoadingJobs';
 
