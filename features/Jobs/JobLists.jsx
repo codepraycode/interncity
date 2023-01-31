@@ -29,15 +29,18 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
             
             <View>
                 <Image 
-                    assetName={assets.google}
+                    assetName={"google"}
                     assetGroup="assets" 
                     width={30} height={30}
                     style={{
                         marginVertical: 10,
                     }}
                 />
-                <Text h4>{title}</Text>
-                <Text p>{company?.name} -- {location.city} {location.state}</Text>
+
+                <View style={{marginVertical: 10,}}>
+                    <Text h4>{title}</Text>
+                    <Text p>{company?.name} -- {location.city} {location.state}</Text>
+                </View>
             </View>
 
             <Tags tags={sectors}/>
@@ -59,6 +62,7 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
         </Card>
     )
 }
+
 
 export const JobApplyListsScreen = ({ navigation }) => {
     const handleNavigateToDetail = (jobItem)=>{
@@ -87,7 +91,6 @@ export const JobListsScreen = ({ navigation }) => {
 
     const {jobs, settingUp, error, loading} = jobsState;
 
-    console.log(jobs)
 
     let emptyComponent = <NoJobs isOrganization={isOrganization}/>;
 
@@ -96,6 +99,7 @@ export const JobListsScreen = ({ navigation }) => {
     if (error){
         console.error(error);
     }
+
 
     return (
         <>

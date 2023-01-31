@@ -1,9 +1,11 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useEffect, useReducer, useState } from 'react';
 import { 
   collection,
   getDocs,
+  query, where,
 } from 'firebase/firestore';
 import { collectionNames, database } from './firebaseConfig';
+import { userTypes } from './utils';
 
 const AppContext = createContext();
 
@@ -24,6 +26,7 @@ export const AppContextProvider = ({children})=>{
         departments:[],
         sectors:[],
         jobs:[],
+        organizations:[],
     }
 
     const ActionTypes = {
@@ -33,6 +36,7 @@ export const AppContextProvider = ({children})=>{
         UPDATE_DEPARTMENTS:"UPDATE_DEPARTMENTS",
         UPDATE_SECTORS:"UPDATE_SECTORS",
         UPDATE_JOBS:"UPDATE_JOBS",
+        UPDATE_ORGANIZATIONS:"UPDATE_ORGANIZATIONS",
     }
 
     const reducers = (prev, action) =>{
@@ -73,89 +77,125 @@ export const AppContextProvider = ({children})=>{
                     ...prev,
                     jobs: action.payload
                 };
+            case ActionTypes.UPDATE_ORGANIZATIONS:
+                return {
+                    ...prev,
+                    organizations: action.payload
+                };
             default:
                 return {...prev}
         }
     }
     
     const [contextData, dispatch] = useReducer(reducers, initialState);
+    const [loadedState, setLoadedState] = useState(false);
 
     const loadSchools = async ()=>{
         if (Array.isArray(contextData.schools) && contextData.schools.length > 1) return
 
         const schoolsCollectionRef = collection(database,collectionNames.SCHOOLS);
-        let snapshot;
+        let schools = [];
+
         try{
-            snapshot = await getDocs(schoolsCollectionRef);
+            const snapshot = await getDocs(schoolsCollectionRef);
+            schools = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+            dispatch({ type: ActionTypes.UPDATE_SCHOOLS, payload: schools });
         }
         catch(err){
             console.log("Error fetching all schools", err);
         }
 
-        let schools = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
-        dispatch({ type: ActionTypes.UPDATE_SCHOOLS, payload: schools });
     }
 
     const loadJobs = async (organizationId=null)=>{
         // If organization id is null, load all jobs then
-        console.log("got here")
+        
         const jobsCollectionRef = collection(database,collectionNames.JOBS);
-        let snapshot;
+        let jobs = [];
+
         try{
-            snapshot = await getDocs(jobsCollectionRef);
+            const snapshot = await getDocs(jobsCollectionRef);
+            jobs = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+            console.log("fetched jobs:", jobs);
+            dispatch({ type: ActionTypes.UPDATE_JOBS, payload: jobs });
         }
         catch(err){
             console.log("Error fetching jobs", err);
         }
+    }
 
-        let jobs = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
-        dispatch({ type: ActionTypes.UPDATE_JOBS, payload: jobs });
+    const loadOrganizations = async ()=>{
+        // load all organizations
+        if (Array.isArray(contextData.organizations) && contextData.organizations.length > 1) return
+
+        const usersProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
+        const q = query(usersProfileCollectionRef, where("type", "==", userTypes.ORGANIZATION));
+
+        let organizations;
+
+        try{
+            const snapshot = await getDocs(q);
+            organizations = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+            dispatch({ type: ActionTypes.UPDATE_ORGANIZATIONS, payload: organizations });
+        }
+        catch(err){
+            console.log("Error fetching organizations", err);
+        }
+
     }
 
     const loadDepartments = async ()=>{
         if (Array.isArray(contextData.departments) && contextData.departments.length > 1) return
 
         const depratmentsCollectionRef = collection(database,collectionNames.DEPARTMENTS);
-        let snapshot;
+        let departments;
         try{
-            snapshot = await getDocs(depratmentsCollectionRef);
+            const snapshot = await getDocs(depratmentsCollectionRef);
+            departments = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+            dispatch({ type: ActionTypes.UPDATE_DEPARTMENTS, payload: departments });
         }
         catch(err){
             console.log("Error fetching all departments", err);
         }
 
-        const departments = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
-
-        dispatch({ type: ActionTypes.UPDATE_DEPARTMENTS, payload: departments });
     }
 
     const loadSectors = async ()=>{
         if (Array.isArray(contextData.sectors) && contextData.sectors.length > 1) return
 
         const depratmentsCollectionRef = collection(database,collectionNames.SECTORS);
-        let snapshot;
+        let sectors;
+
         try{
-            snapshot = await getDocs(depratmentsCollectionRef);
+            const snapshot = await getDocs(depratmentsCollectionRef);
+            snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+            dispatch({ type: ActionTypes.UPDATE_SECTORS, payload: sectors });
         }
         catch(err){
             console.log("Error fetching all sectors", err);
         }
-
-        const sectors = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
-
-        dispatch({ type: ActionTypes.UPDATE_SECTORS, payload: sectors });
     }
     
     useEffect(() => {
 
         const bootstrapAsync = async () => {
-            
-            loadSchools()
+            if (loadedState) return;
 
-            loadDepartments();
-            loadSectors()
+            Promise.all([
+                loadSchools(),
+                loadDepartments(),
+                loadSectors(),
+                loadOrganizations(),
+            ]).then((dt)=>{
+                console.log(dt);
 
+                setLoadedState(true);
+            })
+            .catch((err)=>{
+                console.log("error loading context:", err);
+            })
             // loadJobs()
+            
 
         };
         
@@ -165,6 +205,10 @@ export const AppContextProvider = ({children})=>{
         contextData.departments, 
         contextData.sectors,
         contextData.jobs,
+        loadedState,
+        contextData.userAccount,
+        contextData.userProfile,
+
     ]);
 
     const appContextData = React.useMemo(() => ({
@@ -190,6 +234,7 @@ export const AppContextProvider = ({children})=>{
         loadJobs,
 
     }),[contextData.userProfile, contextData.userAccount]);
+
 
     return (
         <AppContext.Provider value={appContextData}>

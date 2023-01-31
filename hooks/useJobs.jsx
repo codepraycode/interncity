@@ -1,14 +1,14 @@
-import { getAuth } from 'firebase/auth';
-import React, { useContext, useEffect, useMemo, useReducer, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useReducer } from 'react';
 import AppContext from '../app/context';
-import { app } from '../app/firebaseConfig';
+
+import { JSONLog } from '../app/utils';
 import useProfile from './useProfile';
 
 const useJob = (jobId)=>{
     const { jobs, organizations } = useContext(AppContext);
-
-
+    
     const jobData = useMemo(()=>{
+        
         const job = jobs.find(e=>e.id === jobId);
 
         if (!job) {
@@ -29,7 +29,10 @@ const useJob = (jobId)=>{
         const {type, ...restProfileData} = organizationProfile;
         job.company = restProfileData;
 
-    }, [jobs])
+        return job;
+    })
+
+    
 
     return [jobData];
 }
@@ -69,6 +72,7 @@ const useJobs = ()=>{
             
             loadJobs()
             .then(()=>{
+                // console.log("Fasdffdsfdsafs")
                 dispatch({
                     type: "UPDATE_STATE",
                     payload:{
@@ -91,7 +95,7 @@ const useJobs = ()=>{
         }
 
         setUpJobs();
-    }, []);
+    })//, [stateData.settingUp, stateData.loading, stateData.error, stateData.jobs]);
 
     
     const reloadJobs = async ()=>{
