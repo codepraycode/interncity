@@ -98,7 +98,7 @@ export const AppContextProvider = ({children})=>{
 
     const loadJobs = async (organizationId=null)=>{
         // If organization id is null, load all jobs then
-
+        console.log("got here")
         const jobsCollectionRef = collection(database,collectionNames.JOBS);
         let snapshot;
         try{

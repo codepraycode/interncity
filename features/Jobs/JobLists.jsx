@@ -8,7 +8,7 @@ import { CompanyLists, JobsLists } from '../../constants/dummy';
 import AppContext from '../../app/context';
 import { JobBottomSheet } from '../../components/BottomSheet';
 import FloatingButton from '../../components/FloatingButton';
-import useJob from '../../hooks/useJobs';
+import { useJob, useJobs } from '../../hooks/useJobs';
 import assets from '../../constants/assets'
 import Theme from '../../constants/theme';
 import NoJobs from '../../states/NoJobs';
@@ -17,12 +17,12 @@ import LoadingJobs from '../../states/LoadingJobs';
 // Create the jobs screen
 
 const JobItem = ({jobItem, editor, onViewClick})=>{
-    // const company = CompanyLists.find(e=>e.id === jobItem.companyId) || {};
-    // const title = jobItem.title || '';
-    // const decription = `${company.name || '---'} ${company.headOffice.town || "---"} ${company.headOffice.city || "---"}`;
-    // const tags = jobItem.tags || []
+    
+    const [jobInfo] = useJob(jobItem.id);
 
-    const {title, location, company, sectors, } = jobItem;
+    if (!jobInfo) return <></>;
+
+    const {title, location, company, sectors, } = jobInfo;
 
     return (
         <Card clickable={editor} onPress={onViewClick}>
@@ -37,7 +37,7 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
                     }}
                 />
                 <Text h4>{title}</Text>
-                <Text p>{company.name} -- {location.city} {location.state}</Text>
+                <Text p>{company?.name} -- {location.city} {location.state}</Text>
             </View>
 
             <Tags tags={sectors}/>
@@ -83,9 +83,19 @@ export const JobApplyListsScreen = ({ navigation }) => {
 export const JobListsScreen = ({ navigation }) => {
     const {isOrganization} = useContext(AppContext);
     const [jobUpdate, setJobUpdate] = useState(null);
-    const [_, jobs] = useJob();
+    const [jobsState] = useJobs();
+
+    const {jobs, settingUp, error, loading} = jobsState;
 
     console.log(jobs)
+
+    let emptyComponent = <NoJobs isOrganization={isOrganization}/>;
+
+    if (settingUp) emptyComponent = <LoadingJobs isOrganization={isOrganization}/>;
+
+    if (error){
+        console.error(error);
+    }
 
     return (
         <>
@@ -98,10 +108,7 @@ export const JobListsScreen = ({ navigation }) => {
                     onViewClick = {()=>setJobUpdate(p=>item)}
                 />}
                 keyExtractor={item => item.id}
-                ListEmptyComponent={
-                    // <NoJobs isOrganization={isOrganization}/>
-                    <LoadingJobs isOrganization={isOrganization}/>
-                }
+                ListEmptyComponent={ emptyComponent }
             />
 
             <FloatingButton onPress={()=>setJobUpdate(p=>({}))}/>
