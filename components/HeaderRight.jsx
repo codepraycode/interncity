@@ -10,9 +10,9 @@ const HeaderRight = ({type, onPress, light}) => {
 
     if (type === 'settings') template = (
         <MaterialIcons
-                name={'cog-outline'} 
-                size={25} 
-                color={light ? Theme.white: Theme.accent}
+                name= {'cog-outline'} 
+                size={23} 
+                color={light ? Theme.white: Theme.main}
                 style={{paddingRight: 20}}
             />
     )
@@ -20,8 +20,8 @@ const HeaderRight = ({type, onPress, light}) => {
     else template = (
         <Octicons 
             name={'bell'} 
-            size={25} 
-            color={light ? Theme.grey100 : Theme.accent} 
+            size={23} 
+            color={light ? Theme.grey100 : Theme.main} 
             style={{paddingRight: 20}}
         />
     )
