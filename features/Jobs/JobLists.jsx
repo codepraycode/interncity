@@ -68,7 +68,7 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
 export const JobListsScreen = ({ navigation }) => {
     const {isOrganization} = useContext(AppContext);
     const [jobUpdate, setJobUpdate] = useState(null);
-    const [jobsState] = useJobs();
+    const [jobsState, reloadJobs] = useJobs();
 
     const {jobs, settingUp, error, loading} = jobsState;
 
@@ -98,14 +98,21 @@ export const JobListsScreen = ({ navigation }) => {
                     jobItem = { item}
                     editor = {isOrganization}
                     onViewClick = {()=>{
-                        if (isOrganization) return navToApplyJob(item.id)
-                        
+                        // if (isOrganization) return setJobUpdate(p=>item)
+
                         // Otherwise
-                        setJobUpdate(p=>item)
+                        navToApplyJob(item.id)                        
+                        
                     }}
                 />}
                 keyExtractor={item => item.id}
                 ListEmptyComponent={ emptyComponent }
+                refreshing={false}
+
+                onRefresh={()=>{
+                    console.log("Refreshing");
+                    reloadJobs()
+                }}
             />
 
             {

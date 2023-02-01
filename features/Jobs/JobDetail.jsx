@@ -3,13 +3,13 @@ import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { View, Text, Image } from 'react-native-ui-lib';
 import Button from '../../components/Button';
 import Theme from '../../constants/theme';
-import { CompanyLists, JobsLists } from '../../constants/dummy';
 import JobNotFound from '../../states/JobNotFound';
 
 import Octicons from 'react-native-vector-icons/Octicons';
 import Tags from '../../components/Tags';
+import { useJob } from '../../hooks/useJobs';
 
-const Seperator = ()=> <View style={{width: 5, height: 5, borderRadius: 2.5, backgroundColor: Theme.accent}}></View>
+const Seperator = ()=> <View style={{marginHorizontal:10,width: 5, height: 5, borderRadius: 2.5, backgroundColor: Theme.accent}}></View>
 
 
 const JobDetailHeader = ({job:jobInfo, company})=>{
@@ -24,20 +24,16 @@ const JobDetailHeader = ({job:jobInfo, company})=>{
                     zIndex:1,
                 }}
             >
-                {
-                    company.logo && (
-                        <Image 
-                            assetName={company.logo}
-                            assetGroup="assets" 
-                            width={70} height={70}
-                            style={{
-                                position:'relative',
-                                bottom: -20,
-                                
-                            }}
-                        />
-                    )
-                }
+                <Image 
+                    assetName={"google"}
+                    assetGroup="assets" 
+                    width={70} height={70}
+                    style={{
+                        position:'relative',
+                        bottom: -20,
+                        
+                    }}
+                />
             </View>
 
             <View
@@ -55,14 +51,14 @@ const JobDetailHeader = ({job:jobInfo, company})=>{
                 <View 
                     style={{
                         flexDirection:'row', 
-                        justifyContent:'space-evenly', 
+                        justifyContent:'center', 
                         alignItems:'center',
 
                         marginVertical: 15,
                     }}
                 >
-                    <Text center label>{company.name}</Text>
-                    <Seperator/>
+                    {/* <Text center label>{company.name}</Text>
+                    <Seperator/> */}
                     <Text center label>{jobInfo.location.city}</Text>
                     <Seperator/>
                     <Text center label>2 days ago</Text>
@@ -97,9 +93,19 @@ const JobDetailHeader = ({job:jobInfo, company})=>{
 }
 
 const JobComapanyInfomation = ({company}) =>{
-
+    console.log(company);
     return (
         <View>
+            <View style={{marginVertical: 10}}>
+                <Text h5 style={{marginVertical: 5}}>
+                    Name
+                </Text>
+
+                <Text h4 secondary>
+                    {company.name}
+                </Text>
+            </View>
+
             <View>
                 <Text h5 style={{marginVertical: 10}}>About company</Text>
 
@@ -120,65 +126,13 @@ const JobComapanyInfomation = ({company}) =>{
 
             <View style={{marginVertical: 10}}>
                 <Text h5 style={{marginVertical: 5}}>
-                    Industry
+                    Office address
                 </Text>
 
                 <Text p>
-                    Technology
+                    {/* {company.location.city}, {company.location.state} */}
                 </Text>
             </View>
-
-
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Employee size
-                </Text>
-
-                <Text p>
-                    132, 121 employees
-                </Text>
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Head office
-                </Text>
-
-                <Text p>
-                    Ikeja, Lagos
-                </Text>
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Type
-                </Text>
-
-                <Text p>
-                    Multinational company
-                </Text>
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Since
-                </Text>
-
-                <Text p>
-                    1998
-                </Text>
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Specialization
-                </Text>
-
-                <Text p>
-                    {company.specialization}
-                </Text>
-            </View>
-
         </View>
     )
 }
@@ -190,20 +144,22 @@ const JobInfomation = ({job}) =>{
 
             <View style={{marginVertical: 10}}>
 
-                <Text h3 style={{marginVertical: 5}}>
+                <Text h3 style={{marginVertical: 10}}>Job title</Text>
+
+                <Text p style={{marginVertical: 5}}>
                     {job.title}
                 </Text>
             </View>
 
-            <View>
+            {/* <View>
                 <Text h5 style={{marginVertical: 10}}>About job</Text>
 
                 <Text p style={{marginVertical: 10}}>
                     {job.about}
                 </Text>
-            </View>
+            </View> */}
 
-            <View style={{marginVertical: 10}}>
+            {/* <View style={{marginVertical: 10}}>
                 <Text h5 style={{marginVertical: 5}}>
                     Duration
                 </Text>
@@ -211,7 +167,7 @@ const JobInfomation = ({job}) =>{
                 <Text p>
                     {job.duration}
                 </Text>
-            </View>
+            </View> */}
 
 
             <View style={{marginVertical: 10}}>
@@ -219,15 +175,9 @@ const JobInfomation = ({job}) =>{
                     Pay
                 </Text>
 
-                {job.pay ? 
-                    <Text p>
-                        {job.pay}
-                    </Text>
-                    : 
-                    <Text i>
-                        No pay
-                    </Text>
-                }
+                {job.stipend && <Text p>
+                        {job.stipend}
+                    </Text>}
                 
             </View>
 
@@ -237,11 +187,11 @@ const JobInfomation = ({job}) =>{
                 </Text>
 
                 <Text p>
-                    Ikeja, Lagos
+                    {job.location.city}, {job.location.state}
                 </Text>
             </View>
 
-            <View style={{marginVertical: 10}}>
+            {/* <View style={{marginVertical: 10}}>
                 <Text h5 style={{marginVertical: 5}}>
                     Tags
                 </Text>
@@ -257,7 +207,7 @@ const JobInfomation = ({job}) =>{
                 <Text p>
                     {job.duration}
                 </Text>
-            </View>
+            </View> */}
 
         </View>
     )
@@ -281,13 +231,15 @@ const Tab = ({text, onClick, active})=> (
 
 const JobDetail = ({ route }) => {
     const { jobId } = route.params;
-    const job = JobsLists.find(each => each.id === jobId);
+    
+    const [job] = useJob(jobId);
+
     const [tabNo, setTabNo] = useState(0);
     const [showModal, setShowModal] = useState(false);
 
     if (!Boolean(job)) return <JobNotFound/>;
 
-    const company = CompanyLists.find(each => each.id === job.companyId);
+    const {company} = job;
     
     if (!Boolean(company)) return <JobNotFound text={"Job company not found!"}/>;
 
