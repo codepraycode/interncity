@@ -14,7 +14,10 @@ const LogItem = ({date, editLog}) => {
 
     const dayOfWeek = getDayVerbose(dayNumber);
 
-    const log = "Lorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjas"
+    const log = `Date: 1/1/2023
+
+A sample daily log.
+    `
     const breakLength = 188;
     
     return (

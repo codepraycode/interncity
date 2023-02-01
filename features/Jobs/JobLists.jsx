@@ -22,7 +22,7 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
     const {title, location, company, sectors, } = jobInfo;
 
     return (
-        <Card clickable={editor} onPress={onViewClick}>
+        <Card clickable={true} onPress={onViewClick}>
             
             <View style={{flexDirection:'row', marginBottom:20, marginTop:10, alignItems:'center'}}>
                 <Image 
@@ -66,6 +66,7 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
 
 
 export const JobListsScreen = ({ navigation }) => {
+    
     const {isOrganization} = useContext(AppContext);
     const [jobUpdate, setJobUpdate] = useState(null);
     const [jobsState, reloadJobs] = useJobs();

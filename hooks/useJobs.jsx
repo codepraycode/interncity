@@ -20,6 +20,7 @@ const useJob = (jobId)=>{
 
         const organizationProfile = organizations.find(e=>e.id === jobOrganizationId);
 
+        // console.log(jobOrganizationId, organizations)
         if (!organizationProfile) {
             console.log("Job organization not found:", jobOrganizationId);
             return null

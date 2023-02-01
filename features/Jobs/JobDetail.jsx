@@ -217,6 +217,7 @@ const Tab = ({text, onClick, active})=> (
     <TouchableOpacity 
         onPress={onClick}
         center 
+        activeOpacity={0.8}
         style={{
             backgroundColor:active ? Theme.secondary : 'transparent',
             borderRadius: 6,
