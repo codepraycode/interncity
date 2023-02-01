@@ -48,7 +48,7 @@ const ProfileSettingsHeader = ({profile})=>{
             >
                 <View center>
                     {/* Image */}
-                    <View center style={{width: 60, height: 60, borderRadius: 30}}>
+                    <View center style={{width: 40, height: 40, borderRadius: 20}}>
                         <Image
                             source={isOrganization ? assets.google : assets.user}
                             // resizeMethod={"auto"}
@@ -57,9 +57,9 @@ const ProfileSettingsHeader = ({profile})=>{
                     </View>
 
                     {/* Text */}
-                    <View center ={isOrganization} style={{marginVertical: 10}}>
+                    <View center ={isOrganization} style={{marginBottom: 10}}>
                         <Text h4 center style={{color: Theme.grey100}}>{profile.name}</Text>
-                        <Text small center style={{color: Theme.grey100}}>{profile.type}</Text>
+                        <Text label center style={{color: Theme.grey100}}>{profile.type}</Text>
                     </View>
 
                     {/* Button to change Image */}
