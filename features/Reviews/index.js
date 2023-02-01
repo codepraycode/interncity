@@ -18,12 +18,15 @@ const LogsScreen = () => {
 
     // console.log(dateIntervals);
     return (
-        <View flex centerH>
+        <View flex>
 
             <FlatList
                 data={ dateIntervals }
                 renderItem = {({item})=><LogItem date={item} editLog={()=>setDateEditing(item)}/>}
                 showsVerticalScrollIndicator={false}
+                contentContainerStyle={{
+                    alignItems:'center'
+                }}
             />
 
 

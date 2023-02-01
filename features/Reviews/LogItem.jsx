@@ -26,7 +26,7 @@ const LogItem = ({date, editLog}) => {
                 padding: 10,
                 marginVertical:10,
                 height: 120,
-                width: 450,
+                width: 350,
                 maxWidth: "95%",
                 borderRadius: 4,
 
