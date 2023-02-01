@@ -46,7 +46,6 @@ const useJobs = ()=>{
         loading: false,
         settingUp: jobs.length < 1,
         error:null,
-        jobs,
     }
 
     const reducer = (prev, action) =>{
@@ -61,12 +60,12 @@ const useJobs = ()=>{
         }
     }
 
-    const [stateData, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialState);
 
 
     useEffect(()=>{
         const setUpJobs = ()=>{
-            const {settingUp} = stateData;
+            const {settingUp} = state;
 
             if(!settingUp) return;
             
@@ -95,7 +94,7 @@ const useJobs = ()=>{
         }
 
         setUpJobs();
-    })//, [stateData.settingUp, stateData.loading, stateData.error, stateData.jobs]);
+    })//, [state.settingUp, state.loading, state.error, state.jobs]);
 
     
     const reloadJobs = async ()=>{
@@ -114,6 +113,11 @@ const useJobs = ()=>{
 
         return;
         
+    }
+
+    const stateData = {
+        ...state,
+        jobs,
     }
 
 
