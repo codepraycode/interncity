@@ -55,9 +55,9 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
             >
                 <Text i>some minutes ago</Text>
 
-                {
+                {/* {
                     !editor && <Button text={"View"} small={true} onPress={()=>onViewClick()}/>
-                }
+                } */}
                 
             </View>
         </Card>
@@ -98,7 +98,7 @@ export const JobListsScreen = ({ navigation }) => {
                     jobItem = { item}
                     editor = {isOrganization}
                     onViewClick = {()=>{
-                        // if (isOrganization) return setJobUpdate(p=>item)
+                        if (isOrganization) return setJobUpdate(p=>item)
 
                         // Otherwise
                         navToApplyJob(item.id)                        
