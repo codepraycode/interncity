@@ -196,9 +196,9 @@ export const AppContextProvider = ({children})=>{
     }
     
     const bootstrapAsync = async () => {
-        // if (loading) return;
+        if (loading) return;
 
-        // setLoading(true);
+        setLoading(true);
 
         
 
@@ -233,7 +233,6 @@ export const AppContextProvider = ({children})=>{
             console.log("error loading context:", err);
             if (loading) setLoading(false);
         })
-        // loadJobs()
 
     };  
 
