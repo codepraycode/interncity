@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {app} from '../../app/firebaseConfig';
 import SafeAreaLayout from '../../components/Layout';
-import { UserAccount } from '../../app/models/User';
+import UserAccount from '../../app/models/User';
 import {HandleFirebaseError, JSONLog} from '../../app/utils';
 /* 
     CreateAccount screen

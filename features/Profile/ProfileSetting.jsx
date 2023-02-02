@@ -6,7 +6,7 @@ import Theme from '../../constants/theme';
 import Form from '../../components/form';
 import AppContext from '../../app/context';
 import useProfile from '../../hooks/useProfile';
-import { UserAccount } from '../../app/models/User';
+import UserAccount from '../../app/models/User';
 import { setUpWithPreviousValue } from '../../app/utils';
 import { Preloader } from '../../components/Modal';
 

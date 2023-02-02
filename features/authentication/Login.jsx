@@ -5,7 +5,7 @@ import Form from '../../components/form';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {app} from '../../app/firebaseConfig';
 import {HandleFirebaseError, JSONLog} from '../../app/utils';
-import { UserAccount } from '../../app/models/User';
+import UserAccount from '../../app/models/User';
 import AuthLayout from '../../components/Layout';
 import Theme from '../../constants/theme';
 

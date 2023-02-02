@@ -364,6 +364,4 @@ class UserAccount {
 }
 
 
-export {
-    UserAccount,
-}
+export default UserAccount;

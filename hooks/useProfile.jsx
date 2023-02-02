@@ -2,7 +2,7 @@ import { getAuth } from 'firebase/auth';
 import React, { useContext, useState } from 'react';
 import AppContext from '../app/context';
 import { app } from '../app/firebaseConfig';
-import { UserAccount } from '../app/models/User';
+import UserAccount from '../app/models/User';
 
 
 const useProfile = ()=>{
