@@ -52,11 +52,6 @@ const CreateAccount = ({ navigation })=>{
               return;
           }
 
-          const {providerData, stsTokenManager} = userCredential.user;
-
-          // updateProfile(providerData[0]);
-          const userD = providerData[0] || {}
-
           try{
             await UserAccount.intializeProfile(auth);
           }catch(err){
