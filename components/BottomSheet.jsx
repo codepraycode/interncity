@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import {View, Text, ActionSheet} from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import Button from '../components/Button';
-import AppContext from '../app/context';
 import { TextInput } from 'react-native';
 
 
@@ -37,9 +36,8 @@ const BottomSheet = (props) => {
     );
 }
 
-const AuthBottomSheet = ({show, onDismiss}) => {
 
-    const {signOut} = useContext(AppContext);
+const AuthBottomSheet = ({show, onDismiss, signOut}) => {
 
     const pickOption = (index) =>{
         console.log("Picked", index);

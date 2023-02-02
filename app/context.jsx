@@ -4,8 +4,9 @@ import {
   getDocs,
   query, where,
 } from 'firebase/firestore';
-import { collectionNames, database } from './firebaseConfig';
+import { app, auth, collectionNames, database } from './firebaseConfig';
 import { JSONLog, userTypes } from './utils';
+
 
 const AppContext = createContext();
 
@@ -38,6 +39,7 @@ export const AppContextProvider = ({children})=>{
         UPDATE_JOBS:"UPDATE_JOBS",
         UPDATE_ORGANIZATIONS:"UPDATE_ORGANIZATIONS",
         UPDATE_DBS:"UPDATE_DBS",
+        RESET_STATE:"RESET_STATE",
     }
 
     const reducers = (prev, action) =>{
@@ -87,6 +89,11 @@ export const AppContextProvider = ({children})=>{
                 return {
                     ...prev,
                     ...action.payload
+                };
+            case ActionTypes.RESET_STATE:
+                return {
+                    ...prev,
+                    ...initialState
                 };
             default:
                 return {...prev}
@@ -188,51 +195,76 @@ export const AppContextProvider = ({children})=>{
         }
     }
     
-    useEffect(() => {
+    const bootstrapAsync = async () => {
+        // if (loading) return;
 
-        const bootstrapAsync = async () => {
-            if (loading) return;
+        // setLoading(true);
 
-            setLoading(true);
-
-            
-
-            Promise.all([
-                loadSchools(),
-                loadDepartments(),
-                loadSectors(),
-                loadOrganizations(),
-            ]).then((dt)=>{
-                // JSONLog(dt);
-                
-                let loadedStateData = {}
-                dt.forEach((each)=>{
-                    if (!each) return
-                    loadedStateData = {...loadedStateData, ...each}
-                })
-
-
-                if (Object.keys(loadedStateData).length >= 1){
-                    // JSONLog(loadedStateData);
-
-                    dispatch({
-                        type: ActionTypes.UPDATE_DBS,
-                        payload: loadedStateData
-                    });
-                }
-
-                if (loading) setLoading(false);
-            })
-            .catch((err)=>{
-                console.log("error loading context:", err);
-                if (loading) setLoading(false);
-            })
-            // loadJobs()
-
-        };
         
-        bootstrapAsync();
-    })
+
+        Promise.all([
+            loadSchools(),
+            loadDepartments(),
+            loadSectors(),
+            loadOrganizations(),
+        ]).then((dt)=>{
+            // JSONLog(dt);
+            console.log("Loaded state");
+            
+            let loadedStateData = {}
+            dt.forEach((each)=>{
+                if (!each) return
+                loadedStateData = {...loadedStateData, ...each}
+            })
+
+
+            if (Object.keys(loadedStateData).length >= 1){
+                // JSONLog(loadedStateData);
+
+                dispatch({
+                    type: ActionTypes.UPDATE_DBS,
+                    payload: loadedStateData
+                });
+            }
+
+            if (loading) setLoading(false);
+        })
+        .catch((err)=>{
+            console.log("error loading context:", err);
+            if (loading) setLoading(false);
+        })
+        // loadJobs()
+
+    };  
+
+    useEffect(()=>{
+        auth.onAuthStateChanged((user)=>{
+
+            if (!user){
+                // CLear state
+                console.log("clear state");
+                dispatch({ type: ActionTypes.RESET_STATE});
+                return
+            }
+
+            console.log("AUthenticatedddsds!");
+
+            const {providerData, stsTokenManager} = user;
+            
+            const userD = providerData[0] || {}
+            const userData = {
+              ...userD,
+              token: stsTokenManager
+            };
+            
+            dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: userData});
+            bootstrapAsync();
+
+        })
+    }, [])
+    // console.log("asdfsd");
+    // JSONLog(contextData)
+    // console.log("userrr:", user);
     
     const appContextData = ({
         ...contextData,

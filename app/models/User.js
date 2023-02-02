@@ -248,7 +248,7 @@ class UserAccount {
 
         let snapshot;
         try{
-            snapshot = await getDocs(q);
+            snapshot = await getDocs(usersProfileCollectionRef);
         }
         catch(err){
             console.log("Error fetching profile:", err);
@@ -262,7 +262,8 @@ class UserAccount {
         }
 
         const results = snapshot.docs.map((edoc)=>({...edoc.data(), id: edoc.id}));
-
+        console.log(results)
+        
         const userQuery = results[0];
         const {id, ...userQueryData} = userQuery;
         // firest result is to be used

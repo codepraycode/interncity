@@ -1,12 +1,11 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {View, Text, Image} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
 import {ErrorModal, Preloader} from '../../components/Modal';
 import { UserAccount } from '../../app/models/User';
-import { app } from '../../app/firebaseConfig';
-import { getAuth } from "firebase/auth";
+import { auth} from '../../app/firebaseConfig';
 import { JSONLog } from '../../app/utils';
 
 /* 
@@ -14,7 +13,7 @@ import { JSONLog } from '../../app/utils';
 */
 
 const Onboarding = ({ navigation })=>{ // onboarding for authentication
-    const auth = getAuth(app);
+
     const {updateAccountProfile, isOrganization, isIntern} = useContext(AppContext)
     let term = '';
 
