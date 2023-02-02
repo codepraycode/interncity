@@ -14,7 +14,10 @@ const LogItem = ({date, editLog}) => {
 
     const dayOfWeek = getDayVerbose(dayNumber);
 
-    const log = "Lorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjas"
+    const log = `Date: 1/1/2023
+
+A sample daily log.
+    `
     const breakLength = 188;
     
     return (
@@ -26,7 +29,7 @@ const LogItem = ({date, editLog}) => {
                 padding: 10,
                 marginVertical:10,
                 height: 120,
-                width: 450,
+                width: 350,
                 maxWidth: "95%",
                 borderRadius: 4,
 

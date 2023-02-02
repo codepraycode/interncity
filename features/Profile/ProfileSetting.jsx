@@ -10,8 +10,13 @@ import { UserAccount } from '../../app/models/User';
 import { setUpWithPreviousValue } from '../../app/utils';
 import { Preloader } from '../../components/Modal';
 
-const ProfileSettingsHeader = ()=>{
-    const {isOrganization} = useContext(AppContext);
+const ProfileSettingsHeader = ({profile})=>{
+    const { isOrganization, isSupervisor } = useContext(AppContext);
+
+    let align = 'flex-start';
+
+    if (isOrganization) align = 'center';
+    else if (isSupervisor) align = 'flex-end';
 
     return (
         <ImageBackground 
@@ -33,40 +38,44 @@ const ProfileSettingsHeader = ()=>{
         >
             {/* Container */}
             <View
-            center={isOrganization}
+                // center
                 style={{
-                    paddingLeft: 0,
+                    marginHorizontal: 10,
+                    // backgroundColor:'red',
+                    alignItems: align,
+                    width: "90%"
                 }}
             >
+                <View center>
+                    {/* Image */}
+                    <View center style={{width: 40, height: 40, borderRadius: 20}}>
+                        <Image
+                            source={isOrganization ? assets.google : assets.user}
+                            // resizeMethod={"auto"}
+                            resizeMode="cover"
+                        />
+                    </View>
 
-                {/* Image */}
-                <View center style={{width: 60, height: 60, borderRadius: 30}}>
-                    <Image
-                        source={isOrganization ? assets.google : assets.user}
-                        // resizeMethod={"auto"}
-                        resizeMode="cover"
-                    />
+                    {/* Text */}
+                    <View center ={isOrganization} style={{marginBottom: 10}}>
+                        <Text h4 center style={{color: Theme.grey100}}>{profile.name}</Text>
+                        <Text label center style={{color: Theme.grey100}}>{profile.type}</Text>
+                    </View>
+
+                    {/* Button to change Image */}
+                    <TouchableOpacity 
+                        activeOpacity={0.5}
+                        style={{
+                            backgroundColor: "rgba(255, 255, 255, .2)",
+                            alignItems:'center',
+                            width: 130,
+                            paddingVertical: 8,
+                            borderRadius: 8,
+                        }}
+                    >
+                        <Text p style={{color: Theme.grey100, fontSize: 13}}>Change image</Text>
+                    </TouchableOpacity>
                 </View>
-
-                {/* Text */}
-                <View center ={isOrganization} style={{marginVertical: 10}}>
-                    <Text h4 style={{color: Theme.grey100}}>Orland orlando</Text>
-                    <Text small style={{color: Theme.grey100}}>Califonia USA</Text>
-                </View>
-
-                {/* Button to change Image */}
-                <TouchableOpacity 
-                    activeOpacity={0.5}
-                    style={{
-                        backgroundColor: "rgba(255, 255, 255, .2)",
-                        alignItems:'center',
-                        width: 130,
-                        paddingVertical: 8,
-                        borderRadius: 8,
-                    }}
-                >
-                    <Text p style={{color: Theme.grey100, fontSize: 13}}>Change image</Text>
-                </TouchableOpacity>
             </View>
         </ImageBackground>
     )
@@ -103,11 +112,16 @@ const ProfileSettingScreen = () => {
       })
     }
 
+    const accType = String(userProfile.type || 'user')
+    const profile ={
+        name: userProfile.name || userProfile.fullname,
+        type: accType,
+    }
     //  console.log(loading, formErrors)
     return (
         <>
             {/* Header */}
-            <ProfileSettingsHeader/>
+            <ProfileSettingsHeader profile={profile}/>
             {/* Form content */}
             <View flex>
                 <ScrollView

@@ -5,7 +5,12 @@ import Theme from '../../constants/theme';
 
 const WeeklyLog = ({label, editLog}) => {
 
-    const log = "Lorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjasLorefdsafkljsdkfajsdklfjalsdkfjasd;klfjasdklfj;asdlkfjas"
+    const log = `Date: 1/1/2023
+
+A sample weekly log.
+
+supervisor: Mr Lorem Bulaba (Manager)
+`
     const breakLength = 178;
     
     return (

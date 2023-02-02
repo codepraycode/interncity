@@ -133,7 +133,7 @@ const TabsStack = ()=>{
                 )
             })}
         >
-            <Tab.Screen name="Jobs" component={JobListsScreen} />
+            {!isSupervisor && <Tab.Screen name="Jobs" component={JobListsScreen} />}
 
             {renderScreen()}
 

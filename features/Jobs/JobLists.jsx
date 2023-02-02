@@ -22,21 +22,25 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
     const {title, location, company, sectors, } = jobInfo;
 
     return (
-        <Card clickable={editor} onPress={onViewClick}>
+        <Card clickable={true} onPress={onViewClick}>
             
-            <View>
+            <View style={{flexDirection:'row', marginBottom:20, marginTop:10, alignItems:'center'}}>
                 <Image 
                     assetName={"google"}
                     assetGroup="assets" 
-                    width={30} height={30}
+                    width={40} height={40}
                     style={{
-                        marginVertical: 10,
+                        marginRight: 20,
                     }}
                 />
 
-                <View style={{marginVertical: 10,}}>
+                <View style={{width: "80%"}}>
                     <Text h4>{title}</Text>
-                    <Text p>{company?.name} -- {location.city} {location.state}</Text>
+                    <Text small
+                        style={{
+                            marginTop: 10,
+                        }}
+                    >{company?.name} | {location.city}, {location.state}</Text>
                 </View>
             </View>
 
@@ -49,11 +53,11 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
                     alignItems:'center'
                 }}
             >
-                {/* <Text p>some minutes ago</Text> */}
+                <Text i>some minutes ago</Text>
 
-                {
+                {/* {
                     !editor && <Button text={"View"} small={true} onPress={()=>onViewClick()}/>
-                }
+                } */}
                 
             </View>
         </Card>
@@ -62,9 +66,10 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
 
 
 export const JobListsScreen = ({ navigation }) => {
+    
     const {isOrganization} = useContext(AppContext);
     const [jobUpdate, setJobUpdate] = useState(null);
-    const [jobsState] = useJobs();
+    const [jobsState, reloadJobs] = useJobs();
 
     const {jobs, settingUp, error, loading} = jobsState;
 
@@ -94,14 +99,21 @@ export const JobListsScreen = ({ navigation }) => {
                     jobItem = { item}
                     editor = {isOrganization}
                     onViewClick = {()=>{
-                        if (isOrganization) return navToApplyJob(item.id)
-                        
+                        if (isOrganization) return setJobUpdate(p=>item)
+
                         // Otherwise
-                        setJobUpdate(p=>item)
+                        navToApplyJob(item.id)                        
+                        
                     }}
                 />}
                 keyExtractor={item => item.id}
                 ListEmptyComponent={ emptyComponent }
+                refreshing={false}
+
+                onRefresh={()=>{
+                    console.log("Refreshing");
+                    reloadJobs()
+                }}
             />
 
             {
