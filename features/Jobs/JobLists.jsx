@@ -71,9 +71,6 @@ export const JobListsScreen = ({ navigation }) => {
     const [jobUpdate, setJobUpdate] = useState(null);
     const [jobs, loading] = useJobs();
 
-    // const {jobs, settingUp, error, loading} = jobsState;
-
-
     let emptyComponent = <NoJobs isOrganization={isOrganization}/>;
 
     if (loading) emptyComponent = <LoadingJobs isOrganization={isOrganization}/>;
