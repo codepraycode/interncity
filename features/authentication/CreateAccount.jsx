@@ -65,10 +65,6 @@ const CreateAccount = ({ navigation })=>{
               return;
           }
 
-          updateAccount({
-            ...userD,
-            token: stsTokenManager
-          });
       })
       .catch(err=>{
           // console.log("Error", err);
