@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useReducer, useState } from 'react';
 import { 
   collection,
   getDocs,
+  onSnapshot,
   query, where,
 } from 'firebase/firestore';
 import { auth, collectionNames, database } from './firebaseConfig';
@@ -103,21 +104,24 @@ export const AppContextProvider = ({children})=>{
     const [contextData, dispatch] = useReducer(reducers, initialState);
     const [loading, setLoading] = useState(false);
 
-    const loadJobs = async (organizationId=null)=>{
-        // If organization id is null, load all jobs then
-        
-        const jobsCollectionRef = collection(database,collectionNames.JOBS);
-        let jobs = [];
+    const isOrganization = contextData.userProfile?.type === 'organization';
+    const isSupervisor = contextData.userProfile?.type === 'supervisor'
+    const isIntern = contextData.userProfile?.type === 'intern';
 
-        try{
-            const snapshot = await getDocs(jobsCollectionRef);
-            jobs = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+    const loadJobs = ()=>{
+        // If organization id is null, load all jobs then
+        const jobsCollectionRef = collection(database,collectionNames.JOBS);
+
+        onSnapshot(jobsCollectionRef, (snapshot)=>{
+            let jobs = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
             console.log("fetched jobs:", jobs);
+
+            if (isSupervisor) {
+                console.log("User is supervisor");
+                return;
+            };
             dispatch({ type: ActionTypes.UPDATE_JOBS, payload: jobs });
-        }
-        catch(err){
-            console.log("Error fetching jobs", err);
-        }
+        })
     }
 
     const loadSchools = async ()=>{
@@ -236,6 +240,30 @@ export const AppContextProvider = ({children})=>{
 
     };  
 
+
+    const appContextData = ({
+        ...contextData,
+        isOrganization,
+        isSupervisor,
+        isIntern,
+
+        isLoggedIn: Boolean(contextData.userAccount?.token),
+        isProfileComplete: Boolean(contextData.userProfile) && Boolean(contextData.userProfile.type) && Boolean(contextData.userProfile.isComplete),
+        
+        signOut: () => dispatch({ type: 'SIGN_OUT' }),
+        updateAccountProfile: (data) => {
+            console.log("UPDATE Account Profile");
+
+            dispatch({ type: ActionTypes.UPDATE_ACCOUNT_PROFILE, payload: data });
+        },
+        updateAccount: (data) => {
+            console.log("UPDATE Account");
+
+            dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: data});
+        },
+
+    })
+
     useEffect(()=>{
         auth.onAuthStateChanged((user)=>{
 
@@ -260,34 +288,15 @@ export const AppContextProvider = ({children})=>{
             bootstrapAsync();
 
         })
-    }, [])
+
+        loadJobs();
+    }, []);
+
     // console.log("asdfsd");
     // JSONLog(contextData)
     // console.log("userrr:", user);
     
-    const appContextData = ({
-        ...contextData,
-        isOrganization:contextData.userProfile?.type === 'organization',
-        isSupervisor:contextData.userProfile?.type === 'supervisor',
-        isIntern:contextData.userProfile?.type === 'intern',
-
-        isLoggedIn: Boolean(contextData.userAccount?.token),
-        isProfileComplete: Boolean(contextData.userProfile) && Boolean(contextData.userProfile.type) && Boolean(contextData.userProfile.isComplete),
-        
-        signOut: () => dispatch({ type: 'SIGN_OUT' }),
-        updateAccountProfile: (data) => {
-            console.log("UPDATE Account Profile");
-
-            dispatch({ type: ActionTypes.UPDATE_ACCOUNT_PROFILE, payload: data });
-        },
-        updateAccount: (data) => {
-            console.log("UPDATE Account");
-
-            dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: data});
-        },
-        loadJobs,
-
-    })
+    
 
     // JSONLog(appContextData)
 

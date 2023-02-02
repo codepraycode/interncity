@@ -69,18 +69,15 @@ export const JobListsScreen = ({ navigation }) => {
     
     const {isOrganization} = useContext(AppContext);
     const [jobUpdate, setJobUpdate] = useState(null);
-    const [jobsState, reloadJobs] = useJobs();
+    const [jobs, loading] = useJobs();
 
-    const {jobs, settingUp, error, loading} = jobsState;
+    // const {jobs, settingUp, error, loading} = jobsState;
 
 
     let emptyComponent = <NoJobs isOrganization={isOrganization}/>;
 
-    if (settingUp) emptyComponent = <LoadingJobs isOrganization={isOrganization}/>;
+    if (loading) emptyComponent = <LoadingJobs isOrganization={isOrganization}/>;
 
-    if (error){
-        console.error(error);
-    }
 
     const navToApplyJob = (jobId)=>{
         navigation.navigate("Job", { 
