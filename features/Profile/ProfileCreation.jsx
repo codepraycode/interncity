@@ -18,7 +18,7 @@ const ProfileFormScreen = ({navigation, route}) =>{
     
   const auth = getAuth(app);
     
-    const {selectedProfileType, title} = route.params;
+    const {profileType:selectedProfileType, title} = route.params;
       
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
