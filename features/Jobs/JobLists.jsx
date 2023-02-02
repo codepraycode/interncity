@@ -3,7 +3,6 @@ import { FlatList, StyleSheet } from 'react-native';
 import { View, Text, Image } from 'react-native-ui-lib';
 import Card from '../../components/Card';
 import Tags from '../../components/Tags';
-import Button from '../../components/Button';
 import AppContext from '../../app/context';
 import { JobBottomSheet } from '../../components/BottomSheet';
 import FloatingButton from '../../components/FloatingButton';
