@@ -57,8 +57,8 @@ const ProfileSettingsHeader = ({profile})=>{
                     </View>
 
                     {/* Text */}
-                    <View center ={isOrganization} style={{marginBottom: 10}}>
-                        <Text h4 center style={{color: Theme.grey100}}>{profile.name}</Text>
+                    <View center ={isOrganization} style={{marginVertical: 10}}>
+                        <Text h4 center style={{color: Theme.grey100, marginTop: 10,}}>{profile.name}</Text>
                         <Text label center style={{color: Theme.grey100}}>{profile.type}</Text>
                     </View>
 
