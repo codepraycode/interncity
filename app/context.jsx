@@ -4,7 +4,7 @@ import {
   getDocs,
   query, where,
 } from 'firebase/firestore';
-import { app, auth, collectionNames, database } from './firebaseConfig';
+import { auth, collectionNames, database } from './firebaseConfig';
 import { JSONLog, userTypes } from './utils';
 
 

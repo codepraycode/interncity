@@ -31,7 +31,7 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
     
     if (isCheckingForProfile) modal = <Preloader show={true} text={"Loading..."}/>;
 
-    else if (loadProfileError) modal = <ErrorModal show={true} text={loadProfileError} cta={reFetch}/>
+    else if (loadProfileError) modal = <ErrorModal show={true} text={loadProfileError} cta={()=>setLoadProfileError(null)}/>
 
     useEffect(()=>{
         // loadProfile();
