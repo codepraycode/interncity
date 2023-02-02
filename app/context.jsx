@@ -274,21 +274,3 @@ export const AppContextProvider = ({children})=>{
         </AppContext.Provider>
     )
 }
-
-
-export const AppContextSubscriber = ({children})=>{
-
-    return (
-        <>
-            <AppContext.Consumer>
-                {(context)=>{
-
-                    return (
-                    <>
-                        {children}
-                    </>
-                )}}
-            </AppContext.Consumer>
-        </>
-    )
-}
