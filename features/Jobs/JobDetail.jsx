@@ -8,8 +8,7 @@ import JobNotFound from '../../states/JobNotFound';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Tags from '../../components/Tags';
 import { useJob } from '../../hooks/useJobs';
-
-const Seperator = ()=> <View style={{marginHorizontal:10,width: 5, height: 5, borderRadius: 2.5, backgroundColor: Theme.accent}}></View>
+import Seperator from '../../components/Seperator';
 
 
 const JobDetailHeader = ({job:jobInfo, company})=>{

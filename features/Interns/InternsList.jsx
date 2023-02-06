@@ -4,6 +4,7 @@ import { FlatList, StyleSheet } from 'react-native';
 import { InternLists } from '../../constants/dummy';
 import assets from '../../constants/assets';
 import Card from '../../components/Card';
+import Seperator from '../../components/Seperator';
 
 
 
@@ -22,7 +23,11 @@ const InternItem = ({data, onViewClick})=>{
 
                 <View style={{marginLeft:20,}}>
                 <Text h4>{firstname} {lastname}</Text>
-                <Text small>Federal University of Technology Akure</Text>
+                <View style={{flexDirection:'row', 'alignItems':'center'}}>
+                    <Text small>FUTA</Text>
+                    <Seperator/>
+                    <Text small>Cyber security</Text>
+                </View>
                 </View>
             </View>
         </Card>
