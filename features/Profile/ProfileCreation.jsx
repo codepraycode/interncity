@@ -45,6 +45,7 @@ const ProfileFormScreen = ({navigation, route}) =>{
         setLoading(false);
       })
       .catch((err)=>{
+        JSONLog(err);
         setFormErrors(()=>err);
         setLoading(false)
       })
