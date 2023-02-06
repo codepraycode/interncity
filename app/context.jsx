@@ -108,6 +108,22 @@ export const AppContextProvider = ({children})=>{
     const isSupervisor = contextData.userProfile?.type === 'supervisor'
     const isIntern = contextData.userProfile?.type === 'intern';
 
+    const loadJobs = ()=>{
+        // If organization id is null, load all jobs then
+        const jobsCollectionRef = collection(database,collectionNames.JOBS);
+
+        onSnapshot(jobsCollectionRef, (snapshot)=>{
+            let jobs = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+            console.log("fetched jobs:", jobs);
+
+            if (isSupervisor) {
+                console.log("User is supervisor");
+                return;
+            };
+            dispatch({ type: ActionTypes.UPDATE_JOBS, payload: jobs });
+        })
+    }
+
     const loadSchools = async ()=>{
         if (Array.isArray(contextData.schools) && contextData.schools.length > 1) return;
 
@@ -273,21 +289,15 @@ export const AppContextProvider = ({children})=>{
 
         })
 
-        // If organization id is null, load all jobs then
-        const jobsCollectionRef = collection(database,collectionNames.JOBS);
+        loadJobs();
+    }, []);
 
-        onSnapshot(jobsCollectionRef, (snapshot)=>{
-            let jobs = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
-            console.log("fetched jobs:", jobs);
+    // console.log("asdfsd");
+    // JSONLog(contextData)
+    // console.log("userrr:", user);
+    
+    
 
-            if (isSupervisor) {
-                console.log("User is supervisor");
-                return;
-            };
-            dispatch({ type: ActionTypes.UPDATE_JOBS, payload: jobs });
-        })
-
-    }, [contextData]);
     // JSONLog(appContextData)
 
     return (
