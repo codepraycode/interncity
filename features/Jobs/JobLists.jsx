@@ -70,6 +70,8 @@ export const JobListsScreen = ({ navigation }) => {
     const [jobUpdate, setJobUpdate] = useState(null);
     const [jobs, loading] = useJobs();
 
+    const [loadingJobs, setLoadingJobs] = useState(false);
+    
     let emptyComponent = <NoJobs isOrganization={isOrganization}/>;
 
     if (loading) emptyComponent = <LoadingJobs isOrganization={isOrganization}/>;
@@ -101,11 +103,14 @@ export const JobListsScreen = ({ navigation }) => {
                 />}
                 keyExtractor={item => item.id}
                 ListEmptyComponent={ emptyComponent }
-                refreshing={false}
+                refreshing={loadingJobs}
 
                 onRefresh={()=>{
                     console.log("Refreshing");
-                    reloadJobs()
+                    setLoadingJobs(true);
+
+
+                    setTimeout(()=>setLoadingJobs(false),3000);
                 }}
             />
 
