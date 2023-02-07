@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import Theme from '../../constants/theme';
 import { getDayVerbose } from '../../app/utils';
 
-const LogItem = ({date, editLog}) => {
+const LogItem = ({date, log, editLog}) => {
 
     const realDate = new Date(date);
 
@@ -13,11 +13,6 @@ const LogItem = ({date, editLog}) => {
     if ((dayNumber < 1) || (dayNumber > 5)) return null;
 
     const dayOfWeek = getDayVerbose(dayNumber);
-
-    const log = `Date: 1/1/2023
-
-A sample daily log.
-    `
     const breakLength = 188;
     
     return (
