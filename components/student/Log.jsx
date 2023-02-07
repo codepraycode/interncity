@@ -58,7 +58,7 @@ export const WeeklyLogs = ({onEditLog}) => {
     
     const realDate = new Date('2022-01-02');
 
-    const numberOfWeeks = weeksBetween(realDate);
+    const numberOfWeeks = 24; // weeksBetween(realDate);
 
     const weeks = [...Array(numberOfWeeks).keys()];
     const log = `Date: 1/1/2023
