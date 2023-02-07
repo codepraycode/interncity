@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { FlatList, StyleSheet } from 'react-native';
-import { NotificationsList } from '../../constants/dummy';
+import { OranizationNotificationsList, StudentNotificationsList } from '../../constants/dummy';
 import Theme from '../../constants/theme';
 import NotificationItem from './Item';
 import AppContext from '../../app/context';
@@ -9,6 +9,10 @@ import AppContext from '../../app/context';
 const NotificationScreen = () => {
     
     const {isOrganization} = useContext(AppContext);
+
+    let NotificationsList = StudentNotificationsList;
+
+    if (isOrganization) NotificationsList = OranizationNotificationsList;
 
     return (
         <FlatList
