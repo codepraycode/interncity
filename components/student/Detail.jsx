@@ -80,4 +80,46 @@ const DetailHeader = ({data})=>{
     )
 }
 
+
+
+export const DetailHeaderMini = ({data})=>{
+
+    const name = `Lorem Ipsum`;
+    return (
+        <>
+            <View 
+                // centerH
+                style={{
+                    zIndex:1,
+                    flexDirection:'row',
+                    alignItems:'center',
+                    marginLeft:20,
+                    marginVertical:20,
+                }}
+            >
+
+                <Image
+                    source={assets.user}
+                    resizeMode="cover"
+                    width={65} height={65}
+                />
+
+                <View
+                    style={{
+                        marginLeft:10,
+                    }}
+                >
+                    <Text 
+                        center 
+                        h4
+                    >{name}</Text>
+
+                    <Text center label>{"IT intern"}</Text>
+                </View>
+
+            </View>
+        </>
+    )
+}
+
 export default DetailHeader;
