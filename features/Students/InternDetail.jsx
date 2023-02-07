@@ -10,6 +10,7 @@ import assets from '../../constants/assets';
 import InternInfo from './InternInfo';
 import InternWeekelyReview from './InternWeeklyReview';
 import { LogBottomSheet } from '../../components/BottomSheet';
+import Tabs from '../../components/Tabs';
 
 const InternDetailHeader = ({data})=>{
 
@@ -137,20 +138,20 @@ const InternsDetailScreen = ({ route }) => {
                         marginBottom: 10,
                     }}
                 >
-                    <View
-                        style={{
-                            flexDirection:'row', 
-                            alignItems:'center', 
-                            justifyContent:'space-evenly',
-                            backgroundColor:Theme.white,
-                            padding: 5,
-                            borderRadius: 5,
-                            // maxWidth: "80%"
-                        }}
-                    >
-                        <Tab text="Intern Info" onClick={()=>setTabNo(0)} active={tabNo === 0}/>
-                        <Tab text="Weekly Reviews" onClick={()=>setTabNo(1)} active={tabNo === 1}/>
-                    </View>
+                    <Tabs 
+                        tabs={[
+                            {
+                                text: "Intern Info",
+                                onClick:()=>setTabNo(0),
+                                active: tabNo === 0
+                            },
+                            {
+                                text: "Weekly Reviews",
+                                onClick:()=>setTabNo(1),
+                                active: tabNo === 1
+                            }
+                        ]}
+                    />
                 </View>
             </View>
 
