@@ -4,7 +4,7 @@ import Card from '../Card';
 import assets from '../../constants/assets';
 import Seperator from '../Seperator';
 
-const Item = ({data, onViewClick}) => {
+const Item = ({data, isSupervisor, onViewClick}) => {
     const {firstname, lastname} = data;
 
     return (
@@ -20,9 +20,17 @@ const Item = ({data, onViewClick}) => {
                 <View style={{marginLeft:20,}}>
                 <Text h4>{firstname} {lastname}</Text>
                 <View style={{flexDirection:'row', 'alignItems':'center'}}>
-                    <Text small>FUTA</Text>
-                    <Seperator/>
-                    <Text small>Cyber security</Text>
+                    
+                    {
+                        isSupervisor ?
+                        <Text p>Google inc.</Text>
+                        :
+                        <>
+                            <Text small>FUTA</Text>
+                            <Seperator/>
+                            <Text small>Cyber security</Text>
+                        </>
+                    }
                 </View>
                 </View>
             </View>

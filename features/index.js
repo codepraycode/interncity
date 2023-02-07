@@ -35,9 +35,9 @@ import {InternsListScreen, InternsStackScreen} from './Interns';
 import AppContext from '../app/context';
 
 import { AuthOnboardingScreen, CreateAccountScreen, LoginScreen } from './authentication';
-import StudentListScreen from './Students/StudentList';
 import HeaderRight from '../components/HeaderRight';
 import HeaderTitle from '../components/HeaderTitle';
+import StudentListScreen from './Students';
 
 
 // Stack Navigator

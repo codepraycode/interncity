@@ -1,34 +1,25 @@
 import React from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-// Screens
-import Theme from '../../constants/theme';
-import InternsDetailScreen from './InternDetail';
-import InternsListScreen from './InternsList';
-
-const InternsStack = createNativeStackNavigator();
+import { FlatList } from 'react-native';
+import { InternLists } from '../../constants/dummy';
+import Item from '../../components/student/Item';
 
 
-// Create the jobs screen
-const InternsStackScreen = () => {
+const StudentListScreen = ({navigation}) => {
+
+    const handleNavigateToDetail = (internItem)=>{
+        // navigation.navigate("Intern", { 
+        //     screen: "InternDetail", 
+        //     params: {internId: internItem.id}
+        // });
+    }
     return (
-        <InternsStack.Navigator>
-            <InternsStack.Screen 
-                name="InternDetail" 
-                component={InternsDetailScreen} 
-                options = {{
-                    headerTransparent: false,
-                    headerStyle: {backgroundColor: Theme.grey100},
-                    headerShadowVisible: false,
-                    headerTitle:""
-                }}
-            />
-        </InternsStack.Navigator>
+        <FlatList
+            data={ InternLists }
+            renderItem = {({item})=><Item data={ item } isSupervisor={true} onViewClick={()=>{}}/>}
+            keyExtractor={item => item.id}
+        />
     )
 }
 
-export {
-    InternsStackScreen,
-    // InternsDetailScreen,
-    InternsListScreen
-};
+export default StudentListScreen;
+ 
