@@ -9,7 +9,7 @@ import Theme from '../../constants/theme';
 import JobNotFound from '../../states/JobNotFound';
 
 
-const StudentDetailScreen = ({ route }) => {
+const StudentDetailScreen = ({ navigation, route }) => {
     const { studentId } = route.params;
     const studentData = InternLists.find(each => each.id === studentId);
 
@@ -27,6 +27,14 @@ supervisor: Mr Lorem Bulaba (Manager)
 
     const weeks = [...Array(numberOfWeeks).keys()];
 
+
+    const handleNavToPlacement = ()=>{
+        navigation.navigate("Student", { 
+            screen: "StudentPlacementDetail", 
+            params: {jobId: 2}
+        });
+    }
+
     return (
         <>
            
@@ -35,7 +43,7 @@ supervisor: Mr Lorem Bulaba (Manager)
                 data={weeks}
                 renderItem = {({item})=>(
                     <PlacementItem
-                        onView={()=>{}}
+                        onView={()=>handleNavToPlacement()}
                     />
                 )}
                 ListHeaderComponent={

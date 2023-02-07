@@ -37,11 +37,12 @@ const Tabs = ({tabs}) => {
                 }}
             >
                 {
-                    tabs.map(({text, onClick, active})=>(
+                    tabs.map(({text, onClick, active}, i)=>(
                         <Tab
                             text={text}
                             onClick={onClick} 
                             active={active}
+                            key={i}
                         />
                     ))
                 }

@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // Screens
 import StudentDetail from './StudentDetail';
 import Theme from '../../constants/theme';
+import PlacementDetail from './PlacementInfo';
 
 const StudentStack = createNativeStackNavigator();
 
@@ -15,6 +16,16 @@ const StudentStackScreen = () => {
             <StudentStack.Screen 
                 name="StudentDetail" 
                 component={StudentDetail} 
+                options = {{
+                    headerTransparent: false,
+                    headerStyle: {backgroundColor: Theme.grey100},
+                    headerShadowVisible: false,
+                    headerTitle:""
+                }}
+            />
+            <StudentStack.Screen 
+                name="StudentPlacementDetail" 
+                component={PlacementDetail} 
                 options = {{
                     headerTransparent: false,
                     headerStyle: {backgroundColor: Theme.grey100},
