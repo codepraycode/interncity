@@ -22,32 +22,33 @@ const Tab = ({text, onClick, active})=> (
 )
 
 const Tabs = ({tabs}) => {
-  return (
-    <>
-        <View
-            style={{
-                flexDirection:'row', 
-                alignItems:'center', 
-                justifyContent:'space-evenly',
-                backgroundColor:Theme.white,
-                padding: 5,
-                borderRadius: 5,
-                // maxWidth: "80%"
-            }}
-        >
-            {
-                tabs.map(({text, onClick, isActive})=>(
-                    <Tab
-                        text={text}
-                        onClick={onClick} 
-                        active={isActive}
-                    />
-                ))
-            }
 
-        </View>
-    </>
-  )
+    return (
+        <>
+            <View
+                style={{
+                    flexDirection:'row', 
+                    alignItems:'center', 
+                    justifyContent:'space-evenly',
+                    backgroundColor:Theme.white,
+                    padding: 5,
+                    borderRadius: 5,
+                    // maxWidth: "80%"
+                }}
+            >
+                {
+                    tabs.map(({text, onClick, active})=>(
+                        <Tab
+                            text={text}
+                            onClick={onClick} 
+                            active={active}
+                        />
+                    ))
+                }
+
+            </View>
+        </>
+    )
 }
 
 export default Tabs;
