@@ -267,6 +267,7 @@ export const NotificationsList = [
         title: 'Application sent',
         description: 'Application has entered for review',
         time: '2 minutes ago',
+        unread: true,
         data:{
             jobId: 3
         }
@@ -285,6 +286,7 @@ export const NotificationsList = [
         title: 'Application sent',
         description: 'Application has entered for review',
         time: '2 minutes ago',
+        unread: true,
         data:{
             jobId: 2
         }

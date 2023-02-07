@@ -3,7 +3,7 @@ import { View } from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import React from 'react'
 
-const Card = ({children, clickable, onPress}) => {
+const Card = ({children, clickable, unread, onPress}) => {
   if (clickable) return (
     <TouchableOpacity 
       style={styles.cardContainer}
@@ -16,6 +16,7 @@ const Card = ({children, clickable, onPress}) => {
   
   return (
     <View style={styles.cardContainer}>
+      {unread && (<View style={{width:10, height:10, position:'absolute', right:9, top:9, borderRadius:5, backgroundColor:Theme.secondary}}></View>)}
       {children}
     </View>
   )
@@ -26,6 +27,7 @@ export default Card
 const styles = StyleSheet.create({
     cardContainer:{
         backgroundColor:Theme.white,
+        position:'relative',
         marginHorizontal: 20,
         marginVertical: 10,
         paddingVertical: 10,
