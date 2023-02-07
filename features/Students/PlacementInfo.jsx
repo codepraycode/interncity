@@ -6,19 +6,13 @@ import { useJob } from '../../hooks/useJobs';
 import { PlacementHeader } from '../../components/organization/Header';
 import Tabs from '../../components/Tabs';
 import Info from '../../components/organization/Info';
-import { WeeklyLogs } from '../../components/student/Log';
+import { DailyLogs, WeeklyLogs } from '../../components/student/Log';
 
 
 const PlacementDetail = ({ route }) => {
-    const { jobId } = route.params;
-    
-    const [job] = useJob(jobId);
-
+    // const { jobId } = route.params;
     const [tabNo, setTabNo] = useState(0);
-    const company = {};
-
     let content;
-
 
     if (tabNo === 0) content = (
         <ScrollView 
@@ -31,7 +25,7 @@ const PlacementDetail = ({ route }) => {
         </ScrollView>
     );
     if (tabNo === 1) content = <WeeklyLogs/>;
-    if (tabNo === 2) content = <WeeklyLogs/>;
+    if (tabNo === 2) content = <DailyLogs/>;
     
     return (
 
