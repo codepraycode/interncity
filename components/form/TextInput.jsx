@@ -8,6 +8,7 @@ import {
     EmailInput, 
     LongTextInput, 
     NormalInput, 
+    NumberInput, 
     PasswordInput, 
     PhoneInput,
     SchoolSelect, 
@@ -27,6 +28,7 @@ const CustomTextInput = (props) => {
     else if (schema.type === 'tel') template = <PhoneInput {...props}/>;
     else if (schema.type === 'url') template = <UrlInput {...props}/>;
     else if (schema.type === 'long') template = <LongTextInput {...props}/>;
+    else if (schema.type === 'number') template = <NumberInput {...props}/>;
     else template = <NormalInput {...props}/>;
     
     return (

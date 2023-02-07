@@ -30,8 +30,6 @@ class Job {
 
     static getJobSchema(){
 
-        console.log(jobSchema.describe());
-
         return {
             title: {
                 type: "text",
@@ -56,6 +54,11 @@ class Job {
             },
             // 
             // organization: organization id
+            stipend:{
+                type: "number",
+                placeholder: "stipend per month",
+                label: "Stipend per month",
+            },
             sectors:{
                 type: "sector",
                 placeholder: "Select sectors",

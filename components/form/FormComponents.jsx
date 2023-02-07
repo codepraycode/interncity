@@ -82,6 +82,21 @@ const PhoneInput = React.memo(({schema, onChange, name, value})=>{
     )
 })
 
+
+const NumberInput = React.memo(({schema, onChange, name, value})=>{
+    return (
+        <TextInput
+            placeholder = {schema.placeholder}
+            placeholderTextColor = {styles.placeholderTextColor}
+            onChangeText = {(str)=>onChange(name, str)}
+            style = {[styles.input, styles.normalInput]}
+            value = {value}
+            // textContentType={"t"}
+            keyboardType={"number-pad"}
+        />
+    )
+})
+
 const PasswordInput = React.memo((props)=>{
     const {schema, onChange, name, value} = props;
     const [hidePassword, setHidePassword] = useState(true);
@@ -221,7 +236,8 @@ export {
     DepartmentSelect,
     SectorSelect,
     UrlInput,
-    LongTextInput
+    LongTextInput,
+    NumberInput
 }
 
 

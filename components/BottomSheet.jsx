@@ -2,7 +2,10 @@ import React, { useContext } from 'react';
 import {View, Text, ActionSheet} from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import Button from '../components/Button';
-import { TextInput } from 'react-native';
+import { ScrollView, TextInput } from 'react-native';
+import Form from './form';
+import UserAccount from '../app/models/User';
+import Job from '../app/models/Job';
 
 
 const BottomSheet = (props) => {
@@ -175,6 +178,8 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
         marginVertical:15,
         maxWidth:'90%',
         width: 300,
+        borderBottomColor:'red',
+        borderBottomWidth:2,
     }
 
     return (
@@ -199,8 +204,8 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
             ]}
             optionsStyle={
                 {
-                    height:'100%',
-                    paddingTop:50,
+                    // height:'100%',
+                    paddingTop:0,
                 }
             }
             dialogStyle={{
@@ -209,44 +214,22 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
             containerStyle={{
                 backgroundColor:'transparent'
             }}
+
             visible={show}
             onDismiss={() => onDismiss()}
 
             renderAction={(option, index, onOptionPress)=>{
                 return (
-                    <View centerH key={index}>
-                        <TextInput
-                            onChangeText={text => console.log(text)}
-                            style={inputStyle}
-                            placeholder="Enter Job title"
-                            autoFocus={true}
+                    <ScrollView key={index} contentContainerStyle={{paddingBottom:120, marginHorizontal:30}}>
+                        <Form
+                            onSubmit={(data)=> handleOnUpdate(data)}
+                            schema={Job.getJobSchema()} 
+                            getPreviousValues={()=>({})}
+                            authLabel={ !false ? "Update profile":"Updating..."}
+                            errors={{}}
+                            disable={false}
                         />
-
-                        <TextInput
-                            onChangeText={text => console.log(text)}
-                            style={inputStyle}
-                            placeholder="Select job city"
-                        />
-
-                        <TextInput
-                            onChangeText={text => console.log(text)}
-                            style={inputStyle}
-                            placeholder="Enter stipend"
-                        />
-                        <TextInput
-                            onChangeText={text => console.log(text)}
-                            style={inputStyle}
-                            placeholder="Enter stipend interval"
-                        />
-                        <TextInput
-                            onChangeText={text => console.log(text)}
-                            style={inputStyle}
-                            placeholder="Select sectors"
-                        />
-
-
-                        <Button text={"Save"} style={{marginTop: 20,}} onPress={onDismiss}/>
-                    </View>
+                    </ScrollView>
                 )
             }}
             
