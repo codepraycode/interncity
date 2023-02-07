@@ -1,6 +1,8 @@
-import { View, Text } from 'react-native-ui-lib';
+import { View, Text, Image} from 'react-native-ui-lib';
 import React from 'react';
 import Theme from '../../constants/theme';
+import assets from '../../constants/assets';
+import Octicons from 'react-native-vector-icons/Octicons';
 
 
 const DetailHeader = ({data})=>{
@@ -78,15 +80,4 @@ const DetailHeader = ({data})=>{
     )
 }
 
-const Detail = () => {
-    const name = `Lorem Ipsum`;
-    const school = "Federal University of Technology Akure"
-
-    return (
-      <View>
-        <Text>Detail</Text>
-      </View>
-    )
-}
-
-export default Detail
+export default DetailHeader;
