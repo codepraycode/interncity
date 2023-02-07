@@ -1,75 +1,57 @@
 import React, { useState } from 'react'
-import { View } from 'react-native-ui-lib';
-import Theme from '../../constants/theme';
-import { InternLists } from '../../constants/dummy';
-import JobNotFound from '../../states/JobNotFound';
-
-import InternWeekelyReview from './InternWeeklyReview';
-import { LogBottomSheet } from '../../components/BottomSheet';
-import Tabs from '../../components/Tabs';
-import DetailHeader from '../../components/student/Detail';
+import { FlatList } from 'react-native';
+import { Text, View } from 'react-native-ui-lib';
+import { DetailHeaderMini } from '../../components/student/Header';
 import Info from '../../components/student/Info';
+import PlacementItem from '../../components/student/Placements';
+import { InternLists } from '../../constants/dummy';
+import Theme from '../../constants/theme';
+import JobNotFound from '../../states/JobNotFound';
 
 
 const StudentDetailScreen = ({ route }) => {
-    const { internId} = route.params;
-    const internData = InternLists.find(each => each.id === internId);
+    const { studentId } = route.params;
+    const studentData = InternLists.find(each => each.id === studentId);
 
-    const [tabNo, setTabNo] = useState(0);    
-    const [weekEditing, setWeekEditing] = useState(null);
+    const [tabNo, setTabNo] = useState(0);
 
+    if (!Boolean(studentData)) return <JobNotFound/>;
 
-    const autoSaveLog = (data)=>{
+    const log = `Date: 1/1/2023
 
-        setWeekEditing(null);
-    }
+A sample weekly log.
 
-    if (!Boolean(internData)) return <JobNotFound/>;
+supervisor: Mr Lorem Bulaba (Manager)
+`
+    const numberOfWeeks = 3;
+
+    const weeks = [...Array(numberOfWeeks).keys()];
 
     return (
         <>
-            <View 
-                contentContainerStyle={{
-                    backgroundColor:Theme.grey100,
-                }}
-            >
+           
 
-                <DetailHeader data = { internData }/>
-
-                {/* Tabs */}
-                <View 
-                    centerH
-                    style={{
-                        marginBottom: 10,
-                    }}
-                >
-                    <Tabs 
-                        tabs={[
-                            {
-                                text: "Intern Info",
-                                onClick:()=>setTabNo(0),
-                                active: tabNo === 0
-                            },
-                            {
-                                text: "Weekly Reviews",
-                                onClick:()=>setTabNo(1),
-                                active: tabNo === 1
-                            }
-                        ]}
+            <FlatList
+                data={weeks}
+                renderItem = {({item})=>(
+                    <PlacementItem
+                        onView={()=>{}}
                     />
-                </View>
-            </View>
+                )}
+                ListHeaderComponent={
+                    <View>
+                        <DetailHeaderMini data = {studentData}/>
 
-            {/* Content */}
-                
-            {
-                tabNo === 0 ? 
-                <Info/>
-                :
-                <InternWeekelyReview onEditLog={(weekNumber)=>setWeekEditing(weekNumber)}/>
-            }
+                        <Info showCV={true}/>
 
-            <LogBottomSheet weekly={true} show={Boolean(weekEditing)} data={weekEditing} onDismiss={autoSaveLog}/>
+                        <View style={{marginHorizontal:20, marginBottom:5, borderTopWidth:1, borderColor:Theme.grey300}}>
+                            <Text h5>Placements</Text>
+                        </View>
+                        
+                    </View>
+                }
+            />
+            
         </>
 
     );

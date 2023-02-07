@@ -5,7 +5,7 @@ import { InternLists } from '../../constants/dummy';
 import JobNotFound from '../../states/JobNotFound';
 
 import { LogBottomSheet } from '../../components/BottomSheet';
-import DetailHeader from '../../components/student/Detail';
+import DetailHeader from '../../components/student/Header';
 import Tabs from '../../components/Tabs';
 import Info from '../../components/student/Info';
 import { WeeklyLogs } from '../../components/student/Log';

@@ -94,7 +94,7 @@ export const DetailHeaderMini = ({data})=>{
                     flexDirection:'row',
                     alignItems:'center',
                     marginLeft:20,
-                    marginVertical:20,
+                    marginTop:20,
                 }}
             >
 
