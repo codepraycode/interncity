@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useReducer, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useReducer, useState } from 'react';
 import { 
   collection,
   getDocs,
@@ -7,6 +7,7 @@ import {
 } from 'firebase/firestore';
 import { auth, collectionNames, database } from './firebaseConfig';
 import { JSONLog, userTypes } from './utils';
+// import useSnapshot from "firebase-usesnapshot";
 
 
 const AppContext = createContext();
@@ -103,14 +104,23 @@ export const AppContextProvider = ({children})=>{
     
     const [contextData, dispatch] = useReducer(reducers, initialState);
     const [loading, setLoading] = useState(false);
+    // const {loading:loadingJobs,  data:jobs} = useSnapshot(
+    //     collection(database,collectionNames.JOBS)
+    // )
 
     const isOrganization = contextData.userProfile?.type === 'organization';
     const isSupervisor = contextData.userProfile?.type === 'supervisor'
     const isIntern = contextData.userProfile?.type === 'intern';
 
-    const loadJobs = ()=>{
+    const jobsCollectionRef = collection(database,collectionNames.JOBS);
+    // console.log("Loaded jobs:", jobs)
+
+    useMemo(()=>{
+
+        console.log("ran this!");
+
         // If organization id is null, load all jobs then
-        const jobsCollectionRef = collection(database,collectionNames.JOBS);
+        
 
         onSnapshot(jobsCollectionRef, (snapshot)=>{
             let jobs = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
@@ -120,9 +130,33 @@ export const AppContextProvider = ({children})=>{
                 console.log("User is supervisor");
                 return;
             };
+
+            console.log("Loaded jobs:",jobs)
             dispatch({ type: ActionTypes.UPDATE_JOBS, payload: jobs });
         })
-    }
+
+        return;
+    }, []);
+
+    const loadJobs = async ()=>{
+        if (Array.isArray(contextData.jobs) && contextData.jobs.length > 1) return;
+
+        
+        let jobs = [];
+
+        try{
+            const snapshot = await getDocs(jobsCollectionRef);
+            jobs = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+            // dispatch({ type: ActionTypes.UPDATE_SCHOOLS, payload: schools });
+            return {
+                jobs
+            };
+        }
+        catch(err){
+            console.log("Error fetching all jobs", err);
+        }
+
+    } 
 
     const loadSchools = async ()=>{
         if (Array.isArray(contextData.schools) && contextData.schools.length > 1) return;
@@ -211,6 +245,7 @@ export const AppContextProvider = ({children})=>{
             loadDepartments(),
             loadSectors(),
             loadOrganizations(),
+            loadJobs(),
         ]).then((dt)=>{
             // JSONLog(dt);
             console.log("Loaded state");
@@ -264,7 +299,7 @@ export const AppContextProvider = ({children})=>{
 
     })
 
-    useEffect(()=>{
+    useMemo(()=>{
         auth.onAuthStateChanged((user)=>{
 
             if (!user){
@@ -288,17 +323,9 @@ export const AppContextProvider = ({children})=>{
             bootstrapAsync();
 
         })
+    },[]);
 
-        loadJobs();
-    }, []);
-
-    // console.log("asdfsd");
-    // JSONLog(contextData)
-    // console.log("userrr:", user);
-    
-    
-
-    // JSONLog(appContextData)
+    console.log("asdfsd");
 
     return (
         <AppContext.Provider value={appContextData}>
