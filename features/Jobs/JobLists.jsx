@@ -3,7 +3,6 @@ import { FlatList, StyleSheet } from 'react-native';
 import { View, Text, Image } from 'react-native-ui-lib';
 import Card from '../../components/Card';
 import Tags from '../../components/Tags';
-import Button from '../../components/Button';
 import AppContext from '../../app/context';
 import { JobBottomSheet } from '../../components/BottomSheet';
 import FloatingButton from '../../components/FloatingButton';
@@ -69,18 +68,14 @@ export const JobListsScreen = ({ navigation }) => {
     
     const {isOrganization} = useContext(AppContext);
     const [jobUpdate, setJobUpdate] = useState(null);
-    const [jobsState, reloadJobs] = useJobs();
+    const [jobs, loading] = useJobs();
 
-    const {jobs, settingUp, error, loading} = jobsState;
-
-
+    const [loadingJobs, setLoadingJobs] = useState(false);
+    
     let emptyComponent = <NoJobs isOrganization={isOrganization}/>;
 
-    if (settingUp) emptyComponent = <LoadingJobs isOrganization={isOrganization}/>;
+    if (loading) emptyComponent = <LoadingJobs isOrganization={isOrganization}/>;
 
-    if (error){
-        console.error(error);
-    }
 
     const navToApplyJob = (jobId)=>{
         navigation.navigate("Job", { 
@@ -108,11 +103,14 @@ export const JobListsScreen = ({ navigation }) => {
                 />}
                 keyExtractor={item => item.id}
                 ListEmptyComponent={ emptyComponent }
-                refreshing={false}
+                refreshing={loadingJobs}
 
                 onRefresh={()=>{
                     console.log("Refreshing");
-                    reloadJobs()
+                    setLoadingJobs(true);
+
+
+                    setTimeout(()=>setLoadingJobs(false),3000);
                 }}
             />
 

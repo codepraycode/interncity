@@ -6,7 +6,7 @@ import Theme from '../../constants/theme';
 import Form from '../../components/form';
 import AppContext from '../../app/context';
 import useProfile from '../../hooks/useProfile';
-import { UserAccount } from '../../app/models/User';
+import UserAccount from '../../app/models/User';
 import { setUpWithPreviousValue } from '../../app/utils';
 import { Preloader } from '../../components/Modal';
 
@@ -14,9 +14,16 @@ const ProfileSettingsHeader = ({profile})=>{
     const { isOrganization, isSupervisor } = useContext(AppContext);
 
     let align = 'flex-start';
+    let profileType = "Student";
 
-    if (isOrganization) align = 'center';
-    else if (isSupervisor) align = 'flex-end';
+    if (isOrganization) {
+        align = 'center';
+        profileType = "Organization";
+    }
+    else if (isSupervisor) {
+        align = 'flex-end';
+        profileType = "Institution Supervisor";
+    }
 
     return (
         <ImageBackground 
@@ -57,9 +64,9 @@ const ProfileSettingsHeader = ({profile})=>{
                     </View>
 
                     {/* Text */}
-                    <View center ={isOrganization} style={{marginBottom: 10}}>
-                        <Text h4 center style={{color: Theme.grey100}}>{profile.name}</Text>
-                        <Text label center style={{color: Theme.grey100}}>{profile.type}</Text>
+                    <View center ={isOrganization} style={{marginVertical: 10}}>
+                        <Text h4 center style={{color: Theme.grey100, marginTop: 10,}}>{profile.name}</Text>
+                        <Text label center style={{color: Theme.grey100}}>{profileType}</Text>
                     </View>
 
                     {/* Button to change Image */}

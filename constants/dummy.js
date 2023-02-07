@@ -252,11 +252,11 @@ export const JobsLists = [
 ]
 
 
-export const NotificationsList = [
+export const OranizationNotificationsList = [
     {
         id: 1,
-        title: 'Application sent',
-        description: 'Application has entered for review',
+        title: 'New Application',
+        description: 'A student from FUTA just applied for Backend intern position',
         time: '2 minutes ago',
         data:{
             jobId: 1
@@ -264,49 +264,54 @@ export const NotificationsList = [
     },
     {
         id: 2,
-        title: 'Application sent',
-        description: 'Application has entered for review',
+        title: 'Application Offer',
+        description: 'A student just accepted your offer',
         time: '2 minutes ago',
+        unread: true,
         data:{
             jobId: 3
         }
     },
     {
         id: 3,
-        title: 'Application sent',
-        description: 'Application has entered for review',
+        title: 'Application Offer',
+        description: 'A student from FUTA just accepted your offer',
         time: '2 minutes ago',
         data:{
             jobId: 2
         }
-    },
+    }
+]
+
+export const StudentNotificationsList = [
     {
-        id: 4,
-        title: 'Application sent',
-        description: 'Application has entered for review',
-        time: '2 minutes ago',
-        data:{
-            jobId: 2
-        }
-    },
-    {
-        id: 5,
-        title: 'Application sent',
-        description: 'Application has entered for review',
+        id: 1,
+        title: 'Application submitted',
+        description: 'Your application for Backend Intern has been submitted',
         time: '2 minutes ago',
         data:{
             jobId: 1
         }
     },
     {
-        id: 6,
-        title: 'Application sent',
-        description: 'Application has entered for review',
+        id: 2,
+        title: 'Job Offer',
+        description: 'Google has offered you the position of Backend inter.',
         time: '2 minutes ago',
+        unread: true,
         data:{
             jobId: 3
         }
     },
+    {
+        id: 3,
+        title: 'Application submitted',
+        description: 'Your application for Software engineer intern has been submitted',
+        time: '2 minutes ago',
+        data:{
+            jobId: 2
+        }
+    }
 ]
 
 

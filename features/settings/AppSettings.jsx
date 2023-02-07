@@ -5,6 +5,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Theme from '../../constants/theme';
 import BottomSheet from '../../components/BottomSheet';
+import { auth } from '../../app/firebaseConfig';
 
 
 const settingsSections = [
@@ -100,9 +101,9 @@ const AppSettingsScreen = ({navigation}) => {
 
 
             <BottomSheet 
-                show={logginOut} 
-                onDismiss={()=>setLoggingOut(false)}
-                // onLogout={()=>navigateOut("")}
+                show={logginOut}
+                signOut={()=> auth.signOut()}
+                onDismiss={()=> setLoggingOut(false)}
                 authOut={true}
             />
         </View>

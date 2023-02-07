@@ -4,14 +4,12 @@ import { HandlerJoiError, JSONLog, userTypes} from "../utils";
 import { authDataSchema, createAccountDataSchema, userProfileDataSchema } from "./base";
 import { 
   collection, 
-//   addDoc, 
   getDocs,
   doc,
-//   getDoc,
   addDoc,
-  query, where, updateDoc
-//   updateDoc,
-//   deleteDoc
+  query,
+  where,
+  updateDoc
 } from 'firebase/firestore';
 import { collectionNames, database } from "../firebaseConfig";
 
@@ -56,15 +54,18 @@ const studentProfileSchema = {
         placeholder: "Select department",
         label: "School Department",
     },
+    // Duration: number but selected number
     
 }
 
 const superVisorProfileSchema = {
+
     fullname:{
         type: "text",
         placeholder: "Enter full name",
         label: "Full name",
     },
+
     email:{
         type: "email",
         placeholder: "Enter official email",
@@ -80,7 +81,7 @@ const superVisorProfileSchema = {
         placeholder: "Select department",
         label: "School Department",
     },
-    
+
 }
 
 const organizationProfileSchema = {
@@ -262,6 +263,7 @@ class UserAccount {
         }
 
         const results = snapshot.docs.map((edoc)=>({...edoc.data(), id: edoc.id}));
+        // JSONLog(results)
 
         const userQuery = results[0];
         const {id, ...userQueryData} = userQuery;
@@ -363,6 +365,4 @@ class UserAccount {
 }
 
 
-export {
-    UserAccount,
-}
+export default UserAccount;

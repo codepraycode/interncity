@@ -35,9 +35,7 @@ export default function App() {
     return (
       <View style={styles.container}>
         <AppContextProvider>
-          <AppContextSubscriber>
-            <AppScreens/>
-          </AppContextSubscriber>
+          <AppScreens/>
         </AppContextProvider>
         
         <StatusBar style="auto" />

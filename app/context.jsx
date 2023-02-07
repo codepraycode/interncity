@@ -2,10 +2,12 @@ import React, { createContext, useEffect, useReducer, useState } from 'react';
 import { 
   collection,
   getDocs,
+  onSnapshot,
   query, where,
 } from 'firebase/firestore';
-import { collectionNames, database } from './firebaseConfig';
+import { auth, collectionNames, database } from './firebaseConfig';
 import { JSONLog, userTypes } from './utils';
+
 
 const AppContext = createContext();
 
@@ -38,6 +40,7 @@ export const AppContextProvider = ({children})=>{
         UPDATE_JOBS:"UPDATE_JOBS",
         UPDATE_ORGANIZATIONS:"UPDATE_ORGANIZATIONS",
         UPDATE_DBS:"UPDATE_DBS",
+        RESET_STATE:"RESET_STATE",
     }
 
     const reducers = (prev, action) =>{
@@ -88,6 +91,11 @@ export const AppContextProvider = ({children})=>{
                     ...prev,
                     ...action.payload
                 };
+            case ActionTypes.RESET_STATE:
+                return {
+                    ...prev,
+                    ...initialState
+                };
             default:
                 return {...prev}
         }
@@ -96,21 +104,24 @@ export const AppContextProvider = ({children})=>{
     const [contextData, dispatch] = useReducer(reducers, initialState);
     const [loading, setLoading] = useState(false);
 
-    const loadJobs = async (organizationId=null)=>{
-        // If organization id is null, load all jobs then
-        
-        const jobsCollectionRef = collection(database,collectionNames.JOBS);
-        let jobs = [];
+    const isOrganization = contextData.userProfile?.type === 'organization';
+    const isSupervisor = contextData.userProfile?.type === 'supervisor'
+    const isIntern = contextData.userProfile?.type === 'intern';
 
-        try{
-            const snapshot = await getDocs(jobsCollectionRef);
-            jobs = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
+    const loadJobs = ()=>{
+        // If organization id is null, load all jobs then
+        const jobsCollectionRef = collection(database,collectionNames.JOBS);
+
+        onSnapshot(jobsCollectionRef, (snapshot)=>{
+            let jobs = snapshot.docs.map((item)=>({...item.data(), id: item.id}));
             console.log("fetched jobs:", jobs);
+
+            if (isSupervisor) {
+                console.log("User is supervisor");
+                return;
+            };
             dispatch({ type: ActionTypes.UPDATE_JOBS, payload: jobs });
-        }
-        catch(err){
-            console.log("Error fetching jobs", err);
-        }
+        })
     }
 
     const loadSchools = async ()=>{
@@ -188,57 +199,53 @@ export const AppContextProvider = ({children})=>{
         }
     }
     
-    useEffect(() => {
+    const bootstrapAsync = async () => {
+        if (loading) return;
 
-        const bootstrapAsync = async () => {
-            if (loading) return;
+        setLoading(true);
 
-            setLoading(true);
-
-            
-
-            Promise.all([
-                loadSchools(),
-                loadDepartments(),
-                loadSectors(),
-                loadOrganizations(),
-            ]).then((dt)=>{
-                // JSONLog(dt);
-                
-                let loadedStateData = {}
-                dt.forEach((each)=>{
-                    if (!each) return
-                    loadedStateData = {...loadedStateData, ...each}
-                })
-
-
-                if (Object.keys(loadedStateData).length >= 1){
-                    // JSONLog(loadedStateData);
-
-                    dispatch({
-                        type: ActionTypes.UPDATE_DBS,
-                        payload: loadedStateData
-                    });
-                }
-
-                if (loading) setLoading(false);
-            })
-            .catch((err)=>{
-                console.log("error loading context:", err);
-                if (loading) setLoading(false);
-            })
-            // loadJobs()
-
-        };
         
-        bootstrapAsync();
-    })
-    
+
+        Promise.all([
+            loadSchools(),
+            loadDepartments(),
+            loadSectors(),
+            loadOrganizations(),
+        ]).then((dt)=>{
+            // JSONLog(dt);
+            console.log("Loaded state");
+            
+            let loadedStateData = {}
+            dt.forEach((each)=>{
+                if (!each) return
+                loadedStateData = {...loadedStateData, ...each}
+            })
+
+
+            if (Object.keys(loadedStateData).length >= 1){
+                // JSONLog(loadedStateData);
+
+                dispatch({
+                    type: ActionTypes.UPDATE_DBS,
+                    payload: loadedStateData
+                });
+            }
+
+            if (loading) setLoading(false);
+        })
+        .catch((err)=>{
+            console.log("error loading context:", err);
+            if (loading) setLoading(false);
+        })
+
+    };  
+
+
     const appContextData = ({
         ...contextData,
-        isOrganization:contextData.userProfile?.type === 'organization',
-        isSupervisor:contextData.userProfile?.type === 'supervisor',
-        isIntern:contextData.userProfile?.type === 'intern',
+        isOrganization,
+        isSupervisor,
+        isIntern,
 
         isLoggedIn: Boolean(contextData.userAccount?.token),
         isProfileComplete: Boolean(contextData.userProfile) && Boolean(contextData.userProfile.type) && Boolean(contextData.userProfile.isComplete),
@@ -254,9 +261,42 @@ export const AppContextProvider = ({children})=>{
 
             dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: data});
         },
-        loadJobs,
 
     })
+
+    useEffect(()=>{
+        auth.onAuthStateChanged((user)=>{
+
+            if (!user){
+                // CLear state
+                console.log("clear state");
+                dispatch({ type: ActionTypes.RESET_STATE});
+                return
+            }
+
+            console.log("AUthenticatedddsds!");
+
+            const {providerData, stsTokenManager} = user;
+            
+            const userD = providerData[0] || {}
+            const userData = {
+              ...userD,
+              token: stsTokenManager
+            };
+            
+            dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: userData});
+            bootstrapAsync();
+
+        })
+
+        loadJobs();
+    }, []);
+
+    // console.log("asdfsd");
+    // JSONLog(contextData)
+    // console.log("userrr:", user);
+    
+    
 
     // JSONLog(appContextData)
 
@@ -272,23 +312,5 @@ export const AppContextProvider = ({children})=>{
                 }
             </AppContext.Consumer>
         </AppContext.Provider>
-    )
-}
-
-
-export const AppContextSubscriber = ({children})=>{
-
-    return (
-        <>
-            <AppContext.Consumer>
-                {(context)=>{
-
-                    return (
-                    <>
-                        {children}
-                    </>
-                )}}
-            </AppContext.Consumer>
-        </>
     )
 }

@@ -8,7 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import {app} from '../../app/firebaseConfig';
 import SafeAreaLayout from '../../components/Layout';
-import { UserAccount } from '../../app/models/User';
+import UserAccount from '../../app/models/User';
 import {HandleFirebaseError, JSONLog} from '../../app/utils';
 /* 
     CreateAccount screen
@@ -52,11 +52,6 @@ const CreateAccount = ({ navigation })=>{
               return;
           }
 
-          const {providerData, stsTokenManager} = userCredential.user;
-
-          // updateProfile(providerData[0]);
-          const userD = providerData[0] || {}
-
           try{
             await UserAccount.intializeProfile(auth);
           }catch(err){
@@ -65,10 +60,6 @@ const CreateAccount = ({ navigation })=>{
               return;
           }
 
-          updateAccount({
-            ...userD,
-            token: stsTokenManager
-          });
       })
       .catch(err=>{
           // console.log("Error", err);

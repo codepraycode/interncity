@@ -10,9 +10,9 @@ const InternInfo = () => {
             }}
         >
             <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 10}}>Phone number</Text>
+                <Text p style={{marginVertical: 10}}>Phone number</Text>
 
-                <Text p>
+                <Text h5>
                     +234 8000000000
                 </Text>
             </View>

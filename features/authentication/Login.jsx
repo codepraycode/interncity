@@ -1,14 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {View, Text, Image } from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
 import Form from '../../components/form';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import {app} from '../../app/firebaseConfig';
 import {HandleFirebaseError, JSONLog} from '../../app/utils';
-import { UserAccount } from '../../app/models/User';
+import UserAccount from '../../app/models/User';
 import AuthLayout from '../../components/Layout';
 import Theme from '../../constants/theme';
-import AppContext from '../../app/context';
 
 /* 
     Login screen
@@ -16,7 +15,6 @@ import AppContext from '../../app/context';
 
 const Login = ({ navigation })=>{
     const auth = getAuth(app);
-    const {updateAccount} = useContext(AppContext);
 
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
@@ -50,15 +48,6 @@ const Login = ({ navigation })=>{
               setLoading(false)
               return // end it
             }
-
-            const {providerData, stsTokenManager} = userCredential.user;
-
-            // updateProfile(providerData[0]);
-            const userD = providerData[0] || {}
-            updateAccount({
-              ...userD,
-              token: stsTokenManager
-            });
 
             setLoading(false);
           

@@ -1,33 +1,7 @@
 import React from 'react'
-import { View, Text, Image} from 'react-native-ui-lib';
 import { FlatList, StyleSheet } from 'react-native';
 import { InternLists } from '../../constants/dummy';
-import assets from '../../constants/assets';
-import Card from '../../components/Card';
-
-
-
-const InternItem = ({data, onViewClick})=>{
-    const {firstname, lastname} = data;
-
-    return (
-        <Card clickable={true} onPress={onViewClick}>
-            
-            <View style={{flexDirection:'row', alignItems:'center', marginVertical:5,}}>
-
-                <Image
-                    source={assets.user}
-                    resizeMode="cover"
-                />
-
-                <View style={{marginLeft:20,}}>
-                <Text h4>{firstname} {lastname}</Text>
-                <Text small>Federal University of Technology Akure</Text>
-                </View>
-            </View>
-        </Card>
-    )
-}
+import Item from '../../components/student/Item';
 
 const InternsListScreen = ({navigation}) => {
 
@@ -40,7 +14,7 @@ const InternsListScreen = ({navigation}) => {
     return (
         <FlatList
             data={ InternLists }
-            renderItem = {({item})=><InternItem data = { item} onViewClick = {()=>handleNavigateToDetail(item)}/>}
+            renderItem = {({item})=><Item data = { item} onViewClick = {()=>handleNavigateToDetail(item)}/>}
             keyExtractor={item => item.id}
         />
     )

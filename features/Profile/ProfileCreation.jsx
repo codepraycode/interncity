@@ -4,7 +4,7 @@ import { View } from 'react-native-ui-lib';
 import AppContext from '../../app/context';
 import Form from '../../components/form';
 import Theme from '../../constants/theme';
-import { UserAccount } from '../../app/models/User.js'
+import UserAccount from '../../app/models/User.js'
 import SafeAreaLayout from '../../components/Layout';
 import { app } from '../../app/firebaseConfig';
 
@@ -18,7 +18,7 @@ const ProfileFormScreen = ({navigation, route}) =>{
     
   const auth = getAuth(app);
     
-    const {selectedProfileType, title} = route.params;
+    const {profileType:selectedProfileType, title} = route.params;
       
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
@@ -45,6 +45,7 @@ const ProfileFormScreen = ({navigation, route}) =>{
         setLoading(false);
       })
       .catch((err)=>{
+        JSONLog(err);
         setFormErrors(()=>err);
         setLoading(false)
       })

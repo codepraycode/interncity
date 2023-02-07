@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
+import { StyleSheet } from 'react-native';
 import { View } from 'react-native-ui-lib';
 import Theme from '../../constants/theme';
-import { InternLists } from '../../constants/dummy';
+import { InternLists, JobsLists } from '../../constants/dummy';
 import JobNotFound from '../../states/JobNotFound';
 
+import InternWeekelyReview from './InternWeeklyReview';
 import { LogBottomSheet } from '../../components/BottomSheet';
-import DetailHeader from '../../components/student/Detail';
 import Tabs from '../../components/Tabs';
+import DetailHeader from '../../components/student/Detail';
 import Info from '../../components/student/Info';
-import { WeeklyLogs } from '../../components/student/Log';
+
 
 const InternsDetailScreen = ({ route }) => {
     const { internId} = route.params;
@@ -17,19 +19,13 @@ const InternsDetailScreen = ({ route }) => {
     const [tabNo, setTabNo] = useState(0);    
     const [weekEditing, setWeekEditing] = useState(null);
 
+
     const autoSaveLog = (data)=>{
 
         setWeekEditing(null);
     }
 
     if (!Boolean(internData)) return <JobNotFound/>;
-
-    const log = `Date: 1/1/2023
-
-A sample weekly log.
-
-supervisor: Mr Lorem Bulaba (Manager)
-`
 
     return (
         <>
@@ -48,7 +44,7 @@ supervisor: Mr Lorem Bulaba (Manager)
                         marginBottom: 10,
                     }}
                 >
-                    <Tabs
+                    <Tabs 
                         tabs={[
                             {
                                 text: "Intern Info",
@@ -71,18 +67,17 @@ supervisor: Mr Lorem Bulaba (Manager)
                 tabNo === 0 ? 
                 <Info/>
                 :
-                <WeeklyLogs onEditLog={(weekNumber)=>setWeekEditing(weekNumber)}/>
+                <InternWeekelyReview onEditLog={(weekNumber)=>setWeekEditing(weekNumber)}/>
             }
 
-            <LogBottomSheet 
-                weekly={true} 
-                show={Boolean(weekEditing)} 
-                data={log} 
-                onDismiss={autoSaveLog}
-            />
+            <LogBottomSheet weekly={true} show={Boolean(weekEditing)} data={weekEditing} onDismiss={autoSaveLog}/>
         </>
 
     );
 }
 
 export default InternsDetailScreen;
+
+
+
+const styles = StyleSheet.create({})

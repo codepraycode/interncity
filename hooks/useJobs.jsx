@@ -1,8 +1,5 @@
-import React, { useContext, useEffect, useMemo, useReducer } from 'react';
+import React, { useContext, useMemo } from 'react';
 import AppContext from '../app/context';
-
-import { JSONLog } from '../app/utils';
-import useProfile from './useProfile';
 
 const useJob = (jobId)=>{
     const { jobs, organizations } = useContext(AppContext);
@@ -40,89 +37,10 @@ const useJob = (jobId)=>{
 
 const useJobs = ()=>{
 
-    const { jobs, loadJobs, isOrganization } = useContext(AppContext);
-    const [organizationProfile] = useProfile();
+    const { jobs } = useContext(AppContext);
+    const loading = false;
 
-    const initialState = {
-        loading: false,
-        settingUp: jobs.length < 1,
-        error:null,
-    }
-
-    const reducer = (prev, action) =>{
-        switch (action.type){
-            case "UPDATE_STATE":
-                return {
-                    ...prev,
-                    ...action.payload,
-                }
-            default:
-                return {...prev}
-        }
-    }
-
-    const [state, dispatch] = useReducer(reducer, initialState);
-
-
-    useEffect(()=>{
-        const setUpJobs = ()=>{
-            const {settingUp} = state;
-
-            if(!settingUp) return;
-            
-            loadJobs()
-            .then(()=>{
-                // console.log("Fasdffdsfdsafs")
-                dispatch({
-                    type: "UPDATE_STATE",
-                    payload:{
-                        settingUp: false,
-                    }
-                    
-                });
-            })
-            .catch((err)=>{
-                console.log("Error loading jobs", err);
-
-                dispatch({
-                    type: "UPDATE_STATE",
-                    payload:{
-                        settingUp: false,
-                        error: "Could not load jobs"
-                    }
-                });
-            })
-        }
-
-        setUpJobs();
-    })//, [state.settingUp, state.loading, state.error, state.jobs]);
-
-    
-    const reloadJobs = async ()=>{
-        let organizationId = null;
-
-        if (isOrganization){
-            organizationId = organizationProfile.id;
-        }
-
-        try{
-            await loadJobs(organizationId);
-        }
-        catch(err){
-            console.log("Error reloading jobs:", err);
-        }
-
-        return;
-        
-    }
-
-    const stateData = {
-        ...state,
-        jobs,
-    }
-
-
-    return [stateData, reloadJobs];
+    return [jobs, loading];
 }
 
 export {useJob, useJobs};

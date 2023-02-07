@@ -2,31 +2,12 @@ import "fast-text-encoding";
 import Joi from 'joi';
 import { userTypes } from "../utils";
 
-
+// .pattern(new RegExp('^[a-zA-Z0-9]{7,30}$'))
 const passwordRegex = new RegExp('^[a-zA-Z0-9]{7,30}$');
 
-const authDataSchema = Joi.object({
-    email: Joi.string()
-            // .pattern(new RegExp('^[a-zA-Z0-9]{7,30}$'))
-            .email({ tlds: { allow: false } })
-            .required(),
-    password: Joi.string()
-                .custom((value, helper)=>{
-                    if (value.length < 8){
-                        return helper.message("Password must be at least 8 charaters long")
-                    }
-
-                    return value;
-                })
-        // .pattern(new RegExp('^[a-zA-Z0-9]{7,30}$')),
-});
-
-const createAccountDataSchema = Joi.object({
-    email: Joi.string()
-            // .pattern(new RegExp('^[a-zA-Z0-9]{7,30}$'))
-            .email({ tlds: { allow: false } })
-            .required(),
-    password: Joi.string()
+// Schemas
+const email = Joi.string().email({ tlds: { allow: false } })
+const password = Joi.string()
                 .custom((value, helper)=>{
                     let passwordErrorMessage = "Password must be at least 8 charaters, and not contain numbers and alphabets"
                     
@@ -42,19 +23,42 @@ const createAccountDataSchema = Joi.object({
 
 
                     return value;
-                }).required(),
-    confirmPassword: Joi.ref('password')
-        // .pattern(new RegExp('^[a-zA-Z0-9]{7,30}$')),
-}).with('password', 'confirmPassword');
-
-
-const userProfileDataSchema = Joi.object({
-    type: Joi.string()
+                })
+const type = Joi.string()
         .valid(userTypes.STUDENTS)
         .valid(userTypes.ORGANIZATION)
         .valid(userTypes.SUPERVISOR)
         .lowercase()
-        .required(),
+
+
+const location = Joi.object({
+    address: Joi.string().required(),
+    city: Joi.string().required(),
+    country: Joi.string().required()
+})
+
+const authDataSchema = Joi.object().keys({
+    email: email.required(),
+    password: password,
+});
+
+const createAccountDataSchema = Joi.object({
+    email: email.required(),
+    password: password.required(),
+    confirmPassword: Joi.ref('password')
+}).with('password', 'confirmPassword');
+
+
+const jobSchema = Joi.object({
+    title: Joi.string().required(),
+    location: location.required(),
+    organization: Joi.string().required(),
+    sectors: Joi.array().empty(Joi.array().length(0))//.items(Joi.string()).empty()
+})
+
+
+const userProfileDataSchema = Joi.object({
+    type: type.required(),
 
     about: Joi.string(),
     website: Joi.string(),
@@ -82,5 +86,6 @@ const userProfileDataSchema = Joi.object({
 export {
     authDataSchema,
     createAccountDataSchema,
-    userProfileDataSchema
+    userProfileDataSchema,
+    jobSchema
 }

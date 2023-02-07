@@ -2,6 +2,7 @@ import React from 'react';
 import { Alert, StyleSheet,TouchableOpacity } from 'react-native';
 import {Modal,View, Text, Image} from 'react-native-ui-lib';
 import Theme from '../constants/theme';
+import { boxShadow } from '../constants/typography';
 import CustomButton from './Button';
 
 const AppModal = ({show, onHide, children}) => {
@@ -127,13 +128,7 @@ const styles = StyleSheet.create({
     minHeight: 200,
     alignItems: 'center',
     shadowColor: Theme.grey200,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    ...boxShadow
   },
 
   errorContainer:{

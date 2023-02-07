@@ -29,7 +29,7 @@ const Form = ({schema, getPreviousValues, remember, forgotPassword,disable, auth
     return (
         <>
         
-            <Text style={{color: Theme.red}}>{errors?.message}</Text>
+            <Text style={{color: Theme.red, marginVertical: 10,}}>{errors?.message}</Text>
 
             {
                 Object.entries(schema).map(([field, fieldSchema], i)=>(

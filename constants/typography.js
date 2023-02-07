@@ -27,6 +27,11 @@ const Typography = {
         fontFamily: "FontBold",
         color: Theme.main,
     },
+    h6: {
+        fontSize: 14,
+        fontFamily: "FontBold",
+        color: Theme.main,
+    },
     p: {
         fontSize: 14,
         fontFamily: "FontRegular",
@@ -49,6 +54,16 @@ const Typography = {
         fontSize: 14,
         fontFamily: "FontBold",
     },
+}
+
+export const boxShadow = {
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
 }
 
 export default Typography;

@@ -27,7 +27,7 @@ const ProfileUserTypeScreen = ({ navigation }) => {
           </TouchableOpacity>
 
           <TouchableOpacity onPress={()=>handleSelection(userTypes.SUPERVISOR)} activeOpacity={0.7} style={styles.option}>
-            <Text label style={styles.optionText}>School Supervisor</Text>
+            <Text label style={styles.optionText}>Institution Supervisor</Text>
           </TouchableOpacity>
       </View>
     )
