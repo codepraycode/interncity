@@ -56,4 +56,14 @@ const Typography = {
     },
 }
 
+export const boxShadow = {
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+}
+
 export default Typography;
