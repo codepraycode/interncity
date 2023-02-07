@@ -72,14 +72,14 @@ export const PlacementDetailInfo = () => {
         }}
     >
         <View style={{marginVertical: 10}}>
-            <Text p style={{marginVertical: 10}}>Job title</Text>
+            <Text p>Job title</Text>
 
             <Text h5 style={{marginVertical: 5}}>
                 Backend Intern
             </Text>
         </View>
 
-        <View style={{marginVertical: 10}}>
+        <View >
             <Text p style={{marginVertical: 5}}>
                 Stipend
             </Text>
@@ -100,7 +100,7 @@ export const PlacementDetailInfo = () => {
             </Text>
         </View>
 
-        <View style={{marginVertical: 10}}>
+        <View>
             <Text p style={{marginVertical: 5}}>
                 Duration
             </Text>

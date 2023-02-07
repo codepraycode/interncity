@@ -22,14 +22,14 @@ const PlacementDetail = ({ route }) => {
                 marginHorizontal: 20,
             }}
         >
-            <View style={{marginHorizontal:10, marginVertical:5, }}>
-                <Text h6>Placements details</Text>
+            <View style={{marginHorizontal:10, marginVertical:5, borderBottomWidth:1, borderColor:Theme.grey300}}>
+                <Text h6  style={{color: Theme.grey300}}>Placements details</Text>
             </View>
 
             <PlacementDetailInfo/>
 
-            <View style={{marginHorizontal:10, marginTop:20, borderTopWidth:1, borderColor:Theme.grey300}}>
-                <Text h6>Organization</Text>
+            <View style={{marginHorizontal:10, marginTop:20, borderBottomWidth:1, borderColor:Theme.grey300}}>
+                <Text h6 style={{color: Theme.grey300}}>Organization</Text>
             </View>
             <Info showSite={true}/>
         </ScrollView>
