@@ -35,9 +35,10 @@ import {InternsListScreen, InternsStackScreen} from './Interns';
 import AppContext from '../app/context';
 
 import { AuthOnboardingScreen, CreateAccountScreen, LoginScreen } from './authentication';
-import StudentListScreen from './Students/StudentList';
 import HeaderRight from '../components/HeaderRight';
 import HeaderTitle from '../components/HeaderTitle';
+import StudentListScreen from './Students/StudentsList';
+import StudentStackScreen from './Students';
 
 
 // Stack Navigator
@@ -247,6 +248,7 @@ const AppScreens = ()=>{
                     />
                     <Stack.Screen name="Job" component={JobsStackScreen} />
                     <Stack.Screen name="Intern" component={InternsStackScreen} />
+                    <Stack.Screen name="Student" component={StudentStackScreen} />
 
                     <Stack.Screen 
                         name="Notification" 

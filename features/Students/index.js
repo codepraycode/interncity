@@ -2,20 +2,20 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Screens
+import StudentDetail from './StudentDetail';
 import Theme from '../../constants/theme';
-import InternsDetailScreen from './InternDetail';
-import InternsListScreen from './InternsList';
+import PlacementDetail from './PlacementInfo';
 
-const InternsStack = createNativeStackNavigator();
+const StudentStack = createNativeStackNavigator();
 
 
 // Create the jobs screen
-const InternsStackScreen = () => {
+const StudentStackScreen = () => {
     return (
-        <InternsStack.Navigator>
-            <InternsStack.Screen 
-                name="InternDetail" 
-                component={InternsDetailScreen} 
+        <StudentStack.Navigator>
+            <StudentStack.Screen 
+                name="StudentDetail" 
+                component={StudentDetail} 
                 options = {{
                     headerTransparent: false,
                     headerStyle: {backgroundColor: Theme.grey100},
@@ -23,12 +23,18 @@ const InternsStackScreen = () => {
                     headerTitle:""
                 }}
             />
-        </InternsStack.Navigator>
+            <StudentStack.Screen 
+                name="StudentPlacementDetail" 
+                component={PlacementDetail} 
+                options = {{
+                    headerTransparent: false,
+                    headerStyle: {backgroundColor: Theme.grey100},
+                    headerShadowVisible: false,
+                    headerTitle:""
+                }}
+            />
+        </StudentStack.Navigator>
     )
 }
 
-export {
-    InternsStackScreen,
-    // InternsDetailScreen,
-    InternsListScreen
-};
+export default StudentStackScreen;
