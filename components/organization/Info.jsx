@@ -64,4 +64,54 @@ const Info = ({showSite}) => {
   )
 }
 
+export const PlacementDetailInfo = () => {
+  return (
+    <View
+        style={{            
+            marginHorizontal: 10,
+        }}
+    >
+        <View style={{marginVertical: 10}}>
+            <Text p style={{marginVertical: 10}}>Job title</Text>
+
+            <Text h5 style={{marginVertical: 5}}>
+                Backend Intern
+            </Text>
+        </View>
+
+        <View style={{marginVertical: 10}}>
+            <Text p style={{marginVertical: 5}}>
+                Stipend
+            </Text>
+
+            <Text h5>
+                40,000/month.
+            </Text>
+        </View>
+
+
+        <View style={{marginVertical: 10}}>
+            <Text p style={{marginVertical: 5}}>
+                Location
+            </Text>
+
+            <Text h5>
+                Ikeja, Lagos.
+            </Text>
+        </View>
+
+        <View style={{marginVertical: 10}}>
+            <Text p style={{marginVertical: 5}}>
+                Duration
+            </Text>
+
+            <Text h5>
+                4 months.
+            </Text>
+        </View>
+
+    </View>
+  )
+}
+
 export default Info

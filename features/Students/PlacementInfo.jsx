@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { ScrollView } from 'react-native';
-import { View } from 'react-native-ui-lib';
+import { Text, View } from 'react-native-ui-lib';
 
 import { useJob } from '../../hooks/useJobs';
 import { PlacementHeader } from '../../components/organization/Header';
 import Tabs from '../../components/Tabs';
-import Info from '../../components/organization/Info';
+import Info, { PlacementDetailInfo } from '../../components/organization/Info';
 import { DailyLogs, WeeklyLogs } from '../../components/student/Log';
+import Theme from '../../constants/theme';
 
 
 const PlacementDetail = ({ route }) => {
@@ -20,8 +21,17 @@ const PlacementDetail = ({ route }) => {
                 // backgroundColor:Theme.grey100,
                 marginHorizontal: 20,
             }}
-        >            
-            <Info showSite={true}/>    
+        >
+            <View style={{marginHorizontal:10, marginVertical:5, }}>
+                <Text h6>Placements details</Text>
+            </View>
+
+            <PlacementDetailInfo/>
+
+            <View style={{marginHorizontal:10, marginTop:20, borderTopWidth:1, borderColor:Theme.grey300}}>
+                <Text h6>Organization</Text>
+            </View>
+            <Info showSite={true}/>
         </ScrollView>
     );
     if (tabNo === 1) content = <WeeklyLogs/>;
