@@ -1,16 +1,12 @@
 import React, { useState } from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { View, Text, Image } from 'react-native-ui-lib';
-import Button from '../../components/Button';
-import Theme from '../../constants/theme';
-import JobNotFound from '../../states/JobNotFound';
+import { ScrollView } from 'react-native';
+import { View } from 'react-native-ui-lib';
 
-import Octicons from 'react-native-vector-icons/Octicons';
 import { useJob } from '../../hooks/useJobs';
-import Seperator from '../../components/Seperator';
-import DetailHeader, { PlacementHeader } from '../../components/organization/Header';
+import { PlacementHeader } from '../../components/organization/Header';
 import Tabs from '../../components/Tabs';
 import Info from '../../components/organization/Info';
+import { WeeklyLogs } from '../../components/student/Log';
 
 
 const PlacementDetail = ({ route }) => {
@@ -20,18 +16,27 @@ const PlacementDetail = ({ route }) => {
 
     const [tabNo, setTabNo] = useState(0);
     const company = {};
+
+    let content;
+
+
+    if (tabNo === 0) content = (
+        <ScrollView 
+            contentContainerStyle={{
+                // backgroundColor:Theme.grey100,
+                marginHorizontal: 20,
+            }}
+        >            
+            <Info showSite={true}/>    
+        </ScrollView>
+    );
+    if (tabNo === 1) content = <WeeklyLogs/>;
+    if (tabNo === 2) content = <WeeklyLogs/>;
     
     return (
 
-        <ScrollView 
-            contentContainerStyle={{
-                backgroundColor:Theme.grey100,
-            }}
-        >
-
+        <>
             <PlacementHeader/>
-
-            
             {/* Tabs */}
             <View centerH style={{marginVertical:20,}}>
                 <Tabs
@@ -55,19 +60,10 @@ const PlacementDetail = ({ route }) => {
                 />
             </View>
 
-
-            {/* Content */}
-            <View
-                style={{
-                    paddingVertical: 10,
-                    marginHorizontal: 20,
-                }}
-            >
-                <Info showSite={true}/>
-            </View>
-                
+            {content}
             
-        </ScrollView>
+        </>
+
 
     );
 }
