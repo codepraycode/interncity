@@ -6,16 +6,16 @@ import Item from '../../components/student/Item';
 
 const StudentListScreen = ({navigation}) => {
 
-    const handleNavigateToDetail = (internItem)=>{
+    const handleNavigateToDetail = (studentItem)=>{
         navigation.navigate("Student", { 
             screen: "StudentDetail", 
-            params: {internId: "fdsfasd"}
+            params: {studentId: studentItem.id}
         });
     }
     return (
         <FlatList
             data={ InternLists }
-            renderItem = {({item})=><Item data={ item } isSupervisor={true} onViewClick={()=>handleNavigateToDetail()}/>}
+            renderItem = {({item})=><Item data={ item } isSupervisor={true} onViewClick={()=>handleNavigateToDetail(item)}/>}
             keyExtractor={item => item.id}
         />
     )
