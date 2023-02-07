@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { StyleSheet } from 'react-native';
 import { View } from 'react-native-ui-lib';
 import Theme from '../../constants/theme';
-import { InternLists, JobsLists } from '../../constants/dummy';
+import { InternLists } from '../../constants/dummy';
 import JobNotFound from '../../states/JobNotFound';
 
 import InternWeekelyReview from './InternWeeklyReview';
@@ -12,7 +11,7 @@ import DetailHeader from '../../components/student/Detail';
 import Info from '../../components/student/Info';
 
 
-const InternsDetailScreen = ({ route }) => {
+const StudentDetailScreen = ({ route }) => {
     const { internId} = route.params;
     const internData = InternLists.find(each => each.id === internId);
 
@@ -76,8 +75,4 @@ const InternsDetailScreen = ({ route }) => {
     );
 }
 
-export default InternsDetailScreen;
-
-
-
-const styles = StyleSheet.create({})
+export default StudentDetailScreen;
