@@ -69,7 +69,7 @@ supervisor: Mr Lorem Bulaba (Manager)
                 
             {
                 tabNo === 0 ? 
-                <Info/>
+                <Info showCV={true}/>
                 :
                 <WeeklyLogs onEditLog={(weekNumber)=>setWeekEditing(weekNumber)}/>
             }
