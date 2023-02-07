@@ -106,7 +106,7 @@ const AuthBottomSheet = ({show, onDismiss, signOut}) => {
 }
 
 
-export const LogBottomSheet = ({show,data, onDismiss}) => {
+export const LogBottomSheet = ({show, data, onDismiss}) => {
 
     return (
         <ActionSheet
@@ -137,9 +137,10 @@ export const LogBottomSheet = ({show,data, onDismiss}) => {
                         multiline
                         numberOfLines={20}
                         onChangeText={text => console.log(text)}
-                        style={{paddingVertical: 10, fontSize: 18}}
+                        style={{paddingHorizontal: 20, fontSize: 16, color:Theme.grey400}}
                         placeholder="Enter log here"
                         textAlignVertical="top"
+                        value={data}
                     />
                 )
             }}
