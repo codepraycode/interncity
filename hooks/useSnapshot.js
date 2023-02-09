@@ -3,6 +3,9 @@
     github: https://github.com/obelmont/useSnapshot
 */
 import { useState, useEffect, useRef } from "react";
+import { 
+  onSnapshot,
+} from 'firebase/firestore';
 
 const useMounted = () => {
   const isMounted = useRef(false);
@@ -18,18 +21,15 @@ const useSnapshot = (query) => {
   const [loading, setLoading] = useState(true);
   const mounted = useMounted();
 
-  useEffect(() => {
-    const snapshot = query.onSnapshot((snapshot) => {
-      // create data array to feed to state
-      let data = [];
-      snapshot.forEach((doc) => {
-        data.push(doc);
-      });
-      // set states
-      if (mounted.current) updateData(data);
-      if (setLoading && mounted.current) setLoading(false);
-    });
-    return () => snapshot();
+  useEffect(() => {    
+        const unsubscribeSnapshot = onSnapshot(query, (snapshot) => {
+            // create data array to feed to state
+            let data = snapshot.docs.map((item)=>({...item.data(), id: item.id}))
+            // set states
+            if (mounted.current) updateData(data);
+            if (setLoading && mounted.current) setLoading(false);
+        })
+        return () => unsubscribeSnapshot();
   }, []);
 
   return { data, loading };
