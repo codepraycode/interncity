@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, } from 'react-native';
 import { View } from 'react-native-ui-lib';
 import AppContext from '../../app/context';

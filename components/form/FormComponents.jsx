@@ -123,9 +123,11 @@ const PasswordInput = React.memo((props)=>{
 
 const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const {schools} = useContext(AppContext);    
+    const {schools} = useContext(AppContext); 
+    
+    const {data} = schools;
 
-    const options = schools || [];
+    const options = data || [];
 
     return (
         <Picker
@@ -158,9 +160,10 @@ const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
 const DepartmentSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const {departments} = useContext(AppContext);    
+    const {departments} = useContext(AppContext);
+    const {data} = departments;
 
-    const options = departments || [];
+    const options = data || [];
 
     return (
         <Picker
@@ -193,9 +196,11 @@ const DepartmentSelect = React.memo(({schema, onChange, name, value})=>{
 
 const SectorSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const {sectors} = useContext(AppContext);    
+    const {sectors} = useContext(AppContext);
 
-    const options = sectors || [];
+    const {data} = sectors;
+
+    const options = data || [];
 
     return (
         <Picker

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {View, Text, ActionSheet} from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import Button from '../components/Button';

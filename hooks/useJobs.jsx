@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import AppContext from '../app/context';
 
 const useJob = (jobId)=>{
-    const { jobs, organizations } = useContext(AppContext);
+    const { jobs:{data:jobs}, organizations:{data:organizations} } = useContext(AppContext);
     
     const jobData = useMemo(()=>{
         
@@ -37,7 +37,7 @@ const useJob = (jobId)=>{
 
 const useJobs = ()=>{
 
-    const { jobs } = useContext(AppContext);
+    const { jobs:{data:jobs} } = useContext(AppContext);
     const loading = false;
 
     return [jobs, loading];
