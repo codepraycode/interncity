@@ -15,10 +15,26 @@ export const setUpWithPreviousValue = (schema, data=null, seed={})=>{
 
     Object.keys(schema).forEach((fieldName)=>{
         // if key not in prevProfile, continue;
-        if (!data[fieldName]) return
+        console.log(fieldName)
+        if (!(['city', 'country', 'state'].includes(fieldName)) || !data[fieldName]) return
 
-        prev[fieldName] = data[fieldName]; // set value.
+        let value = data[fieldName];
+
+        if(['city', 'country', 'state'].includes(fieldName)){
+            console.log("includes")
+            // const {city, country, state} = value
+
+            prev[fieldName] = value[fieldName];
+            // prev.country = country;
+            // prev.state = state;
+        }
+        else{
+            prev[fieldName] = data[fieldName]; // set value.
+        }
     });
+
+    // console.log(schema);
+    // console.log(prev);
 
     return prev;
 

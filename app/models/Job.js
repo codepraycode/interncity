@@ -17,6 +17,35 @@ import { collectionNames, database } from "../firebaseConfig";
 
 
 class Job {
+    #original = undefined;
+
+
+    get original(){
+        return this.#original;
+    }
+
+    constructor(jobData){
+        // console.log("Created a job instance!", jobData);
+        this.#original = jobData;
+        
+        const {
+            company,
+            id,
+            location,
+            organization,
+            sectors,
+            stipend,
+            title,
+        } = jobData;
+
+        this.company = company;
+        this.id = id;
+        this.location = location;
+        this.organization = organization;
+        this.sectors = sectors;
+        this.stipend = stipend;
+        this.role = title;
+    }
     
     static async validateJobData(jobData){        
         

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import {View, Text, ActionSheet} from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import Button from '../components/Button';
@@ -6,6 +6,8 @@ import { ScrollView, TextInput } from 'react-native';
 import Form from './form';
 import UserAccount from '../app/models/User';
 import Job from '../app/models/Job';
+import { JSONLog, setUpWithPreviousValue } from '../app/utils';
+import AppContext from '../app/context';
 
 
 const BottomSheet = (props) => {
@@ -169,24 +171,63 @@ export const LogBottomSheet = ({show, data, onDismiss}) => {
 
 export const JobBottomSheet = ({show, data, onDismiss}) => {
 
-    const {id} = data;
+    const job = new Job(data);
 
-    const isUpdate = Boolean(id);
+    const isUpdate = Boolean(job.id); // true if an id exist;
 
-    const inputStyle = {
-        paddingVertical: 10, fontSize: 18, paddingLeft:10,
-        marginVertical:15,
-        maxWidth:'90%',
-        width: 300,
-        borderBottomColor:'red',
-        borderBottomWidth:2,
+    const label = isUpdate ? "Update job" : "Create job";
+    const loadingLabel = isUpdate ? "Updating job..." : "Creating job...";
+
+
+    const formSchema = Job.getJobSchema();
+
+    const {userAccount} = useContext(AppContext);
+    const [formErrors, setFormErrors] = useState({});
+    const [loading, setLoading] = useState(false);
+
+    const handleSubmit = (jobdt)=>{
+      
+      if (loading) return;
+      
+      // const demo = {
+      //   email:"me@ccodepraycode.com",
+      //   password: "letmein123"
+      // }
+      console.log(jobdt);
+
+      setLoading(true)
+      setFormErrors(()=>({}));
+
+      Job.validateJobData(jobdt)
+      .then((res)=>{
+        console.log(res);
+        setLoading(false);
+      })
+      .catch((err)=>{
+            setFormErrors(()=>(err));
+            setLoading(false);
+      })
     }
+
+
+    const getPreviousValues = useCallback(()=>{
+      // process the previous values
+
+      const {uid} = userAccount;
+      const prevData = job.original || {}
+
+      let seedValue = {
+        organization: uid,
+      }
+
+      return setUpWithPreviousValue(formSchema, prevData, seedValue);
+    });
 
     return (
         <ActionSheet
             renderTitle = {()=>(
                 <View center style={{marginVertical: 0}}>
-                    <View 
+                    <View
                         style={{
                             width:30, 
                             borderWidth:2, 
@@ -196,9 +237,10 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
                             marginVertical:15,
                         }}
                     ></View>
-                    <Text h4 center>{isUpdate ? 'Update Job' : "Create Job"}</Text>
+                    <Text h4 center>{label}</Text>
                 </View>
             )}
+
             options={[
                 {label: 'Option 1', onPress: () =>{}},
             ]}
@@ -220,14 +262,14 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
 
             renderAction={(option, index, onOptionPress)=>{
                 return (
-                    <ScrollView key={index} contentContainerStyle={{paddingBottom:120, marginHorizontal:30}}>
+                    <ScrollView key={index} contentContainerStyle={{paddingBottom:120, marginHorizontal:20}}>
                         <Form
-                            onSubmit={(data)=> handleOnUpdate(data)}
+                            onSubmit={(data)=> handleSubmit(data)}
                             schema={Job.getJobSchema()} 
-                            getPreviousValues={()=>({})}
-                            authLabel={ !false ? "Update profile":"Updating..."}
+                            getPreviousValues={getPreviousValues}
+                            authLabel={ loading ? loadingLabel : label }
                             errors={{}}
-                            disable={false}
+                            disable={loading}
                         />
                     </ScrollView>
                 )
