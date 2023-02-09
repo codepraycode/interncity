@@ -66,4 +66,9 @@ export const boxShadow = {
     elevation: 5,
 }
 
+export const boxShadowSm = {
+    ...boxShadow,
+    elevation:0.3,
+}
+
 export default Typography;
