@@ -17,12 +17,13 @@ const useMounted = () => {
 };
 
 const useSnapshot = (query) => {
-  const [data, updateData] = useState(undefined);
+  const [data, updateData] = useState([]);
   const [loading, setLoading] = useState(true);
   const mounted = useMounted();
 
   useEffect(() => {    
         const unsubscribeSnapshot = onSnapshot(query, (snapshot) => {
+            console.log("A query was updated!");
             // create data array to feed to state
             let data = snapshot.docs.map((item)=>({...item.data(), id: item.id}))
             // set states
