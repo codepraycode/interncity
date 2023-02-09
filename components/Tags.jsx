@@ -33,9 +33,9 @@ const styles = StyleSheet.create({
     cardContainer:{
         backgroundColor:Theme.grey100,
         marginHorizontal: 5,
-        marginVertical: 10,
-        paddingVertical: 8,
-        paddingHorizontal: 20,
+        marginVertical: 5,
+        paddingVertical: 5,
+        paddingHorizontal: 10,
         borderRadius: 5,
         minWidth: 50,
     }

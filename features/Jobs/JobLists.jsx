@@ -23,7 +23,7 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
     return (
         <Card clickable={true} onPress={onViewClick}>
             
-            <View style={{flexDirection:'row', marginBottom:20, marginTop:10, alignItems:'center'}}>
+            <View style={{flexDirection:'row', marginBottom:10, marginTop:5, alignItems:'center'}}>
                 <Image 
                     assetName={"google"}
                     assetGroup="assets" 
