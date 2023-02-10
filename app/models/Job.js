@@ -33,7 +33,7 @@ class Job {
             id,
             location,
             organization,
-            sectors,
+            sector,
             stipend,
             role,
         } = jobData;
@@ -42,7 +42,7 @@ class Job {
         this.id = id;
         this.location = location;
         this.organization = organization;
-        this.sectors = sectors;
+        this.sector = sector;
         this.stipend = stipend;
         this.role = role;
     }
@@ -57,7 +57,7 @@ class Job {
             ...prev,
             role: this.role,
             stipend: this.stipend,
-            sectors: this.sectors,
+            sector: this.sector,
             
             address: address,
             city: city,
@@ -106,9 +106,9 @@ class Job {
                 placeholder: "stipend per month",
                 label: "Stipend per month",
             },
-            sectors:{
+            sector:{
                 type: "sector",
-                placeholder: "Select sectors",
+                placeholder: "Select role sector",
                 label: "Job sector",
             },
         }

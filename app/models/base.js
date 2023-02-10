@@ -53,7 +53,7 @@ const jobSchema = Joi.object({
     role: Joi.string().required(),
     location: location.required(),
     organization: Joi.string().required(),
-    sectors: Joi.array().empty(Joi.array().length(0))//.items(Joi.string()).empty()
+    sector: Joi.string(),//.items(Joi.string()).empty()
 })
 
 
@@ -79,7 +79,7 @@ const userProfileDataSchema = Joi.object({
     city: Joi.string(),
     country: Joi.string(),
     cv: Joi.string(),
-    sectors: Joi.string(),
+    sectors: Joi.array().empty(Joi.array().length(0)),
     
 }) // add constraints later
 
