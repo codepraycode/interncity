@@ -27,6 +27,7 @@ const useJob = (jobId)=>{
 
 
     const createUpdatejob = async (jobData) => {
+        // TODO: create/update job, return errors if any.
         return
     }
 
