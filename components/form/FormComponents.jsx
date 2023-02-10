@@ -92,7 +92,7 @@ const NumberInput = React.memo(({schema, onChange, name, value})=>{
             placeholderTextColor = {styles.placeholderTextColor}
             onChangeText = {(str)=>onChange(name, str)}
             style = {[styles.input, styles.normalInput]}
-            value = {String(value)}
+            value = {value && String(value)}
             keyboardType={"number-pad"}
         />
     )

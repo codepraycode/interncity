@@ -4,13 +4,10 @@ import Theme from '../constants/theme';
 import Button from '../components/Button';
 import { ScrollView, TextInput } from 'react-native';
 import Form from './form';
-import UserAccount from '../app/models/User';
 import Job from '../app/models/Job';
-import { JSONLog, setUpWithPreviousValue } from '../app/utils';
-import AppContext from '../app/context';
-import { auth } from '../app/firebaseConfig';
 import { useJob } from '../hooks/useJobs';
 import useProfile from '../hooks/useProfile';
+import { Preloader } from './Modal';
 
 
 const BottomSheet = (props) => {
@@ -221,61 +218,65 @@ export const JobBottomSheet = ({show, jobId, onDismiss}) => {
     });
 
     return (
-        <ActionSheet
-            renderTitle = {()=>(
-                <View center style={{marginVertical: 0}}>
-                    <View
-                        style={{
-                            width:30, 
-                            borderWidth:2, 
-                            borderStyle:'solid', 
-                            borderColor:"rgba(19, 1, 96, 1)", 
-                            borderRadius:10,
-                            marginVertical:15,
-                        }}
-                    ></View>
-                    <Text h4 center>{label}</Text>
-                </View>
-            )}
+        <>
+            <ActionSheet
+                renderTitle = {()=>(
+                    <View center style={{marginVertical: 0}}>
+                        <View
+                            style={{
+                                width:30, 
+                                borderWidth:2, 
+                                borderStyle:'solid', 
+                                borderColor:"rgba(19, 1, 96, 1)", 
+                                borderRadius:10,
+                                marginVertical:15,
+                            }}
+                        ></View>
+                        <Text h4 center>{label}</Text>
+                    </View>
+                )}
 
-            options={[
-                {label: 'Option 1', onPress: () =>{}},
-            ]}
-            optionsStyle={
-                {
-                    // height:'100%',
-                    paddingTop:0,
+                options={[
+                    {label: 'Option 1', onPress: () =>{}},
+                ]}
+                optionsStyle={
+                    {
+                        // height:'100%',
+                        paddingTop:0,
+                    }
                 }
-            }
-            dialogStyle={{
-                height:600,
-            }}
-            containerStyle={{
-                backgroundColor:'transparent'
-            }}
+                dialogStyle={{
+                    height:600,
+                }}
+                containerStyle={{
+                    backgroundColor:'transparent'
+                }}
 
-            visible={show}
-            onDismiss={() => {
-                setFormErrors(()=>({}));
-                onDismiss();
-            }}
+                visible={show}
+                onDismiss={() => {
+                    setFormErrors(()=>({}));
+                    onDismiss();
+                }}
 
-            renderAction={(option, index, onOptionPress)=>{
-                return (
-                    <ScrollView key={index} contentContainerStyle={{paddingBottom:120, marginHorizontal:20}}>
-                        <Form
-                            onSubmit={(data)=> handleSubmit(data)}
-                            schema={formSchema} 
-                            getPreviousValues={getPreviousValues}
-                            authLabel={ loading ? loadingLabel : label }
-                            errors={formErrors}
-                            disable={loading}
-                        />
-                    </ScrollView>
-                )
-            }}
-            
-        />
+                renderAction={(option, index, onOptionPress)=>{
+                    return (
+                        <ScrollView key={index} contentContainerStyle={{paddingBottom:120, marginHorizontal:20}}>
+                            <Form
+                                onSubmit={(data)=> handleSubmit(data)}
+                                schema={formSchema} 
+                                getPreviousValues={getPreviousValues}
+                                authLabel={ loading ? loadingLabel : label }
+                                errors={formErrors}
+                                disable={loading}
+                            />
+                        </ScrollView>
+                    )
+                }}
+                
+            />
+
+            <Preloader show={loading} text={loadingLabel}/>
+        </>
     );
 }
 
