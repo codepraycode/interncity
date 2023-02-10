@@ -36,7 +36,7 @@ class Job {
             sector,
             stipend,
             role,
-        } = jobData;
+        } = jobData || {};
 
         this.company = company;
         this.id = id;
@@ -151,8 +151,29 @@ class Job {
         }
     }
 
-    static async updateJob(auth, jobData){
-        console.log("Update job data:", jobData);
+    static createUpdateJob(auth, jobData){
+        const {id} = jobData;
+
+        if(id){
+            console.log("Update job data:", jobData);
+            return;
+        }
+
+
+        console.log("Create job data:", jobData);
+
+    }
+
+    static get demoData() {
+        return {
+            address: "Ikosi",
+            city: "Lagos",
+            country: "Nigeria",
+            organization: "organization@codepraycode.com",
+            role: "Product manager intern",
+            sector: "VzPGaw4SmSZfmqtdFEUU",
+            // stipend: 40000,
+        }
     }
 
 }
