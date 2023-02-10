@@ -10,6 +10,7 @@ import { JSONLog, setUpWithPreviousValue } from '../app/utils';
 import AppContext from '../app/context';
 import { auth } from '../app/firebaseConfig';
 import { useJob } from '../hooks/useJobs';
+import useProfile from '../hooks/useProfile';
 
 
 const BottomSheet = (props) => {
@@ -174,18 +175,17 @@ export const LogBottomSheet = ({show, data, onDismiss}) => {
 export const JobBottomSheet = ({show, jobId, onDismiss}) => {
 
     const { job, createUpdatejob } = useJob(jobId);
+    const [userProfile] = useProfile();
+    const [formErrors, setFormErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
     const isUpdate = Boolean(job.original); // true if an id exist;
 
     const label = isUpdate ? "Update job" : "Create job";
-    const loadingLabel = isUpdate ? "Updating job..." : "Creating job...";
+    const loadingLabel = loading ? "Updating job..." : "Creating job...";
 
 
     const formSchema = Job.getJobSchema();
-
-    const {userAccount} = useContext(AppContext);
-    const [formErrors, setFormErrors] = useState({});
-    const [loading, setLoading] = useState(false);
 
     const handleSubmit = (jobdt)=>{
       
@@ -207,7 +207,7 @@ export const JobBottomSheet = ({show, jobId, onDismiss}) => {
         setLoading(false);
       })
       .catch((err)=>{
-        console.log(err)
+            console.log(err)
             setFormErrors(()=>(err));
             setLoading(false);
       })
@@ -215,7 +215,7 @@ export const JobBottomSheet = ({show, jobId, onDismiss}) => {
 
     const getPreviousValues = useCallback(()=>{
       // process the previous values
-      const {id:organizationId} = userAccount;      
+      const {id:organizationId} = userProfile; 
       
       return job.getFormData({ organization: organizationId, id:job.id });
     });
