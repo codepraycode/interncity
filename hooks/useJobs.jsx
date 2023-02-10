@@ -25,7 +25,12 @@ const useJob = (jobId)=>{
         return new Job(jobData);
     });
 
-    return {job};
+
+    const createUpdatejob = async (jobData) => {
+        return
+    }
+
+    return {job, createUpdatejob};
 }
 
 const useJobs = ()=>{

@@ -62,7 +62,7 @@ export const JobListsScreen = ({ navigation }) => {
                     <>
                         <FloatingButton onPress={()=>setJobUpdate(p=>({}))}/>
                         <JobBottomSheet 
-                            data={jobUpdate?.id || {}} 
+                            jobId={jobUpdate?.id}
                             show={Boolean(jobUpdate)} 
                             onDismiss={()=>setJobUpdate(p=>null)}/>
                     </>

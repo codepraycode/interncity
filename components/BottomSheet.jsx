@@ -173,11 +173,9 @@ export const LogBottomSheet = ({show, data, onDismiss}) => {
 
 export const JobBottomSheet = ({show, jobId, onDismiss}) => {
 
-    // let job = new Job(data);
+    const { job, createUpdatejob } = useJob(jobId);
 
-    const {job, createUpdateJob} = useJob(jobId);
-
-    const isUpdate = Boolean(job.id); // true if an id exist;
+    const isUpdate = Boolean(job.original); // true if an id exist;
 
     const label = isUpdate ? "Update job" : "Create job";
     const loadingLabel = isUpdate ? "Updating job..." : "Creating job...";
@@ -193,23 +191,19 @@ export const JobBottomSheet = ({show, jobId, onDismiss}) => {
       
         if (loading) return;
       
-        const demo = {
-            address: "Ikosi",
-            city: "Lagos",
-            country: "Nigeria",
-            organization: "organization@codepraycode.com",
-            role: "Product manager intern",
-            sector: "VzPGaw4SmSZfmqtdFEUU",
-            // stipend: 40000,
-        }
+        // const demo = Job.demoData;
 
       setLoading(true)
       setFormErrors(()=>({}));
 
       Job.validateJobData(jobdt)
-      .then((res)=>{
+      .then(async (jobObject)=>{
         // console.log(res);
-        Job.createUpdateJob(auth, res);
+        const errors = await createUpdatejob(jobObject);
+
+        if (errors) setFormErrors(()=>(err));
+        else onDismiss();
+
         setLoading(false);
       })
       .catch((err)=>{
@@ -218,7 +212,6 @@ export const JobBottomSheet = ({show, jobId, onDismiss}) => {
             setLoading(false);
       })
     }
-
 
     const getPreviousValues = useCallback(()=>{
       // process the previous values
