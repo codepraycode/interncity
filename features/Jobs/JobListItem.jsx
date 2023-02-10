@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Text, View } from 'react-native-ui-lib';
+import { JSONLog } from '../../app/utils';
 import Card from '../../components/Card';
 import { useJob } from '../../hooks/useJobs';
 import useSector from '../../hooks/useSector';
@@ -9,12 +10,11 @@ const JobListItem = ({jobItem, onViewClick})=>{
     
     const {job: jobInfo, deleteJob} = useJob(jobItem.id);
 
-    // if (!jobInfo) return <></>;
-
-    
     const {role, location, company, sector:sectorId, } = jobInfo.original;
 
     const sector = useSector(sectorId);
+
+    JSONLog(company)
 
     return (
         <Card clickable={true} onPress={onViewClick} onLongPress={()=> deleteJob(jobInfo.id)}>

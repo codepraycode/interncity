@@ -1,6 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import AppContext from '../app/context';
 import Job from '../app/models/Job';
+import { JSONLog } from '../app/utils';
 
 const useJob = (jobId)=>{
 
@@ -16,7 +17,10 @@ const useJob = (jobId)=>{
             organizationProfile = organizations.find(e=>e.id === jobOrganizationId);
         };
 
-        // console.log(jobOrganizationId, organizations)
+        // JSONLog(organizationProfile);
+        console.log(jobData?.organization || 'not set')
+
+        
         if (organizationProfile) {
             const {type, ...restProfileData} = organizationProfile;
             jobData.company = restProfileData;

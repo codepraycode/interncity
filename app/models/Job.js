@@ -1,6 +1,6 @@
 // User Data and User Account Model
 
-import { HandlerJoiError, JSONLog, userTypes} from "../utils";
+import { HandlerJoiError, JSONLog,} from "../utils";
 import { jobSchema } from "./base";
 import {
   doc,

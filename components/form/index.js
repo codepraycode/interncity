@@ -10,7 +10,7 @@ import Theme from '../../constants/theme';
 export {TextInput, CheckBox}
 
 
-const Form = ({schema, getPreviousValues, remember, forgotPassword,disable, authLabel, onSubmit, sso, errors})=>{
+const Form = ({schema, getPreviousValues, remember, forgotPassword, disable, authLabel, onSubmit, sso, errors})=>{
     const loadPreviousValues = getPreviousValues || function (){
         return {}
     }
