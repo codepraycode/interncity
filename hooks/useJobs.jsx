@@ -4,7 +4,7 @@ import Job from '../app/models/Job';
 import Organization from '../app/models/Organization';
 import { JSONLog } from '../app/utils';
 
-const useJob = (jobId)=>{
+const useJob = (jobId=null)=>{
 
     const { jobs:{data:jobs}, organizations:{data:organizations} } = useContext(AppContext);
     

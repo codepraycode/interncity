@@ -6,17 +6,16 @@ import { useJob } from '../../hooks/useJobs';
 import useSector from '../../hooks/useSector';
 
 
-const JobListItem = ({jobItem, onViewClick})=>{
+const JobListItem = ({jobItem, onViewClick, onDelete})=>{
     
-    const {job: jobInfo, deleteJob} = useJob(jobItem.id);
+    const {job: jobInfo} = useJob(jobItem.id);
 
     const {role, location, company, sector:sectorId, } = jobInfo.original;
 
     const sector = useSector(sectorId);
-    
 
     return (
-        <Card clickable={true} onPress={onViewClick} onLongPress={()=> deleteJob(jobInfo.id)}>
+        <Card clickable={true} onPress={onViewClick} onLongPress={()=>onDelete(jobInfo.id)}>
             
             <View style={{flexDirection:'row', marginBottom:10, marginTop:5, alignItems:'center'}}>
                 <Image

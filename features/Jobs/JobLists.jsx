@@ -3,10 +3,11 @@ import { FlatList, StyleSheet } from 'react-native';
 import AppContext from '../../app/context';
 import { JobBottomSheet } from '../../components/BottomSheet';
 import FloatingButton from '../../components/FloatingButton';
-import { useJobs } from '../../hooks/useJobs';
+import { useJob, useJobs } from '../../hooks/useJobs';
 import NoJobs from '../../states/NoJobs';
 import LoadingJobs from '../../states/LoadingJobs';
 import JobListItem from './JobListItem';
+import { Preloader } from '../../components/Modal';
 
 // Create the jobs screen
 
@@ -17,6 +18,21 @@ export const JobListsScreen = ({ navigation }) => {
     const [jobs, loading] = useJobs();
 
     const [loadingJobs, setLoadingJobs] = useState(false);
+    
+    const {deleteJob} = useJob();
+
+    const [deletingJob, setDeletingJob] = useState(false);
+
+    const handleDeleteJob = (jobId) => {
+        
+        setDeletingJob(true);
+        deleteJob(jobId)
+        .then(()=>setDeletingJob(false))
+        .catch((err)=>{
+            console.log(err);
+            setDeletingJob(false);
+        })
+    }
     
     let emptyComponent = <NoJobs isOrganization={isOrganization}/>;
 
@@ -44,6 +60,7 @@ export const JobListsScreen = ({ navigation }) => {
                             // Otherwise
                             navToApplyJob(item.id);
                         }}
+                        onDelete={(jobId)=>handleDeleteJob(jobId)}
                     />
                 )}
                 keyExtractor={item => item.id}
@@ -64,7 +81,9 @@ export const JobListsScreen = ({ navigation }) => {
                         <JobBottomSheet 
                             jobId={jobUpdate?.id}
                             show={Boolean(jobUpdate)} 
-                            onDismiss={()=>setJobUpdate(p=>null)}/>
+                            onDismiss={()=>setJobUpdate(p=>null)}
+                        />
+                        <Preloader show={deletingJob} text="Deleting job..."/>
                     </>
                 )
             }

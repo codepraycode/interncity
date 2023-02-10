@@ -178,8 +178,15 @@ export const JobBottomSheet = ({show, jobId, onDismiss}) => {
 
     const isUpdate = Boolean(job.original); // true if an id exist;
 
-    const label = isUpdate ? "Update job" : "Create job";
-    const loadingLabel = loading ? "Updating job..." : "Creating job...";
+    let label, loadingLabel;
+
+    if(isUpdate){
+        label = "Update job";
+        loadingLabel = "Updating job...";
+    }else{
+        label = "Create job";
+        loadingLabel = "Creating job...";
+    }
 
 
     const formSchema = Job.getJobSchema();
