@@ -27,7 +27,7 @@ const useSnapshot = (query) => {
             // create data array to feed to state
             let data = snapshot.docs.map((item)=>({...item.data(), id: item.id}))
             // set states
-            if (mounted.current) updateData(data);
+            if (mounted.current) updateData(()=>data);
             if (setLoading && mounted.current) setLoading(false);
         })
         return () => unsubscribeSnapshot();
