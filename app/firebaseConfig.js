@@ -5,7 +5,8 @@ import {
   getReactNativePersistence
 } from 'firebase/auth/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getAuth } from 'firebase/auth';
+
+import { userTypes } from './utils';
 
 // Store in env for production
 const configurations = {
@@ -34,3 +35,11 @@ export const collectionNames = {
      SECTORS:"sectors",
      JOBS:"jobs",
 }
+
+
+const usersProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
+export const jobsCollectionRef = collection(database, collectionNames.JOBS);
+export const schoolsCollectionRef = collection(database,collectionNames.SCHOOLS);
+export const organizationQueryRef = query(usersProfileCollectionRef, where("type", "==", userTypes.ORGANIZATION));
+export const depratmentsCollectionRef = collection(database,collectionNames.DEPARTMENTS);
+export const sectorsCollectionRef = collection(database,collectionNames.SECTORS);

@@ -1,12 +1,15 @@
-import React, { createContext, useEffect, useMemo, useReducer, useState } from 'react';
+import React, { createContext, useMemo, useReducer } from 'react';
+
 import { 
-  collection,
-  getDocs,
-  onSnapshot,
-  query, where,
-} from 'firebase/firestore';
-import { auth, collectionNames, database } from './firebaseConfig';
-import { JSONLog, userTypes } from './utils';
+    auth, 
+    jobsCollectionRef,
+    schoolsCollectionRef,
+    organizationQueryRef,
+    depratmentsCollectionRef,
+    sectorsCollectionRef
+} from './firebaseConfig';
+
+import { JSONLog } from './utils';
 // import useSnapshot from "firebase-usesnapshot";
 import useSnapshot from '../hooks/useSnapshot';
 
@@ -15,12 +18,6 @@ const AppContext = createContext();
 
 export default AppContext;
 
-const usersProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
-const jobsCollectionRef = collection(database, collectionNames.JOBS);
-const schoolsCollectionRef = collection(database,collectionNames.SCHOOLS);
-const organizationQueryRef = query(usersProfileCollectionRef, where("type", "==", userTypes.ORGANIZATION));
-const depratmentsCollectionRef = collection(database,collectionNames.DEPARTMENTS);
-const sectorsCollectionRef = collection(database,collectionNames.SECTORS);
 
 
 export const AppContextProvider = ({children})=>{
