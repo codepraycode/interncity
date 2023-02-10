@@ -187,13 +187,17 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
 
     const handleSubmit = (jobdt)=>{
       
-      if (loading) return;
+        if (loading) return;
       
-      // const demo = {
-      //   email:"me@ccodepraycode.com",
-      //   password: "letmein123"
-      // }
-      console.log(jobdt);
+        // const demo = {
+        //     address: "Ikosi",
+        //     city: "Lagos",
+        //     country: "Nigeria",
+        //     organization: "organization@codepraycode.com",
+        //     role: "Product manager intern",
+        //     sector: "VzPGaw4SmSZfmqtdFEUU",
+        //     // stipend: 40000,
+        // }
 
       setLoading(true)
       setFormErrors(()=>({}));
@@ -204,6 +208,7 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
         setLoading(false);
       })
       .catch((err)=>{
+        console.log(err)
             setFormErrors(()=>(err));
             setLoading(false);
       })
@@ -216,9 +221,7 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
       const {uid} = userAccount;
       
       return job.getFormData({ organization: uid });
-    });
-
-    console.log(getPreviousValues());
+    });    
 
     return (
         <ActionSheet
@@ -262,10 +265,10 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
                     <ScrollView key={index} contentContainerStyle={{paddingBottom:120, marginHorizontal:20}}>
                         <Form
                             onSubmit={(data)=> handleSubmit(data)}
-                            schema={Job.getJobSchema()} 
+                            schema={formSchema} 
                             getPreviousValues={getPreviousValues}
                             authLabel={ loading ? loadingLabel : label }
-                            errors={{}}
+                            errors={formErrors}
                             disable={loading}
                         />
                     </ScrollView>

@@ -64,14 +64,51 @@ class Job {
             country: country,
         }
     }
+
+    static serializeFormData(data, up=false){
+        // Up for make up by adding location field, down for deserialize by breaking location field
+
+        if (up){
+
+            const {address, city, country, ...rest} = data;
     
-    static async validateJobData(jobData){        
+            return {
+                ...rest,
+                location:{
+                    address,
+                    city,
+                    country
+                }      
+            }
+        }
+
         
-        const {error, value} = authDataSchema.validate(authData);
+
+        const {location, ...rest} = data;
+
+        const {address, city, country,} = location;
+
+        return {
+            ...rest,
+            address,
+            city,
+            country   
+        }
+
+
+    }
+    
+    static async validateJobData(jobData){
+
+        const data = Job.serializeFormData(jobData, true);
+        
+        const {error, value} = jobSchema.validate(data);
 
         if (error){
-            HandlerJoiError(error, "Invalid Job data");
+            HandlerJoiError(error, "Invalid Job info");
         }
+
+        
         return value;
     }
 
