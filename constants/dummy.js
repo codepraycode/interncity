@@ -157,7 +157,7 @@ export const JobsLists = [
     {
         id: 1,
         companyId: 1,
-        title: 'Cyber security intern',
+        role: 'Cyber security intern',
         duration: 'Jan - Apr (3 months)',
         pay: '#2500/mo',
         about: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas.',
@@ -176,7 +176,7 @@ export const JobsLists = [
     {
         id: 2,
         companyId: 3,
-        title: 'Penetration tester',
+        role: 'Penetration tester',
         duration: 'Jan - Apr (3 months)',
         pay: null,
         about: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas.',
@@ -195,7 +195,7 @@ export const JobsLists = [
     {
         id: 3,
         companyId: 2,
-        title: 'Security Research Intern',
+        role: 'Security Research Intern',
         duration: 'Jan - Apr (3 months)',
         pay: null,
         about: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas.',
@@ -214,7 +214,7 @@ export const JobsLists = [
     {
         id: 4,
         companyId: 3,
-        title: 'Security Research Internee',
+        role: 'Security Research Internee',
         duration: 'Jan - Apr (3 months)',
         pay: '#2500/mo',
         about: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas.',
@@ -233,7 +233,7 @@ export const JobsLists = [
     {
         id: 6,
         companyId: 3,
-        title: 'Security Research Internee',
+        role: 'Security Research Internee',
         duration: 'Jan - Apr (3 months)',
         pay: '#2500/mo',
         about: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas.',
@@ -255,7 +255,7 @@ export const JobsLists = [
 export const OranizationNotificationsList = [
     {
         id: 1,
-        title: 'New Application',
+        role: 'New Application',
         description: 'A student from FUTA just applied for Backend intern position',
         time: '2 minutes ago',
         data:{
@@ -264,7 +264,7 @@ export const OranizationNotificationsList = [
     },
     {
         id: 2,
-        title: 'Application Offer',
+        role: 'Application Offer',
         description: 'A student just accepted your offer',
         time: '2 minutes ago',
         unread: true,
@@ -274,7 +274,7 @@ export const OranizationNotificationsList = [
     },
     {
         id: 3,
-        title: 'Application Offer',
+        role: 'Application Offer',
         description: 'A student from FUTA just accepted your offer',
         time: '2 minutes ago',
         data:{
@@ -286,7 +286,7 @@ export const OranizationNotificationsList = [
 export const StudentNotificationsList = [
     {
         id: 1,
-        title: 'Application submitted',
+        role: 'Application submitted',
         description: 'Your application for Backend Intern has been submitted',
         time: '2 minutes ago',
         data:{
@@ -295,7 +295,7 @@ export const StudentNotificationsList = [
     },
     {
         id: 2,
-        title: 'Job Offer',
+        role: 'Job Offer',
         description: 'Google has offered you the position of Backend inter.',
         time: '2 minutes ago',
         unread: true,
@@ -305,7 +305,7 @@ export const StudentNotificationsList = [
     },
     {
         id: 3,
-        title: 'Application submitted',
+        role: 'Application submitted',
         description: 'Your application for Software engineer intern has been submitted',
         time: '2 minutes ago',
         data:{

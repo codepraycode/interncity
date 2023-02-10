@@ -1,68 +1,15 @@
 import React, { useContext, useState } from 'react'
 import { FlatList, StyleSheet } from 'react-native';
-import { View, Text, Image } from 'react-native-ui-lib';
-import Card from '../../components/Card';
-import Tags from '../../components/Tags';
 import AppContext from '../../app/context';
 import { JobBottomSheet } from '../../components/BottomSheet';
 import FloatingButton from '../../components/FloatingButton';
 import { useJob, useJobs } from '../../hooks/useJobs';
 import NoJobs from '../../states/NoJobs';
 import LoadingJobs from '../../states/LoadingJobs';
+import JobListItem from './JobListItem';
+import { Preloader } from '../../components/Modal';
 
 // Create the jobs screen
-
-const JobItem = ({jobItem, editor, onViewClick})=>{
-    
-    const [jobInfo] = useJob(jobItem.id);
-
-    if (!jobInfo) return <></>;
-
-    const {title, location, company, sectors, } = jobInfo;
-
-    return (
-        <Card clickable={true} onPress={onViewClick}>
-            
-            <View style={{flexDirection:'row', marginBottom:20, marginTop:10, alignItems:'center'}}>
-                <Image 
-                    assetName={"google"}
-                    assetGroup="assets" 
-                    width={40} height={40}
-                    style={{
-                        marginRight: 20,
-                    }}
-                />
-
-                <View style={{width: "80%"}}>
-                    <Text h4>{title}</Text>
-                    <Text small
-                        style={{
-                            marginTop: 10,
-                        }}
-                    >{company?.name} | {location.city}, {location.state}</Text>
-                </View>
-            </View>
-
-            <Tags tags={sectors}/>
-
-            <View 
-                style={{
-                    flexDirection:'row',
-                    justifyContent:'space-between',
-                    alignItems:'center'
-                }}
-            >
-                <Text i>some minutes ago</Text>
-
-                {/* {
-                    !editor && <Button text={"View"} small={true} onPress={()=>onViewClick()}/>
-                } */}
-                
-            </View>
-        </Card>
-    )
-}
-
 
 export const JobListsScreen = ({ navigation }) => {
     
@@ -71,6 +18,21 @@ export const JobListsScreen = ({ navigation }) => {
     const [jobs, loading] = useJobs();
 
     const [loadingJobs, setLoadingJobs] = useState(false);
+    
+    const {deleteJob} = useJob();
+
+    const [deletingJob, setDeletingJob] = useState(false);
+
+    const handleDeleteJob = (jobId) => {
+        
+        setDeletingJob(true);
+        deleteJob(jobId)
+        .then(()=>setDeletingJob(false))
+        .catch((err)=>{
+            console.log(err);
+            setDeletingJob(false);
+        })
+    }
     
     let emptyComponent = <NoJobs isOrganization={isOrganization}/>;
 
@@ -90,17 +52,17 @@ export const JobListsScreen = ({ navigation }) => {
             
             <FlatList
                 data={ jobs }
-                renderItem = {({item})=><JobItem 
-                    jobItem = { item}
-                    editor = {isOrganization}
-                    onViewClick = {()=>{
-                        if (isOrganization) return setJobUpdate(p=>item)
-
-                        // Otherwise
-                        navToApplyJob(item.id)                        
-                        
-                    }}
-                />}
+                renderItem = {({item})=>(
+                    <JobListItem
+                        jobItem = { item}
+                        onViewClick = {()=>{
+                            if (isOrganization) return setJobUpdate(p=>item);
+                            // Otherwise
+                            navToApplyJob(item.id);
+                        }}
+                        onDelete={(jobId)=>handleDeleteJob(jobId)}
+                    />
+                )}
                 keyExtractor={item => item.id}
                 ListEmptyComponent={ emptyComponent }
                 refreshing={loadingJobs}
@@ -108,8 +70,6 @@ export const JobListsScreen = ({ navigation }) => {
                 onRefresh={()=>{
                     console.log("Refreshing");
                     setLoadingJobs(true);
-
-
                     setTimeout(()=>setLoadingJobs(false),3000);
                 }}
             />
@@ -118,7 +78,12 @@ export const JobListsScreen = ({ navigation }) => {
                 isOrganization && (
                     <>
                         <FloatingButton onPress={()=>setJobUpdate(p=>({}))}/>
-                        <JobBottomSheet data={jobUpdate || {}} show={Boolean(jobUpdate)} onDismiss={()=>setJobUpdate(p=>null)}/>
+                        <JobBottomSheet 
+                            jobId={jobUpdate?.id}
+                            show={Boolean(jobUpdate)} 
+                            onDismiss={()=>setJobUpdate(p=>null)}
+                        />
+                        <Preloader show={deletingJob} text="Deleting job..."/>
                     </>
                 )
             }

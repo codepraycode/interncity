@@ -6,7 +6,6 @@ import Theme from '../../constants/theme';
 import JobNotFound from '../../states/JobNotFound';
 
 import Octicons from 'react-native-vector-icons/Octicons';
-import Tags from '../../components/Tags';
 import { useJob } from '../../hooks/useJobs';
 import Seperator from '../../components/Seperator';
 
@@ -45,7 +44,7 @@ const JobDetailHeader = ({job:jobInfo, company})=>{
                 <Text 
                     center 
                     h5
-                >{jobInfo.title}</Text>
+                >{jobInfo.role}</Text>
 
                 <View 
                     style={{
@@ -143,70 +142,33 @@ const JobInfomation = ({job}) =>{
 
             <View style={{marginVertical: 10}}>
 
-                <Text h3 style={{marginVertical: 10}}>Job title</Text>
+                <Text p style={{marginVertical: 10}}>Job role</Text>
 
-                <Text p style={{marginVertical: 5}}>
-                    {job.title}
+                <Text h4 style={{marginVertical: 5}}>
+                    {job.role}
                 </Text>
             </View>
 
-            {/* <View>
-                <Text h5 style={{marginVertical: 10}}>About job</Text>
-
-                <Text p style={{marginVertical: 10}}>
-                    {job.about}
-                </Text>
-            </View> */}
-
-            {/* <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Duration
-                </Text>
-
-                <Text p>
-                    {job.duration}
-                </Text>
-            </View> */}
-
-
             <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
+                <Text p style={{marginVertical: 5}}>
                     Pay
                 </Text>
 
-                {job.stipend && <Text p>
+                {job.stipend && <Text h4>
                         {job.stipend}
                     </Text>}
                 
             </View>
 
             <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
+                <Text p style={{marginVertical: 5}}>
                     Location
                 </Text>
 
-                <Text p>
+                <Text h4>
                     {job.location.city}, {job.location.state}
                 </Text>
             </View>
-
-            {/* <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Tags
-                </Text>
-
-                <Tags tags={job.tags}/>
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Duration
-                </Text>
-
-                <Text p>
-                    {job.duration}
-                </Text>
-            </View> */}
 
         </View>
     )
@@ -232,7 +194,7 @@ const Tab = ({text, onClick, active})=> (
 const JobDetail = ({ route }) => {
     const { jobId } = route.params;
     
-    const [job] = useJob(jobId);
+    const { job } = useJob(jobId);
 
     const [tabNo, setTabNo] = useState(0);
     const [showModal, setShowModal] = useState(false);

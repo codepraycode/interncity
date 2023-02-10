@@ -5,6 +5,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
 import { JSONLog } from '../../app/utils';
+import useSector from '../../hooks/useSector';
 
 const NormalInput = React.memo(({schema, onChange, name, value})=>{
     return (
@@ -84,14 +85,14 @@ const PhoneInput = React.memo(({schema, onChange, name, value})=>{
 
 
 const NumberInput = React.memo(({schema, onChange, name, value})=>{
+
     return (
         <TextInput
             placeholder = {schema.placeholder}
             placeholderTextColor = {styles.placeholderTextColor}
             onChangeText = {(str)=>onChange(name, str)}
             style = {[styles.input, styles.normalInput]}
-            value = {value}
-            // textContentType={"t"}
+            value = {value && String(value)}
             keyboardType={"number-pad"}
         />
     )
@@ -123,9 +124,11 @@ const PasswordInput = React.memo((props)=>{
 
 const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const {schools} = useContext(AppContext);    
+    const {schools} = useContext(AppContext); 
+    
+    const {data} = schools;
 
-    const options = schools || [];
+    const options = data || [];
 
     return (
         <Picker
@@ -158,9 +161,10 @@ const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
 const DepartmentSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const {departments} = useContext(AppContext);    
+    const {departments} = useContext(AppContext);
+    const {data} = departments;
 
-    const options = departments || [];
+    const options = data || [];
 
     return (
         <Picker
@@ -193,15 +197,15 @@ const DepartmentSelect = React.memo(({schema, onChange, name, value})=>{
 
 const SectorSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const {sectors} = useContext(AppContext);    
-
-    const options = sectors || [];
+    const sectors = useSector(null, true); // all sectors
+    const selectedSector = useSector(value); // A sector;
 
     return (
         <Picker
-            placeholder="Click to select sector"
+            placeholder={schema.placeholder}
             placeholderTextColor={styles.placeholderTextColor}
             value={value}
+            defaultValue={selectedSector}
             enableModalBlur={false}
             onChange={({value}) => onChange(name, value)}
             topBarProps={{title: 'Select sector'}}
@@ -212,7 +216,7 @@ const SectorSelect = React.memo(({schema, onChange, name, value})=>{
             searchStyle={{color:Theme.accent, fontFamily:"FontBold"}}
             migrateTextField
         >
-        {options.map((option, i)=> (
+        {sectors.map((option, i)=> (
             <Picker.Item 
                 key={i} 
                 value={option.id} 

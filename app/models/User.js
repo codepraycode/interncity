@@ -269,7 +269,7 @@ class UserAccount {
         const {id, ...userQueryData} = userQuery;
         // firest result is to be used
 
-        const {error, value:validatedData} = userProfileDataSchema.validate(userQueryData);
+        const { error } = userProfileDataSchema.validate(userQueryData);
 
         if (error){
             try{
@@ -284,8 +284,6 @@ class UserAccount {
                 }
             }
         }
-
-        JSONLog(userQuery);
         return {
             message:"Fetched user data",
             data:userQuery,

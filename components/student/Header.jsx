@@ -49,11 +49,11 @@ const DetailHeader = ({data})=>{
                     }}
                 >
                     <Text center label>{"IT intern"}</Text>
-                    <Text center label>{school}</Text>
+                    <Text center small>{school}</Text>
                 </View>
             </View>
 
-            <View
+            {/* <View
                 center
             >
                 <View
@@ -75,7 +75,7 @@ const DetailHeader = ({data})=>{
                     </Text>
                 </View>
                 
-            </View>
+            </View> */}
         </>
     )
 }

@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import {View, Text, ActionSheet} from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import Button from '../components/Button';
 import { ScrollView, TextInput } from 'react-native';
 import Form from './form';
-import UserAccount from '../app/models/User';
 import Job from '../app/models/Job';
+import { useJob } from '../hooks/useJobs';
+import useProfile from '../hooks/useProfile';
+import { Preloader } from './Modal';
 
 
 const BottomSheet = (props) => {
@@ -167,73 +169,121 @@ export const LogBottomSheet = ({show, data, onDismiss}) => {
 }
 
 
-export const JobBottomSheet = ({show, data, onDismiss}) => {
+export const JobBottomSheet = ({show, jobId, onDismiss}) => {
 
-    const {id} = data;
+    const { job, createUpdatejob } = useJob(jobId);
+    const [userProfile] = useProfile();
+    const [formErrors, setFormErrors] = useState({});
+    const [loading, setLoading] = useState(false);
 
-    const isUpdate = Boolean(id);
+    const isUpdate = Boolean(job.original); // true if an id exist;
 
-    const inputStyle = {
-        paddingVertical: 10, fontSize: 18, paddingLeft:10,
-        marginVertical:15,
-        maxWidth:'90%',
-        width: 300,
-        borderBottomColor:'red',
-        borderBottomWidth:2,
+    let label, loadingLabel;
+
+    if(isUpdate){
+        label = "Update job";
+        loadingLabel = "Updating job...";
+    }else{
+        label = "Create job";
+        loadingLabel = "Creating job...";
     }
 
+
+    const formSchema = Job.getJobSchema();
+
+    const handleSubmit = (jobdt)=>{
+      
+        if (loading) return;
+      
+        // const demo = Job.demoData;
+
+      setLoading(true)
+      setFormErrors(()=>({}));
+
+      Job.validateJobData(jobdt)
+      .then(async (jobObject)=>{
+
+        const errors = await createUpdatejob(jobObject);
+
+        if (errors) setFormErrors(()=>(errors));
+        else onDismiss();
+
+        setLoading(false);
+      })
+      .catch((err)=>{
+            console.log(err)
+            setFormErrors(()=>(err));
+            setLoading(false);
+      })
+    }
+
+    const getPreviousValues = useCallback(()=>{
+      // process the previous values
+      const {id:organizationId} = userProfile; 
+      
+      return job.getFormData({ organization: organizationId, id:job.id });
+    });
+
     return (
-        <ActionSheet
-            renderTitle = {()=>(
-                <View center style={{marginVertical: 0}}>
-                    <View 
-                        style={{
-                            width:30, 
-                            borderWidth:2, 
-                            borderStyle:'solid', 
-                            borderColor:"rgba(19, 1, 96, 1)", 
-                            borderRadius:10,
-                            marginVertical:15,
-                        }}
-                    ></View>
-                    <Text h4 center>{isUpdate ? 'Update Job' : "Create Job"}</Text>
-                </View>
-            )}
-            options={[
-                {label: 'Option 1', onPress: () =>{}},
-            ]}
-            optionsStyle={
-                {
-                    // height:'100%',
-                    paddingTop:0,
+        <>
+            <ActionSheet
+                renderTitle = {()=>(
+                    <View center style={{marginVertical: 0}}>
+                        <View
+                            style={{
+                                width:30, 
+                                borderWidth:2, 
+                                borderStyle:'solid', 
+                                borderColor:"rgba(19, 1, 96, 1)", 
+                                borderRadius:10,
+                                marginVertical:15,
+                            }}
+                        ></View>
+                        <Text h4 center>{label}</Text>
+                    </View>
+                )}
+
+                options={[
+                    {label: 'Option 1', onPress: () =>{}},
+                ]}
+                optionsStyle={
+                    {
+                        // height:'100%',
+                        paddingTop:0,
+                    }
                 }
-            }
-            dialogStyle={{
-                height:600,
-            }}
-            containerStyle={{
-                backgroundColor:'transparent'
-            }}
+                dialogStyle={{
+                    height:600,
+                }}
+                containerStyle={{
+                    backgroundColor:'transparent'
+                }}
 
-            visible={show}
-            onDismiss={() => onDismiss()}
+                visible={show}
+                onDismiss={() => {
+                    setFormErrors(()=>({}));
+                    onDismiss();
+                }}
 
-            renderAction={(option, index, onOptionPress)=>{
-                return (
-                    <ScrollView key={index} contentContainerStyle={{paddingBottom:120, marginHorizontal:30}}>
-                        <Form
-                            onSubmit={(data)=> handleOnUpdate(data)}
-                            schema={Job.getJobSchema()} 
-                            getPreviousValues={()=>({})}
-                            authLabel={ !false ? "Update profile":"Updating..."}
-                            errors={{}}
-                            disable={false}
-                        />
-                    </ScrollView>
-                )
-            }}
-            
-        />
+                renderAction={(option, index, onOptionPress)=>{
+                    return (
+                        <ScrollView key={index} contentContainerStyle={{paddingBottom:120, marginHorizontal:20}}>
+                            <Form
+                                onSubmit={(data)=> handleSubmit(data)}
+                                schema={formSchema} 
+                                getPreviousValues={getPreviousValues}
+                                authLabel={ loading ? loadingLabel : label }
+                                errors={formErrors}
+                                disable={loading}
+                            />
+                        </ScrollView>
+                    )
+                }}
+                
+            />
+
+            <Preloader show={loading} text={loadingLabel}/>
+        </>
     );
 }
 

@@ -16,13 +16,18 @@ const LogsScreen = () => {
         setDateEditing(null);
     }
 
+    const log = `Date: 1/1/2023
+
+A sample daily log.
+`
+
     // console.log(dateIntervals);
     return (
         <View flex>
 
             <FlatList
                 data={ dateIntervals }
-                renderItem = {({item})=><LogItem date={item} editLog={()=>setDateEditing(item)}/>}
+                renderItem = {({item})=><LogItem date={item} log={log} editLog={()=>setDateEditing(item)}/>}
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{
                     alignItems:'center'
@@ -30,7 +35,7 @@ const LogsScreen = () => {
             />
 
 
-            <LogBottomSheet show={Boolean(dateEditing)} data={dateEditing} onDismiss={autoSaveLog}/>
+            <LogBottomSheet show={Boolean(dateEditing)} data={log} onDismiss={autoSaveLog}/>
             
         </View>
     )

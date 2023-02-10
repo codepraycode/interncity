@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { ScrollView } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
 
-import { useJob } from '../../hooks/useJobs';
 import { PlacementHeader } from '../../components/organization/Header';
 import Tabs from '../../components/Tabs';
 import Info, { PlacementDetailInfo } from '../../components/organization/Info';

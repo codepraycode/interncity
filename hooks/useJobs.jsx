@@ -1,43 +1,68 @@
 import React, { useContext, useMemo } from 'react';
 import AppContext from '../app/context';
+import Job from '../app/models/Job';
+import Organization from '../app/models/Organization';
+import { JSONLog } from '../app/utils';
 
-const useJob = (jobId)=>{
-    const { jobs, organizations } = useContext(AppContext);
+const useJob = (jobId=null)=>{
+
+    const { jobs:{data:jobs}, organizations:{data:organizations} } = useContext(AppContext);
     
-    const jobData = useMemo(()=>{
-        
-        const job = jobs.find(e=>e.id === jobId);
+    const job = useMemo(()=>{
 
-        if (!job) {
-            console.log("Job not found:", jobId);
-            return null
+        let jobData = jobs.find(e=>e.id === jobId);
+
+        let organizationProfile;
+
+        if (jobData?.organization) {
+            
+            const {organization: organizationId} = jobData;
+            organizationProfile = organizations.find(e=>e.id === organizationId);
         };
 
-        const jobOrganizationId = job.organization;
+        if (organizationProfile) {
+            const org = new Organization(organizationProfile);
+            jobData.company = org;
+        };
 
-        const organizationProfile = organizations.find(e=>e.id === jobOrganizationId);
+        return new Job(jobData);
+    },[jobId]);
 
-        // console.log(jobOrganizationId, organizations)
-        if (!organizationProfile) {
-            console.log("Job organization not found:", jobOrganizationId);
-            return null
-        }; 
 
-        // Add company details to it
-        const {type, ...restProfileData} = organizationProfile;
-        job.company = restProfileData;
+    const createUpdatejob = async (jobData) => {
+        // TODO: create/update job, return errors if any.
+        let error;
 
-        return job;
-    })
+        try{
+            await Job.createUpdateJob(jobData);
+        }
+        catch(err){
+            error = err;
+        }
 
-    
+        return error;
+    }
 
-    return [jobData];
+    const deleteJob = async (jobId) => {
+        // TODO: create/update job, return errors if any.
+        let error;
+
+        try{
+            await Job.deleteJob(jobId);
+        }
+        catch(err){
+            error = err;
+        }
+
+        return error;
+    }
+
+    return {job, createUpdatejob, deleteJob};
 }
 
 const useJobs = ()=>{
 
-    const { jobs } = useContext(AppContext);
+    const { jobs:{data:jobs} } = useContext(AppContext);
     const loading = false;
 
     return [jobs, loading];

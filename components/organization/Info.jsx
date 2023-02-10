@@ -72,7 +72,7 @@ export const PlacementDetailInfo = () => {
         }}
     >
         <View style={{marginVertical: 10}}>
-            <Text p>Job title</Text>
+            <Text p>Job role</Text>
 
             <Text h5 style={{marginVertical: 5}}>
                 Backend Intern
