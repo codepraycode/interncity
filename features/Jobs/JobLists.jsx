@@ -10,8 +10,6 @@ import JobListItem from './JobListItem';
 
 // Create the jobs screen
 
-
-
 export const JobListsScreen = ({ navigation }) => {
     
     const {isOrganization} = useContext(AppContext);
