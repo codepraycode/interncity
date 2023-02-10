@@ -85,14 +85,14 @@ const PhoneInput = React.memo(({schema, onChange, name, value})=>{
 
 
 const NumberInput = React.memo(({schema, onChange, name, value})=>{
+
     return (
         <TextInput
             placeholder = {schema.placeholder}
             placeholderTextColor = {styles.placeholderTextColor}
             onChangeText = {(str)=>onChange(name, str)}
             style = {[styles.input, styles.normalInput]}
-            value = {value}
-            // textContentType={"t"}
+            value = {String(value)}
             keyboardType={"number-pad"}
         />
     )
