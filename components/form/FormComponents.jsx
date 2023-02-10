@@ -197,7 +197,7 @@ const DepartmentSelect = React.memo(({schema, onChange, name, value})=>{
 
 const SectorSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const sectors = useSector(); // all sectors
+    const sectors = useSector(null, true); // all sectors
     const selectedSector = useSector(value); // A sector;
 
     return (

@@ -198,10 +198,10 @@ export const JobBottomSheet = ({show, jobId, onDismiss}) => {
 
       Job.validateJobData(jobdt)
       .then(async (jobObject)=>{
-        // console.log(res);
+
         const errors = await createUpdatejob(jobObject);
 
-        if (errors) setFormErrors(()=>(err));
+        if (errors) setFormErrors(()=>(errors));
         else onDismiss();
 
         setLoading(false);
@@ -215,9 +215,9 @@ export const JobBottomSheet = ({show, jobId, onDismiss}) => {
 
     const getPreviousValues = useCallback(()=>{
       // process the previous values
-      const {uid} = userAccount;
+      const {id:organizationId} = userAccount;      
       
-      return job.getFormData({ organization: uid, id:job.id });
+      return job.getFormData({ organization: organizationId, id:job.id });
     });
 
     return (
@@ -255,7 +255,10 @@ export const JobBottomSheet = ({show, jobId, onDismiss}) => {
             }}
 
             visible={show}
-            onDismiss={() => onDismiss()}
+            onDismiss={() => {
+                setFormErrors(()=>({}));
+                onDismiss();
+            }}
 
             renderAction={(option, index, onOptionPress)=>{
                 return (

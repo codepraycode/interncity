@@ -40,7 +40,21 @@ const useJob = (jobId)=>{
         return error;
     }
 
-    return {job, createUpdatejob};
+    const deleteJob = async (jobId) => {
+        // TODO: create/update job, return errors if any.
+        let error;
+
+        try{
+            await Job.deleteJob(jobId);
+        }
+        catch(err){
+            error = err;
+        }
+
+        return error;
+    }
+
+    return {job, createUpdatejob, deleteJob};
 }
 
 const useJobs = ()=>{

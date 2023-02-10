@@ -2,18 +2,14 @@
 
 import { HandlerJoiError, JSONLog, userTypes} from "../utils";
 import { jobSchema } from "./base";
-import { 
-  collection, 
-//   addDoc, 
-  getDocs,
+import {
   doc,
-//   getDoc,
   addDoc,
-  query, where, updateDoc
-//   updateDoc,
-//   deleteDoc
+  updateDoc,
+  deleteDoc
 } from 'firebase/firestore';
-import { collectionNames, database } from "../firebaseConfig";
+import { collectionNames, database, jobsCollectionRef } from "../firebaseConfig";
+
 
 
 class Job {
@@ -151,17 +147,63 @@ class Job {
         }
     }
 
-    static createUpdateJob(auth, jobData){
-        const {id} = jobData;
+    static async createUpdateJob(jobData){
+        const { id } = jobData;
 
         if(id){
-            console.log("Update job data:", jobData);
-            return;
+            return Job.updateJob(jobData);
         }
 
+        return Job.createJob(jobData);
+    }
 
+    static async createJob(jobData){
         console.log("Create job data:", jobData);
+        const {id, ...restData} = jobData;
+        
+        try{
+            await addDoc(jobsCollectionRef, restData);
+        }catch(err){
+            console.log("Error creating job:", err);
+            throw({
+                message: "Could not create job, check job data and try again."
+            })
+        }
 
+        return true;
+        
+    }
+
+    static async updateJob(jobData){
+        console.log("Update job data:", jobData);
+
+        const { id, ...restData } = jobData;
+        const docRef = doc(database, collectionNames.JOBS, id);
+
+        try{
+            await updateDoc(docRef, restData);
+            console.log("updated Document!");
+        }catch(err){
+            console.log("Error updating job:", err);
+            throw({
+                message: "Could not update job, check job data and try again."
+            })
+        }
+
+        return true;
+        
+    }
+
+    static async deleteJob(jobId){
+        const docRef = doc(database,collectionNames.JOBS, jobId);
+
+        try{
+            await deleteDoc(docRef);
+            console.log("Deleted Document!");
+        }catch(err){
+            console.log("Error getting job:", err);
+        }
+        
     }
 
     static get demoData() {

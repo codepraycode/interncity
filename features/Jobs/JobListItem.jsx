@@ -7,16 +7,17 @@ import useSector from '../../hooks/useSector';
 
 const JobListItem = ({jobItem, onViewClick})=>{
     
-    const {job: jobInfo} = useJob(jobItem.id);
+    const {job: jobInfo, deleteJob} = useJob(jobItem.id);
 
-    if (!jobInfo) return <></>;
+    // if (!jobInfo) return <></>;
 
+    
     const {role, location, company, sector:sectorId, } = jobInfo.original;
 
     const sector = useSector(sectorId);
 
     return (
-        <Card clickable={true} onPress={onViewClick}>
+        <Card clickable={true} onPress={onViewClick} onLongPress={()=> deleteJob(jobInfo.id)}>
             
             <View style={{flexDirection:'row', marginBottom:10, marginTop:5, alignItems:'center'}}>
                 <Image
@@ -34,7 +35,7 @@ const JobListItem = ({jobItem, onViewClick})=>{
                         style={{
                             marginTop: 10,
                         }}
-                    >{company?.name} | {location.city}, {location.state}</Text>
+                    >{company?.name} | {location.city}</Text>
                 </View>
             </View>
 

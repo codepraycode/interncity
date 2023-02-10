@@ -2,30 +2,31 @@ import { useContext, useMemo } from "react";
 import AppContext from "../app/context";
 
 
-const useSector = (id=null)=>{
+const useSector = (id=null, all=false)=>{
 
     const { sectors:{data:sectors} } = useContext(AppContext);
 
     const data = useMemo(()=>{
 
+        let sector;
+
         if(Boolean(id)) {
-            console.log("sector:id", id)
-            let sector;
 
             for(let each of sectors){
-                sector = each.name;
-                break;
+                if(each.id === id)
+                {
+                    sector = each.name;
+                    break;
+                }
             }
 
             if (!sector) return 'could not get sector!';
-
-            return sector;
         }
 
-        return sectors || [];
+        return sector;
     }, [id])
 
-    return data;
+    return all ? sectors : data;
 }
 
 

@@ -3,11 +3,12 @@ import { View } from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import React from 'react'
 
-const Card = ({children, clickable, unread, onPress}) => {
+const Card = ({children, clickable, unread, onPress, onLongPress}) => {
   if (clickable) return (
     <TouchableOpacity 
       style={styles.cardContainer}
       onPress={onPress}
+      onLongPress={onLongPress}
       activeOpacity={.7}
     >
       {children}
