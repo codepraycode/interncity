@@ -28,7 +28,16 @@ const useJob = (jobId)=>{
 
     const createUpdatejob = async (jobData) => {
         // TODO: create/update job, return errors if any.
-        return
+        let error;
+
+        try{
+            await Job.createUpdateJob(jobData);
+        }
+        catch(err){
+            error = err;
+        }
+
+        return error;
     }
 
     return {job, createUpdatejob};

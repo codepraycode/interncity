@@ -55,7 +55,7 @@ const jobSchema = Joi.object({
     location: location.required(),
     organization: Joi.string().required(),
     sector: Joi.string(),//.items(Joi.string()).empty()
-    stipend: Joi.number().min(1000).default(null)
+    stipend: Joi.number().min(1000).default(null).empty(null),
 })
 
 

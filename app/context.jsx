@@ -162,10 +162,11 @@ export const AppContextProvider = ({children})=>{
 
             console.log("AUthenticatedddsds!");
 
-            const {providerData, stsTokenManager} = user;
+            const {providerData, stsTokenManager, uid} = user;
             
             const userD = providerData[0] || {}
             const userData = {
+                id: uid,
               ...userD,
               token: stsTokenManager
             };

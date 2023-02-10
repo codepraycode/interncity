@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
+import { collection, getFirestore, query, where } from 'firebase/firestore';
 import {
   initializeAuth,
   getReactNativePersistence
@@ -24,7 +24,7 @@ export const database = getFirestore(app);
 // initialize auth
 export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage)
-});
+})
 
 
 export const collectionNames = {
