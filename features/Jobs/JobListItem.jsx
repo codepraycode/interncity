@@ -13,8 +13,7 @@ const JobListItem = ({jobItem, onViewClick})=>{
     const {role, location, company, sector:sectorId, } = jobInfo.original;
 
     const sector = useSector(sectorId);
-
-    JSONLog(company)
+    
 
     return (
         <Card clickable={true} onPress={onViewClick} onLongPress={()=> deleteJob(jobInfo.id)}>

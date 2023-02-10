@@ -1,12 +1,12 @@
 import { getAuth } from 'firebase/auth';
 import React, { useContext, useState } from 'react';
 import AppContext from '../app/context';
-import { app } from '../app/firebaseConfig';
+import { auth } from '../app/firebaseConfig';
 import UserAccount from '../app/models/User';
 
 
 const useProfile = ()=>{
-    const auth = getAuth(app);
+    
     const { updateAccountProfile, userProfile } = useContext(AppContext);
 
     const updateProfile = async (updatedProfileData)=>{

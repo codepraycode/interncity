@@ -1,6 +1,7 @@
 import React, { useContext, useMemo } from 'react';
 import AppContext from '../app/context';
 import Job from '../app/models/Job';
+import Organization from '../app/models/Organization';
 import { JSONLog } from '../app/utils';
 
 const useJob = (jobId)=>{
@@ -10,24 +11,22 @@ const useJob = (jobId)=>{
     const job = useMemo(()=>{
 
         let jobData = jobs.find(e=>e.id === jobId);
+
         let organizationProfile;
 
         if (jobData?.organization) {
-            const jobOrganizationId = jobData.organization;
-            organizationProfile = organizations.find(e=>e.id === jobOrganizationId);
+            
+            const {organization: organizationId} = jobData;
+            organizationProfile = organizations.find(e=>e.id === organizationId);
         };
 
-        // JSONLog(organizationProfile);
-        console.log(jobData?.organization || 'not set')
-
-        
         if (organizationProfile) {
-            const {type, ...restProfileData} = organizationProfile;
-            jobData.company = restProfileData;
+            const org = new Organization(organizationProfile);
+            jobData.company = org;
         };
 
         return new Job(jobData);
-    });
+    },[jobId]);
 
 
     const createUpdatejob = async (jobData) => {
