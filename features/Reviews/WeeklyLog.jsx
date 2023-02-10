@@ -26,7 +26,6 @@ supervisor: Mr Lorem Bulaba (Manager)
                 width: 350,
                 maxWidth: "90%",
                 borderRadius: 4,
-
                 overflow:'hidden',
             }}
         >

@@ -18,7 +18,7 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
 
     if (!jobInfo) return <></>;
 
-    const {title, location, company, sectors, } = jobInfo;
+    const {role, location, company, sectors, } = jobInfo;
 
     return (
         <Card clickable={true} onPress={onViewClick}>
@@ -34,7 +34,7 @@ const JobItem = ({jobItem, editor, onViewClick})=>{
                 />
 
                 <View style={{width: "80%"}}>
-                    <Text h4>{title}</Text>
+                    <Text h4>{role}</Text>
                     <Text small
                         style={{
                             marginTop: 10,

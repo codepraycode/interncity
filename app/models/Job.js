@@ -35,7 +35,7 @@ class Job {
             organization,
             sectors,
             stipend,
-            title,
+            role,
         } = jobData;
 
         this.company = company;
@@ -44,7 +44,25 @@ class Job {
         this.organization = organization;
         this.sectors = sectors;
         this.stipend = stipend;
-        this.role = title;
+        this.role = role;
+    }
+
+    getFormData(seed){
+        let prev = {...seed};
+
+        if (!Boolean(this.#original)) return prev;
+
+        const {address, city, country} = this.location || {};
+        return {
+            ...prev,
+            role: this.role,
+            stipend: this.stipend,
+            sectors: this.sectors,
+            
+            address: address,
+            city: city,
+            country: country,
+        }
     }
     
     static async validateJobData(jobData){        
@@ -60,10 +78,10 @@ class Job {
     static getJobSchema(){
 
         return {
-            title: {
+            role: {
                 type: "text",
-                placeholder: "Enter job title",
-                label: "Job title",
+                placeholder: "Enter job role",
+                label: "Job role",
             },
             // Location
             address:{

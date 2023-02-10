@@ -214,14 +214,11 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
       // process the previous values
 
       const {uid} = userAccount;
-      const prevData = job.original || {}
-
-      let seedValue = {
-        organization: uid,
-      }
-
-      return setUpWithPreviousValue(formSchema, prevData, seedValue);
+      
+      return job.getFormData({ organization: uid });
     });
+
+    console.log(getPreviousValues());
 
     return (
         <ActionSheet
