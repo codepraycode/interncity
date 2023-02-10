@@ -22,7 +22,7 @@ const useSector = (id=null)=>{
             return sector;
         }
 
-        return sectors;
+        return sectors || [];
     }, [id])
 
     return data;

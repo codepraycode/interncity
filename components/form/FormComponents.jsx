@@ -5,6 +5,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
 import { JSONLog } from '../../app/utils';
+import useSector from '../../hooks/useSector';
 
 const NormalInput = React.memo(({schema, onChange, name, value})=>{
     return (
@@ -196,17 +197,15 @@ const DepartmentSelect = React.memo(({schema, onChange, name, value})=>{
 
 const SectorSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const {sectors} = useContext(AppContext);
-
-    const {data} = sectors;
-
-    const options = data || [];
+    const sectors = useSector(); // all sectors
+    const selectedSector = useSector(value); // A sector;
 
     return (
         <Picker
-            placeholder="Click to select sector"
+            placeholder={schema.placeholder}
             placeholderTextColor={styles.placeholderTextColor}
             value={value}
+            defaultValue={selectedSector}
             enableModalBlur={false}
             onChange={({value}) => onChange(name, value)}
             topBarProps={{title: 'Select sector'}}
@@ -217,7 +216,7 @@ const SectorSelect = React.memo(({schema, onChange, name, value})=>{
             searchStyle={{color:Theme.accent, fontFamily:"FontBold"}}
             migrateTextField
         >
-        {options.map((option, i)=> (
+        {sectors.map((option, i)=> (
             <Picker.Item 
                 key={i} 
                 value={option.id} 
