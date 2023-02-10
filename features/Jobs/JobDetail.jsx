@@ -6,7 +6,6 @@ import Theme from '../../constants/theme';
 import JobNotFound from '../../states/JobNotFound';
 
 import Octicons from 'react-native-vector-icons/Octicons';
-import Tags from '../../components/Tags';
 import { useJob } from '../../hooks/useJobs';
 import Seperator from '../../components/Seperator';
 
@@ -195,7 +194,7 @@ const Tab = ({text, onClick, active})=> (
 const JobDetail = ({ route }) => {
     const { jobId } = route.params;
     
-    const [job] = useJob(jobId);
+    const { job } = useJob(jobId);
 
     const [tabNo, setTabNo] = useState(0);
     const [showModal, setShowModal] = useState(false);

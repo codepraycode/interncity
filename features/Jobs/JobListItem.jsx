@@ -7,11 +7,11 @@ import useSector from '../../hooks/useSector';
 
 const JobListItem = ({jobItem, onViewClick})=>{
     
-    const [jobInfo] = useJob(jobItem.id);
+    const {job: jobInfo} = useJob(jobItem.id);
 
     if (!jobInfo) return <></>;
 
-    const {role, location, company, sector:sectorId, } = jobInfo;
+    const {role, location, company, sector:sectorId, } = jobInfo.original;
 
     const sector = useSector(sectorId);
 
