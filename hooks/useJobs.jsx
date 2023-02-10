@@ -1,38 +1,31 @@
 import React, { useContext, useMemo } from 'react';
 import AppContext from '../app/context';
+import Job from '../app/models/Job';
 
 const useJob = (jobId)=>{
+
     const { jobs:{data:jobs}, organizations:{data:organizations} } = useContext(AppContext);
     
-    const jobData = useMemo(()=>{
-        
-        const job = jobs.find(e=>e.id === jobId);
+    const job = useMemo(()=>{
 
-        if (!job) {
-            console.log("Job not found:", jobId);
-            return null
+        let jobData = jobs.find(e=>e.id === jobId);
+        let organizationProfile;
+
+        if (jobData?.organization) {
+            const jobOrganizationId = jobData.organization;
+            organizationProfile = organizations.find(e=>e.id === jobOrganizationId);
         };
 
-        const jobOrganizationId = job.organization;
-
-        const organizationProfile = organizations.find(e=>e.id === jobOrganizationId);
-
         // console.log(jobOrganizationId, organizations)
-        if (!organizationProfile) {
-            console.log("Job organization not found:", jobOrganizationId);
-            return null
-        }; 
+        if (organizationProfile) {
+            const {type, ...restProfileData} = organizationProfile;
+            jobData.company = restProfileData;
+        };
 
-        // Add company details to it
-        const {type, ...restProfileData} = organizationProfile;
-        job.company = restProfileData;
+        return new Job(jobData);
+    });
 
-        return job;
-    })
-
-    
-
-    return [jobData];
+    return {job};
 }
 
 const useJobs = ()=>{
