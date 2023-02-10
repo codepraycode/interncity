@@ -8,6 +8,8 @@ import UserAccount from '../app/models/User';
 import Job from '../app/models/Job';
 import { JSONLog, setUpWithPreviousValue } from '../app/utils';
 import AppContext from '../app/context';
+import { auth } from '../app/firebaseConfig';
+import { useJob } from '../hooks/useJobs';
 
 
 const BottomSheet = (props) => {
@@ -169,9 +171,11 @@ export const LogBottomSheet = ({show, data, onDismiss}) => {
 }
 
 
-export const JobBottomSheet = ({show, data, onDismiss}) => {
+export const JobBottomSheet = ({show, jobId, onDismiss}) => {
 
-    const job = new Job(data);
+    // let job = new Job(data);
+
+    const {job, createUpdateJob} = useJob(jobId);
 
     const isUpdate = Boolean(job.id); // true if an id exist;
 
@@ -189,22 +193,23 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
       
         if (loading) return;
       
-        // const demo = {
-        //     address: "Ikosi",
-        //     city: "Lagos",
-        //     country: "Nigeria",
-        //     organization: "organization@codepraycode.com",
-        //     role: "Product manager intern",
-        //     sector: "VzPGaw4SmSZfmqtdFEUU",
-        //     // stipend: 40000,
-        // }
+        const demo = {
+            address: "Ikosi",
+            city: "Lagos",
+            country: "Nigeria",
+            organization: "organization@codepraycode.com",
+            role: "Product manager intern",
+            sector: "VzPGaw4SmSZfmqtdFEUU",
+            // stipend: 40000,
+        }
 
       setLoading(true)
       setFormErrors(()=>({}));
 
       Job.validateJobData(jobdt)
       .then((res)=>{
-        console.log(res);
+        // console.log(res);
+        Job.createUpdateJob(auth, res);
         setLoading(false);
       })
       .catch((err)=>{
@@ -217,11 +222,10 @@ export const JobBottomSheet = ({show, data, onDismiss}) => {
 
     const getPreviousValues = useCallback(()=>{
       // process the previous values
-
       const {uid} = userAccount;
       
-      return job.getFormData({ organization: uid });
-    });    
+      return job.getFormData({ organization: uid, id:job.id });
+    });
 
     return (
         <ActionSheet
