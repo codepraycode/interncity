@@ -30,6 +30,16 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "primaryColor": "#130160",
+    "plugins": [
+        [
+            "expo-notifications",
+            {
+              "icon": "./assets/notification-logo.png",
+              "color": "#ffffff"
+            }
+        ]
+    ]
   }
 }
