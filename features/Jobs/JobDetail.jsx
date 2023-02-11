@@ -91,7 +91,7 @@ const JobDetailHeader = ({job:jobInfo, company})=>{
 }
 
 const JobComapanyInfomation = ({company}) =>{
-    console.log(company);
+
     return (
         <View>
             <View style={{marginVertical: 10}}>

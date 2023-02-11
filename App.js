@@ -1,6 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View } from 'react-native';
-// import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFonts } from 'expo-font';
 import {Typography, Colors, Assets} from 'react-native-ui-lib';
 
@@ -9,8 +8,8 @@ import typography from './constants/typography';
 import assets from './constants/assets';
 
 import AppScreens from './features';
-import { AppContextProvider, AppContextSubscriber } from './app/context';
-
+import { AppContextProvider } from './app/context';
+import Notification from './features/Notifications';
 
 Colors.loadColors({
       ...Theme,
@@ -36,6 +35,7 @@ export default function App() {
       <View style={styles.container}>
         <AppContextProvider>
           <AppScreens/>
+          <Notification/>
         </AppContextProvider>
         
         <StatusBar style="auto" />
@@ -49,7 +49,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Theme.grey100,
-    // alignItems: 'center',
-    // justifyContent: 'center',
   },
 });

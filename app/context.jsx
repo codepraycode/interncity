@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useReducer } from 'react';
+import React, { createContext, useMemo, useReducer, useState } from 'react';
 
 import { 
     auth, 
@@ -10,8 +10,8 @@ import {
 } from './firebaseConfig';
 
 import { JSONLog } from './utils';
-// import useSnapshot from "firebase-usesnapshot";
-import useSnapshot from '../hooks/useSnapshot';
+import { useSnapshot, useNotifyingSnapshot} from '../hooks/useSnapshot';
+import useNotifications from '../hooks/useNotification';
 
 
 const AppContext = createContext();
@@ -107,18 +107,32 @@ export const AppContextProvider = ({children})=>{
                 return {...prev}
         }
     }
+
+    const [expoPushToken, setExpoPushToken] = useState('');
+
+    const {notification,updateNotification, newNotification} = useNotifications(expoPushToken);
     
     const [contextData, dispatch] = useReducer(reducers, initialState);
+    const isOrganization = contextData.userProfile?.type === 'organization';
+    const isSupervisor = contextData.userProfile?.type === 'supervisor'
+    const isIntern = contextData.userProfile?.type === 'intern';
     
-    const jobsPayload = useSnapshot(jobsCollectionRef);
+    const jobsPayload = useNotifyingSnapshot(jobsCollectionRef, ()=>{
+        if (isSupervisor) return;
+        
+        console.log("Notifying!");
+        newNotification({
+            title: "New job is available",
+            body: "A new job from an organization is available for your to apply"
+            // data
+        });
+        
+    });
+
     const schoolsPayload = useSnapshot(schoolsCollectionRef);
     const organizationsPayload = useSnapshot(organizationQueryRef);
     const departmentsPayload = useSnapshot(depratmentsCollectionRef);
     const sectorsPayload = useSnapshot(sectorsCollectionRef);
-
-    const isOrganization = contextData.userProfile?.type === 'organization';
-    const isSupervisor = contextData.userProfile?.type === 'supervisor'
-    const isIntern = contextData.userProfile?.type === 'intern';
 
 
     const appContextData = ({
@@ -135,7 +149,10 @@ export const AppContextProvider = ({children})=>{
 
         isLoggedIn: Boolean(contextData.userAccount?.token),
         isProfileComplete: Boolean(contextData.userProfile) && Boolean(contextData.userProfile.type) && Boolean(contextData.userProfile.isComplete),
-        
+
+        expoPushToken,
+        notification,
+
         signOut: () => dispatch({ type: 'SIGN_OUT' }),
         updateAccountProfile: (data) => {
             console.log("UPDATE Account Profile");
@@ -147,6 +164,9 @@ export const AppContextProvider = ({children})=>{
 
             dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: data});
         },
+
+        updateExpoPushToken: (token)=> setExpoPushToken(token),
+        updateNotification,
 
     })
 

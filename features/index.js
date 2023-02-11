@@ -28,7 +28,7 @@ import {
 } from './Profile';
 import AppSettingsScreen from './settings';
 import {JobListsScreen} from './Jobs/JobLists';
-import NotificationScreen from './Notifications';
+import NotificationScreen from './Notifications/NotificationList';
 import UpdatePasswordScreen from './settings/UpdatePassword';
 import {InternsListScreen, InternsStackScreen} from './Interns';
 

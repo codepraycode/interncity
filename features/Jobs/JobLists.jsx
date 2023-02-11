@@ -29,7 +29,7 @@ export const JobListsScreen = ({ navigation }) => {
         deleteJob(jobId)
         .then(()=>setDeletingJob(false))
         .catch((err)=>{
-            console.log(err);
+            console.log("Error deleting job:",err);
             setDeletingJob(false);
         })
     }
