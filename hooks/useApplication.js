@@ -36,7 +36,7 @@ const useApplication = (applicationId)=>{
 
     const data = useMemo(()=>{
         return applications.find((each)=> each.id === applicationId);
-    },[organizationId])
+    },[applicationId])
 
     
 
