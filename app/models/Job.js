@@ -158,7 +158,7 @@ class Job {
     }
 
     static async createJob(jobData){
-        console.log("Create job data:", jobData);
+        // console.log("Create job data:", jobData);
         const {id, ...restData} = jobData;
         
         try{
@@ -175,7 +175,7 @@ class Job {
     }
 
     static async updateJob(jobData){
-        console.log("Update job data:", jobData);
+        // console.log("Update job data:", jobData);
 
         const { id, ...restData } = jobData;
         const docRef = doc(database, collectionNames.JOBS, id);

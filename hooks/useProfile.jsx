@@ -15,7 +15,7 @@ const useProfile = ()=>{
             ...updatedProfileData // latest data update
         }
 
-        console.log("update profile",data);
+        // console.log("update profile",data);
 
         try{
             const {isComplete, ...rest} = data;
