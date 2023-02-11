@@ -4,18 +4,27 @@ import { OranizationNotificationsList, StudentNotificationsList } from '../../co
 import Theme from '../../constants/theme';
 import NotificationItem from './Item';
 import AppContext from '../../app/context';
+import useProfile from '../../hooks/useProfile';
+import { useApplications } from '../../hooks/useApplication';
 
 const NotificationScreen = () => {
     
-    const {isOrganization} = useContext(AppContext);
+    const { isOrganization } = useContext(AppContext);
+    const [userProfile] = useProfile();
 
-    let NotificationsList = StudentNotificationsList;
+    const userId = userProfile?.id || null;
 
-    if (isOrganization) NotificationsList = OranizationNotificationsList;
+    const applications = useApplications(userId);
+
+    // console.log("Applications:", applications);
+
+    // let NotificationsList = StudentNotificationsList;
+
+    // if (isOrganization) NotificationsList = OranizationNotificationsList;
 
     return (
         <FlatList
-            data={ NotificationsList }
+            data={ applications }
             renderItem = {({item})=><NotificationItem isOrganization={isOrganization} notification = { item}/>}
             keyExtractor={item => item.id}
             contentContainerStyle={{

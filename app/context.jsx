@@ -138,9 +138,6 @@ export const AppContextProvider = ({children})=>{
     const departmentsPayload = useSnapshot(depratmentsCollectionRef);
     const sectorsPayload = useSnapshot(sectorsCollectionRef);
 
-    JSONLog(applicationsPayload);
-
-
     const appContextData = ({
         ...contextData,
         jobs: jobsPayload,
@@ -148,6 +145,7 @@ export const AppContextProvider = ({children})=>{
         organizations:organizationsPayload,
         departments:departmentsPayload,
         sectors: sectorsPayload,
+        applications:applicationsPayload,
 
         isOrganization,
         isSupervisor,

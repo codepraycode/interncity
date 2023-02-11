@@ -97,7 +97,7 @@ export const HandleFirebaseError = (errObject) =>{
 }
 
 export const HandlerJoiError = (joiErrorObject, generalMessage=null) =>{
-    // JSONLog(joiErrorObject);
+
     const {details} = joiErrorObject;
 
     // Details is an array
