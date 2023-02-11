@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { View } from 'react-native-ui-lib';
 import Theme from '../../constants/theme';
 import { InternLists } from '../../constants/dummy';
-import JobNotFound from '../../states/JobNotFound';
+import NotFound from '../../states/NotFound';
 
 import { LogBottomSheet } from '../../components/BottomSheet';
 import DetailHeader from '../../components/student/Header';
@@ -11,18 +11,17 @@ import Info from '../../components/student/Info';
 import { WeeklyLogs } from '../../components/student/Log';
 
 const InternsDetailScreen = ({ route }) => {
-    const { internId} = route.params;
-    const internData = InternLists.find(each => each.id === internId);
+    const { internId, studentId } = route.params;
+    const internData = InternLists.find(each => each.id === (internId || studentId));
+
+    console.log(internData)
 
     const [tabNo, setTabNo] = useState(0);    
     const [weekEditing, setWeekEditing] = useState(null);
 
-    const autoSaveLog = (data)=>{
+    const autoSaveLog = (data)=> setWeekEditing(null);
 
-        setWeekEditing(null);
-    }
-
-    if (!Boolean(internData)) return <JobNotFound/>;
+    if (!Boolean(internData)) return <NotFound  text="Could not retrieve data"/>;
 
     const log = `Date: 1/1/2023
 
