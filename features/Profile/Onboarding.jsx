@@ -47,7 +47,6 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
                 isComplete,
             });
 
-            JSONLog(data);
             if (isComplete) return;
 
             if (!data.type) {

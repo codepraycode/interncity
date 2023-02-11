@@ -16,7 +16,7 @@ const useMounted = () => {
   return isMounted;
 };
 
-const useSnapshot = (query) => {
+const useSnapshot = (query, id=null) => {
   const [data, updateData] = useState([]);
   const [loading, setLoading] = useState(true);
   const mounted = useMounted();

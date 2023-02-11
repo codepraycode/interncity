@@ -34,12 +34,16 @@ export const collectionNames = {
      DEPARTMENTS:"departments",
      SECTORS:"sectors",
      JOBS:"jobs",
+     APPLICATIONS:"internAccount",
 }
 
 
 const usersProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
+const applicationsCollectionRef = collection(database,collectionNames.APPLICATIONS);
+
 export const jobsCollectionRef = collection(database, collectionNames.JOBS);
 export const schoolsCollectionRef = collection(database,collectionNames.SCHOOLS);
 export const organizationQueryRef = query(usersProfileCollectionRef, where("type", "==", userTypes.ORGANIZATION));
+export const getApplicationsQueryRef = (organizationId) => query(applicationsCollectionRef); //, where("organization", "==", organizationId));
 export const depratmentsCollectionRef = collection(database,collectionNames.DEPARTMENTS);
 export const sectorsCollectionRef = collection(database,collectionNames.SECTORS);

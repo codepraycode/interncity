@@ -1,8 +1,10 @@
 import React from 'react'
 import { View, Text, Image } from 'react-native-ui-lib';
+import { getTimeDate, JSONLog } from '../../app/utils';
 import Card from '../../components/Card';
 import assets from '../../constants/assets';
-
+import {useJob} from '../../hooks/useJobs';
+import { format, formatDistance, formatRelative, subDays } from 'date-fns'
 
 const StudentNotificationItem = ({ data })=>{
     
@@ -45,26 +47,32 @@ const StudentNotificationItem = ({ data })=>{
 }
 
 const OrganizationNotificationItem = ({ data })=>{
-    
+
+    const {title, message, time} = data;
+
     return (
-        <>
-            
-            <View>
+        <>  
+            <View style={{
+                flexDirection:'row', 'alignItems':'center',
+                marginVertical: 10,
+                }}>
                 <Image
                     source={assets.user}
                     resizeMode="cover"
                     width={40} height={40}
                     style={{
-                        marginVertical: 10,
+                        // marginVertical: 10,
+                        marginRight:10,
                     }}
                 />
 
 
-                <Text h4>{data.title}</Text>
-                <Text p style={{marginVertical: 15}}>
-                    {data.description}
-                </Text>
-            </View>            
+                <Text h4>{title}</Text>
+            </View>
+            <Text p style={{marginVertical: 10}}>
+                {message}
+            </Text>
+            
 
             <View 
                 style={{
@@ -73,22 +81,66 @@ const OrganizationNotificationItem = ({ data })=>{
                     alignItems:'center'
                 }}
             >
-                <Text i>{data.time}</Text>
+                <Text i>{time}</Text>
             </View>
         </>
     )
 }
 
 
-const NotificationItem = ({ isOrganization, notification })=>{
+const determineNotificationContent = ({notification, job})=>{
+    /* 
+        Offer_date - when the organization made the offer
+        job_started - when the student accepted the offer
+        date_applied - when the student made the application
+    */
+
+    const {id, offer_date, job_started, date_applied} = notification;
+    let message = {
+        id,
+        title: null,
+        message: null,
+        time: null,
+    }
+
+    let role = job.role;
+
+    if(offer_date && job_started){
+        // Student accepted job offer
+        message.title = "Offer accepted!"
+        message.message = `Student accepted your offer for the role of ${role}.`
+        message.time = formatDistance(getTimeDate(job_started || offer_date), new Date(), { addSuffix: true })
+    }
+    else if (date_applied){
+        message.title = "New application!"
+        message.message = `A student applied for the role of ${role}`;
+        message.time = formatDistance(getTimeDate(date_applied), new Date(), { addSuffix: true })
+    }
+
+    return message;
+}
+
+const NotificationItem = ({ isOrganization, notification, handleClick })=>{
 
     let template;
+    let message;
 
-    if (isOrganization) template = <OrganizationNotificationItem data={notification}/>;
+    const {job:jobId, id} = notification;
 
-    template = <StudentNotificationItem data={notification}/>;
+    const {job} = useJob(jobId);
+
+    // JSONLog(!notification.viewed);
+    
+    message = determineNotificationContent({
+        notification,
+        job,
+    });
+
+    if (isOrganization) template = <OrganizationNotificationItem data={message}/>;
+
+    else template = <StudentNotificationItem data={notification}/>;
     return (
-        <Card unread={notification.unread}>
+        <Card clickable unread={!notification.viewed} onPress={()=>handleClick(id)}>
             {template}
         </Card>
     )

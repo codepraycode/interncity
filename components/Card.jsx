@@ -4,6 +4,13 @@ import Theme from '../constants/theme';
 import React from 'react'
 
 const Card = ({children, clickable, unread, onPress, onLongPress}) => {
+
+  const temp = (
+    <>
+      {unread && (<View style={{width:10, height:10, position:'absolute', right:9, top:9, borderRadius:5, backgroundColor:Theme.secondary}}></View>)}
+      {children}
+    </>
+  )
   if (clickable) return (
     <TouchableOpacity 
       style={styles.cardContainer}
@@ -11,14 +18,13 @@ const Card = ({children, clickable, unread, onPress, onLongPress}) => {
       onLongPress={onLongPress}
       activeOpacity={.7}
     >
-      {children}
+      {temp}
     </TouchableOpacity>
   )
   
   return (
     <View style={styles.cardContainer}>
-      {unread && (<View style={{width:10, height:10, position:'absolute', right:9, top:9, borderRadius:5, backgroundColor:Theme.secondary}}></View>)}
-      {children}
+      {temp}
     </View>
   )
 }

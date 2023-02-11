@@ -1,22 +1,33 @@
 import React, { useContext } from 'react'
 import { FlatList } from 'react-native';
-import { OranizationNotificationsList, StudentNotificationsList } from '../../constants/dummy';
 import Theme from '../../constants/theme';
 import NotificationItem from './Item';
 import AppContext from '../../app/context';
+import useProfile from '../../hooks/useProfile';
+import { useApplications } from '../../hooks/useApplication';
 
 const NotificationScreen = () => {
     
-    const {isOrganization} = useContext(AppContext);
+    const { isOrganization } = useContext(AppContext);
+    const [userProfile] = useProfile();
 
-    let NotificationsList = StudentNotificationsList;
+    const userId = userProfile?.id || null;
 
-    if (isOrganization) NotificationsList = OranizationNotificationsList;
+    const {data:applications, updateViewed} = useApplications(userId);
 
     return (
         <FlatList
-            data={ NotificationsList }
-            renderItem = {({item})=><NotificationItem isOrganization={isOrganization} notification = { item}/>}
+            data={ applications }
+            renderItem = {({item})=>(
+                <NotificationItem 
+                    isOrganization={ isOrganization }
+                    notification = { item }
+                    handleClick = {(id)=>{
+                        console.log("View notification:", id);
+                        updateViewed(id);
+                    }}
+                />
+            )}
             keyExtractor={item => item.id}
             contentContainerStyle={{
                 backgroundColor:Theme.grey100,
