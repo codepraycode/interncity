@@ -9,6 +9,7 @@ import assets from './constants/assets';
 
 import AppScreens from './features';
 import { AppContextProvider } from './app/context';
+import Notification from './features/Notifications';
 
 Colors.loadColors({
       ...Theme,
@@ -34,6 +35,7 @@ export default function App() {
       <View style={styles.container}>
         <AppContextProvider>
           <AppScreens/>
+          <Notification/>
         </AppContextProvider>
         
         <StatusBar style="auto" />

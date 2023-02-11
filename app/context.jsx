@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useReducer } from 'react';
+import React, { createContext, useMemo, useReducer, useState } from 'react';
 
 import { 
     auth, 
@@ -107,6 +107,9 @@ export const AppContextProvider = ({children})=>{
                 return {...prev}
         }
     }
+
+    const [expoPushToken, setExpoPushToken] = useState('');
+    const [notification, setNotification] = useState(false);
     
     const [contextData, dispatch] = useReducer(reducers, initialState);
     
@@ -135,7 +138,10 @@ export const AppContextProvider = ({children})=>{
 
         isLoggedIn: Boolean(contextData.userAccount?.token),
         isProfileComplete: Boolean(contextData.userProfile) && Boolean(contextData.userProfile.type) && Boolean(contextData.userProfile.isComplete),
-        
+
+        expoPushToken,
+        notification,
+
         signOut: () => dispatch({ type: 'SIGN_OUT' }),
         updateAccountProfile: (data) => {
             console.log("UPDATE Account Profile");
@@ -147,6 +153,9 @@ export const AppContextProvider = ({children})=>{
 
             dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: data});
         },
+
+        updateExpoPushToken: (token)=> setExpoPushToken(token),
+        updateNotification: (notification)=> setNotification(notification),
 
     })
 

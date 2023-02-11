@@ -1,39 +1,98 @@
-import React, { useContext } from 'react'
-import { FlatList, StyleSheet } from 'react-native';
-import { OranizationNotificationsList, StudentNotificationsList } from '../../constants/dummy';
-import Theme from '../../constants/theme';
-import NotificationItem from './Item';
+import * as Device from 'expo-device';
+import * as Notifications from 'expo-notifications';
+import { useContext, useEffect, useRef, useState } from 'react';
 import AppContext from '../../app/context';
 
 
-const NotificationScreen = () => {
-    
-    const {isOrganization} = useContext(AppContext);
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+    }),
+});
 
-    let NotificationsList = StudentNotificationsList;
+async function registerForPushNotificationsAsync() {
 
-    if (isOrganization) NotificationsList = OranizationNotificationsList;
+    let token;
+    if (Device.isDevice) {
+        
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        
+        if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+        }
 
-    return (
-        <FlatList
-            data={ NotificationsList }
-            renderItem = {({item})=><NotificationItem isOrganization={isOrganization} notification = { item}/>}
-            keyExtractor={item => item.id}
-            contentContainerStyle={{
-                backgroundColor:Theme.grey100,
-                paddingBottom: 20,
-                shadowColor: Theme.grey200,
-                shadowOffset: {
-                    width: 0,
-                    height: 2,
-                },
-                shadowOpacity: 0.25,
-                shadowRadius: 5,
-                elevation: 5,
-            }}
-        />
-    )
+        if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+        }
+
+        token = (await Notifications.getExpoPushTokenAsync()).data;
+        console.log(token);
+
+    } else {
+        alert('Device does not support Notifications');
+    }
+
+    if (Platform.OS === 'android') {
+        Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+        });
+    }
+
+    return token;
 }
 
-const styles = StyleSheet.create({});
-export default NotificationScreen;
+const Notification = ()=>{
+    
+
+    const {
+    //   expoPushToken, notification, 
+      updateExpoPushToken,updateNotification
+    } = useContext(AppContext);
+    
+    const notificationListener = useRef();
+    const responseListener = useRef();
+
+
+    useEffect(() => {
+      registerForPushNotificationsAsync().then(token => updateExpoPushToken(token));
+
+      notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+        updateNotification(notification);
+      });
+
+      responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+        // console.log("Notification response:",response);
+        console.log("A notification was responded to!");
+      });
+
+      return () => {
+        Notifications.removeNotificationSubscription(notificationListener.current);
+        Notifications.removeNotificationSubscription(responseListener.current);
+      };
+    }, []);
+
+    // console.log(expoPushToken);
+    // console.log(notification);
+
+
+    // useEffect(()=>{
+    //   setTimeout(async () => {
+    //     console.log("Push notification!")
+    //     await sendPushNotification(expoPushToken);
+    //   }, 2500)
+    // },[])
+
+
+    return null;
+
+}
+
+export default Notification;
