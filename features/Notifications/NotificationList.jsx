@@ -6,7 +6,7 @@ import AppContext from '../../app/context';
 import useProfile from '../../hooks/useProfile';
 import { useApplications } from '../../hooks/useApplication';
 
-const NotificationScreen = () => {
+const NotificationScreen = ({ navigation }) => {
     
     const { isOrganization } = useContext(AppContext);
     const [userProfile] = useProfile();
@@ -14,6 +14,13 @@ const NotificationScreen = () => {
     const userId = userProfile?.id || null;
 
     const {data:applications, updateViewed} = useApplications(userId);
+    
+    const handleNavigateToDetail = (applicationId)=>{
+        navigation.navigate("Intern", { 
+            screen: "InternDetail", 
+            params: { applicationId }
+        });
+    }
 
     return (
         <FlatList
@@ -22,10 +29,15 @@ const NotificationScreen = () => {
                 <NotificationItem 
                     isOrganization={ isOrganization }
                     notification = { item }
-                    handleClick = {(id)=>{
+                    handleClick = {()=>{
+                        const { id, viewed} = item;
                         console.log("View notification:", id);
-                        updateViewed(id);
+
+                        if (!viewed) updateViewed(id);
+                        
+                        handleNavigateToDetail(id)
                     }}
+
                 />
             )}
             keyExtractor={item => item.id}
