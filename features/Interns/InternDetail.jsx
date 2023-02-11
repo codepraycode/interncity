@@ -9,12 +9,17 @@ import DetailHeader from '../../components/student/Header';
 import Tabs from '../../components/Tabs';
 import Info from '../../components/student/Info';
 import { WeeklyLogs } from '../../components/student/Log';
+import { useApplication, useApplications } from '../../hooks/useApplication';
+import { JSONLog } from '../../app/utils';
 
 const InternsDetailScreen = ({ route }) => {
-    const { internId, studentId } = route.params;
-    const internData = InternLists.find(each => each.id === (internId || studentId));
+    const { internId, applicationId } = route.params;
+    const internData = InternLists.find(each => each.id === (internId || applicationId));
+    const {data:application} = useApplication(applicationId);
 
-    console.log(internData)
+    console.log("Application id:", applicationId)
+    JSONLog(application); // stoped here!
+
 
     const [tabNo, setTabNo] = useState(0);    
     const [weekEditing, setWeekEditing] = useState(null);
