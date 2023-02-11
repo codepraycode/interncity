@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import AppContext from '../app/context';
+import { useState } from 'react';
+// import AppContext from '../app/context';
 
 
 async function sendPushNotification(expoPushToken, item) {
@@ -23,14 +23,14 @@ async function sendPushNotification(expoPushToken, item) {
     });
 }
 
-const useNotifications = ()=>{
-    const {
-      expoPushToken, notification,
-    } = useContext(AppContext);
+const useNotifications = (expoPushToken)=>{
+
+    const [notification, setNotification] = useState(false);
 
     const newNotification = ({title, body, data})=> sendPushNotification(expoPushToken, {title, body, data});
+    const updateNotification = (notification)=> setNotification(notification);
 
-    return {notification, newNotification};
+    return {notification, updateNotification, newNotification};
 }
 
 
