@@ -1,17 +1,32 @@
 import { useContext, useMemo } from 'react';
 import AppContext from '../app/context';
+import Intern from '../app/models/Intern';
 
 const useApplications = (organizationId=null)=>{
 
     const { applications:{data:applications} } = useContext(AppContext);
 
-    console.log(organizationId)
-    
     const data = useMemo(()=>{
         return applications.filter((each)=> each.organization === organizationId);
     },[organizationId])
 
-    return data;
+    const updateViewed = async (id)=>{
+
+        let error;
+
+        try{
+            await Intern.update({
+                id,
+                viewed: new Date(),
+            })
+        }catch(err){
+            error = err;
+        }
+
+        return error;
+    }
+
+    return {data, updateViewed};
 }
 
 export { useApplications };

@@ -64,6 +64,25 @@ class Intern {
         this.organization = instance;
     }
 
+    static async update(data){
+
+        const { id, ...restData } = data;
+        const docRef = doc(database, collectionNames.APPLICATIONS, id);
+
+        try{
+            await updateDoc(docRef, restData);
+            console.log("updated Document!");
+        }catch(err){
+            console.log("Error updating application:", err);
+            throw({
+                message: "Could not update, try again."
+            })
+        }
+
+        return true;
+        
+    }
+
 
 }
 

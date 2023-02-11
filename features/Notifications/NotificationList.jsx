@@ -14,18 +14,21 @@ const NotificationScreen = () => {
 
     const userId = userProfile?.id || null;
 
-    const applications = useApplications(userId);
-
-    // console.log("Applications:", applications);
-
-    // let NotificationsList = StudentNotificationsList;
-
-    // if (isOrganization) NotificationsList = OranizationNotificationsList;
+    const {data:applications, updateViewed} = useApplications(userId);
 
     return (
         <FlatList
             data={ applications }
-            renderItem = {({item})=><NotificationItem isOrganization={isOrganization} notification = { item}/>}
+            renderItem = {({item})=>(
+                <NotificationItem 
+                    isOrganization={ isOrganization }
+                    notification = { item }
+                    handleClick = {(id)=>{
+                        console.log("View notification:", id);
+                        updateViewed(id);
+                    }}
+                />
+            )}
             keyExtractor={item => item.id}
             contentContainerStyle={{
                 backgroundColor:Theme.grey100,

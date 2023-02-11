@@ -114,16 +114,16 @@ const determineNotificationContent = ({notification, job})=>{
     return message;
 }
 
-const NotificationItem = ({ isOrganization, notification })=>{
+const NotificationItem = ({ isOrganization, notification, handleClick })=>{
 
     let template;
     let message;
 
-    const {job:jobId} = notification;
+    const {job:jobId, id} = notification;
 
     const {job} = useJob(jobId);
 
-    // JSONLog(job);
+    // JSONLog(!notification.viewed);
     
     message = determineNotificationContent({
         notification,
@@ -134,7 +134,7 @@ const NotificationItem = ({ isOrganization, notification })=>{
 
     else template = <StudentNotificationItem data={notification}/>;
     return (
-        <Card unread={notification.unread}>
+        <Card clickable unread={!notification.viewed} onPress={()=>handleClick(id)}>
             {template}
         </Card>
     )
