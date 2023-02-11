@@ -6,7 +6,8 @@ import {
     schoolsCollectionRef,
     organizationQueryRef,
     depratmentsCollectionRef,
-    sectorsCollectionRef
+    sectorsCollectionRef,
+    getApplicationsQueryRef
 } from './firebaseConfig';
 
 import { JSONLog } from './utils';
@@ -129,10 +130,15 @@ export const AppContextProvider = ({children})=>{
         
     });
 
+    const applicationsQuery = getApplicationsQueryRef(contextData.userProfile?.id || '');
+    
+    const applicationsPayload = useSnapshot(applicationsQuery);
     const schoolsPayload = useSnapshot(schoolsCollectionRef);
     const organizationsPayload = useSnapshot(organizationQueryRef);
     const departmentsPayload = useSnapshot(depratmentsCollectionRef);
     const sectorsPayload = useSnapshot(sectorsCollectionRef);
+
+    JSONLog(applicationsPayload);
 
 
     const appContextData = ({
