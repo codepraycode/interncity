@@ -29,4 +29,18 @@ const useApplications = (organizationId=null)=>{
     return {data, updateViewed};
 }
 
-export { useApplications };
+
+const useApplication = (applicationId)=>{
+
+    const { applications:{data:applications} } = useContext(AppContext);
+
+    const data = useMemo(()=>{
+        return applications.find((each)=> each.id === applicationId);
+    },[organizationId])
+
+    
+
+    return { data };
+}
+
+export { useApplications, useApplication };
