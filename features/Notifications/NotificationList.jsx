@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { FlatList } from 'react-native';
-import { OranizationNotificationsList, StudentNotificationsList } from '../../constants/dummy';
 import Theme from '../../constants/theme';
 import NotificationItem from './Item';
 import AppContext from '../../app/context';

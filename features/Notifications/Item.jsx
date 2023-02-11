@@ -1,9 +1,10 @@
 import React from 'react'
 import { View, Text, Image } from 'react-native-ui-lib';
-import { JSONLog } from '../../app/utils';
+import { getTimeDate, JSONLog } from '../../app/utils';
 import Card from '../../components/Card';
 import assets from '../../constants/assets';
 import {useJob} from '../../hooks/useJobs';
+import { format, formatDistance, formatRelative, subDays } from 'date-fns'
 
 const StudentNotificationItem = ({ data })=>{
     
@@ -46,7 +47,9 @@ const StudentNotificationItem = ({ data })=>{
 }
 
 const OrganizationNotificationItem = ({ data })=>{
-    
+
+    const {title, message, time} = data;
+
     return (
         <>  
             <View style={{
@@ -64,10 +67,10 @@ const OrganizationNotificationItem = ({ data })=>{
                 />
 
 
-                <Text h4>{data.title}</Text>
+                <Text h4>{title}</Text>
             </View>
             <Text p style={{marginVertical: 10}}>
-                {data.message}
+                {message}
             </Text>
             
 
@@ -78,7 +81,7 @@ const OrganizationNotificationItem = ({ data })=>{
                     alignItems:'center'
                 }}
             >
-                <Text i>two minutes ago</Text>
+                <Text i>{time}</Text>
             </View>
         </>
     )
@@ -97,6 +100,7 @@ const determineNotificationContent = ({notification, job})=>{
         id,
         title: null,
         message: null,
+        time: null,
     }
 
     let role = job.role;
@@ -105,10 +109,12 @@ const determineNotificationContent = ({notification, job})=>{
         // Student accepted job offer
         message.title = "Offer accepted!"
         message.message = `Student accepted your offer for the role of ${role}.`
+        message.time = formatDistance(getTimeDate(job_started || offer_date), new Date(), { addSuffix: true })
     }
     else if (date_applied){
         message.title = "New application!"
-        message.message = `A student applied for the role of ${role}`
+        message.message = `A student applied for the role of ${role}`;
+        message.time = formatDistance(getTimeDate(date_applied), new Date(), { addSuffix: true })
     }
 
     return message;

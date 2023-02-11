@@ -5,6 +5,10 @@ export const userTypes = {
     SUPERVISOR:'supervisor',
 }
 
+export const getTimeDate = (timeObject) =>{
+    return new Date((timeObject.seconds) * 1000);
+}
+
 export const setUpWithPreviousValue = (schema, data=null, seed={})=>{
 
     let prev = {
