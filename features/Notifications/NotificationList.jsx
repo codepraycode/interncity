@@ -15,10 +15,10 @@ const NotificationScreen = ({ navigation }) => {
 
     const {data:applications, updateViewed} = useApplications(userId);
     
-    const handleNavigateToDetail = (studentId)=>{
+    const handleNavigateToDetail = (applicationId)=>{
         navigation.navigate("Intern", { 
             screen: "InternDetail", 
-            params: { studentId }
+            params: { applicationId }
         });
     }
 
@@ -30,10 +30,12 @@ const NotificationScreen = ({ navigation }) => {
                     isOrganization={ isOrganization }
                     notification = { item }
                     handleClick = {()=>{
-                        const {id, student} = item;
+                        const { id, viewed} = item;
                         console.log("View notification:", id);
-                        updateViewed(id);
-                        handleNavigateToDetail(student)
+
+                        if (!viewed) updateViewed(id);
+                        
+                        handleNavigateToDetail(id)
                     }}
 
                 />
