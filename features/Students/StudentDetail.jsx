@@ -6,7 +6,7 @@ import Info from '../../components/student/Info';
 import PlacementItem from '../../components/student/Placements';
 import { InternLists } from '../../constants/dummy';
 import Theme from '../../constants/theme';
-import JobNotFound from '../../states/JobNotFound';
+import NotFound from '../../states/NotFound';
 
 
 const StudentDetailScreen = ({ navigation, route }) => {
@@ -15,7 +15,7 @@ const StudentDetailScreen = ({ navigation, route }) => {
 
     const [tabNo, setTabNo] = useState(0);
 
-    if (!Boolean(studentData)) return <JobNotFound/>;
+    if (!Boolean(studentData)) return <NotFound/>;
 
     const log = `Date: 1/1/2023
 

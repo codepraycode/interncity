@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { View, Text, Image } from 'react-native-ui-lib';
 import Button from '../../components/Button';
 import Theme from '../../constants/theme';
-import JobNotFound from '../../states/JobNotFound';
+import NotFound from '../../states/NotFound';
 
 import Octicons from 'react-native-vector-icons/Octicons';
 import { useJob } from '../../hooks/useJobs';
@@ -199,11 +199,11 @@ const JobDetail = ({ route }) => {
     const [tabNo, setTabNo] = useState(0);
     const [showModal, setShowModal] = useState(false);
 
-    if (!Boolean(job)) return <JobNotFound/>;
+    if (!Boolean(job)) return <NotFound/>;
 
     const {company} = job;
     
-    if (!Boolean(company)) return <JobNotFound text={"Job company not found!"}/>;
+    if (!Boolean(company)) return <NotFound text={"Job company not found!"}/>;
 
     return (
 
