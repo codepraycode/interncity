@@ -1,18 +1,12 @@
 // User Data and User Account Model
 
-import { HandlerJoiError, JSONLog, userTypes,} from "../utils";
-import { jobSchema } from "./base";
+import { JSONLog, userTypes,} from "../utils";
 import {
   doc,
-  addDoc,
   updateDoc,
-  deleteDoc,
-  getDocs,
-  query,
-  where,
   getDoc
 } from 'firebase/firestore';
-import { collectionNames, database, jobsCollectionRef, studentsQueryRef } from "../firebaseConfig";
+import { collectionNames, database } from "../firebaseConfig";
 
 
 
@@ -60,47 +54,38 @@ class Application {
 
     async setJob (){
 
-        //console.log("Job Id",this.jobId)// Nuj5KJ7RC9737YXFz31V
-
         const jobDocRef = doc(database, userTypes.JOBS, this.jobId);
 
         let job = null;
+        let res;
 
         try{
-            doc = await getDoc(jobDocRef);
+            res = await getDoc(jobDocRef);
         }catch(err){
             console.log("Error fetching profile:", err);
             this.job = job;
             return;
         }
 
-        this.job = doc.data();
-
-        this.job = job;
+        this.job = res.data();
     }
     
     async setStudent(){
-        const q = query(studentsQueryRef, where("id", "==", this.studentId));
+        // console.log("Student:", this.studentId)
+        const studentDocRef = doc(database, userTypes.PROFILES, this.studentId);
+
         let student = null;
-        let snapshot;
+        let res;
 
         try{
-            snapshot = await getDocs(q);
+            res = await getDoc(studentDocRef);
         }catch(err){
-            console.log("Error fetching student:", err);
+            console.log("Error fetching student profile:", err);
             this.student = student;
             return;
         }
 
-        if (snapshot.empty){
-            console.log("No Student found!");
-        }else{
-            const results = snapshot.docs[0]; //.map((edoc)=>({...edoc.data(), id: edoc.id}));
-            
-            student = {...results.data(), id: results.id}
-        }
-
-        this.student = student;
+        this.student = res.data();
     }
 
     async setOrganization(profile=null){

@@ -1,5 +1,6 @@
 
 export const userTypes = {
+    PROFILES:'userProfiles',
     STUDENTS:'student',
     ORGANIZATION:'organization',
     SUPERVISOR:'supervisor',
