@@ -9,19 +9,14 @@ import DetailHeader from '../../components/student/Header';
 import Tabs from '../../components/Tabs';
 import Info from '../../components/student/Info';
 import { WeeklyLogs } from '../../components/student/Log';
-import { useApplication, useApplications } from '../../hooks/useApplication';
+import { useApplication } from '../../hooks/useApplication';
 import { JSONLog } from '../../app/utils';
 
-const InternsDetailScreen = ({ route }) => {
-    const { internId, applicationId } = route.params;
-    const internData = InternLists.find(each => each.id === (internId || applicationId));
-    const {data:application} = useApplication(applicationId);
+const InternsDetail = ({ id:internId }) => {
+    
+    const internData = InternLists.find(each => each.id === (internId));
 
-    console.log("Application id:", applicationId)
-    JSONLog(application); // stoped here!
-
-
-    const [tabNo, setTabNo] = useState(0);    
+    const [tabNo, setTabNo] = useState(0);
     const [weekEditing, setWeekEditing] = useState(null);
 
     const autoSaveLog = (data)=> setWeekEditing(null);
@@ -88,5 +83,41 @@ supervisor: Mr Lorem Bulaba (Manager)
 
     );
 }
+
+const ApplicationDetail = ({ id:applicationId }) => {
+    
+    const internData = InternLists.find(each => each.id === (applicationId));
+    const {data:application} = useApplication(applicationId);
+
+    console.log("Application id:", applicationId)
+    JSONLog(application); // stoped here!
+
+    if (!Boolean(internData)) return <NotFound  text="Could not retrieve data"/>;
+
+    return (
+        <>
+            <View 
+                contentContainerStyle={{
+                    backgroundColor:Theme.grey100,
+                }}
+            >
+
+                <DetailHeader data = { internData }/>
+            </View>
+
+            {/* Content */}
+            <Info showCV={true}/>
+        </>
+
+    );
+}
+
+const InternsDetailScreen = ({ route }) => {
+    const { internId, applicationId } = route.params;
+
+    if (applicationId) return <ApplicationDetail id={applicationId}/>
+    return <InternsDetail id={internId}/>;
+}
+
 
 export default InternsDetailScreen;
