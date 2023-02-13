@@ -1,6 +1,7 @@
 import { useContext, useMemo } from 'react';
 import AppContext from '../app/context';
-import Intern from '../app/models/Intern';
+import Intern, { Application } from '../app/models/Intern';
+import useProfile from './useProfile';
 
 const useApplications = (organizationId=null)=>{
 
@@ -32,10 +33,27 @@ const useApplications = (organizationId=null)=>{
 
 const useApplication = (applicationId)=>{
 
-    const { applications:{data:applications} } = useContext(AppContext);
+    const { 
+        applications:{data:applications},
+        userProfile
+    } = useContext(AppContext);
 
-    const data = useMemo(()=>{
-        return applications.find((each)=> each.id === applicationId);
+    useProfile
+
+    // Get student info
+    // Get Job
+    // Create application object
+
+    const data = useMemo(async ()=>{
+        const applicationData = applications.find((each)=> each.id === applicationId);
+
+        const application = new Application(applicationData);
+
+        await application.setJob();
+        await application.setStudent();
+        await application.setOrganization(userProfile);
+
+        return application;
     },[applicationId])
 
     

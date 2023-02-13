@@ -3,6 +3,8 @@ export const userTypes = {
     STUDENTS:'student',
     ORGANIZATION:'organization',
     SUPERVISOR:'supervisor',
+    JOBS:'jobs',
+    INTERNACCOUNTS:"internAccount",
 }
 
 export const getTimeDate = (timeObject) =>{

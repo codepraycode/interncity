@@ -86,13 +86,12 @@ supervisor: Mr Lorem Bulaba (Manager)
 
 const ApplicationDetail = ({ id:applicationId }) => {
     
-    const internData = InternLists.find(each => each.id === (applicationId));
     const {data:application} = useApplication(applicationId);
 
     console.log("Application id:", applicationId)
     JSONLog(application); // stoped here!
 
-    if (!Boolean(internData)) return <NotFound  text="Could not retrieve data"/>;
+    if (!Boolean(application)) return <NotFound  text="Could not retrieve data"/>;
 
     return (
         <>
@@ -102,7 +101,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
                 }}
             >
 
-                <DetailHeader data = { internData }/>
+                <DetailHeader data = { application }/>
             </View>
 
             {/* Content */}

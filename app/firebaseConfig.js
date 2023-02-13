@@ -44,6 +44,7 @@ const applicationsCollectionRef = collection(database,collectionNames.APPLICATIO
 export const jobsCollectionRef = collection(database, collectionNames.JOBS);
 export const schoolsCollectionRef = collection(database,collectionNames.SCHOOLS);
 export const organizationQueryRef = query(usersProfileCollectionRef, where("type", "==", userTypes.ORGANIZATION));
+export const studentsQueryRef = query(usersProfileCollectionRef, where("type", "==", userTypes.STUDENTS));
 export const getApplicationsQueryRef = (organizationId) => query(applicationsCollectionRef); //, where("organization", "==", organizationId));
 export const depratmentsCollectionRef = collection(database,collectionNames.DEPARTMENTS);
 export const sectorsCollectionRef = collection(database,collectionNames.SECTORS);

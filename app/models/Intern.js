@@ -1,18 +1,22 @@
 // User Data and User Account Model
 
-import { HandlerJoiError, JSONLog,} from "../utils";
+import { HandlerJoiError, JSONLog, userTypes,} from "../utils";
 import { jobSchema } from "./base";
 import {
   doc,
   addDoc,
   updateDoc,
-  deleteDoc
+  deleteDoc,
+  getDocs,
+  query,
+  where,
+  getDoc
 } from 'firebase/firestore';
-import { collectionNames, database, jobsCollectionRef } from "../firebaseConfig";
+import { collectionNames, database, jobsCollectionRef, studentsQueryRef } from "../firebaseConfig";
 
 
 
-class Intern {
+class Application {
     #original = undefined;
 
 
@@ -54,14 +58,53 @@ class Intern {
         this.organization = null;
     }
 
-    setJob(jobInstance){
-        this.job = jobInstance;
+    async setJob (){
+
+        //console.log("Job Id",this.jobId)// Nuj5KJ7RC9737YXFz31V
+
+        const jobDocRef = doc(database, userTypes.JOBS, this.jobId);
+
+        let job = null;
+
+        try{
+            doc = await getDoc(jobDocRef);
+        }catch(err){
+            console.log("Error fetching profile:", err);
+            this.job = job;
+            return;
+        }
+
+        this.job = doc.data();
+
+        this.job = job;
     }
-    setStudent(instance){
-        this.student = instance;
+    
+    async setStudent(){
+        const q = query(studentsQueryRef, where("id", "==", this.studentId));
+        let student = null;
+        let snapshot;
+
+        try{
+            snapshot = await getDocs(q);
+        }catch(err){
+            console.log("Error fetching student:", err);
+            this.student = student;
+            return;
+        }
+
+        if (snapshot.empty){
+            console.log("No Student found!");
+        }else{
+            const results = snapshot.docs[0]; //.map((edoc)=>({...edoc.data(), id: edoc.id}));
+            
+            student = {...results.data(), id: results.id}
+        }
+
+        this.student = student;
     }
-    setOrganization(instance){
-        this.organization = instance;
+
+    async setOrganization(profile=null){
+        this.organization = profile;
     }
 
     static async update(data){
@@ -85,6 +128,15 @@ class Intern {
 
 
 }
+class Intern extends Application{
+
+    constructor(data){ // application data
+        super(data);
+    }
+}
 
 
-export default Intern;
+export {
+    Application,
+    Intern
+};
