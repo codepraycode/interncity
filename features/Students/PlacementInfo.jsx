@@ -5,7 +5,8 @@ import { Text, View } from 'react-native-ui-lib';
 import { PlacementHeader } from '../../components/organization/Header';
 import Tabs from '../../components/Tabs';
 import Info, { PlacementDetailInfo } from '../../components/organization/Info';
-import { DailyLogs, WeeklyLogs } from '../../components/student/Log';
+import DailyLogs from '../../components/student/DailyLogs';
+import WeeklyLogs from '../../components/organization/WeeklyLogs';
 import Theme from '../../constants/theme';
 
 
