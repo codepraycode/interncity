@@ -6,23 +6,154 @@ import Theme from '../../constants/theme';
 import { useApplication } from '../../hooks/useApplication';
 import NotFound from '../../states/NotFound';
 import CustomButton from '../Button';
-import { MakeOfferModal, Preloader } from '../Modal';
+import { DeclineOfferApplicationModal, Preloader } from '../Modal';
 import { ApplicationDetailHeader } from './Header';
 import { ApplicationStudentInfo, PlacementDetailInfo } from './Info';
 
 const ApplicationDetail = ({ id:applicationId }) => {
     
-    const {application, sendOffer} = useApplication(applicationId);
+    const {application, sendOffer, declineApplication} = useApplication(applicationId);
     const [makingOffer, setMakingOffer] = useState(false);
-    const [sendingOffer, setSendingOffer] = useState(false);
+    const [decliningOffer, setDecliningOffer] = useState(false);
+    const [updatingApplication, setUpdatingApplication] = useState(false);
 
 
     // JSONLog(application); // stoped here!
+    // console.log(application.offer_date)
+    if (!Boolean(application.original)) return <NotFound  text="Could not retrieve data"/>;
 
     let offerDate;
     if (application.offer_date) offerDate = getTimeDate(application.offer_date);
 
-    if (!Boolean(application.original)) return <NotFound  text="Could not retrieve data"/>;
+    let cta = (
+        <>
+            <View 
+                center style={{
+                    marginVertical: 15, 
+                    flexDirection:'row',
+                    justifyContent:"space-evenly"
+                }}
+            >
+                <CustomButton 
+                    text="Decline" 
+                    onPress={()=>setDecliningOffer(true)}
+                    style={{
+                        width: 150,
+                        backgroundColor: Theme.red,
+                    }}
+                    textStyle={{
+                        color: Theme.lightRed
+                    }}
+                />
+
+                <CustomButton 
+                    text="Make Offer" 
+                    onPress={()=>setMakingOffer(true)}
+                    style={{
+                        width: 150
+                    }}
+                />
+            </View>
+
+            <DeclineOfferApplicationModal 
+                show={makingOffer || decliningOffer} 
+                student={application.student}
+                isDecline={true}
+                onHide={(updatedApplication=false)=>{
+
+                    if (makingOffer) setMakingOffer(false);
+                    if (decliningOffer) setDecliningOffer(false);
+
+                    // If any changes made to student application
+                    if(updatedApplication) {
+
+                        setUpdatingApplication(true);
+
+                        let action = async () =>{};
+                        
+                        if (decliningOffer) action = declineApplication
+                        else action = sendOffer;
+
+                        action()
+                        .then(()=>{
+                            const title = decliningOffer ? 
+                                "Application Declined" : 
+                                "Offer sent";
+
+                            const message = decliningOffer ? 
+                            "Student's application is declined.":
+                            "You offer was successfully sent to student."
+
+                            Alert.alert(
+                                title,
+                                message,
+                            );
+                            setUpdatingApplication(false);
+                        })
+                        .catch(()=>{
+                            const title = decliningOffer ? 
+                                "Application Decline failed" : 
+                                "Could not send offer";
+
+                            const message = "The operation failed, please try again."
+                            Alert.alert(
+                                title,
+                                message,
+                            );
+                            setUpdatingApplication(false);
+                        })
+                        
+                    }
+                }}
+            />
+
+            <Preloader 
+                show={updatingApplication} 
+                text={"Loading..."}
+            />
+        </>
+    )
+
+    if (offerDate)  cta = (
+        <View 
+            center style={{
+                marginVertical: 15, 
+                flexDirection:'row',
+                justifyContent:"space-evenly"
+            }}
+        >
+            <CustomButton 
+                text={`Sent offer on ${offerDate.toDateString()}`}
+                onPress={()=>{}}
+                style={{
+                    width: "90%",
+                    backgroundColor: Theme.accent
+                }}
+                disable
+            />
+        </View>
+    )
+
+    if (application.declined) cta = (
+        <View 
+            center style={{
+                marginVertical: 15, 
+                flexDirection:'row',
+                justifyContent:"space-evenly"
+            }}
+        >
+            <CustomButton 
+                text={`Application declined`}
+                onPress={()=>{}}
+                style={{
+                    width: "90%",
+                    backgroundColor: Theme.red,
+                }}
+                disable
+            />
+        </View>
+    )
+
 
     return (
         <ScrollView contentContainerStyle={{paddingBottom: 20}}>
@@ -45,95 +176,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
                 duration = {application.duration}
             />
 
-            {
-                
-                !offerDate ? (
-                    // show this components when an offer is already made
-                    <>
-                        <View 
-                            center style={{
-                                marginVertical: 15, 
-                                flexDirection:'row',
-                                justifyContent:"space-evenly"
-                            }}
-                        >
-                            <CustomButton 
-                                text="Decline" 
-                                onPress={()=>{}}
-                                style={{
-                                    width: 150,
-                                    backgroundColor: Theme.red,
-                                }}
-                                textStyle={{
-                                    color: Theme.lightRed
-                                }}
-                            />
-
-                            <CustomButton 
-                                text="Make Offer" 
-                                onPress={()=>setMakingOffer(true)}
-                                style={{
-                                    width: 150
-                                }}
-                            />
-                        </View>
-
-                        <MakeOfferModal 
-                            show={makingOffer} 
-                            student={application.student}
-                            onHide={(madeOffer=false)=>{
-                                setMakingOffer(false);
-
-                                if(madeOffer) {
-                                    setSendingOffer(true);
-
-                                    sendOffer()
-                                    .then(()=>{
-                                        Alert.alert(
-                                            'Offer successful', 
-                                            "Your offer was sent to the student.",
-                                        );
-                                        setSendingOffer(false);
-                                    })
-                                    .catch(()=>{
-                                        Alert.alert(
-                                            'Offer failed', 
-                                            "Could not sent offer to the student.",
-                                        );
-                                        setSendingOffer(false);
-                                    })
-                                    
-                                }
-                            }}
-                        />
-
-                        <Preloader 
-                            show={sendingOffer} 
-                            text="Sending offer..."
-                        />
-                    </>
-                )
-                :
-                (
-                    <View 
-                        center style={{
-                            marginVertical: 15, 
-                            flexDirection:'row',
-                            justifyContent:"space-evenly"
-                        }}
-                    >
-                        <CustomButton 
-                            text={`Sent offer on ${offerDate.toDateString()}`}
-                            onPress={()=>{}}
-                            style={{
-                                width: "90%",
-                                backgroundColor: Theme.accent
-                            }}
-                            disable
-                        />
-                    </View>
-                )
-            }
+            { cta }
         </ScrollView>
 
     );

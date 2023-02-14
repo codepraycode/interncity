@@ -32,6 +32,7 @@ class Application {
 
             date_applied,
             offer_date,
+            declined,
             job_started,
             job_ended,
         } = data || {};
@@ -46,13 +47,14 @@ class Application {
         this.offer_date = offer_date;
         this.job_started = job_started;
         this.job_ended = job_ended;
+        this.declined = declined;
 
         this.job = null;
         this.student = null;
         this.organization = null;
         
-        this.department = null;
-        this.school = null;
+        this.departmentData = null;
+        this.schoolData = null;
     }
 
     async getJob (){

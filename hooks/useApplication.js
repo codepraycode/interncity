@@ -94,13 +94,27 @@ const useApplication = (applicationId)=>{
 
     }, [applicationId])
 
+    const declineApplication = useCallback(async()=>{
+        console.log("Declining offer....", application.id);
+        
+        const { declined } = await Application.update({
+            id: application.id,
+            declined: true,
+        });
+
+        application.declined = declined
+
+        return declined;
+
+    }, [applicationId])
+
     application.job = job;
     application.student = student
     application.setOrganization(userProfile);
 
     
 
-    return {application, sendOffer};
+    return {application, sendOffer, declineApplication};
 }
 
 export { useApplications, useApplication };
