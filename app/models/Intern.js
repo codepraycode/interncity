@@ -50,6 +50,9 @@ class Application {
         this.job = null;
         this.student = null;
         this.organization = null;
+        
+        this.department = null;
+        this.school = null;
     }
 
     async getJob (){

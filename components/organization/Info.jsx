@@ -163,8 +163,8 @@ export const ApplicationStudentInfo = ({student, showHeader}) => {
     const city = student?.city || "...";
     const address = student?.address;
     const country = student?.country || "...";
-    const department = student?.department || "...";
-    const school = student?.school || "...";
+    const department = student?.departmentData?.name || "...";
+    const school = student?.schoolData?.name || "...";
     const cv = student?.cv || "...";
 
   return (

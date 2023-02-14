@@ -36,6 +36,8 @@ const useApplication = (applicationId)=>{
 
     const { 
         applications:{data:applications},
+        departments:{data:departments},
+        schools:{data:schools},
         userProfile
     } = useContext(AppContext);
 
@@ -64,8 +66,14 @@ const useApplication = (applicationId)=>{
             if (!application.student) {
                 const _student = await application.getStudent();
 
+                const dpt = departments.find((ed)=>ed.id === _student?.department);
+                const sch = schools.find((es)=>es.id === _student?.school);
+
+                _student.departmentData = dpt;
+                _student.schoolData = sch;
                 setStudent(()=>_student);
             }
+
         }
         setup();
         
