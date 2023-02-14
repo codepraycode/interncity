@@ -81,8 +81,17 @@ const useApplication = (applicationId)=>{
 
 
     const sendOffer = useCallback(async()=>{
-        console.log("Sending offer....");
-        return;
+        console.log("Sending offer....", application.id);
+        
+        const { offer_date } = await Application.update({
+            id: application.id,
+            offer_date: new Date(),
+        });
+
+        application.offer_date = offer_date
+
+        return offer_date;
+
     }, [applicationId])
 
     application.job = job;

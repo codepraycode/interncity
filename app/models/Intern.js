@@ -101,13 +101,13 @@ class Application {
             await updateDoc(docRef, restData);
             console.log("updated Document!");
         }catch(err){
-            console.log("Error updating application:", err);
+            console.log("Error updating student application:", err);
             throw({
                 message: "Could not update, try again."
             })
         }
 
-        return true;
+        return restData;
         
     }
 
