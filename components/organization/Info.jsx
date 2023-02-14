@@ -3,6 +3,8 @@ import React from 'react'
 import Theme from '../../constants/theme';
 import Octicons from 'react-native-vector-icons/Octicons';
 import CustomButton from '../Button';
+import { formatDistance } from 'date-fns';
+import { getTimeDate } from '../../app/utils';
 
 const Info = ({showSite}) => {
   return (
@@ -65,60 +67,95 @@ const Info = ({showSite}) => {
   )
 }
 
-export const PlacementDetailInfo = ({ showHeader }) => {
-  return (
-    <>
-        {showHeader && (<View style={{marginHorizontal:10, marginVertical:5, borderBottomWidth:1, borderColor:Theme.grey300}}>
-                    <Text h6  style={{color: Theme.grey300}}>Placements details</Text>
-                </View>)}
-        <View
-            style={{
-                paddingVertical: 10,
-                marginHorizontal: 30,
-            }}
-        >
-            <View style={{marginVertical: 10}}>
-                <Text p>Job role</Text>
+export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration }) => {
+    const role = job?.role || '...';
+    const stipend = job?.stipend;
+    
+    let dateDistance;
+    let applicationDate;
 
-                <Text h5 style={{marginVertical: 5}}>
-                    Backend Intern
-                </Text>
+
+    if (date_applied){
+        const dt = getTimeDate(date_applied);
+        dateDistance = date_applied && formatDistance(dt, new Date(), { addSuffix: true })
+
+        applicationDate = dt.toDateString();
+    }
+    
+    const address = job?.location?.address || "...";
+    const city = job?.location?.city || "...";
+    const country = job?.location?.country || "...";
+
+    return (
+        <>
+            {showHeader && 
+                (
+                    <View style={{marginHorizontal:10, marginVertical:5, borderBottomWidth:1, borderColor:Theme.grey300}}>
+                        <Text h6  style={{color: Theme.grey300}}>Placements details</Text>
+                    </View>
+                )
+            }
+
+
+            <View
+                style={{
+                    paddingVertical: 10,
+                    marginHorizontal: 30,
+                }}
+            >
+                <View style={{marginVertical: 10}}>
+                    <Text p>Job role</Text>
+
+                    <Text h5 style={{marginVertical: 5}}>
+                        {role}
+                    </Text>
+                </View>
+
+                <View >
+                    <Text p style={{marginVertical: 5}}>
+                        Stipend
+                    </Text>
+
+                    <Text h5>
+                        {stipend ? `${stipend}/month` :'No stipend'}
+                    </Text>
+                </View>
+
+
+                <View style={{marginVertical: 10}}>
+                    <Text p style={{marginVertical: 5}}>
+                        Location
+                    </Text>
+
+                    <Text h5>
+                        {address} {city}, {country}.
+                    </Text>
+                </View>
+
+                <View>
+                    <Text p style={{marginVertical: 5}}>
+                        Duration
+                    </Text>
+
+                    <Text h5>
+                        {duration ? `${duration} months` : '...'}
+                    </Text>
+                </View>
+
+
+                <View>
+                    <Text p style={{marginVertical: 5}}>
+                        Date applied
+                    </Text>
+
+                    <Text h5>
+                        {applicationDate} -- {dateDistance}
+                    </Text>
+                </View>
+
             </View>
-
-            <View >
-                <Text p style={{marginVertical: 5}}>
-                    Stipend
-                </Text>
-
-                <Text h5>
-                    40,000/month.
-                </Text>
-            </View>
-
-
-            <View style={{marginVertical: 10}}>
-                <Text p style={{marginVertical: 5}}>
-                    Location
-                </Text>
-
-                <Text h5>
-                    Ikeja, Lagos.
-                </Text>
-            </View>
-
-            <View>
-                <Text p style={{marginVertical: 5}}>
-                    Duration
-                </Text>
-
-                <Text h5>
-                    4 months.
-                </Text>
-            </View>
-
-        </View>
-    </>
-  )
+        </>
+    )
 }
 
 export const ApplicationStudentInfo = ({student, showHeader}) => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import {ScrollView} from 'react-native'
 import { Text, View } from 'react-native-ui-lib';
+import { JSONLog } from '../../app/utils';
 import Theme from '../../constants/theme';
 import { useApplication } from '../../hooks/useApplication';
 import NotFound from '../../states/NotFound';
@@ -14,7 +15,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
 
     // console.log("Application", application)
 
-    // JSONLog(application); // stoped here!
+    JSONLog(application); // stoped here!
 
     if (!Boolean(application.original)) return <NotFound  text="Could not retrieve data"/>;
 
@@ -32,7 +33,12 @@ const ApplicationDetail = ({ id:applicationId }) => {
             {/* Content */}
             <ApplicationStudentInfo showHeader student={application.student}/>
 
-            <PlacementDetailInfo showHeader/>
+            <PlacementDetailInfo 
+                showHeader
+                job = {application.job}
+                date_applied = {application.date_applied}
+                duration = {application.duration}
+            />
 
             <View 
                 center style={{
