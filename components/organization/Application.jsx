@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import {ScrollView} from 'react-native'
+import {Alert, ScrollView} from 'react-native'
 import { Text, View } from 'react-native-ui-lib';
 import { JSONLog } from '../../app/utils';
 import Theme from '../../constants/theme';
 import { useApplication } from '../../hooks/useApplication';
 import NotFound from '../../states/NotFound';
 import CustomButton from '../Button';
-import AppModal, { MakeOfferModal } from '../Modal';
+import AppModal, { MakeOfferModal, Preloader } from '../Modal';
 import { ApplicationDetailHeader } from './Header';
 import { ApplicationStudentInfo, PlacementDetailInfo } from './Info';
 
@@ -14,6 +14,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
     
     const application = useApplication(applicationId);
     const [makingOffer, setMakingOffer] = useState(false);
+    const [sendingOffer, setSendingOffer] = useState(false);
 
 
     // JSONLog(application); // stoped here!
@@ -72,8 +73,24 @@ const ApplicationDetail = ({ id:applicationId }) => {
             <MakeOfferModal 
                 show={makingOffer} 
                 student={application.student}
-                onHide={(madeOffer=false)=>setMakingOffer(false)}
+                onHide={(madeOffer=false)=>{
+                    setMakingOffer(false);
+
+                    if(madeOffer) {
+                        setSendingOffer(true);
+
+                        setTimeout(()=>{
+                            Alert.alert(
+                                'Offer successful', 
+                                "Your offer was sent to the student.",
+                            );
+                            setSendingOffer(false);
+                        }, 3000)
+                    }
+                }}
             />
+
+            <Preloader show={sendingOffer} text="Sending offer..."/>
         </ScrollView>
 
     );
