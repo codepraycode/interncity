@@ -10,7 +10,7 @@ import WeeklyLogs from '../../components/organization/WeeklyLogs';
 import Theme from '../../constants/theme';
 
 
-const PlacementDetail = ({ route }) => {
+const PlacementDetail = () => {
     // const { jobId } = route.params;
     const [tabNo, setTabNo] = useState(0);
     let content;
@@ -22,9 +22,6 @@ const PlacementDetail = ({ route }) => {
                 marginHorizontal: 20,
             }}
         >
-            <View style={{marginHorizontal:10, marginVertical:5, borderBottomWidth:1, borderColor:Theme.grey300}}>
-                <Text h6  style={{color: Theme.grey300}}>Placements details</Text>
-            </View>
 
             <PlacementDetailInfo/>
 
