@@ -148,7 +148,7 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration })
                         Date applied
                     </Text>
 
-                    <Text h5>
+                    <Text h6>
                         {applicationDate} -- {dateDistance}
                     </Text>
                 </View>

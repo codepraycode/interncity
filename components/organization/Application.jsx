@@ -6,13 +6,13 @@ import Theme from '../../constants/theme';
 import { useApplication } from '../../hooks/useApplication';
 import NotFound from '../../states/NotFound';
 import CustomButton from '../Button';
-import AppModal, { MakeOfferModal, Preloader } from '../Modal';
+import { MakeOfferModal, Preloader } from '../Modal';
 import { ApplicationDetailHeader } from './Header';
 import { ApplicationStudentInfo, PlacementDetailInfo } from './Info';
 
 const ApplicationDetail = ({ id:applicationId }) => {
     
-    const application = useApplication(applicationId);
+    const {application, sendOffer} = useApplication(applicationId);
     const [makingOffer, setMakingOffer] = useState(false);
     const [sendingOffer, setSendingOffer] = useState(false);
 
@@ -87,13 +87,22 @@ const ApplicationDetail = ({ id:applicationId }) => {
                                 if(madeOffer) {
                                     setSendingOffer(true);
 
-                                    setTimeout(()=>{
+                                    sendOffer()
+                                    .then(()=>{
                                         Alert.alert(
                                             'Offer successful', 
                                             "Your offer was sent to the student.",
                                         );
                                         setSendingOffer(false);
-                                    }, 3000)
+                                    })
+                                    .catch(()=>{
+                                        Alert.alert(
+                                            'Offer failed', 
+                                            "Could not sent offer to the student.",
+                                        );
+                                        setSendingOffer(false);
+                                    })
+                                    
                                 }
                             }}
                         />

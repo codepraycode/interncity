@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../app/context';
 import Intern, { Application } from '../app/models/Intern';
 import { JSONLog } from '../app/utils';
@@ -79,13 +79,19 @@ const useApplication = (applicationId)=>{
         
     }, [job, student])
 
+
+    const sendOffer = useCallback(async()=>{
+        console.log("Sending offer....");
+        return;
+    }, [applicationId])
+
     application.job = job;
     application.student = student
     application.setOrganization(userProfile);
 
     
 
-    return application;
+    return {application, sendOffer};
 }
 
 export { useApplications, useApplication };
