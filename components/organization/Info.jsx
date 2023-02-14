@@ -272,27 +272,23 @@ export const InternInfo = ({showCV}) => {
             </Text>
         </View>
 
-        {showCV && (<View>
-            <View
-                center
+        {showCV && (<CustomButton
                 style={{
                     flexDirection:'row',
                     backgroundColor:Theme.lightRed,
+                    // opacity: cv ? 0.6 : 1,
                     maxWidth: "80%",
                     paddingHorizontal: 20,
                     paddingVertical:10,
                     borderRadius: 6,
                     marginVertical: 10,
                 }}
-            >
-                <Octicons name="link-external" size={15} color={Theme.red}/>
-
-                <Text style={{marginLeft: 10, color:Theme.red}}>
-                    View CV
-                </Text>
-            </View>
-            
-        </View>)}
+                text={"View CV"}
+                onPress={()=>{}}
+                disable={!cv}
+                icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
+                textStyle={{marginLeft: 10, color:Theme.red}}
+            />)}
 
     </View>
   )

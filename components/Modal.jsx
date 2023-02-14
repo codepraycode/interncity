@@ -111,6 +111,61 @@ export const ErrorModal = ({show, text, ctaText, cta}) => {
 };
 
 
+export const MakeOfferModal = ({show, student, onHide})=>{
+    return (
+        <AppModal show={show} onHide={onHide}>
+            <Text h4>Confirm Offer</Text>
+
+            <View center style={{marginVertical:20}}>
+                <Text>
+                    You are about to make an offer to
+                </Text>
+                <Text h5>{student?.fullname}</Text>
+            </View>
+
+            <Text 
+                p center
+                style={{
+                    marginTop: 35, 
+                }}
+            >
+                Proceed with offer?
+            </Text>
+
+            <View 
+                center style={{
+                    marginTop: 15, 
+                }}>
+
+                <CustomButton
+                    text="Proceed" 
+                    onPress={()=>onHide(true)}
+                    style={{
+                        width: 160,
+                        paddingVertical:13,
+                    }}
+                />
+
+                <CustomButton 
+                    text="Cancel" 
+                    onPress={()=>onHide()}
+                    style={{
+                        width: 160,
+                        backgroundColor: Theme.red,
+                        paddingVertical:13,
+                        marginTop: 12,
+                    }}
+                    textStyle={{
+                        color: Theme.lightRed
+                    }}
+                />
+                
+            </View>
+
+        </AppModal>
+    )
+}
+
 
 const styles = StyleSheet.create({
   modalContainerView: {
@@ -126,6 +181,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     minWidth: 250,
     minHeight: 200,
+    maxWidth: "90%",
     alignItems: 'center',
     shadowColor: Theme.grey200,
     ...boxShadow
