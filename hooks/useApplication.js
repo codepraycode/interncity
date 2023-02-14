@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../app/context';
 import Intern, { Application } from '../app/models/Intern';
 import { JSONLog } from '../app/utils';
@@ -39,27 +39,45 @@ const useApplication = (applicationId)=>{
         userProfile
     } = useContext(AppContext);
 
-    useProfile
+    const [student, setStudent] = useState(null);
+    const [job, setJob] = useState(null);
 
     // Get student info
     // Get Job
     // Create application object
 
-    const data = useMemo(async ()=>{
+    const application = useMemo(()=>{
         const applicationData = applications.find((each)=> each.id === applicationId);
 
-        const application = new Application(applicationData);
-
-        await application.setJob();
-        await application.setStudent();
-        await application.setOrganization(userProfile);
-
-        return application;
+        return new Application(applicationData);
     },[applicationId])
+
+
+    useEffect(()=>{
+        const setup = async ()=>{
+            if (!application.job) {
+                const _job = await application.getJob();
+
+                setJob(()=>_job);
+            }
+
+            if (!application.student) {
+                const _student = await application.getStudent();
+
+                setStudent(()=>_student);
+            }
+        }
+        setup();
+        
+    }, [job, student])
+
+    application.job = job;
+    application.student = student
+    application.setOrganization(userProfile);
 
     
 
-    return { data };
+    return application;
 }
 
 export { useApplications, useApplication };

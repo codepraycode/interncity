@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { View } from 'react-native-ui-lib';
 import Theme from '../../constants/theme';
 import { InternLists } from '../../constants/dummy';
@@ -86,12 +86,13 @@ supervisor: Mr Lorem Bulaba (Manager)
 
 const ApplicationDetail = ({ id:applicationId }) => {
     
-    const {data:application} = useApplication(applicationId);
+    const application = useApplication(applicationId);
 
-    console.log("Application id:", applicationId)
-    JSONLog(application); // stoped here!
+    // console.log("Application", application)
 
-    if (!Boolean(application)) return <NotFound  text="Could not retrieve data"/>;
+    // JSONLog(application); // stoped here!
+
+    if (!Boolean(application.original)) return <NotFound  text="Could not retrieve data"/>;
 
     return (
         <>

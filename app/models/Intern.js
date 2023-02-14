@@ -52,43 +52,40 @@ class Application {
         this.organization = null;
     }
 
-    async setJob (){
+    async getJob (){
 
         const jobDocRef = doc(database, userTypes.JOBS, this.jobId);
 
-        let job = null;
+        this.job = null;
         let res;
 
         try{
             res = await getDoc(jobDocRef);
+            this.job = res.data();
         }catch(err){
             console.log("Error fetching profile:", err);
-            this.job = job;
-            return;
         }
-
-        this.job = res.data();
+        return this.job;
     }
     
-    async setStudent(){
+    async getStudent(){
         // console.log("Student:", this.studentId)
-        const studentDocRef = doc(database, userTypes.PROFILES, this.studentId);
+        const studentDocRef = doc(database, userTypes.PROFILES, this.studentId?.trim());
 
-        let student = null;
+        this.student = null;
         let res;
 
         try{
             res = await getDoc(studentDocRef);
+            this.student = res.data();
         }catch(err){
             console.log("Error fetching student profile:", err);
-            this.student = student;
-            return;
         }
 
-        this.student = res.data();
+        return this.student;
     }
 
-    async setOrganization(profile=null){
+    setOrganization(profile=null){
         this.organization = profile;
     }
 
