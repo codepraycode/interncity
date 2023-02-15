@@ -6,7 +6,7 @@ import CustomButton from '../Button';
 import { formatDistance } from 'date-fns';
 import { getTimeDate } from '../../app/utils';
 
-const Info = ({showSite}) => {
+export const Info = ({showSite}) => {
   return (
     <View
         style={{            
@@ -232,47 +232,52 @@ export const ApplicationStudentInfo = ({student, showHeader}) => {
   )
 }
 
-export const InternInfo = ({showCV}) => {
+export const InternInfo = ({cv,showHeader}) => {
   return (
-    <View
-        style={{
-            paddingVertical: 10,
-            marginHorizontal: 30,
-        }}
-    >
-        <View style={{marginVertical: 10}}>
-            <Text p style={{marginVertical: 10}}>Phone number</Text>
+    <>
+        {showHeader && (<View style={{marginHorizontal:10, marginVertical:5, borderBottomWidth:1, borderColor:Theme.grey300}}>
+            <Text h6  style={{color: Theme.grey300}}>Student Information</Text>
+        </View>)}
+    
+        <View
+            style={{
+                paddingVertical: 10,
+                marginHorizontal: 30,
+            }}
+        >
+            <View style={{marginVertical: 10}}>
+                <Text p style={{marginVertical: 10}}>Phone number</Text>
 
-            <Text h6>
-                +234 8000000000
-            </Text>
-        </View>
+                <Text h6>
+                    +234 8000000000
+                </Text>
+            </View>
 
-        <View style={{marginVertical: 10}}>
-            <Text p style={{marginVertical: 10}}>Address</Text>
+            <View style={{marginVertical: 10}}>
+                <Text p style={{marginVertical: 10}}>Address</Text>
 
-            <Text h6 style={{marginVertical: 0}}>
-                Ota, Lagos.
-            </Text>
-        </View>
+                <Text h6 style={{marginVertical: 0}}>
+                    Ota, Lagos.
+                </Text>
+            </View>
 
-        <View style={{marginVertical: 10}}>
-            <Text p style={{marginVertical: 10}}>Department</Text>
+            <View style={{marginVertical: 10}}>
+                <Text p style={{marginVertical: 10}}>Department</Text>
 
-            <Text h6 style={{marginVertical: 0}}>
-                Cyber security
-            </Text>
-        </View>
+                <Text h6 style={{marginVertical: 0}}>
+                    Cyber security
+                </Text>
+            </View>
 
-        <View style={{marginVertical: 10}}>
-            <Text p style={{marginVertical: 10}}>School</Text>
+            <View style={{marginVertical: 10}}>
+                <Text p style={{marginVertical: 10}}>School</Text>
 
-            <Text h6 style={{marginVertical: 0}}>
-                Federal University of Technology Akure
-            </Text>
-        </View>
+                <Text h6 style={{marginVertical: 0}}>
+                    Federal University of Technology Akure
+                </Text>
+            </View>
 
-        {showCV && (<CustomButton
+            <CustomButton
                 style={{
                     flexDirection:'row',
                     backgroundColor:Theme.lightRed,
@@ -288,10 +293,10 @@ export const InternInfo = ({showCV}) => {
                 disable={!cv}
                 icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
                 textStyle={{marginLeft: 10, color:Theme.red}}
-            />)}
+            />
 
-    </View>
+        </View>
+</>
+    
   )
 }
-
-export default Info

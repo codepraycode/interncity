@@ -9,7 +9,7 @@ import Seperator from '../Seperator';
 const DetailHeader = ({data})=>{
 
     const name = `Lorem Ipsum`;
-    const school = "Federal University of Technology Akure"
+    const schoolName = "Federal University of Technology Akure"
 
     return (
         <>
@@ -63,10 +63,10 @@ const DetailHeader = ({data})=>{
     )
 }
 
-export const InternDetailHeader = ({data})=>{
+export const InternDetailHeader = ({student, school})=>{
 
-    const name = `Lorem Ipsum`;
-    const school = "Federal University of Technology Akure"
+    const name = student?.fullname || '...';
+    const schoolName = school?.name || '...';
 
     return (
         <>
@@ -106,34 +106,10 @@ export const InternDetailHeader = ({data})=>{
                         marginVertical: 10,
                     }}
                 >
-                    <Text center label>{"IT intern"}</Text>
-                    <Text center small>{school}</Text>
+                    {/* <Text center label>{"IT intern"}</Text> */}
+                    <Text center small>{schoolName}</Text>
                 </View>
             </View>
-
-            {/* <View
-                center
-            >
-                <View
-                    center
-                    style={{
-                        flexDirection:'row',
-                        backgroundColor:Theme.lightRed,
-                        maxWidth: "80%",
-                        paddingHorizontal: 20,
-                        paddingVertical:10,
-                        borderRadius: 6,
-                        marginVertical: 10,
-                    }}
-                >
-                    <Octicons name="link-external" size={15} color={Theme.red}/>
-
-                    <Text style={{marginLeft: 10, color:Theme.red}}>
-                        View CV
-                    </Text>
-                </View>
-                
-            </View> */}
         </>
     )
 }
