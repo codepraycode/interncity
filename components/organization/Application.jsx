@@ -6,7 +6,7 @@ import Theme from '../../constants/theme';
 import { useApplication } from '../../hooks/useApplication';
 import NotFound from '../../states/NotFound';
 import CustomButton from '../Button';
-import { DeclineOfferApplicationModal, Preloader } from '../Modal';
+import { ApplicationModal, Preloader } from '../Modal';
 import { ApplicationDetailHeader } from './Header';
 import { ApplicationStudentInfo, PlacementDetailInfo } from './Info';
 
@@ -55,10 +55,13 @@ const ApplicationDetail = ({ id:applicationId }) => {
                 />
             </View>
 
-            <DeclineOfferApplicationModal 
+            <ApplicationModal 
                 show={makingOffer || decliningOffer} 
-                student={application.student}
-                isDecline={true}
+                title = {decliningOffer ? "Decline Application" : "Confirm Offer"}
+                message = {decliningOffer ? "You are about to decline the application of" : "You are about to make an offer to"}
+
+                target={application.student?.fullname}
+                isDecline={decliningOffer}
                 onHide={(updatedApplication=false)=>{
 
                     if (makingOffer) setMakingOffer(false);

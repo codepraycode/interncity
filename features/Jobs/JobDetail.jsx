@@ -1,83 +1,29 @@
-import React, { useState } from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { View, Text, Image } from 'react-native-ui-lib';
+import React, { useContext, useState } from 'react'
+import { ScrollView, StyleSheet } from 'react-native';
+import { View } from 'react-native-ui-lib';
 import Button from '../../components/Button';
 import Theme from '../../constants/theme';
 import NotFound from '../../states/NotFound';
 
-import Octicons from 'react-native-vector-icons/Octicons';
 import { useJob } from '../../hooks/useJobs';
-import Seperator from '../../components/Seperator';
 import { JobDetailHeader } from '../../components/organization/Header';
 import Tabs from '../../components/Tabs';
 import { CompanyInfo, PlacementDetailInfo } from '../../components/organization/Info';
 import { DurationPicker } from '../../components/form/FormComponents';
-
-
-const JobInfomation = ({job}) =>{
-
-    return(
-        <View>
-
-            <View style={{marginVertical: 10}}>
-
-                <Text p style={{marginVertical: 10}}>Job role</Text>
-
-                <Text h4 style={{marginVertical: 5}}>
-                    {job.role}
-                </Text>
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text p style={{marginVertical: 5}}>
-                    Pay
-                </Text>
-
-                {job.stipend && <Text h4>
-                        {job.stipend}
-                    </Text>}
-                
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text p style={{marginVertical: 5}}>
-                    Location
-                </Text>
-
-                <Text h4>
-                    {job.location.city}, {job.location.state}
-                </Text>
-            </View>
-
-        </View>
-    )
-}
-
-const Tab = ({text, onClick, active})=> (
-    <TouchableOpacity 
-        onPress={onClick}
-        center 
-        activeOpacity={0.8}
-        style={{
-            backgroundColor:active ? Theme.secondary : 'transparent',
-            borderRadius: 6,
-            paddingVertical: 8,
-            paddingHorizontal: 15,
-            marginHorizontal: 15,
-        }}
-    >
-        <Text label style={{color: active ? Theme.white : Theme.accent }}>{text}</Text>
-    </TouchableOpacity>
-)
+import { ApplicationModal, Preloader } from '../../components/Modal';
+import AppContext from '../../app/context';
 
 const JobDetail = ({ route }) => {
     const { jobId } = route.params;
     
-    const { job } = useJob(jobId);
+    const { job,sendApplication } = useJob(jobId);
+
+    const {userProfile:{id:studentId}} = useContext(AppContext);
 
     const [tabNo, setTabNo] = useState(0);
-    const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [duration, setDuration] = useState(null);
+    const [applying, setApplying] = useState(false);
 
     if (!Boolean(job.original)) return <NotFound/>;
 
@@ -134,7 +80,10 @@ const JobDetail = ({ route }) => {
                 {/* Call to action style={{marginTop:40}}*/}
                 <Button 
                     text="Apply Now" 
-                    onPress={()=>setShowModal(p=>!p)}
+                    onPress={()=>{
+                        if(!duration) return;
+                        setApplying(true);
+                    }}
                     disable={!duration}
                     style={{
                         width: 180,
@@ -142,7 +91,38 @@ const JobDetail = ({ route }) => {
                     }}
                 />
             </View>
-        
+
+            <ApplicationModal
+                show={applying} 
+                title = {"Send Application"}
+                message = {"You are about to apply for the role of"}
+                target={job.role}
+                onHide={(applied=false)=>{
+
+                    if(applied){
+                        console.log("send application");
+
+                        setLoading(true);
+
+                        sendApplication(job, studentId)
+                        .then(()=>{
+                            console.log("Sent application!")
+                            setTimeout(()=>{setLoading(false)}, 3000);
+                        })
+                        .catch((err)=>{
+                            console.log("Error while applying job:", err);
+                            setLoading(false);
+                        })
+                    }
+
+                    setApplying(false);
+                }}
+            />
+
+            <Preloader
+                show={loading} 
+                text={"Loading..."}
+            />
         </ScrollView>
 
     );

@@ -57,7 +57,27 @@ const useJob = (jobId=null)=>{
         return error;
     }
 
-    return {job, createUpdatejob, deleteJob};
+
+    const sendApplication = async (job, studentId) => {
+        // Job is job id
+        let data = {
+            date_applied: new Date(),
+            declined: false,
+            duration: job.duration,
+            job: job.id, // job id
+            job_ended: null,
+            job_started:null,
+            offer_date:null,
+
+            organization: job.organization,
+            student: studentId
+        }
+
+        console.log(data);
+        return data;
+    }
+
+    return {job, createUpdatejob, deleteJob, sendApplication};
 }
 
 const useJobs = ()=>{
