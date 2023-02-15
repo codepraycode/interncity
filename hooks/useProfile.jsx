@@ -3,6 +3,7 @@ import React, { useContext, useMemo, useState } from 'react';
 import AppContext from '../app/context';
 import { auth } from '../app/firebaseConfig';
 import UserAccount from '../app/models/User';
+import { JSONLog } from '../app/utils';
 
 
 const useProfile = ()=>{
@@ -34,15 +35,21 @@ const useProfile = ()=>{
 
 export const useStudentActivePlacement = ()=>{
     
-    const { userProfile, isIntern } = useContext(AppContext);
+    const { 
+        userProfile, 
+        isIntern,
+        applications:{data:applications}
+    } = useContext(AppContext);
 
     const placement = useMemo(()=>{
+
+        // JSONLog(applications);
         if(!isIntern) return {};
 
         // Load active internAccount associated with student
-
-        return {};
-    }, [userProfile, isIntern])
+        const studentId = userProfile.id;
+        return applications.find((each)=> Boolean(each.job_started) && (each.student === studentId));;
+    }, [userProfile, isIntern, applications])
 
     return {placement};
 }

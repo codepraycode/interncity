@@ -111,7 +111,7 @@ export const AppContextProvider = ({children})=>{
     const [contextData, dispatch] = useReducer(reducers, initialState);
     const isOrganization = contextData.userProfile?.type === 'organization';
     const isSupervisor = contextData.userProfile?.type === 'supervisor'
-    const isIntern = contextData.userProfile?.type === 'intern';
+    const isIntern = contextData.userProfile?.type === 'student';
     
     const jobsPayload = useNotifyingSnapshot(jobsCollectionRef, ()=>{
         if (isSupervisor) return;

@@ -10,6 +10,9 @@ const useLogs = (accountId, daily=false)=>{
     } = useContext(AppContext);
 
     const logData = useMemo(()=>{
+
+        if (!accountId) return [];
+        
         let res = logs.filter((each)=>(each.internAccount?.trim() === accountId.trim()));
 
         if(daily) res = res.filter(e=>e.daily);

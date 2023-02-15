@@ -1,20 +1,25 @@
-import React, { useState,useMemo } from 'react'
-import { getDateLists, getDayVerbose } from '../../app/utils';
-
+import React, { useMemo, useState } from 'react'
 import { FlatList } from 'react-native';
-import LogItem from '../LogItem';
-import { LogBottomSheet } from '../BottomSheet';
+import { getDayVerbose } from '../../app/utils';
+import { LogBottomSheet } from '../../components/BottomSheet';
+import LogItem from '../../components/LogItem';
 import { useLogs } from '../../hooks/useLog';
 import { useStudentActivePlacement } from '../../hooks/useProfile';
+import NoStudents from '../../states/NoStudents';
 
-export const DailyLogs = () => {
-
+const InternDailyLogLists = () => {
+    // Daily logs
     const {placement} = useStudentActivePlacement();
-    const {logs} = useLogs("7aw575C5IZoMmo2QrqcE");
+    const {logs} = useLogs(placement?.id);
     const [logEditing, setLogEditing] = useState(null);
+
+    console.log("placement:", placement)
 
     const days = useMemo(()=>{
         let res = [];
+
+        if (!placement) return res;
+
         let numberOfWeeks = 24;
 
         for (let i=0; i<numberOfWeeks; i++){
@@ -25,7 +30,7 @@ export const DailyLogs = () => {
         }
 
         return res;
-    },[])
+    },[placement])
     
 
     const autoSaveLog = (logData)=>{
@@ -61,6 +66,12 @@ A sample daily log.
                         />
                     )
                 }}
+                ListEmptyComponent={(
+                    <NoStudents 
+                        title={"No Placement"}
+                        message ={"No active placement in an organization yet"}
+                    />
+                )}
             />
 
             <LogBottomSheet
@@ -72,4 +83,4 @@ A sample daily log.
     )
 }
 
-export default DailyLogs;
+export default InternDailyLogLists;

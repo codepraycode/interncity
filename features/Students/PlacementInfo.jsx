@@ -5,9 +5,9 @@ import { Text, View } from 'react-native-ui-lib';
 import { PlacementHeader } from '../../components/organization/Header';
 import Tabs from '../../components/Tabs';
 import Info, { PlacementDetailInfo } from '../../components/organization/Info';
-import DailyLogs from '../../components/student/DailyLogs';
 import WeeklyLogs from '../../components/organization/WeeklyLogs';
 import Theme from '../../constants/theme';
+import InternDailyLogLists from '../Interns/InternDailyLogsList';
 
 
 const PlacementDetail = () => {
@@ -32,7 +32,7 @@ const PlacementDetail = () => {
         </ScrollView>
     );
     if (tabNo === 1) content = <WeeklyLogs/>;
-    if (tabNo === 2) content = <DailyLogs/>;
+    if (tabNo === 2) content = <InternDailyLogLists/>;
     
     return (
 

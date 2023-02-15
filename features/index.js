@@ -38,7 +38,7 @@ import HeaderRight from '../components/HeaderRight';
 import HeaderTitle from '../components/HeaderTitle';
 import StudentListScreen from './Students/StudentsList';
 import StudentStackScreen from './Students';
-import InternsLogLists from './Interns/InternLogsList';
+import InternDailyLogLists from './Interns/InternDailyLogsList';
 
 
 // Stack Navigator
@@ -104,7 +104,7 @@ const TabsStack = ()=>{
             <>
                 <Tab.Screen 
                     name="Logs" 
-                    component={InternsLogLists} 
+                    component={InternDailyLogLists} 
                 />
             </>
         )
