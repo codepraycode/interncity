@@ -1,19 +1,28 @@
 import React, { useMemo, useState } from 'react'
 import { FlatList } from 'react-native';
-import { getDayVerbose } from '../../app/utils';
+import { getDayVerbose, JSONLog } from '../../app/utils';
 import { LogBottomSheet } from '../../components/BottomSheet';
 import LogItem from '../../components/LogItem';
 import { useLogs } from '../../hooks/useLog';
 import { useStudentActivePlacement } from '../../hooks/useProfile';
 import NoStudents from '../../states/NoStudents';
 
+
+const defaultLog = (index, placementId) =>({
+    day: index,
+    internAccount: placementId,
+    daily:true,
+    date: new Date(),
+    log: null
+})
+
 const InternDailyLogLists = () => {
     // Daily logs
-    const {placement} = useStudentActivePlacement();
-    const {logs} = useLogs(placement?.id);
+    const {placement, updateLog} = useStudentActivePlacement();
+    const {logs} = useLogs(placement?.id, true);
     const [logEditing, setLogEditing] = useState(null);
 
-    console.log("placement:", placement)
+    // console.log("logs:", logs)
 
     const days = useMemo(()=>{
         let res = [];
@@ -33,15 +42,18 @@ const InternDailyLogLists = () => {
     },[placement])
     
 
-    const autoSaveLog = (logData)=>{
+    const autoSaveLog = (data=null)=> {
+        if(data){
+            // Save data
+            JSONLog(data);
+            updateLog(data)
+            .then(()=>console.log("Done!"))
+            .catch(err=>console.log("Error:", err))
+        }
 
         setLogEditing(null);
-    }
+    };
 
-    const log = `Date: 1/1/2023
-
-A sample daily log.
-`
     return (
         <>
             <FlatList
@@ -52,17 +64,13 @@ A sample daily log.
 
                     const dayOfWeek = getDayVerbose(dayNumber);
 
+                    const log = logs.find((e)=>e.day === index);
+
                     return (
                         <LogItem
-                            editLog={(logData)=>setLogEditing(logData || {
-                                day: index,
-                                internAccount: placement?.id,
-                                daily:true,
-                                date: new Date(),
-                                log: null,
-                            })}
+                            editLog={(logData)=>setLogEditing(()=>logData)}
                             label={`${dayOfWeek}`}
-                            log={log}
+                            log={log || defaultLog(index, placement?.id)}
                         />
                     )
                 }}
@@ -76,7 +84,7 @@ A sample daily log.
 
             <LogBottomSheet
                 show={Boolean(logEditing)} 
-                data={log}
+                data={logEditing}
                 onDismiss={autoSaveLog}
             />
         </>

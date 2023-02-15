@@ -1,7 +1,8 @@
 import { getAuth } from 'firebase/auth';
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import AppContext from '../app/context';
 import { auth } from '../app/firebaseConfig';
+import { Intern } from '../app/models/Intern';
 import UserAccount from '../app/models/User';
 import { JSONLog } from '../app/utils';
 
@@ -49,9 +50,17 @@ export const useStudentActivePlacement = ()=>{
         // Load active internAccount associated with student
         const studentId = userProfile.id;
         return applications.find((each)=> Boolean(each.job_started) && (each.student === studentId));;
-    }, [userProfile, isIntern, applications])
+    }, [userProfile, isIntern, applications]);
 
-    return {placement};
+    const updateLog = useCallback(async (logData)=>{
+
+        const res = await Intern.saveLog(logData);
+
+        return res;
+
+    },[]);
+
+    return {placement, updateLog};
 }
 
 export default useProfile;
