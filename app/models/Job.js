@@ -43,6 +43,9 @@ class Job {
         this.stipend = stipend;
         this.role = role;
         this.createdAt = createdAt;
+
+
+        this.application = null;
     }
 
     getFormData(seed){

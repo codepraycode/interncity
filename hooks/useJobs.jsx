@@ -1,12 +1,18 @@
+import { addDoc } from 'firebase/firestore';
 import React, { useContext, useMemo } from 'react';
 import AppContext from '../app/context';
+import { applicationsCollectionRef } from '../app/firebaseConfig';
 import Job from '../app/models/Job';
 import Organization from '../app/models/Organization';
 import { JSONLog } from '../app/utils';
 
-const useJob = (jobId=null)=>{
+const useJob = (jobId, studentId=null)=>{
 
-    const { jobs:{data:jobs}, organizations:{data:organizations} } = useContext(AppContext);
+    const { 
+        jobs:{data:jobs}, 
+        organizations:{data:organizations},
+        applications:{data:applications}
+    } = useContext(AppContext);
     
     const job = useMemo(()=>{
 
@@ -27,6 +33,15 @@ const useJob = (jobId=null)=>{
 
         return new Job(jobData);
     },[jobId, jobs]);
+
+    const application = useMemo(()=>{
+
+        return applications.find(e=>{
+            return (e.student === studentId) && (e.job === jobId)
+        });
+
+        
+    },[applications]);
 
 
     const createUpdatejob = async (jobData) => {
@@ -58,7 +73,7 @@ const useJob = (jobId=null)=>{
     }
 
 
-    const sendApplication = async (job, studentId) => {
+    const sendApplication = async (job) => {
         // Job is job id
         let data = {
             date_applied: new Date(),
@@ -73,9 +88,21 @@ const useJob = (jobId=null)=>{
             student: studentId
         }
 
-        console.log(data);
+        
+        try{
+            await addDoc(applicationsCollectionRef, data);
+        }catch(err){
+            console.log("Error sending application:", err);
+            throw({
+                message: "Could not send application, try again."
+            })
+        }
+
         return data;
     }
+
+
+    job.application = application;
 
     return {job, createUpdatejob, deleteJob, sendApplication};
 }

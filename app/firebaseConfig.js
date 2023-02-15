@@ -40,7 +40,7 @@ export const collectionNames = {
 
 
 const usersProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
-const applicationsCollectionRef = collection(database,collectionNames.APPLICATIONS);
+export const applicationsCollectionRef = collection(database,collectionNames.APPLICATIONS);
 
 export const jobsCollectionRef = collection(database, collectionNames.JOBS);
 export const schoolsCollectionRef = collection(database,collectionNames.SCHOOLS);

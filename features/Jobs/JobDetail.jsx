@@ -12,17 +12,18 @@ import { CompanyInfo, PlacementDetailInfo } from '../../components/organization/
 import { DurationPicker } from '../../components/form/FormComponents';
 import { ApplicationModal, Preloader } from '../../components/Modal';
 import AppContext from '../../app/context';
+import { JSONLog } from '../../app/utils';
 
 const JobDetail = ({ route }) => {
     const { jobId } = route.params;
     
-    const { job,sendApplication } = useJob(jobId);
-
     const {userProfile:{id:studentId}} = useContext(AppContext);
+    const { job,sendApplication } = useJob(jobId, studentId);
+
 
     const [tabNo, setTabNo] = useState(0);
     const [loading, setLoading] = useState(false);
-    const [duration, setDuration] = useState(null);
+    const [duration, setDuration] = useState(job.application?.duration || null);
     const [applying, setApplying] = useState(false);
 
     if (!Boolean(job.original)) return <NotFound/>;
@@ -30,6 +31,10 @@ const JobDetail = ({ route }) => {
     const company = job.company;
     
     if (!Boolean(company)) return <NotFound text={"Job company not found!"}/>;
+
+    if(duration !== job.application?.duration) job.application.duration = duration;
+
+    const alreadyApplied = Boolean(job.application);
 
     return (
 
@@ -84,7 +89,7 @@ const JobDetail = ({ route }) => {
                         if(!duration) return;
                         setApplying(true);
                     }}
-                    disable={!duration}
+                    disable={alreadyApplied}
                     style={{
                         width: 180,
                         marginLeft:20,
@@ -104,10 +109,10 @@ const JobDetail = ({ route }) => {
 
                         setLoading(true);
 
-                        sendApplication(job, studentId)
+                        sendApplication(job)
                         .then(()=>{
                             console.log("Sent application!")
-                            setTimeout(()=>{setLoading(false)}, 3000);
+                            setLoading(false)
                         })
                         .catch((err)=>{
                             console.log("Error while applying job:", err);
