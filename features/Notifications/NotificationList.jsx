@@ -5,6 +5,9 @@ import NotificationItem from './Item';
 import AppContext from '../../app/context';
 import useProfile from '../../hooks/useProfile';
 import { useApplications } from '../../hooks/useApplication';
+import NoNotificationScreen from '../../states/NoNotifications';
+
+
 
 const NotificationScreen = ({ navigation }) => {
     
@@ -53,6 +56,7 @@ const NotificationScreen = ({ navigation }) => {
                 shadowRadius: 5,
                 elevation: 5,
             }}
+            ListEmptyComponent={<NoNotificationScreen/>}
         />
     )
 }

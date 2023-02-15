@@ -4,7 +4,9 @@ import Theme from '../constants/theme';
 
 const NoNotificationScreen = () => {
     return (
-        <View flex center style={{backgroundColor:Theme.grey100}}>
+        <View flex center style={{
+                height:650,
+            }}>
             <Text>No Notifications</Text>
         </View>
     )
