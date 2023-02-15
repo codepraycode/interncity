@@ -3,7 +3,6 @@ import React from 'react'
 import Card from '../Card';
 import assets from '../../constants/assets';
 import Seperator from '../Seperator';
-import { JSONLog } from '../../app/utils';
 import { useIntern } from '../../hooks/useIntern';
 
 const Item = ({intern:{id}, isSupervisor, onViewClick}) => {
