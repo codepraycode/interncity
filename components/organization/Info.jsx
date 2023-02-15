@@ -6,7 +6,7 @@ import CustomButton from '../Button';
 import { formatDistance } from 'date-fns';
 import { getTimeDate } from '../../app/utils';
 
-export const Info = ({showSite}) => {
+export const CompanyInfo = ({company}) => {
   return (
     <View
         style={{
@@ -18,7 +18,7 @@ export const Info = ({showSite}) => {
             <Text p style={{marginVertical: 10}}>Organization name</Text>
 
             <Text h6>
-                Google inc.
+                {company.name}
             </Text>
         </View>
 
@@ -26,7 +26,7 @@ export const Info = ({showSite}) => {
             <Text p style={{marginVertical: 10}}>About organization</Text>
 
             <Text h6 style={{marginVertical: 0}}>
-                A technology company
+                {company.about}
             </Text>
         </View>
 
@@ -34,41 +34,32 @@ export const Info = ({showSite}) => {
             <Text p style={{marginVertical: 10}}>Address</Text>
 
             <Text h6 style={{marginVertical: 0}}>
-                Ikeja Lagos, Nigeria.
+                {company.address} {company.city}, {company.country}.
             </Text>
         </View>
 
-        {
-            showSite && (
-                <View>
-                    <View
-                        center
-                        style={{
-                            flexDirection:'row',
-                            backgroundColor:Theme.lightRed,
-                            maxWidth: "80%",
-                            paddingHorizontal: 20,
-                            paddingVertical:10,
-                            borderRadius: 6,
-                            marginVertical: 10,
-                        }}
-                    >
-                        <Octicons name="link-external" size={15} color={Theme.red}/>
-
-                        <Text style={{marginLeft: 10, color:Theme.red}}>
-                            Visit website
-                        </Text>
-                    </View>
-                    
-                </View>
-            )
-        }
+        <CustomButton
+            style={{
+                flexDirection:'row',
+                backgroundColor:Theme.lightRed,                
+                maxWidth: "80%",
+                paddingHorizontal: 20,
+                paddingVertical:10,
+                borderRadius: 6,
+                marginVertical: 10,
+            }}
+            text={"View website"}
+            onPress={()=>{}}
+            disable={!company.website}
+            icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
+            textStyle={{marginLeft: 10, color:Theme.red}}
+        />
 
     </View>
   )
 }
 
-export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration }) => {
+export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration, mini }) => {
     const role = job?.role || '...';
     const stipend = job?.stipend;
     
@@ -107,7 +98,7 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration })
                 <View style={{marginVertical: 10}}>
                     <Text p>Job role</Text>
 
-                    <Text h5 style={{marginVertical: 5}}>
+                    <Text h6 style={{marginVertical: 5}}>
                         {role}
                     </Text>
                 </View>
@@ -117,7 +108,7 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration })
                         Stipend
                     </Text>
 
-                    <Text h5>
+                    <Text h6>
                         {stipend ? `${stipend}/month` :'No stipend'}
                     </Text>
                 </View>
@@ -128,31 +119,35 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration })
                         Location
                     </Text>
 
-                    <Text h5>
+                    <Text h6>
                         {address} {city}, {country}.
                     </Text>
                 </View>
 
-                <View>
-                    <Text p style={{marginVertical: 5}}>
-                        Duration
-                    </Text>
+                {!mini &&(
+                <>
+                    <View>
+                        <Text p style={{marginVertical: 5}}>
+                            Duration
+                        </Text>
 
-                    <Text h5>
-                        {duration ? `${duration} months` : '...'}
-                    </Text>
-                </View>
+                        <Text h6>
+                            {duration ? `${duration} months` : '...'}
+                        </Text>
+                    </View>
 
 
-                <View>
-                    <Text p style={{marginVertical: 5}}>
-                        Date applied
-                    </Text>
+                    <View>
+                        <Text p style={{marginVertical: 5}}>
+                            Date applied
+                        </Text>
 
-                    <Text h6>
-                        {applicationDate} -- {dateDistance}
-                    </Text>
-                </View>
+                        <Text h6>
+                            {applicationDate} -- {dateDistance}
+                        </Text>
+                    </View>
+                </>
+                )}
 
             </View>
         </>

@@ -8,132 +8,10 @@ import NotFound from '../../states/NotFound';
 import Octicons from 'react-native-vector-icons/Octicons';
 import { useJob } from '../../hooks/useJobs';
 import Seperator from '../../components/Seperator';
+import { JobDetailHeader } from '../../components/organization/Header';
+import Tabs from '../../components/Tabs';
+import { CompanyInfo, PlacementDetailInfo } from '../../components/organization/Info';
 
-
-const JobDetailHeader = ({job:jobInfo, company})=>{
-
-    return (
-        <>
-            <View 
-                center 
-                style={{
-                    // backgroundColor:Theme.white,
-                    paddingTop: 0,
-                    zIndex:1,
-                }}
-            >
-                <Image 
-                    assetName={"google"}
-                    assetGroup="assets" 
-                    width={70} height={70}
-                    style={{
-                        position:'relative',
-                        bottom: -20,
-                        
-                    }}
-                />
-            </View>
-
-            <View
-                style={{
-                    paddingTop: 30,
-                    paddingBottom: 5,
-                    backgroundColor:Theme.grey101,
-                }}
-            >
-                <Text 
-                    center 
-                    h5
-                >{jobInfo.role}</Text>
-
-                <View 
-                    style={{
-                        flexDirection:'row', 
-                        justifyContent:'center', 
-                        alignItems:'center',
-
-                        marginVertical: 15,
-                    }}
-                >
-                    {/* <Text center label>{company.name}</Text>
-                    <Seperator/> */}
-                    <Text center label>{jobInfo.location.city}</Text>
-                    <Seperator/>
-                    <Text center label>2 days ago</Text>
-                </View>
-            </View>
-
-            <View
-                center
-            >
-                <View
-                    center
-                    style={{
-                        flexDirection:'row',
-                        backgroundColor:Theme.lightRed,
-                        maxWidth: "80%",
-                        paddingHorizontal: 20,
-                        paddingVertical:10,
-                        borderRadius: 6,
-                        marginVertical: 10,
-                    }}
-                >
-                    <Octicons name="link-external" size={15} color={Theme.red}/>
-
-                    <Text style={{marginLeft: 10, color:Theme.red}}>
-                        Visit website
-                    </Text>
-                </View>
-                
-            </View>
-        </>
-    )
-}
-
-const JobComapanyInfomation = ({company}) =>{
-
-    return (
-        <View>
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Name
-                </Text>
-
-                <Text h4 secondary>
-                    {company.name}
-                </Text>
-            </View>
-
-            <View>
-                <Text h5 style={{marginVertical: 10}}>About company</Text>
-
-                <Text p style={{marginVertical: 10}}>
-                    {company.about}
-                </Text>
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Website
-                </Text>
-
-                <Text a secondary>
-                    {company.website}
-                </Text>
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Office address
-                </Text>
-
-                <Text p>
-                    {/* {company.location.city}, {company.location.state} */}
-                </Text>
-            </View>
-        </View>
-    )
-}
 
 const JobInfomation = ({job}) =>{
 
@@ -199,9 +77,9 @@ const JobDetail = ({ route }) => {
     const [tabNo, setTabNo] = useState(0);
     const [showModal, setShowModal] = useState(false);
 
-    if (!Boolean(job)) return <NotFound/>;
+    if (!Boolean(job.original)) return <NotFound/>;
 
-    const {company} = job;
+    const company = job.company;
     
     if (!Boolean(company)) return <NotFound text={"Job company not found!"}/>;
 
@@ -213,50 +91,43 @@ const JobDetail = ({ route }) => {
             }}
         >
 
-            <JobDetailHeader job = { job } company = {company}/>
+            <JobDetailHeader company={company} job={job}/>
 
-            <View>
-                {/* Tabs */}
-                <View centerH>
-                    <View
-                        style={{
-                            flexDirection:'row', 
-                            alignItems:'center', 
-                            justifyContent:'space-evenly',
-                            backgroundColor:Theme.white,
-                            padding: 5,
-                            borderRadius: 5,
-                            // maxWidth: "80%"
-                        }}
-                    >
-                        <Tab text="About company" onClick={()=>setTabNo(0)} active={tabNo === 0}/>
-                        <Tab text="About job" onClick={()=>setTabNo(1)} active={tabNo === 1}/>
-                    </View>
-                </View>
-
-
-                {/* Content */}
-                <View
-                    style={{
-                        paddingVertical: 10,
-                        marginHorizontal: 20,
-                    }}
-                >
-                    {
-                        tabNo === 0 ? 
-                        <JobComapanyInfomation company={company}/>
-                        :
-                        <JobInfomation job={job}/>
-                    }
-                </View>
-
-
-                {/* Call to action */}
-                <View center style={{marginVertical: 15}}>
-                    <Button text="Apply Now" onPress={()=>setShowModal(p=>!p)}/>
-                </View>
-                
+            <View
+                centerH
+                style={{
+                    marginBottom: 10,
+                }}
+            >
+                <Tabs
+                    tabs={[
+                        {
+                            text: "Job Info",
+                            onClick:()=>setTabNo(1),
+                            active: tabNo === 1
+                        },
+                        {
+                            text: "Company Info",
+                            onClick:()=>setTabNo(0),
+                            active: tabNo === 0
+                        }
+                    ]}
+                />
             </View>
+
+            {
+                tabNo === 0 ? 
+                <CompanyInfo company={company}/>
+                :
+                <PlacementDetailInfo job={job} mini/>
+            }
+
+
+            {/* Call to action */}
+            <View center style={{marginVertical: 15}}>
+                <Button text="Apply Now" onPress={()=>setShowModal(p=>!p)}/>
+            </View>
+        
         </ScrollView>
 
     );
