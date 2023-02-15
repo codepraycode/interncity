@@ -32,6 +32,7 @@ class Job {
             sector,
             stipend,
             role,
+            createdAt,
         } = jobData || {};
 
         this.company = company;
@@ -41,6 +42,7 @@ class Job {
         this.sector = sector;
         this.stipend = stipend;
         this.role = role;
+        this.createdAt = createdAt;
     }
 
     getFormData(seed){

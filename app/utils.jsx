@@ -1,3 +1,4 @@
+import { formatDistance } from "date-fns";
 
 export const userTypes = {
     PROFILES:'userProfiles',
@@ -10,6 +11,11 @@ export const userTypes = {
 
 export const getTimeDate = (timeObject) =>{
     return new Date((timeObject.seconds) * 1000);
+}
+export const getTimeDistance = (timeObject) =>{
+    const dt = new Date((timeObject.seconds) * 1000);
+
+    return formatDistance(dt, new Date(), { addSuffix:true });
 }
 
 export const setUpWithPreviousValue = (schema, data=null, seed={})=>{
