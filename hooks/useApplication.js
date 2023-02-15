@@ -1,8 +1,6 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../app/context';
 import Intern, { Application } from '../app/models/Intern';
-import { JSONLog } from '../app/utils';
-import useProfile from './useProfile';
 
 const useApplications = (organizationId=null)=>{
 

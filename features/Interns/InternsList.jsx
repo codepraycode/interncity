@@ -1,9 +1,12 @@
 import React from 'react'
-import { FlatList, StyleSheet } from 'react-native';
-import { InternLists } from '../../constants/dummy';
+import { FlatList } from 'react-native';
 import Item from '../../components/student/Item';
+import { useInterns } from '../../hooks/useIntern';
+import NoStudents from '../../states/NoStudents';
 
 const InternsListScreen = ({navigation}) => {
+
+    const {interns} = useInterns();
 
     const handleNavigateToDetail = (internItem)=>{
         navigation.navigate("Intern", { 
@@ -11,15 +14,23 @@ const InternsListScreen = ({navigation}) => {
             params: {internId: internItem.id}
         });
     }
+
+
     return (
         <FlatList
-            data={ InternLists }
-            renderItem = {({item})=><Item data = { item} onViewClick = {()=>handleNavigateToDetail(item)}/>}
+            data={ interns }
+            renderItem = {({item})=>(
+                <Item 
+                    data = { item } 
+                    onViewClick = {()=>handleNavigateToDetail(item)}
+                />)
+            }
             keyExtractor={item => item.id}
+            ListEmptyComponent={(
+                <NoStudents isOrganization={true}/>
+            )}
         />
     )
 }
 
 export default InternsListScreen;
-
-const styles = StyleSheet.create({});
