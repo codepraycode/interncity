@@ -1,5 +1,5 @@
 import { getAuth } from 'firebase/auth';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import AppContext from '../app/context';
 import { auth } from '../app/firebaseConfig';
 import UserAccount from '../app/models/User';
@@ -15,8 +15,6 @@ const useProfile = ()=>{
             ...updatedProfileData // latest data update
         }
 
-        // console.log("update profile",data);
-
         try{
             const {isComplete, ...rest} = data;
             await UserAccount.updateProfile(auth, rest)
@@ -31,6 +29,22 @@ const useProfile = ()=>{
     }
 
     return [userProfile, updateProfile];
+}
+
+
+export const useStudentActivePlacement = ()=>{
+    
+    const { userProfile, isIntern } = useContext(AppContext);
+
+    const placement = useMemo(()=>{
+        if(!isIntern) return {};
+
+        // Load active internAccount associated with student
+
+        return {};
+    }, [userProfile, isIntern])
+
+    return {placement};
 }
 
 export default useProfile;

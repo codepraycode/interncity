@@ -17,7 +17,6 @@ import Theme from '../constants/theme';
 
 
 // Screens
-import LogsScreen from './Reviews';
 import { 
     ProfileFormScreen,
     ProfileCreationOnboarding,
@@ -39,6 +38,7 @@ import HeaderRight from '../components/HeaderRight';
 import HeaderTitle from '../components/HeaderTitle';
 import StudentListScreen from './Students/StudentsList';
 import StudentStackScreen from './Students';
+import InternsLogLists from './Interns/InternLogsList';
 
 
 // Stack Navigator
@@ -84,19 +84,28 @@ const TabsStack = ()=>{
 
         if (isOrganization) return (
             <>
-                <Tab.Screen name="Interns" component={InternsListScreen} />
+                <Tab.Screen 
+                    name="Interns" 
+                    component={InternsListScreen}
+                />
             </>
         )
 
         if (isSupervisor) return (
             <>
-                <Tab.Screen name="Students" component={StudentListScreen} />
+                <Tab.Screen 
+                    name="Students" 
+                    component={StudentListScreen} 
+                />
             </>
         )
 
         return (
             <>
-                <Tab.Screen name="Logs" component={LogsScreen} />
+                <Tab.Screen 
+                    name="Logs" 
+                    component={InternsLogLists} 
+                />
             </>
         )
     }

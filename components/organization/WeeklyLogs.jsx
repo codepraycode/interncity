@@ -6,17 +6,11 @@ import LogItem from '../LogItem';
 
 const WeeklyLogs = ({internId, onEditLog}) => {
 
-    const {logs} = useLogs(internId);    
+    const {logs} = useLogs(internId);
 
     const numberOfWeeks = 24; // weeksBetween(realDate);
 
     const weeks = [...Array(numberOfWeeks).keys()];
-//     const log = `Date: 1/1/2023
-
-// A sample weekly log.
-
-// supervisor: Mr Lorem Bulaba (Manager)
-// `
     return (
         <FlatList
             data={weeks}
