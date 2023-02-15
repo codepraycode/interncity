@@ -77,24 +77,45 @@ const JobDetail = ({ route }) => {
 
 
             <View center style={{flexDirection:'row', marginVertical:20,}}>
-                <DurationPicker
-                    value={duration}
-                    updateValue={(val)=>setDuration(val)}
-                />
 
-                {/* Call to action style={{marginTop:40}}*/}
-                <Button 
-                    text="Apply Now" 
-                    onPress={()=>{
-                        if(!duration) return;
-                        setApplying(true);
-                    }}
-                    disable={alreadyApplied}
-                    style={{
-                        width: 180,
-                        marginLeft:20,
-                    }}
-                />
+                {
+                    alreadyApplied ? 
+                    (
+                        <Button 
+                                text="Application sent" 
+                                onPress={()=>{}}
+                                disable={true}
+                                style={{
+                                    width: "90%",
+                                    marginLeft:20,
+                                }}
+                            />
+                    )
+                    :
+                    (
+                        <>
+                            <DurationPicker
+                                value={duration}
+                                updateValue={(val)=>setDuration(val)}
+                            />
+
+                            {/* Call to action style={{marginTop:40}}*/}
+                            <Button 
+                                text="Apply Now" 
+                                onPress={()=>{
+                                    if(!duration) return;
+                                    setApplying(true);
+                                }}
+                                disable={!duration}
+                                style={{
+                                    width: 180,
+                                    marginLeft:20,
+                                }}
+                            />
+                        </>
+                    )
+                }
+                
             </View>
 
             <ApplicationModal
