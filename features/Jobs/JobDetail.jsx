@@ -11,6 +11,7 @@ import Seperator from '../../components/Seperator';
 import { JobDetailHeader } from '../../components/organization/Header';
 import Tabs from '../../components/Tabs';
 import { CompanyInfo, PlacementDetailInfo } from '../../components/organization/Info';
+import DurationPicker from '../../components/DurationPicker';
 
 
 const JobInfomation = ({job}) =>{
@@ -122,6 +123,7 @@ const JobDetail = ({ route }) => {
                 <PlacementDetailInfo job={job} mini/>
             }
 
+            <DurationPicker/>
 
             {/* Call to action */}
             <View center style={{marginVertical: 15}}>
