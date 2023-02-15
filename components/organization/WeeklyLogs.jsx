@@ -1,10 +1,15 @@
 import React from 'react'
 import { FlatList } from 'react-native';
+import { JSONLog } from '../../app/utils';
+import { useLogs } from '../../hooks/useLog';
 import LogItem from '../LogItem';
 
-const WeeklyLogs = ({onEditLog}) => {
-    
-    const realDate = new Date('2022-01-02');
+const WeeklyLogs = ({internId, onEditLog}) => {
+
+    const {logs} = useLogs(internId);
+
+    JSONLog(logs);
+    // const realDate = new Date('2022-01-02');
 
     const numberOfWeeks = 24; // weeksBetween(realDate);
 
@@ -20,9 +25,10 @@ supervisor: Mr Lorem Bulaba (Manager)
             data={weeks}
             renderItem = {({item})=>(
                 <LogItem
+                    week={item}
                     editLog={()=>onEditLog(item+1)} 
                     label={`Week ${item+1}`}
-                    log={log}
+                    log={logs.find(e=>e.week === Number(item))}
                 />
             )}
         />

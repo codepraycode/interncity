@@ -72,7 +72,11 @@ supervisor: Mr Lorem Bulaba (Manager)
                 Info
                 :
                 <>
-                    <WeeklyLogs onEditLog={(weekNumber)=>setWeekEditing(weekNumber)}/>
+                    <WeeklyLogs 
+                        onEditLog={(weekNumber)=>setWeekEditing(weekNumber)}
+                        internId ={intern.id}
+                    />
+
                     <LogBottomSheet
                         weekly={true} 
                         show={Boolean(weekEditing)} 

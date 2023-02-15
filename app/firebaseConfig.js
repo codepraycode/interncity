@@ -35,6 +35,7 @@ export const collectionNames = {
      SECTORS:"sectors",
      JOBS:"jobs",
      APPLICATIONS:"internAccount",
+     LOGS:"internLogs",
 }
 
 
@@ -48,3 +49,4 @@ export const studentsQueryRef = query(usersProfileCollectionRef, where("type", "
 export const getApplicationsQueryRef = (organizationId) => query(applicationsCollectionRef); //, where("organization", "==", organizationId));
 export const depratmentsCollectionRef = collection(database,collectionNames.DEPARTMENTS);
 export const sectorsCollectionRef = collection(database,collectionNames.SECTORS);
+export const logsCollectionRef = collection(database,collectionNames.LOGS);

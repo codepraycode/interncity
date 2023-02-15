@@ -4,9 +4,11 @@ import { TouchableOpacity } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 
-const LogItem = ({label, log, editLog}) => {
+const LogItem = ({label, week, log:logData, editLog}) => {
 
     const breakLength = 178;
+
+    const log = logData ? logData.log: "";
     
     return (
         <TouchableOpacity
@@ -37,7 +39,7 @@ const LogItem = ({label, log, editLog}) => {
 
                 {
                     (!log || log.length <1) ?
-                    <Text i center style={{color: Theme.grey300, fontSize: 18}}>
+                    <Text i center style={{color: Theme.grey300, fontSize: 12}}>
                         No log yet
                     </Text>
                     :
