@@ -9,8 +9,9 @@ import { getTimeDate } from '../../app/utils';
 export const Info = ({showSite}) => {
   return (
     <View
-        style={{            
-            marginHorizontal: 10,
+        style={{
+            paddingVertical: 10,
+            marginHorizontal: 30,
         }}
     >
         <View style={{marginVertical: 10}}>
