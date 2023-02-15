@@ -1,52 +1,62 @@
 import React, { useState } from 'react'
+import { ScrollView } from 'react-native';
 import { View } from 'react-native-ui-lib';
-import Theme from '../../constants/theme';
-import { InternLists } from '../../constants/dummy';
-import NotFound from '../../states/NotFound';
-
-import { LogBottomSheet } from '../../components/BottomSheet';
-import DetailHeader from '../../components/student/Header';
+import ApplicationDetail from '../../components/organization/Application';
+import { InternDetailHeader } from '../../components/organization/Header';
+import { PlacementDetailInfo, InternInfo } from '../../components/organization/Info';
+import { useIntern } from '../../hooks/useIntern';
 import Tabs from '../../components/Tabs';
-import Info from '../../components/student/Info';
-import { WeeklyLogs } from '../../components/student/Log';
-import { useApplication, useApplications } from '../../hooks/useApplication';
+import WeeklyLogs from '../../components/organization/WeeklyLogs';
+import {LogBottomSheet} from '../../components/BottomSheet';
 import { JSONLog } from '../../app/utils';
 
 const InternsDetailScreen = ({ route }) => {
     const { internId, applicationId } = route.params;
-    const internData = InternLists.find(each => each.id === (internId || applicationId));
-    const {data:application} = useApplication(applicationId);
 
-    console.log("Application id:", applicationId)
-    JSONLog(application); // stoped here!
-
-
+    const { intern, saveLog } = useIntern(internId);
     const [tabNo, setTabNo] = useState(0);    
-    const [weekEditing, setWeekEditing] = useState(null);
+    const [logEditing, setLogEditing] = useState(null);
 
-    const autoSaveLog = (data)=> setWeekEditing(null);
+    const autoSaveLog = (data=null)=> {
+        if(data){
+            // Save data
+            JSONLog(data);
+            saveLog(data)
+            .then(()=>console.log("Done!"))
+            .catch(err=>console.log("Error:", err))
+        }
 
-    if (!Boolean(internData)) return <NotFound  text="Could not retrieve data"/>;
+        setLogEditing(null);
+    };
+
+    if (!Boolean(intern.original)) return <NotFound  text="Could not retrieve data"/>;
 
     const log = `Date: 1/1/2023
-
 A sample weekly log.
-
 supervisor: Mr Lorem Bulaba (Manager)
 `
 
+
+    if (applicationId) return <ApplicationDetail id={applicationId}/>
+
+    const Info = (
+        <ScrollView contentContainerStyle={{paddingVertical: 20}}>
+            <InternInfo cv={intern.cv} showHeader={true}/>
+
+            <PlacementDetailInfo
+                showHeader={true}
+                job={intern.job}
+                date_applied={intern.date_applied}
+                duration={intern.duration}
+            />
+        </ScrollView>
+    )
+
     return (
         <>
-            <View 
-                contentContainerStyle={{
-                    backgroundColor:Theme.grey100,
-                }}
-            >
-
-                <DetailHeader data = { internData }/>
-
-                {/* Tabs */}
-                <View 
+            <InternDetailHeader student={intern.student} school={intern.student?.schoolData}/>
+        
+            <View
                     centerH
                     style={{
                         marginBottom: 10,
@@ -66,27 +76,31 @@ supervisor: Mr Lorem Bulaba (Manager)
                             }
                         ]}
                     />
-                </View>
             </View>
 
-            {/* Content */}
-                
             {
                 tabNo === 0 ? 
-                <Info showCV={true}/>
+                Info
                 :
-                <WeeklyLogs onEditLog={(weekNumber)=>setWeekEditing(weekNumber)}/>
+                <>
+                    <WeeklyLogs 
+                        onEditLog={(logData)=>setLogEditing(logData)}
+                        internId ={intern.id}
+                    />
+
+                    <LogBottomSheet
+                        weekly={true} 
+                        show={Boolean(logEditing)} 
+                        data={logEditing}
+                        onDismiss={autoSaveLog}
+                    />
+                </>
             }
 
-            <LogBottomSheet 
-                weekly={true} 
-                show={Boolean(weekEditing)} 
-                data={log} 
-                onDismiss={autoSaveLog}
-            />
+            
         </>
-
-    );
+    )
 }
+
 
 export default InternsDetailScreen;

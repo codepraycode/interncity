@@ -9,7 +9,7 @@ import Seperator from '../Seperator';
 const DetailHeader = ({data})=>{
 
     const name = `Lorem Ipsum`;
-    const school = "Federal University of Technology Akure"
+    const schoolName = "Federal University of Technology Akure"
 
     return (
         <>
@@ -63,7 +63,56 @@ const DetailHeader = ({data})=>{
     )
 }
 
+export const InternDetailHeader = ({student, school})=>{
 
+    const name = student?.fullname || '...';
+    const schoolName = school?.name || '...';
+
+    return (
+        <>
+            <View 
+                center
+                style={{
+                    zIndex:1,
+                }}
+            >
+
+                <Image
+                    source={assets.user}
+                    resizeMode="cover"
+                    width={80} height={80}
+                    style={{
+                        position:'relative',
+                        bottom: -20,
+                    }}
+                />
+
+            </View>
+
+            <View
+                style={{
+                    paddingTop: 30,
+                    paddingBottom: 5,
+                    backgroundColor:Theme.grey101,
+                }}
+            >
+                <Text 
+                    center 
+                    h5
+                >{name}</Text>                
+
+                <View 
+                    style={{
+                        marginVertical: 10,
+                    }}
+                >
+                    {/* <Text center label>{"IT intern"}</Text> */}
+                    <Text center small>{schoolName}</Text>
+                </View>
+            </View>
+        </>
+    )
+}
 
 export const PlacementHeader = ({data})=>{
 
@@ -110,6 +159,47 @@ export const PlacementHeader = ({data})=>{
                 >{name}</Text>
 
                 <Text label>{"IT intern"}</Text>
+            </View>
+        </>
+    )
+}
+
+export const ApplicationDetailHeader = ({application})=>{
+
+    const student = application.student || "...";
+    
+    return (
+        <>
+            <View 
+                // centerH
+                style={{
+                    zIndex:1,
+                    flexDirection:'row',
+                    alignItems:'center',
+                    marginLeft:20,
+                    marginTop:20,
+                }}
+            >
+
+                <Image
+                    source={assets.user}
+                    resizeMode="cover"
+                    width={65} height={65}
+                />
+
+                <View
+                    style={{
+                        marginLeft:10,
+                    }}
+                >
+                    <Text 
+                        center 
+                        h4
+                    >{student?.fullname}</Text>
+
+                    {/* <Text center label>{"IT intern"}</Text> */}
+                </View>
+
             </View>
         </>
     )

@@ -1,9 +1,5 @@
 import { View, Text, Image } from 'react-native-ui-lib';
 import React from 'react'
-import { weeksBetween } from '../../app/utils';
-
-import { FlatList, TouchableOpacity } from 'react-native';
-import Theme from '../../constants/theme';
 import Card from '../Card';
 
 

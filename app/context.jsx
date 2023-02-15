@@ -7,7 +7,8 @@ import {
     organizationQueryRef,
     depratmentsCollectionRef,
     sectorsCollectionRef,
-    getApplicationsQueryRef
+    getApplicationsQueryRef,
+    logsCollectionRef
 } from './firebaseConfig';
 
 import { JSONLog } from './utils';
@@ -137,6 +138,7 @@ export const AppContextProvider = ({children})=>{
     const organizationsPayload = useSnapshot(organizationQueryRef);
     const departmentsPayload = useSnapshot(depratmentsCollectionRef);
     const sectorsPayload = useSnapshot(sectorsCollectionRef);
+    const logsPayload = useSnapshot(logsCollectionRef);
 
     const appContextData = ({
         ...contextData,
@@ -146,6 +148,7 @@ export const AppContextProvider = ({children})=>{
         departments:departmentsPayload,
         sectors: sectorsPayload,
         applications:applicationsPayload,
+        logs:logsPayload,
 
         isOrganization,
         isSupervisor,

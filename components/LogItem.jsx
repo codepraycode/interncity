@@ -1,19 +1,19 @@
-import { View, Text, } from 'react-native-ui-lib';
-import React from 'react'
-import { weeksBetween } from '../../app/utils';
 
-import { FlatList, TouchableOpacity } from 'react-native';
-import Theme from '../../constants/theme';
+import React from 'react';
+import { TouchableOpacity } from 'react-native';
+import { Text, View } from 'react-native-ui-lib';
+import Theme from '../constants/theme';
 
-
-const LogItem = ({label, log, editLog}) => {
+const LogItem = ({label, week, log:logData, editLog}) => {
 
     const breakLength = 178;
+
+    const log = logData ? logData.log: "";
     
     return (
-        <TouchableOpacity 
+        <TouchableOpacity
             activeOpacity={0.4} 
-            onPress={editLog}
+            onPress={()=>editLog(logData)}
             style={{
                 backgroundColor:Theme.white,                
                 padding: 10,
@@ -39,7 +39,7 @@ const LogItem = ({label, log, editLog}) => {
 
                 {
                     (!log || log.length <1) ?
-                    <Text i center style={{color: Theme.grey300, fontSize: 18}}>
+                    <Text i center style={{color: Theme.grey300, fontSize: 12}}>
                         No log yet
                     </Text>
                     :
@@ -51,33 +51,6 @@ const LogItem = ({label, log, editLog}) => {
             
             </View>
         </TouchableOpacity>
-    )
-}
-
-export const WeeklyLogs = ({onEditLog}) => {
-    
-    const realDate = new Date('2022-01-02');
-
-    const numberOfWeeks = 24; // weeksBetween(realDate);
-
-    const weeks = [...Array(numberOfWeeks).keys()];
-    const log = `Date: 1/1/2023
-
-A sample weekly log.
-
-supervisor: Mr Lorem Bulaba (Manager)
-`
-    return (
-        <FlatList
-            data={weeks}
-            renderItem = {({item})=>(
-                <LogItem 
-                    editLog={()=>onEditLog(item+1)} 
-                    label={`Week ${item+1}`}
-                    log={log}
-                />
-            )}
-        />
     )
 }
 
