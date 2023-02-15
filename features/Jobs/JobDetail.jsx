@@ -11,7 +11,7 @@ import Seperator from '../../components/Seperator';
 import { JobDetailHeader } from '../../components/organization/Header';
 import Tabs from '../../components/Tabs';
 import { CompanyInfo, PlacementDetailInfo } from '../../components/organization/Info';
-import DurationPicker from '../../components/DurationPicker';
+import { DurationPicker } from '../../components/form/FormComponents';
 
 
 const JobInfomation = ({job}) =>{
@@ -123,11 +123,19 @@ const JobDetail = ({ route }) => {
                 <PlacementDetailInfo job={job} mini/>
             }
 
-            <DurationPicker/>
 
-            {/* Call to action */}
-            <View center style={{marginVertical: 15}}>
-                <Button text="Apply Now" onPress={()=>setShowModal(p=>!p)}/>
+            <View center style={{flexDirection:'row', marginVertical:20,}}>
+                <DurationPicker/>
+
+                {/* Call to action style={{marginTop:40}}*/}
+                <Button 
+                    text="Apply Now" 
+                    onPress={()=>setShowModal(p=>!p)}
+                    style={{
+                        width: 180,
+                        marginLeft:20,
+                    }}
+                />
             </View>
         
         </ScrollView>

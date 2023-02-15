@@ -6,6 +6,7 @@ import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
 import { JSONLog } from '../../app/utils';
 import useSector from '../../hooks/useSector';
+import Typography from '../../constants/typography';
 
 const NormalInput = React.memo(({schema, onChange, name, value})=>{
     return (
@@ -230,6 +231,45 @@ const SectorSelect = React.memo(({schema, onChange, name, value})=>{
     )
 })
 
+const DurationPicker = React.memo(()=>{
+    const options = [
+        {label: '3 months', value: 3},
+        {label: '4 months', value: 4},
+        {label: '5 months', value: 5},
+        {label: '6 months', value: 6, disabled: false},
+    ];
+    return (
+        <Picker
+            label="Set Duration"
+            placeholder="Not set yet"
+            // useNativePicker
+            useWheelPicker
+            migrateTextField
+            value={""}
+            onChange={nativePickerValue => console.log(nativePickerValue)}
+            // rightIconSource={dropdown}
+            style = {[styles.input, styles.normalInput, { 
+                width:130,
+                textAlign:'center',
+                borderWidth: 1,
+                borderColor:Theme.accent,
+                borderRadius:5,
+                paddingTop:0,
+                height: 48,
+                margin:0,
+                color: Theme.accent
+                
+            }]}
+            labelStyle={{
+                ...Typography.h6,
+            }}
+          >
+            {options.map((option,i) => (
+              <Picker.Item key={i} value={option.value} label={option.label} disabled={option.disabled}/>
+            ))}
+          </Picker>
+    )
+})
 
 export {
     NormalInput,
@@ -241,7 +281,8 @@ export {
     SectorSelect,
     UrlInput,
     LongTextInput,
-    NumberInput
+    NumberInput,
+    DurationPicker
 }
 
 
