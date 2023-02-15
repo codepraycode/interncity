@@ -3,9 +3,11 @@ import React from 'react'
 import Card from '../Card';
 import assets from '../../constants/assets';
 import Seperator from '../Seperator';
+import { JSONLog } from '../../app/utils';
+import { useIntern } from '../../hooks/useIntern';
 
-const Item = ({data, isSupervisor, onViewClick}) => {
-    const {firstname, lastname} = data;
+const Item = ({intern:{id}, isSupervisor, onViewClick}) => {
+    const { intern } = useIntern(id);
 
     return (
         <Card clickable={true} onPress={onViewClick}>
@@ -18,17 +20,17 @@ const Item = ({data, isSupervisor, onViewClick}) => {
                 />
 
                 <View style={{marginLeft:20,}}>
-                <Text h4>{firstname} {lastname}</Text>
+                <Text h4>{intern.student?.fullname}</Text>
                 <View style={{flexDirection:'row', 'alignItems':'center'}}>
                     
                     {
                         isSupervisor ?
-                        <Text p>Google inc.</Text>
+                        <Text p>{intern.organization?.name}</Text>
                         :
                         <>
-                            <Text small>FUTA</Text>
+                            <Text small>{intern.student?.schoolData?.short}</Text>
                             <Seperator/>
-                            <Text small>Cyber security</Text>
+                            <Text small>{intern.job?.role}</Text>
                         </>
                     }
                 </View>

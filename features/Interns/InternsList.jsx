@@ -21,8 +21,9 @@ const InternsListScreen = ({navigation}) => {
             data={ interns }
             renderItem = {({item})=>(
                 <Item 
-                    data = { item } 
+                    intern = { item } 
                     onViewClick = {()=>handleNavigateToDetail(item)}
+                    isSupervisor={false}
                 />)
             }
             keyExtractor={item => item.id}

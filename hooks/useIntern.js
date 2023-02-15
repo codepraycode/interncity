@@ -25,6 +25,9 @@ const useIntern = (applicationId)=>{
 
     const { 
         applications:{data:applications},
+        departments:{data:departments},
+        schools:{data:schools},
+        userProfile
     } = useContext(AppContext);
 
     const [student, setStudent] = useState(null);
