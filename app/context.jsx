@@ -26,12 +26,6 @@ export const AppContextProvider = ({children})=>{
 
     const initialState = {
         userAccount: null,
-        // {
-        //     name:"Smaple name",
-        //     token:{
-        //         access:"dfakslkjflask"
-        //     }
-        // },
         userProfile: null,
         schools: [],
         departments:[],
