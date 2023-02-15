@@ -77,6 +77,7 @@ const JobDetail = ({ route }) => {
 
     const [tabNo, setTabNo] = useState(0);
     const [showModal, setShowModal] = useState(false);
+    const [duration, setDuration] = useState(null);
 
     if (!Boolean(job.original)) return <NotFound/>;
 
@@ -125,12 +126,16 @@ const JobDetail = ({ route }) => {
 
 
             <View center style={{flexDirection:'row', marginVertical:20,}}>
-                <DurationPicker/>
+                <DurationPicker
+                    value={duration}
+                    updateValue={(val)=>setDuration(val)}
+                />
 
                 {/* Call to action style={{marginTop:40}}*/}
                 <Button 
                     text="Apply Now" 
                     onPress={()=>setShowModal(p=>!p)}
+                    disable={!duration}
                     style={{
                         width: 180,
                         marginLeft:20,

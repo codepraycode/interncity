@@ -231,7 +231,7 @@ const SectorSelect = React.memo(({schema, onChange, name, value})=>{
     )
 })
 
-const DurationPicker = React.memo(()=>{
+const DurationPicker = React.memo(({value, updateValue})=>{
     const options = [
         {label: '3 months', value: 3},
         {label: '4 months', value: 4},
@@ -245,9 +245,10 @@ const DurationPicker = React.memo(()=>{
             // useNativePicker
             useWheelPicker
             migrateTextField
-            value={""}
-            onChange={nativePickerValue => console.log(nativePickerValue)}
+            value={value || ""}
+            onChange={nativePickerValue => updateValue(nativePickerValue)}
             // rightIconSource={dropdown}
+            
             style = {[styles.input, styles.normalInput, { 
                 width:130,
                 textAlign:'center',
@@ -258,16 +259,20 @@ const DurationPicker = React.memo(()=>{
                 height: 48,
                 margin:0,
                 color: Theme.accent
-                
             }]}
             labelStyle={{
                 ...Typography.h6,
             }}
           >
             {options.map((option,i) => (
-              <Picker.Item key={i} value={option.value} label={option.label} disabled={option.disabled}/>
+              <Picker.Item 
+                    key={i}
+                    value={option.value} 
+                    label={option.label} 
+                    disabled={option.disabled}
+                />
             ))}
-          </Picker>
+        </Picker>
     )
 })
 
