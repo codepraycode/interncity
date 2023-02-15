@@ -13,7 +13,7 @@ const LogItem = ({label, week, log:logData, editLog}) => {
     return (
         <TouchableOpacity
             activeOpacity={0.4} 
-            onPress={editLog}
+            onPress={()=>editLog(logData)}
             style={{
                 backgroundColor:Theme.white,                
                 padding: 10,

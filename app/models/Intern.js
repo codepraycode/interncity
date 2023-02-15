@@ -4,9 +4,10 @@ import { JSONLog, userTypes,} from "../utils";
 import {
   doc,
   updateDoc,
-  getDoc
+  getDoc,
+  addDoc
 } from 'firebase/firestore';
-import { collectionNames, database } from "../firebaseConfig";
+import { collectionNames, database, logsCollectionRef } from "../firebaseConfig";
 
 
 
@@ -116,6 +117,43 @@ class Intern extends Application{
 
     constructor(data){ // application data
         super(data);
+    }
+
+    static async saveLog(data){
+
+        const { id, ...restData } = data;
+
+        if(id){
+            // Update Log
+            const docRef = doc(database, collectionNames.LOGS, id);
+
+            try{
+                await updateDoc(docRef, restData);
+                console.log("updated Document!");
+            }catch(err){
+                console.log("Error updating student application:", err);
+                throw({
+                    message: "Could not update, try again."
+                });
+            }
+
+        }
+        else{
+            // Create Log            
+
+            try{
+                await addDoc(logsCollectionRef, restData)
+            }catch(err){
+                console.log("Error creating log:", err);
+                throw({
+                    message: "Could not create log"
+                })
+            }
+        }
+
+        
+        return restData;
+        
     }
 }
 

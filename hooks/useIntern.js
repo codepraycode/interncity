@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../app/context';
 import { Intern} from '../app/models/Intern';
 import { JSONLog } from '../app/utils';
@@ -40,7 +40,15 @@ const useIntern = (applicationId)=>{
         const applicationData = applications.find((each)=> each.id === applicationId);
 
         return new Intern(applicationData);
-    },[applicationId])
+    },[applicationId]);
+
+    const saveLog = useCallback(async (logData)=>{
+
+        const res = await Intern.saveLog(logData);
+
+        return res;
+
+    },[applicationId]);
 
 
     useEffect(()=>{
@@ -73,7 +81,7 @@ const useIntern = (applicationId)=>{
 
     
 
-    return { intern };
+    return { intern, saveLog };
 }
 
 export { useInterns, useIntern };

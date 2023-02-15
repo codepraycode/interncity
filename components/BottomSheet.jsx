@@ -8,6 +8,7 @@ import Job from '../app/models/Job';
 import { useJob } from '../hooks/useJobs';
 import useProfile from '../hooks/useProfile';
 import { Preloader } from './Modal';
+import { JSONLog } from '../app/utils';
 
 
 const BottomSheet = (props) => {
@@ -113,6 +114,14 @@ const AuthBottomSheet = ({show, onDismiss, signOut}) => {
 
 export const LogBottomSheet = ({show, data, onDismiss}) => {
 
+    // const {log} = data;
+    if (!data) return;
+    const [logData, setLogData] = useState(data);
+    
+    const {log} = logData;
+
+    // const isNew = !log;
+
     return (
         <ActionSheet
             renderTitle = {()=>(
@@ -141,11 +150,16 @@ export const LogBottomSheet = ({show, data, onDismiss}) => {
                         editable
                         multiline
                         numberOfLines={20}
-                        onChangeText={text => console.log(text)}
+                        onChangeText={text => setLogData((p)=> {
+                            return {
+                                ...p,
+                                log:text
+                            }
+                        })}
                         style={{paddingHorizontal: 20, fontSize: 16, color:Theme.grey400}}
                         placeholder="Enter log here"
                         textAlignVertical="top"
-                        value={data}
+                        value={log}
                     />
                 )
             }}
@@ -163,7 +177,7 @@ export const LogBottomSheet = ({show, data, onDismiss}) => {
                 backgroundColor:'transparent'
             }}
             visible={show}
-            onDismiss={() => onDismiss()}
+            onDismiss={() => onDismiss(logData)}
         />
     );
 }

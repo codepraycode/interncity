@@ -8,15 +8,26 @@ import { useIntern } from '../../hooks/useIntern';
 import Tabs from '../../components/Tabs';
 import WeeklyLogs from '../../components/organization/WeeklyLogs';
 import {LogBottomSheet} from '../../components/BottomSheet';
+import { JSONLog } from '../../app/utils';
 
 const InternsDetailScreen = ({ route }) => {
     const { internId, applicationId } = route.params;
 
-    const {intern} = useIntern(internId);
+    const { intern, saveLog } = useIntern(internId);
     const [tabNo, setTabNo] = useState(0);    
-    const [weekEditing, setWeekEditing] = useState(null);
+    const [logEditing, setLogEditing] = useState(null);
 
-    const autoSaveLog = (data)=> setWeekEditing(null);
+    const autoSaveLog = (data=null)=> {
+        if(data){
+            // Save data
+            JSONLog(data);
+            saveLog(data)
+            .then(()=>console.log("Done!"))
+            .catch(err=>console.log("Error:", err))
+        }
+
+        setLogEditing(null);
+    };
 
     if (!Boolean(intern.original)) return <NotFound  text="Could not retrieve data"/>;
 
@@ -73,14 +84,14 @@ supervisor: Mr Lorem Bulaba (Manager)
                 :
                 <>
                     <WeeklyLogs 
-                        onEditLog={(weekNumber)=>setWeekEditing(weekNumber)}
+                        onEditLog={(logData)=>setLogEditing(logData)}
                         internId ={intern.id}
                     />
 
                     <LogBottomSheet
                         weekly={true} 
-                        show={Boolean(weekEditing)} 
-                        data={log} 
+                        show={Boolean(logEditing)} 
+                        data={logEditing}
                         onDismiss={autoSaveLog}
                     />
                 </>
