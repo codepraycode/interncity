@@ -159,6 +159,8 @@ class Job {
             return Job.updateJob(jobData);
         }
 
+        if(!jobData.createdAt) jobData.createdAt = new Date();
+
         return Job.createJob(jobData);
     }
 

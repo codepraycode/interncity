@@ -57,7 +57,7 @@ export const JobDetailHeader = ({job})=>{
                         {job.location.city}
                     </Text>
                     <Seperator/>
-                    <Text center label>{getTimeDistance(job.createdAt)}</Text>
+                    <Text center label>{job.createdAt ? getTimeDistance(job.createdAt) : "---"}</Text>
                 </View>
             </View>
         </>
