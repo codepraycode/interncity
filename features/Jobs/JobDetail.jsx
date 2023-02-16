@@ -70,9 +70,10 @@ const JobDetail = ({ route }) => {
 
             {
                 tabNo === 0 ? 
-                <CompanyInfo company={company}/>
-                :
                 <PlacementDetailInfo job={job} mini/>
+                :
+                <CompanyInfo company={company}/>
+                
             }
 
 

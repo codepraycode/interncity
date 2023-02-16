@@ -24,6 +24,7 @@ class Organization {
             name,
             about,
             email,
+            website
 
         } = orgData || {};
 
@@ -37,6 +38,7 @@ class Organization {
         this.name = name;
         this.about = about;
         this.email = email;
+        this.website = website;
     }
 
     get original(){

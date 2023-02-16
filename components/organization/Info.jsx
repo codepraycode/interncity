@@ -4,59 +4,60 @@ import Theme from '../../constants/theme';
 import Octicons from 'react-native-vector-icons/Octicons';
 import CustomButton from '../Button';
 import { formatDistance } from 'date-fns';
-import { getTimeDate } from '../../app/utils';
+import { getTimeDate, JSONLog, openURL } from '../../app/utils';
 
 export const CompanyInfo = ({company}) => {
-  return (
-    <View
-        style={{
-            paddingVertical: 10,
-            marginHorizontal: 30,
-        }}
-    >
-        <View style={{marginVertical: 10}}>
-            <Text p style={{marginVertical: 10}}>Organization name</Text>
 
-            <Text h6>
-                {company.name}
-            </Text>
-        </View>
-
-        <View style={{marginVertical: 10}}>
-            <Text p style={{marginVertical: 10}}>About organization</Text>
-
-            <Text h6 style={{marginVertical: 0}}>
-                {company.about}
-            </Text>
-        </View>
-
-        <View style={{marginVertical: 10}}>
-            <Text p style={{marginVertical: 10}}>Address</Text>
-
-            <Text h6 style={{marginVertical: 0}}>
-                {company.address} {company.city}, {company.country}.
-            </Text>
-        </View>
-
-        <CustomButton
+    return (
+        <View
             style={{
-                flexDirection:'row',
-                backgroundColor:Theme.lightRed,                
-                maxWidth: "80%",
-                paddingHorizontal: 20,
-                paddingVertical:10,
-                borderRadius: 6,
-                marginVertical: 10,
+                paddingVertical: 10,
+                marginHorizontal: 30,
             }}
-            text={"View website"}
-            onPress={()=>{}}
-            disable={!company.website}
-            icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
-            textStyle={{marginLeft: 10, color:Theme.red}}
-        />
+        >
+            <View style={{marginVertical: 10}}>
+                <Text p style={{marginVertical: 10}}>Organization name</Text>
 
-    </View>
-  )
+                <Text h6>
+                    {company.name}
+                </Text>
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text p style={{marginVertical: 10}}>About organization</Text>
+
+                <Text h6 style={{marginVertical: 0}}>
+                    {company.about}
+                </Text>
+            </View>
+
+            <View style={{marginVertical: 10}}>
+                <Text p style={{marginVertical: 10}}>Address</Text>
+
+                <Text h6 style={{marginVertical: 0}}>
+                    {company.address} {company.city}, {company.country}.
+                </Text>
+            </View>
+
+            <CustomButton
+                style={{
+                    flexDirection:'row',
+                    backgroundColor:Theme.lightRed,                
+                    maxWidth: "80%",
+                    paddingHorizontal: 20,
+                    paddingVertical:10,
+                    borderRadius: 6,
+                    marginVertical: 10,
+                }}
+                text={"View website"}
+                onPress={()=>openURL(company.website)}
+                disable={!company.website}
+                icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
+                textStyle={{marginLeft: 10, color:Theme.red}}
+            />
+
+        </View>
+    )
 }
 
 export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration, mini }) => {
@@ -217,7 +218,7 @@ export const ApplicationStudentInfo = ({student, showHeader}) => {
                     marginVertical: 10,
                 }}
                 text={"View CV"}
-                onPress={()=>{}}
+                onPress={()=>openURL(cv)}
                 disable={!cv}
                 icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
                 textStyle={{marginLeft: 10, color:Theme.red}}
@@ -285,7 +286,7 @@ export const InternInfo = ({cv,showHeader}) => {
                     marginVertical: 10,
                 }}
                 text={"View CV"}
-                onPress={()=>{}}
+                onPress={()=>openURL(cv)}
                 disable={!cv}
                 icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
                 textStyle={{marginLeft: 10, color:Theme.red}}

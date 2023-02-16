@@ -1,4 +1,5 @@
 import { formatDistance } from "date-fns";
+import { Linking } from "react-native";
 
 export const userTypes = {
     PROFILES:'userProfiles',
@@ -7,6 +8,16 @@ export const userTypes = {
     SUPERVISOR:'supervisor',
     JOBS:'jobs',
     INTERNACCOUNTS:"internAccount",
+}
+
+export const openURL = (url) => {
+    console.log("Opening:",url)
+    if(!url) return
+
+    let durl = url;
+
+    if(!url.includes("http://") || !url.includes("https://")) durl = `http://${url}`;
+    Linking.openURL(durl).catch((err) => console.error('An error occurred', err));
 }
 
 export const getTimeDate = (timeObject) =>{
