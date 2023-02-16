@@ -15,8 +15,20 @@ export const openURL = (url) => {
     if(!url) return
 
     let durl = url;
+    let protocol = false;
 
-    if(!url.includes("http://") || !url.includes("https://")) durl = `http://${url}`;
+    for (let i of ['http://', 'https://']){
+        if(protocol) break;
+
+        if (url.includes(i)) protocol = true;
+    }
+
+    if (!protocol){
+        durl = `http://${url}`
+    }
+
+    // if(url.includes("https://")) durl = `http://${url}`;
+    // if(!url.includes("http://") || !url.includes("https://")) durl = `http://${url}`;
     Linking.openURL(durl).catch((err) => console.error('An error occurred', err));
 }
 
