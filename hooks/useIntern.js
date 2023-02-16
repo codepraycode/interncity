@@ -128,11 +128,11 @@ const useStudent = (studentData)=>{
                 setOrganization(()=>org);
             }
 
-            if (!intern.student) {
+            if (!intern.student?.departmentData) {
                 // const _student = {...student}
 
-                const departmentData = departments.find((ed)=>ed.id === rest?.department);
-                const schoolData = schools.find((es)=>es.id === rest?.school);
+                const departmentData = departments.find((ed)=>ed.id === intern.student?.department);
+                const schoolData = schools.find((es)=>es.id === intern.student?.school);
 
                 setStudent((p)=>({
                     ...p,
@@ -146,6 +146,7 @@ const useStudent = (studentData)=>{
         
     }, [job, student, organization])
 
+    JSONLog(student)
     if(intern){
         intern.job = job;
         intern.student = student;

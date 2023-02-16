@@ -81,7 +81,9 @@ const DetailHeader = ({data})=>{
     )
 }
 
-export const DetailHeaderMini = ({data})=>{
+export const StudentDetailHeaderMini = ({ student})=>{
+
+    // JSONLog(student)
 
     const name = `Lorem Ipsum`;
     return (
@@ -93,7 +95,7 @@ export const DetailHeaderMini = ({data})=>{
                     flexDirection:'row',
                     alignItems:'center',
                     marginLeft:20,
-                    marginTop:20,
+                    marginVertical:20,
                 }}
             >
 
@@ -111,9 +113,9 @@ export const DetailHeaderMini = ({data})=>{
                     <Text 
                         center 
                         h4
-                    >{name}</Text>
+                    >{student?.fullname || '...'}</Text>
 
-                    <Text center label>{"IT intern"}</Text>
+                    {/* <Text center label>{student?.departmentData?.name || "..."}</Text> */}
                 </View>
 
             </View>

@@ -25,7 +25,7 @@ const StudentListScreen = ({navigation}) => {
     const handleNavigateToDetail = (studentItem)=>{
         navigation.navigate("Student", { 
             screen: "StudentDetail", 
-            params: {studentId: studentItem.id}
+            params: {student: studentItem}
         });
     }
     return (
