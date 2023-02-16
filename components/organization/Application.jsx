@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {Alert, ScrollView} from 'react-native'
 import { Text, View } from 'react-native-ui-lib';
+import AppContext from '../../app/context';
 import { getTimeDate, JSONLog } from '../../app/utils';
 import Theme from '../../constants/theme';
 import { useApplication } from '../../hooks/useApplication';
@@ -10,8 +11,13 @@ import { ApplicationModal, Preloader } from '../Modal';
 import { ApplicationDetailHeader } from './Header';
 import { ApplicationStudentInfo, PlacementDetailInfo } from './Info';
 
+
+
+
+
 const ApplicationDetail = ({ id:applicationId }) => {
     
+    const {isIntern} = useContext(AppContext);
     const {application, sendOffer, declineApplication} = useApplication(applicationId);
     const [makingOffer, setMakingOffer] = useState(false);
     const [decliningOffer, setDecliningOffer] = useState(false);
@@ -22,8 +28,14 @@ const ApplicationDetail = ({ id:applicationId }) => {
     // console.log(application.offer_date)
     if (!Boolean(application.original)) return <NotFound  text="Could not retrieve data"/>;
 
-    let offerDate;
+    let offerDate, jobStarted;
     if (application.offer_date) offerDate = getTimeDate(application.offer_date);
+    if (application.job_started) jobStarted = getTimeDate(application.job_started);
+
+    let placementStarted = false;
+
+    if (isIntern && jobStarted) placementStarted = true;
+    
 
     let cta = (
         <>
@@ -47,7 +59,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
                 />
 
                 <CustomButton 
-                    text="Make Offer" 
+                    text={isIntern ? "Accept Offer" : "Make Offer" }
                     onPress={()=>setMakingOffer(true)}
                     style={{
                         width: 150
@@ -57,10 +69,10 @@ const ApplicationDetail = ({ id:applicationId }) => {
 
             <ApplicationModal 
                 show={makingOffer || decliningOffer} 
-                title = {decliningOffer ? "Decline Application" : "Confirm Offer"}
-                message = {decliningOffer ? "You are about to decline the application of" : "You are about to make an offer to"}
+                title = {decliningOffer ? `Decline ${isIntern ? "Offer": "Application"}` : `Confirm Offer`}
+                message = {decliningOffer ? `You are about to decline the ${isIntern ? "offer":"application"} of` : `You are about to ${isIntern ? "accept offer for":"make an offer to"}`}
 
-                target={application.student?.fullname}
+                target={isIntern ? application.job?.role : application.student?.fullname}
                 isDecline={decliningOffer}
                 onHide={(updatedApplication=false)=>{
 
@@ -80,12 +92,12 @@ const ApplicationDetail = ({ id:applicationId }) => {
                         action()
                         .then(()=>{
                             const title = decliningOffer ? 
-                                "Application Declined" : 
-                                "Offer sent";
+                                `${isIntern ? "Offer":"Application"} Declined` : 
+                                isIntern ? "Offer accepted" : "Offer sent";
 
                             const message = decliningOffer ? 
-                            "Student's application is declined.":
-                            "You offer was successfully sent to student."
+                            (isIntern ? "Job offer is declined" : "Student's application is declined."):
+                            (isIntern ? "Job placement has been initialized, you can start updating your logs" :"You offer was successfully sent to student.")
 
                             Alert.alert(
                                 title,
@@ -95,8 +107,8 @@ const ApplicationDetail = ({ id:applicationId }) => {
                         })
                         .catch(()=>{
                             const title = decliningOffer ? 
-                                "Application Decline failed" : 
-                                "Could not send offer";
+                                (isIntern ? "Offer decline failed": "Application decline failed") : 
+                                (isIntern ? "Could not address offer" :"Could not send offer");
 
                             const message = "The operation failed, please try again."
                             Alert.alert(
@@ -117,7 +129,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
         </>
     )
 
-    if (offerDate)  cta = (
+    if (placementStarted)  cta = (
         <View 
             center style={{
                 marginVertical: 15, 
@@ -125,8 +137,9 @@ const ApplicationDetail = ({ id:applicationId }) => {
                 justifyContent:"space-evenly"
             }}
         >
+
             <CustomButton 
-                text={`Sent offer on ${offerDate.toDateString()}`}
+                text={`Placement started  ${jobStarted ? `on ${jobStarted.toDateString()}` : ""}`}
                 onPress={()=>{}}
                 style={{
                     width: "90%",
@@ -134,6 +147,50 @@ const ApplicationDetail = ({ id:applicationId }) => {
                 }}
                 disable
             />
+        </View>
+    )
+    
+    if (offerDate && !isIntern)  cta = (
+        <View 
+            center style={{
+                marginVertical: 15, 
+                flexDirection:'row',
+                justifyContent:"space-evenly"
+            }}
+        >
+
+            <CustomButton 
+                text={`Sent offer ${offerDate ? `on ${offerDate?.toDateString()}` : ""}`}
+                onPress={()=>{}}
+                style={{
+                    width: "90%",
+                    backgroundColor: Theme.accent
+                }}
+                disable
+            />
+
+        </View>
+    )
+
+    if (!offerDate && isIntern)  cta = (
+        <View 
+            center style={{
+                marginVertical: 15, 
+                flexDirection:'row',
+                justifyContent:"space-evenly"
+            }}
+        >
+
+            <CustomButton 
+                text={`Awaiting organization response`}
+                onPress={()=>{}}
+                style={{
+                    width: "90%",
+                    backgroundColor: Theme.accent
+                }}
+                disable
+            />
+
         </View>
     )
 
@@ -146,7 +203,12 @@ const ApplicationDetail = ({ id:applicationId }) => {
             }}
         >
             <CustomButton 
-                text={`Application declined`}
+                text={
+                    isIntern ?
+                    `Offer declined`
+                    :
+                    `Application declined`
+                }
                 onPress={()=>{}}
                 style={{
                     width: "90%",
@@ -158,8 +220,13 @@ const ApplicationDetail = ({ id:applicationId }) => {
     )
 
 
+    return (<ApplicationDetailContent application={application} isIntern={isIntern} cta={cta}/>);
+}
+
+
+const ApplicationDetailContent = ({application, isIntern, cta})=>{
     return (
-        <ScrollView contentContainerStyle={{paddingBottom: 20}}>
+         <ScrollView contentContainerStyle={{paddingBottom: 20}}>
             <View
                 contentContainerStyle={{
                     backgroundColor:Theme.grey100,
@@ -170,7 +237,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
             </View>
 
             {/* Content */}
-            <ApplicationStudentInfo showHeader student={application.student}/>
+            <ApplicationStudentInfo showHeader isIntern={isIntern} student={application.student}/>
 
             <PlacementDetailInfo 
                 showHeader
@@ -181,8 +248,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
 
             { cta }
         </ScrollView>
-
-    );
+    )
 }
 
 

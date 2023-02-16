@@ -48,7 +48,7 @@ const useApplication = (applicationId)=>{
         applications:{data:applications},
         departments:{data:departments},
         schools:{data:schools},
-        userProfile
+        userProfile,
     } = useContext(AppContext);
 
     const [student, setStudent] = useState(null);
@@ -92,15 +92,20 @@ const useApplication = (applicationId)=>{
 
     const sendOffer = useCallback(async()=>{
         console.log("Sending offer....", application.id);
+
+        const data = {
+            id: application.id
+        }
+
+        if (application.offer_date) data.job_started = new Date();
+        else data.offer_date = data.offer_date = new Date();
         
-        const { offer_date } = await Application.update({
-            id: application.id,
-            offer_date: new Date(),
-        });
+        const { offer_date, job_started } = await Application.update(data);
 
-        application.offer_date = offer_date
+        if(offer_date) application.offer_date = offer_date;
+        if(job_started) application.job_started = job_started;
 
-        return offer_date;
+        return job_started || offer_date;
 
     }, [applicationId])
 

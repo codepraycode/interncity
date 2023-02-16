@@ -155,7 +155,7 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration, m
     )
 }
 
-export const ApplicationStudentInfo = ({student, showHeader}) => {
+export const ApplicationStudentInfo = ({student, isIntern, showHeader}) => {
     const phone = student?.phoneNumber || "...";
     const city = student?.city || "...";
     const address = student?.address;
@@ -167,7 +167,7 @@ export const ApplicationStudentInfo = ({student, showHeader}) => {
   return (
     <>
         {showHeader && (<View style={{marginHorizontal:10, marginVertical:5, borderBottomWidth:1, borderColor:Theme.grey300}}>
-            <Text h6  style={{color: Theme.grey300}}>Student Information</Text>
+            <Text h6  style={{color: Theme.grey300}}>{isIntern ? "Your" : "Student"} Information</Text>
         </View>)}
         <View
             style={{
