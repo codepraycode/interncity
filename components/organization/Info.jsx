@@ -60,12 +60,13 @@ export const CompanyInfo = ({company}) => {
     )
 }
 
-export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration, mini }) => {
+export const PlacementDetailInfo = ({ showHeader, job, date_applied, job_started, duration, mini }) => {
     const role = job?.role || '...';
     const stipend = job?.stipend;
     
     let dateDistance;
     let applicationDate;
+    let placementDate;
 
 
     if (date_applied){
@@ -73,6 +74,12 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration, m
         dateDistance = date_applied && formatDistance(dt, new Date(), { addSuffix: true })
 
         applicationDate = dt.toDateString();
+    }
+    if (job_started){
+        const dt = getTimeDate(job_started);
+        dateDistance = job_started && formatDistance(dt, new Date(), { addSuffix: true })
+
+        placementDate = dt.toDateString();
     }
     
     const address = job?.location?.address || "...";
@@ -147,6 +154,19 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, duration, m
                             {applicationDate} -- {dateDistance}
                         </Text>
                     </View>
+
+                    {
+                        job_started && <View>
+                            <Text p style={{marginVertical: 5}}>
+                                Placement started
+                            </Text>
+
+                            <Text h6>
+                                {placementDate}
+                            </Text>
+                        </View>
+                    }
+                    
                 </>
                 )}
 

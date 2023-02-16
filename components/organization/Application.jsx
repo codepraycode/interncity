@@ -139,7 +139,8 @@ const ApplicationDetail = ({ id:applicationId }) => {
         >
 
             <CustomButton 
-                text={`Placement started  ${jobStarted ? `on ${jobStarted.toDateString()}` : ""}`}
+                // text={`Placement started ${jobStarted?.toDateString() ? `on ${jobStarted.toDateString()}` : ""}`}
+                text={`Placement started`}
                 onPress={()=>{}}
                 style={{
                     width: "90%",
@@ -160,7 +161,8 @@ const ApplicationDetail = ({ id:applicationId }) => {
         >
 
             <CustomButton 
-                text={`Sent offer ${offerDate ? `on ${offerDate?.toDateString()}` : ""}`}
+                // text={`Sent offer ${offerDate?.toDateString() ? `on ${offerDate?.toDateString()}` : ""}`}
+                text={`Sent offer`}
                 onPress={()=>{}}
                 style={{
                     width: "90%",
@@ -204,10 +206,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
         >
             <CustomButton 
                 text={
-                    isIntern ?
-                    `Offer declined`
-                    :
-                    `Application declined`
+                    "Application declined"
                 }
                 onPress={()=>{}}
                 style={{
@@ -244,6 +243,7 @@ const ApplicationDetailContent = ({application, isIntern, cta})=>{
                 job = {application.job}
                 date_applied = {application.date_applied}
                 duration = {application.duration}
+                job_started = {application.job_started}
             />
 
             { cta }
