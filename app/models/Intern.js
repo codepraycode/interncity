@@ -57,7 +57,7 @@ class Application {
 
     async getJob (){
 
-        const jobDocRef = doc(database, userTypes.JOBS, (this.jobId || 'id'));
+        const jobDocRef = doc(database, userTypes.JOBS, this.jobId);
 
         this.job = null;
         let res;
@@ -73,7 +73,7 @@ class Application {
     
     async getStudent(){
         // console.log("Student:", this.studentId)
-        const studentDocRef = doc(database, userTypes.PROFILES, (this.studentId?.trim() || 'id'));
+        const studentDocRef = doc(database, userTypes.PROFILES, this.studentId?.trim());
 
         this.student = null;
         let res;
@@ -90,6 +90,22 @@ class Application {
 
     setOrganization(profile=null){
         this.organization = profile;
+    }
+
+    static async getOrganization(orgId){
+        // console.log("Student:", this.studentId)
+        const orgDocRef = doc(database, userTypes.PROFILES, orgId?.trim());
+
+        let res;
+
+        try{
+            res = await getDoc(orgDocRef);
+            res = res.data();
+        }catch(err){
+            console.log("Error fetching organization profile:", err);
+        }
+
+        return res;
     }
 
     static async update(data){
