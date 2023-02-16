@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../app/context';
-import Intern, { Application } from '../app/models/Intern';
+import { Application,Intern } from '../app/models/Intern';
 
 const useApplications = (organizationId=null)=>{
 
@@ -8,7 +8,7 @@ const useApplications = (organizationId=null)=>{
 
     const data = useMemo(()=>{
         return applications.filter((each)=> each.organization === organizationId);
-    },[organizationId])
+    },[organizationId, applications])
 
     const updateViewed = async (id)=>{
 

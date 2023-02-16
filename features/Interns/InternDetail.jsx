@@ -9,10 +9,13 @@ import Tabs from '../../components/Tabs';
 import WeeklyLogs from '../../components/organization/WeeklyLogs';
 import {LogBottomSheet} from '../../components/BottomSheet';
 import { JSONLog } from '../../app/utils';
+import NotFound from '../../states/NotFound';
 
 const InternsDetailScreen = ({ route }) => {
     const { internId, applicationId } = route.params;
 
+    if (applicationId) return <ApplicationDetail id={applicationId}/>
+    
     const { intern, saveLog } = useIntern(internId);
     const [tabNo, setTabNo] = useState(0);    
     const [logEditing, setLogEditing] = useState(null);
@@ -30,14 +33,6 @@ const InternsDetailScreen = ({ route }) => {
     };
 
     if (!Boolean(intern.original)) return <NotFound  text="Could not retrieve data"/>;
-
-    const log = `Date: 1/1/2023
-A sample weekly log.
-supervisor: Mr Lorem Bulaba (Manager)
-`
-
-
-    if (applicationId) return <ApplicationDetail id={applicationId}/>
 
     const Info = (
         <ScrollView contentContainerStyle={{paddingVertical: 20}}>

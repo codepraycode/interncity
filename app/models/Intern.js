@@ -57,7 +57,7 @@ class Application {
 
     async getJob (){
 
-        const jobDocRef = doc(database, userTypes.JOBS, this.jobId);
+        const jobDocRef = doc(database, userTypes.JOBS, (this.jobId || 'id'));
 
         this.job = null;
         let res;
@@ -73,7 +73,7 @@ class Application {
     
     async getStudent(){
         // console.log("Student:", this.studentId)
-        const studentDocRef = doc(database, userTypes.PROFILES, this.studentId?.trim());
+        const studentDocRef = doc(database, userTypes.PROFILES, (this.studentId?.trim() || 'id'));
 
         this.student = null;
         let res;
