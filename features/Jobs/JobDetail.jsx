@@ -32,7 +32,7 @@ const JobDetail = ({ route }) => {
     
     if (!Boolean(company)) return <NotFound text={"Job company not found!"}/>;
 
-    if(duration !== job.application?.duration) job.application.duration = duration;
+    job.duration = duration;
 
     const alreadyApplied = Boolean(job.application);
 
@@ -56,13 +56,13 @@ const JobDetail = ({ route }) => {
                     tabs={[
                         {
                             text: "Job Info",
-                            onClick:()=>setTabNo(1),
-                            active: tabNo === 1
+                            onClick:()=>setTabNo(0),
+                            active: tabNo === 0
                         },
                         {
                             text: "Company Info",
-                            onClick:()=>setTabNo(0),
-                            active: tabNo === 0
+                            onClick:()=>setTabNo(1),
+                            active: tabNo === 1
                         }
                     ]}
                 />
