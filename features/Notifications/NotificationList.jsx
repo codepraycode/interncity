@@ -16,7 +16,7 @@ const NotificationScreen = ({ navigation }) => {
 
     const userId = userProfile?.id || null;
 
-    const {data:applications, updateViewed} = useApplications(userId);
+    const {data:applications, updateViewed} = useApplications(userId, !isOrganization);
     
     const handleNavigateToDetail = (applicationId)=>{
         navigation.navigate("Intern", { 

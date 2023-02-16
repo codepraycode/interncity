@@ -2,13 +2,14 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../app/context';
 import { Application,Intern } from '../app/models/Intern';
 
-const useApplications = (organizationId=null)=>{
+const useApplications = (userId=null, student=false)=>{
 
     const { applications:{data:applications} } = useContext(AppContext);
 
     const data = useMemo(()=>{
-        return applications.filter((each)=> each.organization === organizationId);
-    },[organizationId, applications])
+        if (student) return applications.filter((each)=> each.student === userId);
+        return applications.filter((each)=> each.organization === userId);
+    },[userId, applications])
 
     const updateViewed = async (id)=>{
 
