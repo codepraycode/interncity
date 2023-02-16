@@ -77,7 +77,7 @@ const InternDailyLogLists = ({placement:viewingPlacement}) => {
     const autoSaveLog = (data=null)=> {
         if(data){
             // Save data
-            JSONLog(data);
+            // JSONLog(data);
             updateLog(data)
             .then(()=>console.log("Done!"))
             .catch(err=>console.log("Error:", err))

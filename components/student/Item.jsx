@@ -6,14 +6,13 @@ import Seperator from '../Seperator';
 import { useIntern, useStudent} from '../../hooks/useIntern';
 import { JSONLog } from '../../app/utils';
 
-const Item = ({intern:internData, isSupervisor, onViewClick}) => {
+const Item = ({student:studentData, isSupervisor, onViewClick}) => {
 
-    const {id, ...rest} = internData;
+    const {id, ...rest} = studentData;
 
-    const { intern:placementData } = isSupervisor ? useStudent(internData): useIntern(id);
+    const { intern:placementData } = useStudent(studentData);
 
     let intern = placementData || {};
-
     
     if (!placementData) {
 
@@ -40,7 +39,7 @@ const Item = ({intern:internData, isSupervisor, onViewClick}) => {
                     
                     {
                         isSupervisor ?
-                        <Text p>{intern.organization?.name}</Text>
+                        <Text p>{intern.organization?.name || "No placement yet"}</Text>
                         :
                         <>
                             <Text small>{intern.student?.schoolData?.short}</Text>

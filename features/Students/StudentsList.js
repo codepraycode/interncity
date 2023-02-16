@@ -35,7 +35,7 @@ const StudentListScreen = ({navigation}) => {
             onRefresh={()=>{}}
             renderItem = {({item})=><Item 
                 isSupervisor={true} 
-                intern = { item } 
+                student = { item } 
                 onViewClick = {()=>handleNavigateToDetail(item)}
             />}
             keyExtractor={item => item.id}

@@ -57,9 +57,10 @@ class Application {
 
     async getJob (){
 
+        this.job = null;
+        if(!this.jobId) return;
         const jobDocRef = doc(database, userTypes.JOBS, this.jobId);
 
-        this.job = null;
         let res;
 
         try{
@@ -73,9 +74,11 @@ class Application {
     
     async getStudent(){
         // console.log("Student:", this.studentId)
+        this.student = null;
+        if (!this.studentId) return;
+
         const studentDocRef = doc(database, userTypes.PROFILES, this.studentId?.trim());
 
-        this.student = null;
         let res;
 
         try{
@@ -94,6 +97,7 @@ class Application {
 
     static async getOrganization(orgId){
         // console.log("Student:", this.studentId)
+        if(!orgId) return null;
         const orgDocRef = doc(database, userTypes.PROFILES, orgId?.trim());
 
         let res;

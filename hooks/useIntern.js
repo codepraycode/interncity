@@ -108,7 +108,7 @@ const useStudent = (studentData)=>{
     const intern = useMemo(()=>{
         const applicationData = applications.find((each)=> each.student === id);
 
-        if (!applicationData) return null;
+        if (!applicationData) return new Intern(studentData);
         return new Application(applicationData);
     },[id]);
 
@@ -146,7 +146,7 @@ const useStudent = (studentData)=>{
         
     }, [job, student, organization])
 
-    JSONLog(student)
+
     if(intern){
         intern.job = job;
         intern.student = student;

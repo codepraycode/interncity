@@ -23,7 +23,7 @@ const InternsDetailScreen = ({ route }) => {
     const autoSaveLog = (data=null)=> {
         if(data){
             // Save data
-            JSONLog(data);
+            // JSONLog(data);
             saveLog(data)
             .then(()=>console.log("Done!"))
             .catch(err=>console.log("Error:", err))
