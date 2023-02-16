@@ -4,40 +4,48 @@ import { Text, View } from 'react-native-ui-lib';
 
 import { PlacementHeader } from '../../components/organization/Header';
 import Tabs from '../../components/Tabs';
-import Info, { PlacementDetailInfo } from '../../components/organization/Info';
+import Info, { CompanyInfo, PlacementDetailInfo } from '../../components/organization/Info';
 import WeeklyLogs from '../../components/organization/WeeklyLogs';
 import Theme from '../../constants/theme';
 import InternDailyLogLists from '../Interns/InternDailyLogsList';
+import { StudentDetailHeaderMini } from '../../components/student/Header';
+import { useJob } from '../../hooks/useJobs';
 
 
-const PlacementDetail = () => {
-    // const { jobId } = route.params;
+const PlacementDetail = ({ route }) => {
+    const { placement, student } = route.params;
+    const { job } = useJob(placement.job);
     const [tabNo, setTabNo] = useState(0);
     let content;
 
     if (tabNo === 0) content = (
-        <ScrollView 
-            contentContainerStyle={{
-                // backgroundColor:Theme.grey100,
-                marginHorizontal: 20,
-            }}
-        >
+        <ScrollView>
 
-            <PlacementDetailInfo/>
+            <PlacementDetailInfo
+                showHeader={true}
+                job={job}
+                date_applied={placement.date_applied}
+                duration={placement.duration}
+            />
 
             <View style={{marginHorizontal:10, marginTop:20, borderBottomWidth:1, borderColor:Theme.grey300}}>
                 <Text h6 style={{color: Theme.grey300}}>Organization</Text>
             </View>
-            <Info showSite={true}/>
+
+            <CompanyInfo company={job.company}/>
         </ScrollView>
     );
-    if (tabNo === 1) content = <WeeklyLogs/>;
-    if (tabNo === 2) content = <InternDailyLogLists/>;
+    if (tabNo === 1) content = <WeeklyLogs onEditLog={()=>{}} internId={placement.student}/>;
+    if (tabNo === 2) content = <InternDailyLogLists placement={placement}/>;
     
     return (
 
         <>
-            <PlacementHeader/>
+            <StudentDetailHeaderMini
+                student={student}
+                job={job}
+            />
+
             {/* Tabs */}
             <View centerH style={{marginVertical:20,}}>
                 <Tabs

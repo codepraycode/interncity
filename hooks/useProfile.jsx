@@ -34,7 +34,7 @@ const useProfile = ()=>{
 }
 
 
-export const useStudentActivePlacement = ()=>{
+export const useStudentActivePlacement = (IncomingPlacement=null)=>{
     
     const { 
         userProfile, 
@@ -44,6 +44,7 @@ export const useStudentActivePlacement = ()=>{
 
     const placement = useMemo(()=>{
 
+        if(IncomingPlacement) return IncomingPlacement;
         // JSONLog(applications);
         if(!isIntern) return {};
 

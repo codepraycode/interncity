@@ -20,10 +20,10 @@ const StudentDetailScreen = ({ navigation, route }) => {
 
     const { placements } = usePlacements(intern.student.id);
 
-    const handleNavToPlacement = ()=>{
+    const handleNavToPlacement = (placement)=>{
         navigation.navigate("Student", { 
             screen: "StudentPlacementDetail", 
-            params: {jobId: 2}
+            params: { placement, student }
         });
     }
 
@@ -35,7 +35,7 @@ const StudentDetailScreen = ({ navigation, route }) => {
                 data={placements}
                 renderItem = {({item})=>(
                     <PlacementItem
-                        onView={()=>handleNavToPlacement()}
+                        onView={()=>handleNavToPlacement(item)}
                         placement={item}
                     />
                 )}

@@ -16,9 +16,9 @@ const defaultLog = (index, placementId) =>({
     log: null
 })
 
-const InternDailyLogLists = () => {
+const InternDailyLogLists = ({placement:viewingPlacement}) => {
     // Daily logs
-    const {placement, updateLog} = useStudentActivePlacement();
+    const {placement, updateLog} = useStudentActivePlacement(viewingPlacement);
     const {logs} = useLogs(placement?.id, true);
     const [logEditing, setLogEditing] = useState(null);
 
