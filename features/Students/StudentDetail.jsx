@@ -8,17 +8,20 @@ import PlacementItem from '../../components/student/Placements';
 import Theme from '../../constants/theme';
 import { usePlacements } from '../../hooks/useApplication';
 import { useStudent } from '../../hooks/useIntern';
-import NotFound from '../../states/NotFound';
+import NoPlacement from '../../states/NoPlacement';
 
 const StudentDetailScreen = ({ navigation, route }) => {
 
     const { student } = route.params;
 
+    // console.log("Student", student);
+
     const { intern } = useStudent(student);
+    // console.log("Intern", intern);
 
-    if (!Boolean(intern)) return <NotFound text={"Could not retrieve data"}/>;
+    // if (!Boolean(intern)) return <NotFound text={"Could not retrieve data"}/>;
 
-    const { placements } = usePlacements(intern.student.id);
+    const { placements } = usePlacements(intern?.student.id);
 
     const handleNavToPlacement = (placement)=>{
         navigation.navigate("Student", { 
@@ -41,9 +44,9 @@ const StudentDetailScreen = ({ navigation, route }) => {
                 )}
                 ListHeaderComponent={
                     <View>
-                        <StudentDetailHeaderMini student={intern.student}/>
+                        <StudentDetailHeaderMini student={student}/>
 
-                        <ApplicationStudentInfo showHeader={true} student={intern.student}/>
+                        <ApplicationStudentInfo showHeader={true} student={student}/>
 
                         <View style={{marginHorizontal:20, marginBottom:5, borderTopWidth:1, borderColor:Theme.grey300}}>
                             <Text h5>Placements</Text>
@@ -51,6 +54,9 @@ const StudentDetailScreen = ({ navigation, route }) => {
                         
                     </View>
                 }
+                ListEmptyComponent={(
+                    <NoPlacement/>
+                )}
             />
             
         </>
