@@ -6,6 +6,7 @@ import { ApplicationStudentInfo } from '../../components/organization/Info';
 import { StudentDetailHeaderMini } from '../../components/student/Header';
 import PlacementItem from '../../components/student/Placements';
 import Theme from '../../constants/theme';
+import { usePlacements } from '../../hooks/useApplication';
 import { useStudent } from '../../hooks/useIntern';
 import NotFound from '../../states/NotFound';
 
@@ -17,10 +18,7 @@ const StudentDetailScreen = ({ navigation, route }) => {
 
     if (!Boolean(intern)) return <NotFound text={"Could not retrieve data"}/>;
 
-    const numberOfWeeks = 3;
-
-    const weeks = [...Array(numberOfWeeks).keys()];
-
+    const { placements } = usePlacements(intern.student.id);
 
     const handleNavToPlacement = ()=>{
         navigation.navigate("Student", { 
@@ -34,10 +32,11 @@ const StudentDetailScreen = ({ navigation, route }) => {
            
 
             <FlatList
-                data={weeks}
+                data={placements}
                 renderItem = {({item})=>(
                     <PlacementItem
                         onView={()=>handleNavToPlacement()}
+                        placement={item}
                     />
                 )}
                 ListHeaderComponent={

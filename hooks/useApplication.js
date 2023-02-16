@@ -29,6 +29,17 @@ const useApplications = (organizationId=null)=>{
     return {data, updateViewed};
 }
 
+const usePlacements = (studentId)=>{
+
+    const { applications:{data:applications} } = useContext(AppContext);
+
+    const placements = useMemo(()=>{
+        return applications.filter((each)=> (each.student === studentId) && Boolean(each.job_started));
+    },[studentId, applications])
+
+    return { placements };
+}
+
 
 const useApplication = (applicationId)=>{
 
@@ -115,4 +126,4 @@ const useApplication = (applicationId)=>{
     return {application, sendOffer, declineApplication};
 }
 
-export { useApplications, useApplication };
+export { useApplications, useApplication, usePlacements };
