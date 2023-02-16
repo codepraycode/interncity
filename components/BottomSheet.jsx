@@ -112,7 +112,7 @@ const AuthBottomSheet = ({show, onDismiss, signOut}) => {
 }
 
 
-export const LogBottomSheet = ({show, data, onDismiss}) => {
+export const LogBottomSheet = ({show, data, onDismiss, editable}) => {
 
     // const {log} = data;
     if (!data) return;
@@ -147,7 +147,7 @@ export const LogBottomSheet = ({show, data, onDismiss}) => {
                 return (
                     <TextInput
                         key={index}
-                        editable
+                        editable={editable}
                         multiline
                         numberOfLines={20}
                         onChangeText={text => setLogData((p)=> {

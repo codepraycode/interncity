@@ -10,12 +10,15 @@ import Theme from '../../constants/theme';
 import InternDailyLogLists from '../Interns/InternDailyLogsList';
 import { StudentDetailHeaderMini } from '../../components/student/Header';
 import { useJob } from '../../hooks/useJobs';
+import { LogBottomSheet } from '../../components/BottomSheet';
 
 
 const PlacementDetail = ({ route }) => {
     const { placement, student } = route.params;
     const { job } = useJob(placement.job);
     const [tabNo, setTabNo] = useState(0);
+    const [viewingLog, setViewingLog] = useState(null);
+
     let content;
 
     if (tabNo === 0) content = (
@@ -34,9 +37,25 @@ const PlacementDetail = ({ route }) => {
 
             <CompanyInfo company={job.company}/>
         </ScrollView>
+    )
+    if (tabNo === 1) content = (
+        <>
+            <WeeklyLogs 
+                onEditLog={(logData)=>setViewingLog(logData)}
+                internId={placement.student}
+            />
+
+            <LogBottomSheet
+                weekly={true} 
+                show={Boolean(viewingLog)} 
+                data={viewingLog}
+                onDismiss={()=>setViewingLog(null)}
+                editable={false}
+            />
+        </>
     );
-    if (tabNo === 1) content = <WeeklyLogs onEditLog={()=>{}} internId={placement.student}/>;
-    if (tabNo === 2) content = <InternDailyLogLists placement={placement}/>;
+    if (tabNo === 2) content = <InternDailyLogLists viewOnly={true} placement={placement}/>;
+
     
     return (
 

@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react'
+import React, { useContext, useMemo, useState } from 'react'
 import { FlatList } from 'react-native';
+import AppContext from '../../app/context';
 import { getDayVerbose, JSONLog } from '../../app/utils';
 import { LogBottomSheet } from '../../components/BottomSheet';
 import LogItem from '../../components/LogItem';
@@ -16,7 +17,16 @@ const defaultLog = (index, placementId) =>({
     log: null
 })
 
+
+
+
+
 const InternDailyLogLists = ({placement:viewingPlacement}) => {
+
+    const {isSupervisor} = useContext(AppContext);
+
+    const viewOnly = isSupervisor
+
     // Daily logs
     const {placement, updateLog} = useStudentActivePlacement(viewingPlacement);
     const {logs} = useLogs(placement?.id, true);
@@ -40,6 +50,28 @@ const InternDailyLogLists = ({placement:viewingPlacement}) => {
 
         return res;
     },[placement])
+
+
+    const daysLogs = useMemo(()=>{
+        let arr = [];
+
+        days.forEach((item, i)=>{
+            const log = logs.find((e)=>e.day === i);
+
+            if (!log){
+                const defaultLogData = defaultLog(i, placement?.id)
+                if (isSupervisor) return;
+
+                defaultLogData.item = item;
+                return arr.push(defaultLogData);
+            }
+
+            if(!log.item) log.item = item;
+            arr.push(log);
+        });
+
+        return arr
+    },[logs])
     
 
     const autoSaveLog = (data=null)=> {
@@ -57,27 +89,27 @@ const InternDailyLogLists = ({placement:viewingPlacement}) => {
     return (
         <>
             <FlatList
-                data={days}
-                renderItem = {({item:dayNumber, index})=>{
+                data={daysLogs}
+                renderItem = {({item, index})=>{
+
+                    const dayNumber = item.item;
 
                     if ((dayNumber < 1) || (dayNumber > 5)) return null;
 
                     const dayOfWeek = getDayVerbose(dayNumber);
 
-                    const log = logs.find((e)=>e.day === index);
-
                     return (
                         <LogItem
                             editLog={(logData)=>setLogEditing(()=>logData)}
                             label={`${dayOfWeek}`}
-                            log={log || defaultLog(index, placement?.id)}
+                            log={item}
                         />
                     )
                 }}
                 ListEmptyComponent={(
                     <NoStudents 
-                        title={"No Placement"}
-                        message ={"No active placement in an organization yet"}
+                        title={"No daily log"}
+                        message ={" "}
                     />
                 )}
             />
@@ -86,7 +118,9 @@ const InternDailyLogLists = ({placement:viewingPlacement}) => {
                 show={Boolean(logEditing)} 
                 data={logEditing}
                 onDismiss={autoSaveLog}
+                editable={!viewOnly}
             />
+
         </>
     )
 }
