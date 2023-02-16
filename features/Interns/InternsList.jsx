@@ -15,13 +15,12 @@ const InternsListScreen = ({navigation}) => {
         });
     }
 
-
     return (
         <FlatList
             data={ interns }
             renderItem = {({item})=>(
                 <Item 
-                    intern = { item } 
+                    student = { item } 
                     onViewClick = {()=>handleNavigateToDetail(item)}
                     isSupervisor={false}
                 />)

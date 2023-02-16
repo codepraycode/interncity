@@ -7,10 +7,10 @@ import { useIntern, useStudent} from '../../hooks/useIntern';
 import { JSONLog } from '../../app/utils';
 
 const Item = ({student:studentData, isSupervisor, onViewClick}) => {
-
     const {id, ...rest} = studentData;
 
-    const { intern:placementData } = useStudent(studentData);
+    const { intern:placementData } = isSupervisor ? useStudent(studentData) : useIntern(studentData.id);
+
 
     let intern = placementData || {};
     

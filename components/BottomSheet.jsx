@@ -113,7 +113,6 @@ const AuthBottomSheet = ({show, onDismiss, signOut}) => {
 
 
 export const LogBottomSheet = ({show, data, onDismiss, editable}) => {
-
     // const {log} = data;
     if (!data) return;
     const [logData, setLogData] = useState(data);
@@ -157,7 +156,7 @@ export const LogBottomSheet = ({show, data, onDismiss, editable}) => {
                             }
                         })}
                         style={{paddingHorizontal: 20, fontSize: 16, color:Theme.grey400}}
-                        placeholder="Enter log here"
+                        placeholder={editable ? "Enter log here" : "Log should display here"}
                         textAlignVertical="top"
                         value={log}
                     />

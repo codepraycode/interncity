@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ScrollView } from 'react-native';
 import { View } from 'react-native-ui-lib';
 import ApplicationDetail from '../../components/organization/Application';
@@ -10,18 +10,22 @@ import WeeklyLogs from '../../components/organization/WeeklyLogs';
 import {LogBottomSheet} from '../../components/BottomSheet';
 import { JSONLog } from '../../app/utils';
 import NotFound from '../../states/NotFound';
+import AppContext from '../../app/context';
 
 const InternsDetailScreen = ({ route }) => {
     const { internId, applicationId } = route.params;
 
     if (applicationId) return <ApplicationDetail id={applicationId}/>
+
+    const {isSupervisor} = useContext(AppContext)
     
     const { intern, saveLog } = useIntern(internId);
     const [tabNo, setTabNo] = useState(0);    
     const [logEditing, setLogEditing] = useState(null);
 
     const autoSaveLog = (data=null)=> {
-        if(data){
+        // console.log(data);
+        if(data?.log){
             // Save data
             // JSONLog(data);
             saveLog(data)
@@ -88,6 +92,7 @@ const InternsDetailScreen = ({ route }) => {
                         show={Boolean(logEditing)} 
                         data={logEditing}
                         onDismiss={autoSaveLog}
+                        editable={!isSupervisor}
                     />
                 </>
             }

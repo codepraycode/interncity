@@ -24,9 +24,6 @@ const defaultLog = (index, placementId) =>({
 const InternDailyLogLists = ({placement:viewingPlacement}) => {
 
     const {isSupervisor} = useContext(AppContext);
-
-    const viewOnly = isSupervisor
-
     // Daily logs
     const {placement, updateLog} = useStudentActivePlacement(viewingPlacement);
     const {logs} = useLogs(placement?.id, true);
@@ -72,10 +69,11 @@ const InternDailyLogLists = ({placement:viewingPlacement}) => {
 
         return arr
     },[logs])
-    
+
 
     const autoSaveLog = (data=null)=> {
-        if(data){
+        // console.log(data)
+        if(data?.log){
             // Save data
             // JSONLog(data);
             updateLog(data)
@@ -118,7 +116,7 @@ const InternDailyLogLists = ({placement:viewingPlacement}) => {
                 show={Boolean(logEditing)} 
                 data={logEditing}
                 onDismiss={autoSaveLog}
-                editable={!viewOnly}
+                editable={!isSupervisor}
             />
 
         </>
