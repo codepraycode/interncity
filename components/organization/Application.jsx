@@ -105,7 +105,9 @@ const ApplicationDetail = ({ id:applicationId }) => {
                             );
                             setUpdatingApplication(false);
                         })
-                        .catch(()=>{
+                        .catch((err)=>{
+
+                            console.log("Err", err);
                             const title = decliningOffer ? 
                                 (isIntern ? "Offer decline failed": "Application decline failed") : 
                                 (isIntern ? "Could not address offer" :"Could not send offer");

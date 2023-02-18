@@ -3,8 +3,7 @@ import React from 'react'
 import Theme from '../../constants/theme';
 import Octicons from 'react-native-vector-icons/Octicons';
 import CustomButton from '../Button';
-import { formatDistance } from 'date-fns';
-import { getTimeDate, JSONLog, openURL } from '../../app/utils';
+import { getTimeDate, getTimeDistance,JSONLog, openURL } from '../../app/utils';
 
 export const CompanyInfo = ({company}) => {
 
@@ -71,15 +70,15 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, job_started
 
     if (date_applied){
         const dt = getTimeDate(date_applied);
-        dateDistance = date_applied && formatDistance(dt, new Date(), { addSuffix: true })
+        dateDistance = date_applied && getTimeDistance(dt, new Date(), { addSuffix: true })
 
-        applicationDate = dt.toDateString();
+        applicationDate = dt?.toDateString();
     }
     if (job_started){
         const dt = getTimeDate(job_started);
-        dateDistance = job_started && formatDistance(dt, new Date(), { addSuffix: true })
+        dateDistance = job_started && getTimeDistance(dt, new Date(), { addSuffix: true })
 
-        placementDate = dt.toDateString();
+        placementDate = dt?.toDateString();
     }
     
     const address = job?.location?.address || "...";
@@ -156,7 +155,7 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, job_started
                     </View>
 
                     {
-                        job_started && <View>
+                        placementDate && <View>
                             <Text p style={{marginVertical: 5}}>
                                 Placement started
                             </Text>

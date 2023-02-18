@@ -33,12 +33,21 @@ export const openURL = (url) => {
 }
 
 export const getTimeDate = (timeObject) =>{
+    if(!timeObject?.seconds) return null;
     return new Date((timeObject.seconds) * 1000);
 }
 export const getTimeDistance = (timeObject) =>{
+    if(!timeObject?.seconds) return null;
     const dt = new Date((timeObject.seconds) * 1000);
 
-    return formatDistance(dt, new Date(), { addSuffix:true });
+    try{
+        return formatDistance(dt, new Date(), { addSuffix:true });
+    }catch(err){
+        console.log(err)
+    }
+
+    return null;
+    
 }
 
 export const setUpWithPreviousValue = (schema, data=null, seed={})=>{
