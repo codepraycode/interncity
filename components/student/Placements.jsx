@@ -1,12 +1,18 @@
 import { View, Text, Image } from 'react-native-ui-lib';
 import React from 'react'
 import Card from '../Card';
+import { getTimeDate } from '../../app/utils';
+import { useJob } from '../../hooks/useJobs';
 
 
-const PlacementItem = ({onView}) => {
+const PlacementItem = ({onView, placement}) => {
+    const {job} = useJob(placement.job);
 
-    const breakLength = 178;
-    
+    const { job_started, job_ended, duration} = placement;
+
+    const jobStarted = getTimeDate(job_started).toDateString();
+    const jobEnded = job_ended ? getTimeDate(job_ended).toDateString() : 'present';
+
     return (
         <Card clickable={true} onPress={onView}>
             
@@ -22,13 +28,13 @@ const PlacementItem = ({onView}) => {
 
                 <View style={{width: "80%"}}>
                     
-                    <Text h5>Backend Engineer Intern</Text>
+                    <Text h5>{job.role}</Text>
                     
                     <Text small
                         style={{
                             marginTop: 5,
                         }}
-                    >Google inc.</Text>
+                    >{job.company?.name}</Text>
                 </View>
             </View>
 
@@ -41,7 +47,7 @@ const PlacementItem = ({onView}) => {
                     alignItems:'center'
                 }}
             >
-                <Text i>23/1/2023 - present | 3 months</Text>
+                <Text i>{jobStarted} - {jobEnded} | {duration} months</Text>
             </View>
         </Card>
     )

@@ -318,42 +318,34 @@ export const StudentNotificationsList = [
 export const InternLists = [
     {
         id: 1,
-        firstname:"Lorem",
-        lastname:"Ipsum",
+        fullname:"Lorem Ipsum Agar",
     },
     {
         id: 2,
-        firstname:"Lorem",
-        lastname:"Ipsum",
+        fullname:"Lorem Ipsum Agar",
     },
     {
         id: 3,
-        firstname:"Lorem",
-        lastname:"Ipsum",
+        fullname:"Lorem Ipsum Agar",
     },
     {
         id: 4,
-        firstname:"Lorem",
-        lastname:"Ipsum",
+        fullname:"Lorem Ipsum Agar",
     },
     {
         id: 5,
-        firstname:"Lorem",
-        lastname:"Ipsum",
+        fullname:"Lorem Ipsum Agar",
     },
     {
         id: 6,
-        firstname:"Lorem",
-        lastname:"Ipsum",
+        fullname:"Lorem Ipsum Agar",
     },
     {
         id: 7,
-        firstname:"Lorem",
-        lastname:"Ipsum",
+        fullname:"Lorem Ipsum Agar",
     },
     {
         id: 8,
-        firstname:"Lorem",
-        lastname:"Ipsum",
+        fullname:"Lorem Ipsum Agar",
     }
 ]

@@ -3,10 +3,25 @@ import React from 'react'
 import Card from '../Card';
 import assets from '../../constants/assets';
 import Seperator from '../Seperator';
-import { useIntern } from '../../hooks/useIntern';
+import { useIntern, useStudent} from '../../hooks/useIntern';
+import { JSONLog } from '../../app/utils';
 
-const Item = ({intern:{id}, isSupervisor, onViewClick}) => {
-    const { intern } = useIntern(id);
+const Item = ({student:studentData, isSupervisor, onViewClick}) => {
+    const {id, ...rest} = studentData;
+
+    const { intern:placementData } = isSupervisor ? useStudent(studentData) : useIntern(studentData.id);
+
+
+    let intern = placementData || {};
+    
+    if (!placementData) {
+
+        const {fullname} = rest;
+
+        intern.student = {fullname};
+        intern.organization = {name: "No placement yet"};
+    }
+
 
     return (
         <Card clickable={true} onPress={onViewClick}>
@@ -24,7 +39,7 @@ const Item = ({intern:{id}, isSupervisor, onViewClick}) => {
                     
                     {
                         isSupervisor ?
-                        <Text p>{intern.organization?.name}</Text>
+                        <Text p>{intern.organization?.name || "No placement yet"}</Text>
                         :
                         <>
                             <Text small>{intern.student?.schoolData?.short}</Text>

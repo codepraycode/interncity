@@ -4,7 +4,7 @@ import { TouchableOpacity } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 
-const LogItem = ({label, week, log:logData, editLog}) => {
+const LogItem = ({label, log:logData, editLog}) => {
 
     const breakLength = 178;
 

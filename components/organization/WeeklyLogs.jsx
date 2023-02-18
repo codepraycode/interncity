@@ -1,37 +1,63 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import { FlatList } from 'react-native';
+import AppContext from '../../app/context';
 import { JSONLog } from '../../app/utils';
 import { useLogs } from '../../hooks/useLog';
+import NoStudents from '../../states/NoStudents';
 import LogItem from '../LogItem';
+
 
 const WeeklyLogs = ({internId, onEditLog}) => {
 
-    const {logs} = useLogs(internId);    
+    const {isSupervisor} = useContext(AppContext);
+
+    const {logs} = useLogs(internId);
 
     const numberOfWeeks = 24; // weeksBetween(realDate);
 
-    const weeks = [...Array(numberOfWeeks).keys()];
-//     const log = `Date: 1/1/2023
+    const weeksLogs = useMemo(()=>{
+        const arr = [];
 
-// A sample weekly log.
+        [...Array(numberOfWeeks).keys()].forEach((item, i)=>{
+            const log = logs.find(e=>e.week === Number(i));
+            if (!log){
+                const defaultLog = {
+                    week: Number(i), // index
+                    item,
+                    internAccount: internId,
+                    daily:false,
+                    date: new Date(),
+                    log: null,
+                }
 
-// supervisor: Mr Lorem Bulaba (Manager)
-// `
+
+                if (isSupervisor) return;
+                return arr.push(defaultLog);
+            }
+
+            if(!log.item) log.item = item;
+
+            arr.push(log);
+        })
+
+        return arr;
+    }, [logs])
+
     return (
         <FlatList
-            data={weeks}
+            data={weeksLogs}
             renderItem = {({item})=>(
                 <LogItem
                     week={item}
-                    editLog={(logData)=>onEditLog(logData || {
-                        week: item,
-                        internAccount: internId,
-                        daily:false,
-                        date: new Date(),
-                        log: null,
-                    })} 
-                    label={`Week ${item+1}`}
-                    log={logs.find(e=>e.week === Number(item))}
+                    editLog={(logData)=>onEditLog(logData)}
+                    label={`Week ${item.item +1}`}
+                    log={item}
+                />
+            )}
+            ListEmptyComponent={(
+                <NoStudents
+                    title={"No weekly logs"}
+                    message ={" "}
                 />
             )}
         />

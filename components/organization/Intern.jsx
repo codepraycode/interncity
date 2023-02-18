@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View } from 'react-native-ui-lib';
+import AppContext from '../../app/context';
 import { InternLists } from '../../constants/dummy';
 import Theme from '../../constants/theme';
 import NotFound from '../../states/NotFound';
@@ -13,6 +14,7 @@ import WeeklyLogs from './WeeklyLogs';
 const InternDetail = ({ id:internId }) => {
     
     const internData = InternLists.find(each => each.id === (internId));
+    const {isSupervisor} = useContext(AppContext)
 
     const [tabNo, setTabNo] = useState(0);
     const [weekEditing, setWeekEditing] = useState(null);
@@ -76,6 +78,7 @@ supervisor: Mr Lorem Bulaba (Manager)
                 show={Boolean(weekEditing)} 
                 data={log} 
                 onDismiss={autoSaveLog}
+                editable={!isSupervisor}
             />
         </>
 

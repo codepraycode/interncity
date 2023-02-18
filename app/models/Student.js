@@ -1,8 +1,9 @@
 // User Data and User Account Model
 
-import { HandlerJoiError, userTypes,} from "../utils";
+import { HandlerJoiError, userTypes } from "../utils";
 import { userProfileDataSchema } from "./base";
-
+import {studentsQueryRef} from '../firebaseConfig';
+import { getDocs } from "firebase/firestore";
 
 class Student {
     #original = undefined;
@@ -132,6 +133,26 @@ class Student {
     static async update(data){
         console.log("Update student data");
         
+    }
+
+
+    static async getSupervisorStudents(schoolId, departmentId){
+        let snapshot;
+        try{
+            snapshot = await getDocs(studentsQueryRef);
+        }
+        catch(err){
+            console.log("Error fetching students:", err);
+            throw ("Could not fetch supervisor students");
+        }
+
+
+        if (snapshot.empty) return [];
+
+        const results = snapshot.docs.map((edoc)=>({...edoc.data(), id: edoc.id}));
+
+        return results.filter((each)=> (each.school === schoolId) && (each.department === departmentId))
+
     }
 
     static get demoData() {

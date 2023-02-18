@@ -1,6 +1,6 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../app/context';
-import { Intern} from '../app/models/Intern';
+import { Application, Intern} from '../app/models/Intern';
 import { JSONLog } from '../app/utils';
 
 const useInterns = ()=>{
@@ -39,6 +39,7 @@ const useIntern = (applicationId)=>{
     const intern = useMemo(()=>{
         const applicationData = applications.find((each)=> each.id === applicationId);
 
+        if (!applicationData) return null;
         return new Intern(applicationData);
     },[applicationId]);
 
@@ -53,6 +54,8 @@ const useIntern = (applicationId)=>{
 
     useEffect(()=>{
         const setup = async ()=>{
+            if (!intern) return;
+
             if (!intern.job) {
                 const _job = await intern.getJob();
 
@@ -75,13 +78,84 @@ const useIntern = (applicationId)=>{
         
     }, [job, student])
 
-    intern.job = job;
-    intern.student = student
-    intern.setOrganization(userProfile);
+
+    if(intern){
+        intern.job = job;
+        intern.student = student
+        intern.setOrganization(userProfile);
+    }
 
     
 
     return { intern, saveLog };
 }
 
-export { useInterns, useIntern };
+
+const useStudent = (studentData)=>{
+
+    const { 
+        applications:{data:applications},
+        departments:{data:departments},
+        schools:{data:schools},
+    } = useContext(AppContext);
+
+    const [student, setStudent] = useState(studentData);
+    const [job, setJob] = useState(null);
+    const [organization, setOrganization] = useState(null);
+    
+    const {id, ...rest} = student;
+
+    const intern = useMemo(()=>{
+        const applicationData = applications.find((each)=> each.student === id);
+
+        if (!applicationData) return new Intern(studentData);
+        return new Application(applicationData);
+    },[id]);
+
+
+    useEffect(()=>{
+        const setup = async ()=>{
+            if (!intern) return;
+
+            if (!intern.job) {
+                const _job = await intern.getJob();
+
+                setJob(()=>_job);
+            }
+
+            if(!intern.organization) {
+                org = await Application.getOrganization(intern.organizationId)
+                setOrganization(()=>org);
+            }
+
+            if (!intern.student?.departmentData) {
+                // const _student = {...student}
+
+                const departmentData = departments.find((ed)=>ed.id === intern.student?.department);
+                const schoolData = schools.find((es)=>es.id === intern.student?.school);
+
+                setStudent((p)=>({
+                    ...p,
+                    schoolData,
+                    departmentData
+                }));
+            }
+
+        }
+        setup();
+        
+    }, [job, student, organization])
+
+
+    if(intern){
+        intern.job = job;
+        intern.student = student;
+        intern.organization = organization;
+    }
+
+    
+
+    return { intern };
+}
+
+export { useInterns, useIntern, useStudent };

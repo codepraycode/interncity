@@ -2,14 +2,11 @@ import { View, Text, Image} from 'react-native-ui-lib';
 import React from 'react';
 import Theme from '../../constants/theme';
 import assets from '../../constants/assets';
-import Octicons from 'react-native-vector-icons/Octicons';
 import Seperator from '../Seperator';
+import { getTimeDistance } from '../../app/utils';
 
 
-const DetailHeader = ({data})=>{
-
-    const name = `Lorem Ipsum`;
-    const schoolName = "Federal University of Technology Akure"
+export const JobDetailHeader = ({job})=>{
 
     return (
         <>
@@ -43,7 +40,9 @@ const DetailHeader = ({data})=>{
                 <Text 
                     center 
                     h5
-                >Backend Intern</Text>
+                >
+                    {job.role}
+                </Text>
 
                 <View 
                     style={{
@@ -54,9 +53,11 @@ const DetailHeader = ({data})=>{
                         marginVertical: 15,
                     }}
                 >
-                    <Text center label>Ikeja</Text>
+                    <Text center label>
+                        {job.location.city}
+                    </Text>
                     <Seperator/>
-                    <Text center label>2 days ago</Text>
+                    <Text center label>{job.createdAt ? getTimeDistance(job.createdAt) : "---"}</Text>
                 </View>
             </View>
         </>
@@ -204,5 +205,3 @@ export const ApplicationDetailHeader = ({application})=>{
         </>
     )
 }
-
-export default DetailHeader;

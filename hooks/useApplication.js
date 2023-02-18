@@ -1,14 +1,15 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../app/context';
-import Intern, { Application } from '../app/models/Intern';
+import { Application,Intern } from '../app/models/Intern';
 
-const useApplications = (organizationId=null)=>{
+const useApplications = (userId=null, student=false)=>{
 
     const { applications:{data:applications} } = useContext(AppContext);
 
     const data = useMemo(()=>{
-        return applications.filter((each)=> each.organization === organizationId);
-    },[organizationId])
+        if (student) return applications.filter((each)=> each.student === userId);
+        return applications.filter((each)=> each.organization === userId);
+    },[userId, applications])
 
     const updateViewed = async (id)=>{
 
@@ -29,6 +30,17 @@ const useApplications = (organizationId=null)=>{
     return {data, updateViewed};
 }
 
+const usePlacements = (studentId)=>{
+
+    const { applications:{data:applications} } = useContext(AppContext);
+
+    const placements = useMemo(()=>{
+        return applications.filter((each)=> (each.student === studentId) && Boolean(each.job_started));
+    },[studentId, applications])
+
+    return { placements };
+}
+
 
 const useApplication = (applicationId)=>{
 
@@ -36,7 +48,7 @@ const useApplication = (applicationId)=>{
         applications:{data:applications},
         departments:{data:departments},
         schools:{data:schools},
-        userProfile
+        userProfile,
     } = useContext(AppContext);
 
     const [student, setStudent] = useState(null);
@@ -80,15 +92,20 @@ const useApplication = (applicationId)=>{
 
     const sendOffer = useCallback(async()=>{
         console.log("Sending offer....", application.id);
+
+        const data = {
+            id: application.id
+        }
+
+        if (application.offer_date) data.job_started = new Date();
+        else data.offer_date = data.offer_date = new Date();
         
-        const { offer_date } = await Application.update({
-            id: application.id,
-            offer_date: new Date(),
-        });
+        const { offer_date, job_started } = await Application.update(data);
 
-        application.offer_date = offer_date
+        if(offer_date) application.offer_date = offer_date;
+        if(job_started) application.job_started = job_started;
 
-        return offer_date;
+        return job_started || offer_date;
 
     }, [applicationId])
 
@@ -115,4 +132,4 @@ const useApplication = (applicationId)=>{
     return {application, sendOffer, declineApplication};
 }
 
-export { useApplications, useApplication };
+export { useApplications, useApplication, usePlacements };

@@ -1,37 +1,27 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FlatList } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
-import { DetailHeaderMini } from '../../components/student/Header';
-import Info from '../../components/student/Info';
+import { JSONLog } from '../../app/utils';
+import { ApplicationStudentInfo } from '../../components/organization/Info';
+import { StudentDetailHeaderMini } from '../../components/student/Header';
 import PlacementItem from '../../components/student/Placements';
-import { InternLists } from '../../constants/dummy';
 import Theme from '../../constants/theme';
-import NotFound from '../../states/NotFound';
-
+import { usePlacements } from '../../hooks/useApplication';
+import { useStudent } from '../../hooks/useIntern';
+import NoPlacement from '../../states/NoPlacement';
 
 const StudentDetailScreen = ({ navigation, route }) => {
-    const { studentId } = route.params;
-    const studentData = InternLists.find(each => each.id === studentId);
 
-    const [tabNo, setTabNo] = useState(0);
+    const { student } = route.params;
 
-    if (!Boolean(studentData)) return <NotFound/>;
+    const { intern } = useStudent(student);
 
-    const log = `Date: 1/1/2023
+    const { placements } = usePlacements(intern?.student.id);
 
-A sample weekly log.
-
-supervisor: Mr Lorem Bulaba (Manager)
-`
-    const numberOfWeeks = 3;
-
-    const weeks = [...Array(numberOfWeeks).keys()];
-
-
-    const handleNavToPlacement = ()=>{
+    const handleNavToPlacement = (placement)=>{
         navigation.navigate("Student", { 
             screen: "StudentPlacementDetail", 
-            params: {jobId: 2}
+            params: { placement, student }
         });
     }
 
@@ -40,17 +30,18 @@ supervisor: Mr Lorem Bulaba (Manager)
            
 
             <FlatList
-                data={weeks}
+                data={placements}
                 renderItem = {({item})=>(
                     <PlacementItem
-                        onView={()=>handleNavToPlacement()}
+                        onView={()=>handleNavToPlacement(item)}
+                        placement={item}
                     />
                 )}
                 ListHeaderComponent={
                     <View>
-                        <DetailHeaderMini data = {studentData}/>
+                        <StudentDetailHeaderMini student={intern?.student || student}/>
 
-                        <Info showCV={true}/>
+                        <ApplicationStudentInfo showHeader={true} student={intern?.student || student}/>
 
                         <View style={{marginHorizontal:20, marginBottom:5, borderTopWidth:1, borderColor:Theme.grey300}}>
                             <Text h5>Placements</Text>
@@ -58,6 +49,9 @@ supervisor: Mr Lorem Bulaba (Manager)
                         
                     </View>
                 }
+                ListEmptyComponent={(
+                    <NoPlacement/>
+                )}
             />
             
         </>

@@ -2,32 +2,28 @@ import React from 'react';
 import { View, Text } from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 
-const NoStudents = ({title, message, isOrganization}) => {
+const NoPlacement = ({title, message}) => {
     return (
         <View 
             center 
             style={{
-                height:650,
+                height:250,
             }}
         >
             <Text h3 style={{color:Theme.grey400, marginBottom:10,}}>
                 {
                     title ||
-                    `No ${isOrganization ? "Intern" : "student"}`
+                    "No placement yet"
                 }
             </Text>
             <Text p center style={{width: 250}}>
 
                 <Text>
-                    {
-                        message ||
-                        `${isOrganization ? "Check your notifications for students applications" : "No student is associated with your department and school yet"}`
-                        
-                    }
+                    { message }
                 </Text>
             </Text>
         </View>
     )
 }
 
-export default NoStudents;
+export default NoPlacement;

@@ -1,3 +1,5 @@
+import { formatDistance } from "date-fns";
+import { Linking } from "react-native";
 
 export const userTypes = {
     PROFILES:'userProfiles',
@@ -8,8 +10,35 @@ export const userTypes = {
     INTERNACCOUNTS:"internAccount",
 }
 
+export const openURL = (url) => {
+    console.log("Opening:",url)
+    if(!url) return
+
+    let durl = url;
+    let protocol = false;
+
+    for (let i of ['http://', 'https://']){
+        if(protocol) break;
+
+        if (url.includes(i)) protocol = true;
+    }
+
+    if (!protocol){
+        durl = `http://${url}`
+    }
+
+    // if(url.includes("https://")) durl = `http://${url}`;
+    // if(!url.includes("http://") || !url.includes("https://")) durl = `http://${url}`;
+    Linking.openURL(durl).catch((err) => console.error('An error occurred', err));
+}
+
 export const getTimeDate = (timeObject) =>{
     return new Date((timeObject.seconds) * 1000);
+}
+export const getTimeDistance = (timeObject) =>{
+    const dt = new Date((timeObject.seconds) * 1000);
+
+    return formatDistance(dt, new Date(), { addSuffix:true });
 }
 
 export const setUpWithPreviousValue = (schema, data=null, seed={})=>{

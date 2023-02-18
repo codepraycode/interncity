@@ -111,18 +111,18 @@ export const ErrorModal = ({show, text, ctaText, cta}) => {
 };
 
 
-export const DeclineOfferApplicationModal = ({show, student, isDecline, onHide})=>{
+export const ApplicationModal = ({show, title, message, target, onHide})=>{
     return (
         <AppModal show={show} onHide={onHide}>
             <Text h4>
-                {isDecline ? "Decline Application" : "Confirm Offer"}
+                {title}
             </Text>
 
             <View center style={{marginVertical:20}}>
                 <Text>
-                    {isDecline ? "You are about to decline the application of" : "You are about to make an offer to"}
+                    { message }
                 </Text>
-                <Text h5>{student?.fullname}</Text>
+                <Text h5>{target}</Text>
             </View>
 
             <Text 
@@ -131,7 +131,7 @@ export const DeclineOfferApplicationModal = ({show, student, isDecline, onHide})
                     marginTop: 35, 
                 }}
             >
-                Proceed {isDecline ? "?" : "with offer?"}
+                Proceed ?
             </Text>
 
             <View 

@@ -5,6 +5,9 @@ import NotificationItem from './Item';
 import AppContext from '../../app/context';
 import useProfile from '../../hooks/useProfile';
 import { useApplications } from '../../hooks/useApplication';
+import NoNotificationScreen from '../../states/NoNotifications';
+
+
 
 const NotificationScreen = ({ navigation }) => {
     
@@ -13,7 +16,7 @@ const NotificationScreen = ({ navigation }) => {
 
     const userId = userProfile?.id || null;
 
-    const {data:applications, updateViewed} = useApplications(userId);
+    const {data:applications, updateViewed} = useApplications(userId, !isOrganization);
     
     const handleNavigateToDetail = (applicationId)=>{
         navigation.navigate("Intern", { 
@@ -53,6 +56,7 @@ const NotificationScreen = ({ navigation }) => {
                 shadowRadius: 5,
                 elevation: 5,
             }}
+            ListEmptyComponent={<NoNotificationScreen/>}
         />
     )
 }

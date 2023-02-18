@@ -81,7 +81,7 @@ const userProfileDataSchema = Joi.object({
     city: Joi.string(),
     country: Joi.string(),
     cv: Joi.string(),
-    sectors: Joi.array().empty(Joi.array().length(0)),
+    sectors: Joi.string(),// Joi.array().empty(Joi.array().length(0)),
     
 }) // add constraints later
 

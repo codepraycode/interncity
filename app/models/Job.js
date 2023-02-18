@@ -32,6 +32,7 @@ class Job {
             sector,
             stipend,
             role,
+            createdAt,
         } = jobData || {};
 
         this.company = company;
@@ -41,6 +42,10 @@ class Job {
         this.sector = sector;
         this.stipend = stipend;
         this.role = role;
+        this.createdAt = createdAt;
+
+
+        this.application = null;
     }
 
     getFormData(seed){
@@ -153,6 +158,8 @@ class Job {
         if(id){
             return Job.updateJob(jobData);
         }
+
+        if(!jobData.createdAt) jobData.createdAt = new Date();
 
         return Job.createJob(jobData);
     }

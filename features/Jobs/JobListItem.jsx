@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, Text, View } from 'react-native-ui-lib';
-import { JSONLog } from '../../app/utils';
+import { getTimeDistance } from '../../app/utils';
 import Card from '../../components/Card';
 import { useJob } from '../../hooks/useJobs';
 import useSector from '../../hooks/useSector';
@@ -14,6 +14,7 @@ const JobListItem = ({jobItem, onViewClick, onDelete})=>{
 
     const sector = useSector(sectorId);
 
+    const createdDate = jobInfo.createdAt && getTimeDistance(jobInfo.createdAt);
     return (
         <Card clickable={true} onPress={onViewClick} onLongPress={()=>onDelete(jobInfo.id)}>
             
@@ -46,7 +47,7 @@ const JobListItem = ({jobItem, onViewClick, onDelete})=>{
                 }}
             >
                 <Text i>{sector}</Text>
-                <Text i>some minutes ago</Text>
+                <Text i>{createdDate}</Text>
                 
             </View>
         </Card>

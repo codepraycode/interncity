@@ -1,209 +1,40 @@
-import React, { useState } from 'react'
-import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { View, Text, Image } from 'react-native-ui-lib';
+import React, { useContext, useState } from 'react'
+import { ScrollView, StyleSheet } from 'react-native';
+import { View } from 'react-native-ui-lib';
 import Button from '../../components/Button';
 import Theme from '../../constants/theme';
 import NotFound from '../../states/NotFound';
 
-import Octicons from 'react-native-vector-icons/Octicons';
 import { useJob } from '../../hooks/useJobs';
-import Seperator from '../../components/Seperator';
-
-
-const JobDetailHeader = ({job:jobInfo, company})=>{
-
-    return (
-        <>
-            <View 
-                center 
-                style={{
-                    // backgroundColor:Theme.white,
-                    paddingTop: 0,
-                    zIndex:1,
-                }}
-            >
-                <Image 
-                    assetName={"google"}
-                    assetGroup="assets" 
-                    width={70} height={70}
-                    style={{
-                        position:'relative',
-                        bottom: -20,
-                        
-                    }}
-                />
-            </View>
-
-            <View
-                style={{
-                    paddingTop: 30,
-                    paddingBottom: 5,
-                    backgroundColor:Theme.grey101,
-                }}
-            >
-                <Text 
-                    center 
-                    h5
-                >{jobInfo.role}</Text>
-
-                <View 
-                    style={{
-                        flexDirection:'row', 
-                        justifyContent:'center', 
-                        alignItems:'center',
-
-                        marginVertical: 15,
-                    }}
-                >
-                    {/* <Text center label>{company.name}</Text>
-                    <Seperator/> */}
-                    <Text center label>{jobInfo.location.city}</Text>
-                    <Seperator/>
-                    <Text center label>2 days ago</Text>
-                </View>
-            </View>
-
-            <View
-                center
-            >
-                <View
-                    center
-                    style={{
-                        flexDirection:'row',
-                        backgroundColor:Theme.lightRed,
-                        maxWidth: "80%",
-                        paddingHorizontal: 20,
-                        paddingVertical:10,
-                        borderRadius: 6,
-                        marginVertical: 10,
-                    }}
-                >
-                    <Octicons name="link-external" size={15} color={Theme.red}/>
-
-                    <Text style={{marginLeft: 10, color:Theme.red}}>
-                        Visit website
-                    </Text>
-                </View>
-                
-            </View>
-        </>
-    )
-}
-
-const JobComapanyInfomation = ({company}) =>{
-
-    return (
-        <View>
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Name
-                </Text>
-
-                <Text h4 secondary>
-                    {company.name}
-                </Text>
-            </View>
-
-            <View>
-                <Text h5 style={{marginVertical: 10}}>About company</Text>
-
-                <Text p style={{marginVertical: 10}}>
-                    {company.about}
-                </Text>
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Website
-                </Text>
-
-                <Text a secondary>
-                    {company.website}
-                </Text>
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text h5 style={{marginVertical: 5}}>
-                    Office address
-                </Text>
-
-                <Text p>
-                    {/* {company.location.city}, {company.location.state} */}
-                </Text>
-            </View>
-        </View>
-    )
-}
-
-const JobInfomation = ({job}) =>{
-
-    return(
-        <View>
-
-            <View style={{marginVertical: 10}}>
-
-                <Text p style={{marginVertical: 10}}>Job role</Text>
-
-                <Text h4 style={{marginVertical: 5}}>
-                    {job.role}
-                </Text>
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text p style={{marginVertical: 5}}>
-                    Pay
-                </Text>
-
-                {job.stipend && <Text h4>
-                        {job.stipend}
-                    </Text>}
-                
-            </View>
-
-            <View style={{marginVertical: 10}}>
-                <Text p style={{marginVertical: 5}}>
-                    Location
-                </Text>
-
-                <Text h4>
-                    {job.location.city}, {job.location.state}
-                </Text>
-            </View>
-
-        </View>
-    )
-}
-
-const Tab = ({text, onClick, active})=> (
-    <TouchableOpacity 
-        onPress={onClick}
-        center 
-        activeOpacity={0.8}
-        style={{
-            backgroundColor:active ? Theme.secondary : 'transparent',
-            borderRadius: 6,
-            paddingVertical: 8,
-            paddingHorizontal: 15,
-            marginHorizontal: 15,
-        }}
-    >
-        <Text label style={{color: active ? Theme.white : Theme.accent }}>{text}</Text>
-    </TouchableOpacity>
-)
+import { JobDetailHeader } from '../../components/organization/Header';
+import Tabs from '../../components/Tabs';
+import { CompanyInfo, PlacementDetailInfo } from '../../components/organization/Info';
+import { DurationPicker } from '../../components/form/FormComponents';
+import { ApplicationModal, Preloader } from '../../components/Modal';
+import AppContext from '../../app/context';
+import { JSONLog } from '../../app/utils';
 
 const JobDetail = ({ route }) => {
     const { jobId } = route.params;
     
-    const { job } = useJob(jobId);
+    const {userProfile:{id:studentId}} = useContext(AppContext);
+    const { job,sendApplication } = useJob(jobId, studentId);
+
 
     const [tabNo, setTabNo] = useState(0);
-    const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [duration, setDuration] = useState(job.application?.duration || null);
+    const [applying, setApplying] = useState(false);
 
-    if (!Boolean(job)) return <NotFound/>;
+    if (!Boolean(job.original)) return <NotFound/>;
 
-    const {company} = job;
+    const company = job.company;
     
     if (!Boolean(company)) return <NotFound text={"Job company not found!"}/>;
+
+    job.duration = duration;
+
+    const alreadyApplied = Boolean(job.application);
 
     return (
 
@@ -213,50 +44,112 @@ const JobDetail = ({ route }) => {
             }}
         >
 
-            <JobDetailHeader job = { job } company = {company}/>
+            <JobDetailHeader company={company} job={job}/>
 
-            <View>
-                {/* Tabs */}
-                <View centerH>
-                    <View
-                        style={{
-                            flexDirection:'row', 
-                            alignItems:'center', 
-                            justifyContent:'space-evenly',
-                            backgroundColor:Theme.white,
-                            padding: 5,
-                            borderRadius: 5,
-                            // maxWidth: "80%"
-                        }}
-                    >
-                        <Tab text="About company" onClick={()=>setTabNo(0)} active={tabNo === 0}/>
-                        <Tab text="About job" onClick={()=>setTabNo(1)} active={tabNo === 1}/>
-                    </View>
-                </View>
+            <View
+                centerH
+                style={{
+                    marginBottom: 10,
+                }}
+            >
+                <Tabs
+                    tabs={[
+                        {
+                            text: "Job Info",
+                            onClick:()=>setTabNo(0),
+                            active: tabNo === 0
+                        },
+                        {
+                            text: "Company Info",
+                            onClick:()=>setTabNo(1),
+                            active: tabNo === 1
+                        }
+                    ]}
+                />
+            </View>
 
-
-                {/* Content */}
-                <View
-                    style={{
-                        paddingVertical: 10,
-                        marginHorizontal: 20,
-                    }}
-                >
-                    {
-                        tabNo === 0 ? 
-                        <JobComapanyInfomation company={company}/>
-                        :
-                        <JobInfomation job={job}/>
-                    }
-                </View>
+            {
+                tabNo === 0 ? 
+                <PlacementDetailInfo job={job} mini/>
+                :
+                <CompanyInfo company={company}/>
+                
+            }
 
 
-                {/* Call to action */}
-                <View center style={{marginVertical: 15}}>
-                    <Button text="Apply Now" onPress={()=>setShowModal(p=>!p)}/>
-                </View>
+            <View center style={{flexDirection:'row', marginVertical:20,}}>
+
+                {
+                    alreadyApplied ? 
+                    (
+                        <Button 
+                                text="Application sent" 
+                                onPress={()=>{}}
+                                disable={true}
+                                style={{
+                                    width: "90%",
+                                    marginLeft:20,
+                                }}
+                            />
+                    )
+                    :
+                    (
+                        <>
+                            <DurationPicker
+                                value={duration}
+                                updateValue={(val)=>setDuration(val)}
+                            />
+
+                            {/* Call to action style={{marginTop:40}}*/}
+                            <Button 
+                                text="Apply Now" 
+                                onPress={()=>{
+                                    if(!duration) return;
+                                    setApplying(true);
+                                }}
+                                disable={!duration}
+                                style={{
+                                    width: 180,
+                                    marginLeft:20,
+                                }}
+                            />
+                        </>
+                    )
+                }
                 
             </View>
+
+            <ApplicationModal
+                show={applying} 
+                title = {"Send Application"}
+                message = {"You are about to apply for the role of"}
+                target={job.role}
+                onHide={(applied=false)=>{
+
+                    if(applied){
+                        console.log("send application");
+
+                        setLoading(true);
+
+                        sendApplication(job)
+                        .then(()=>{
+                            console.log("Sent application!")
+                            setLoading(false)
+                        })
+                        .catch((err)=>{
+                            console.log("Error while applying job:", err);
+                            setLoading(false);
+                        })
+                    }
+
+                    setApplying(false);
+                }}
+            />
+
+            <Preloader
+                show={loading} 
+                text={"Loading..."}
+            />
         </ScrollView>
 
     );

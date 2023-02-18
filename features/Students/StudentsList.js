@@ -1,21 +1,43 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FlatList } from 'react-native';
 import { InternLists } from '../../constants/dummy';
 import Item from '../../components/student/Item';
+import Student from '../../app/models/Student';
+import AppContext from '../../app/context';
 
 
 const StudentListScreen = ({navigation}) => {
 
+    const {userProfile} = useContext(AppContext);
+    const [students, setStudents] = useState(null);
+
+    useEffect(()=>{
+        const loadStudents = async ()=>{
+            const {id, school, department} = userProfile;
+            const res = await Student.getSupervisorStudents(school, department);
+
+            setStudents(()=>res);
+        }
+
+        loadStudents();
+    }, [userProfile])
+
     const handleNavigateToDetail = (studentItem)=>{
         navigation.navigate("Student", { 
             screen: "StudentDetail", 
-            params: {studentId: studentItem.id}
+            params: {student: studentItem}
         });
     }
     return (
         <FlatList
-            data={ InternLists }
-            renderItem = {({item})=><Item data={ item } isSupervisor={true} onViewClick={()=>handleNavigateToDetail(item)}/>}
+            data={ students || [] }
+            refreshing={students === null}
+            onRefresh={()=>{}}
+            renderItem = {({item})=><Item 
+                isSupervisor={true} 
+                student = { item } 
+                onViewClick = {()=>handleNavigateToDetail(item)}
+            />}
             keyExtractor={item => item.id}
         />
     )
