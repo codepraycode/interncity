@@ -14,7 +14,6 @@ import {
     ProfileFormScreen,
     ProfileCreationOnboarding,
     ProfileSuccessScreen,
-
     ProfileSettingScreen,
     ProfileUserTypeScreen
 } from './Profile';
