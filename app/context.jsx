@@ -1,4 +1,5 @@
 import React, { createContext, useMemo, useReducer, useState } from 'react';
+import Toast from 'react-native-root-toast';
 
 import { 
     auth, 
@@ -134,6 +135,13 @@ export const AppContextProvider = ({children})=>{
     const sectorsPayload = useSnapshot(sectorsCollectionRef);
     const logsPayload = useSnapshot(logsCollectionRef);
 
+    function showToast(message) {
+
+        Toast.show(message, {
+            duration: Toast.durations.SHORT, // .LONG
+        })
+    }
+
     const appContextData = ({
         ...contextData,
         jobs: jobsPayload,
@@ -154,6 +162,8 @@ export const AppContextProvider = ({children})=>{
         expoPushToken,
         notification,
 
+        showToast,
+
         signOut: () => dispatch({ type: 'SIGN_OUT' }),
         updateAccountProfile: (data) => {
             console.log("UPDATE Account Profile");
@@ -169,19 +179,20 @@ export const AppContextProvider = ({children})=>{
         updateExpoPushToken: (token)=> setExpoPushToken(token),
         updateNotification,
 
-    })
+    });
 
     useMemo(()=>{
         auth.onAuthStateChanged((user)=>{
 
             if (!user){
+                showToast("User logged out");
                 // CLear state
                 console.log("clear state");
                 dispatch({ type: ActionTypes.RESET_STATE});
                 return
             }
 
-            console.log("AUthenticatedddsds!");
+            showToast("User authenticated!");
 
             const {providerData, stsTokenManager, uid} = user;
             
@@ -193,10 +204,10 @@ export const AppContextProvider = ({children})=>{
             };
             
             dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: userData});
-            // bootstrapAsync();
-
         })
     },[]);
+
+
 
     return (
         <AppContext.Provider value={appContextData}>

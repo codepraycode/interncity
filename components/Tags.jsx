@@ -2,7 +2,6 @@ import { StyleSheet } from 'react-native';
 import { View,Text } from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import React from 'react'
-import { boxShadow, boxShadowSm } from '../constants/typography';
 
 const Tags = ({tags}) => {
   return (

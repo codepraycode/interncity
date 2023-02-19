@@ -4,7 +4,7 @@ import { View, Text } from 'react-native-ui-lib';
 const NotFound = ({text}) => {
     return (
         <View flex center>
-            <Text>{text || "Job info not found"}</Text>
+            <Text>{text || "Nothing to show"}</Text>
         </View>
     )
 }
