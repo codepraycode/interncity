@@ -16,7 +16,6 @@ import { JSONLog } from './utils';
 import { useSnapshot, useNotifyingSnapshot} from '../hooks/useSnapshot';
 import useNotifications from '../hooks/useNotification';
 
-
 const AppContext = createContext();
 
 export default AppContext;
@@ -113,7 +112,7 @@ export const AppContextProvider = ({children})=>{
     const isOrganization = contextData.userProfile?.type === 'organization';
     const isSupervisor = contextData.userProfile?.type === 'supervisor'
     const isIntern = contextData.userProfile?.type === 'student';
-    
+
     const jobsPayload = useNotifyingSnapshot(jobsCollectionRef, ()=>{
         if (isSupervisor) return;
         
@@ -141,7 +140,6 @@ export const AppContextProvider = ({children})=>{
             duration: Toast.durations.SHORT, // .LONG
         })
     }
-
     const appContextData = ({
         ...contextData,
         jobs: jobsPayload,

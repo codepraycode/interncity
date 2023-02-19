@@ -10,7 +10,7 @@ import { app } from '../../app/firebaseConfig';
 
 import { getAuth } from "firebase/auth";
 import { JSONLog, setUpWithPreviousValue } from '../../app/utils';
-import HeaderTitle from '../../components/HeaderTitle';
+import {HeaderTitle} from '../../components/AppHeader';
 import { Preloader } from '../../components/Modal';
 import useProfile from '../../hooks/useProfile';
 
