@@ -1,55 +1,11 @@
 // User Data and User Account Model
 
-import { HandlerJoiError, userTypes } from "../utils";
-import { userProfileDataSchema } from "./base";
+import { userTypes } from "../utils";
+
 import {studentsQueryRef} from '../firebaseConfig';
 import { getDocs } from "firebase/firestore";
 
 
-const profileFormSchema = {
-    fullname:{
-        type: "text",
-        placeholder: "Enter full name",
-        label: "Full name",
-    },
-    cv:{
-        type: "url",
-        placeholder: "Enter link to CV",
-        label: "CV/Resume",
-    },
-    phoneNumber:{
-        type: "tel",
-        placeholder: "Enter phone number",
-        label: "Phone number",
-    },
-    city:{
-        type: "text",
-        placeholder: "Enter residential city",
-        label: "City",
-    },
-    country:{
-        type: "text",
-        placeholder: "Enter residential country",
-        label: "Country",
-    },
-    sectors:{
-        type: "sector",
-        placeholder: "Select sectors",
-        label: "Sector",
-    },
-    school:{
-        type: "school",
-        placeholder: "Select school",
-        label: "School",
-    },
-    department:{
-        type: "department",
-        placeholder: "Select department",
-        label: "School Department",
-    },
-    // Duration: number but selected number
-    
-}
 
 class Student {
     #original = undefined;
@@ -113,9 +69,52 @@ class Student {
         }
     }
  
-    get formSchema(){
+    static formSchema(){
 
-        return profileFormSchema;
+        return {
+            fullname:{
+                type: "text",
+                placeholder: "Enter full name",
+                label: "Full name",
+            },
+            cv:{
+                type: "url",
+                placeholder: "Enter link to CV",
+                label: "CV/Resume",
+            },
+            phoneNumber:{
+                type: "tel",
+                placeholder: "Enter phone number",
+                label: "Phone number",
+            },
+            city:{
+                type: "text",
+                placeholder: "Enter residential city",
+                label: "City",
+            },
+            country:{
+                type: "text",
+                placeholder: "Enter residential country",
+                label: "Country",
+            },
+            sectors:{
+                type: "sector",
+                placeholder: "Select sectors",
+                label: "Sector",
+            },
+            school:{
+                type: "school",
+                placeholder: "Select school",
+                label: "School",
+            },
+            department:{
+                type: "department",
+                placeholder: "Select department",
+                label: "School Department",
+            },
+            // Duration: number but selected number
+            
+        }
     }
 
     static async create(data){

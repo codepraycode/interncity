@@ -34,8 +34,6 @@ const Login = ({ navigation })=>{
       .then( async (value)=>{
         
             let userCredential;
-            console.log("Val:", value)
-
             try{
               userCredential = await signInWithEmailAndPassword(auth,value.email, value.password);
             }

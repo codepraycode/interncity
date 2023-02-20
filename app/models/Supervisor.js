@@ -1,36 +1,7 @@
 // User Data and User Account Model
 
-import { HandlerJoiError, userTypes } from "../utils";
-import { userProfileDataSchema } from "./base";
-import {studentsQueryRef} from '../firebaseConfig';
-import { getDocs } from "firebase/firestore";
+import { userTypes } from "../utils";
 
-
-const profileFormSchema = {
-
-    fullname:{
-        type: "text",
-        placeholder: "Enter full name",
-        label: "Full name",
-    },
-
-    email:{
-        type: "email",
-        placeholder: "Enter official email",
-        label: "Official email",
-    },
-    school:{
-        type: "school",
-        placeholder: "Select school",
-        label: "School",
-    },
-    department:{
-        type: "department",
-        placeholder: "Select department",
-        label: "School Department",
-    },
-
-}
 
 class Supervisor {
     #original = undefined;
@@ -82,9 +53,33 @@ class Supervisor {
         }
     }
  
-    get formSchema(){
+    static formSchema(){
 
-        return profileFormSchema;
+        return {
+            fullname:{
+                type: "text",
+                placeholder: "Enter full name",
+                label: "Full name",
+            },
+
+            email:{
+                type: "email",
+                placeholder: "Enter official email",
+                label: "Official email",
+            },
+            school:{
+                type: "school",
+                placeholder: "Select school",
+                label: "School",
+            },
+            department:{
+                type: "department",
+                placeholder: "Select department",
+                label: "School Department",
+            },
+
+        }
+;
     }
 
     static async update(data){

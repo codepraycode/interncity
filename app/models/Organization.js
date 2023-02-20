@@ -1,49 +1,6 @@
 // User Data and User Account Model
 
-import { HandlerJoiError, userTypes,} from "../utils";
-import { userProfileDataSchema } from "./base";
-
-
-const profileFormSchema = {
-    name:{
-        type: "text",
-        placeholder: "Enter organization name",
-        label: "Organization name",
-    },
-    email:{
-        type: "email",
-        placeholder: "Enter official email",
-        label: "Official email",
-    },
-    about:{
-        type: "long",
-        placeholder: "Enter short description about organization",
-        label: "About organization",
-        maxLength: 300,
-        long: true,
-    },
-    website:{
-        type: "url",
-        placeholder: "Enter official website",
-        label: "Official website",
-    },
-    address:{
-        type: "text",
-        placeholder: "Enter official address",
-        label: "Official address",
-    },
-    city:{
-        type: "text",
-        placeholder: "Enter residential city",
-        label: "City",
-    },
-    country:{
-        type: "text",
-        placeholder: "Enter residential country",
-        label: "Country",
-    },
-}
-
+import { userTypes,} from "../utils";
 
 class Organization {
     #original = undefined;
@@ -106,8 +63,46 @@ class Organization {
         }
     }
 
-    get formSchema(){
-        return profileFormSchema;
+    static formSchema(){
+        return {
+            name:{
+                type: "text",
+                placeholder: "Enter organization name",
+                label: "Organization name",
+            },
+            email:{
+                type: "email",
+                placeholder: "Enter official email",
+                label: "Official email",
+            },
+            about:{
+                type: "long",
+                placeholder: "Enter short description about organization",
+                label: "About organization",
+                maxLength: 300,
+                long: true,
+            },
+            website:{
+                type: "url",
+                placeholder: "Enter official website",
+                label: "Official website",
+            },
+            address:{
+                type: "text",
+                placeholder: "Enter official address",
+                label: "Official address",
+            },
+            city:{
+                type: "text",
+                placeholder: "Enter residential city",
+                label: "City",
+            },
+            country:{
+                type: "text",
+                placeholder: "Enter residential country",
+                label: "Country",
+            },
+        }
     }
 
     static async create(data){

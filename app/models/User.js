@@ -84,11 +84,12 @@ class UserAccount {
     }
 
     static getProfileSchema(type){
+        console.log("User type:", type);
 
-        if (type === userTypes.SUPERVISOR) return Supervisor.formSchema;
-        if (type === userTypes.ORGANIZATION) return Organization.formSchema;
+        if (type === userTypes.SUPERVISOR) return Supervisor.formSchema();
+        if (type === userTypes.ORGANIZATION) return Organization.formSchema();
         
-        return Student.formSchema;
+        return Student.formSchema();
     }
 
     static async getProfile(auth){

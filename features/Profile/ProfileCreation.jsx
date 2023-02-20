@@ -73,18 +73,6 @@ const ProfileFormScreen = ({navigation, route}) =>{
       }
 
       return setUpWithPreviousValue(formSchema, userProfile, seedValue);
-
-
-      // if (!userProfile) return prev;
-      
-      // Object.keys(formSchema).forEach((fieldName)=>{
-      //   // if key not in prevProfile, continue;
-      //   if (!userProfile[fieldName]) return
-
-      //   prev[fieldName] = userProfile[fieldName]; // set value.
-      // });
-
-      // return prev;
     })
 
 
