@@ -125,19 +125,6 @@ const organizationProfileSchema = {
 }
 
 
-// const UserProfileConverter = {
-//     toFirestore: (profile) => {
-//         return {
-//             name: city.name,
-//             state: city.state,
-//             country: city.country
-//             };
-//     },
-//     fromFirestore: (snapshot, options) => {
-//         const data = snapshot.data(options);
-//         return new City(data.name, data.state, data.country);
-//     }
-// }
 class UserAccount {
     
     static async validateAuthData(authData){
