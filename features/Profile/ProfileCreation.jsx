@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, } from 'react-native';
 import { View } from 'react-native-ui-lib';
-import AppContext from '../../app/context';
 import Form from '../../components/form';
 import Theme from '../../constants/theme';
 import UserAccount from '../../app/models/User.js'
