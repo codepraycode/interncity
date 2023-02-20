@@ -1,7 +1,11 @@
 // User Data and User Account Model
 
 import { HandlerJoiError, JSONLog, userTypes} from "../utils";
-import { authDataSchema, createAccountDataSchema, userProfileDataSchema } from "./base";
+import { 
+    authDataSchema, 
+    createAccountDataSchema, 
+    userProfileDataSchema 
+} from "./base";
 import { 
   collection, 
   getDocs,
@@ -12,122 +16,47 @@ import {
   updateDoc
 } from 'firebase/firestore';
 import { collectionNames, database } from "../firebaseConfig";
+import Supervisor from "./Supervisor";
+import Organization from "./Organization";
+import Student from "./Student";
 
-const studentProfileSchema = {
-    fullname:{
-        type: "text",
-        placeholder: "Enter full name",
-        label: "Full name",
-    },
-    cv:{
-        type: "url",
-        placeholder: "Enter link to CV",
-        label: "CV/Resume",
-    },
-    phoneNumber:{
-        type: "tel",
-        placeholder: "Enter phone number",
-        label: "Phone number",
-    },
-    city:{
-        type: "text",
-        placeholder: "Enter residential city",
-        label: "City",
-    },
-    country:{
-        type: "text",
-        placeholder: "Enter residential country",
-        label: "Country",
-    },
-    sectors:{
-        type: "sector",
-        placeholder: "Select sectors",
-        label: "Sector",
-    },
-    school:{
-        type: "school",
-        placeholder: "Select school",
-        label: "School",
-    },
-    department:{
-        type: "department",
-        placeholder: "Select department",
-        label: "School Department",
-    },
-    // Duration: number but selected number
-    
-}
 
-const superVisorProfileSchema = {
 
-    fullname:{
-        type: "text",
-        placeholder: "Enter full name",
-        label: "Full name",
-    },
-
-    email:{
+const createAccountSchema = {
+    email: {
         type: "email",
-        placeholder: "Enter official email",
-        label: "Official email",
+        placeholder: "Enter your email address",
+        label: "Email",
     },
-    school:{
-        type: "school",
-        placeholder: "Select school",
-        label: "School",
+    password: {
+        type: "password",
+        placeholder: "Enter your password",
+        label: "Password",
     },
-    department:{
-        type: "department",
-        placeholder: "Select department",
-        label: "School Department",
+    confirmPassword: {
+        type: "password",
+        placeholder: "Enter your password",
+        label: "Password",
     },
-
 }
 
-const organizationProfileSchema = {
-    name:{
-        type: "text",
-        placeholder: "Enter organization name",
-        label: "Organization name",
-    },
-    email:{
+const signInSchema = {
+    email: {
         type: "email",
-        placeholder: "Enter official email",
-        label: "Official email",
+        placeholder: "Enter your email address",
+        label: "Email",
     },
-    about:{
-        type: "long",
-        placeholder: "Enter short description about organization",
-        label: "About organization",
-        maxLength: 300,
-        long: true,
-    },
-    website:{
-        type: "url",
-        placeholder: "Enter official website",
-        label: "Official website",
-    },
-    address:{
-        type: "text",
-        placeholder: "Enter official address",
-        label: "Official address",
-    },
-    city:{
-        type: "text",
-        placeholder: "Enter residential city",
-        label: "City",
-    },
-    country:{
-        type: "text",
-        placeholder: "Enter residential country",
-        label: "Country",
+    password: {
+        type: "password",
+        placeholder: "Enter your password",
+        label: "Password",
     },
 }
-
 
 class UserAccount {
     
     static async validateAuthData(authData){
+        // console.log("Auth data:", authData)
         
         const {error, value} = authDataSchema.validate(authData);
 
@@ -145,57 +74,21 @@ class UserAccount {
         }
         return value;
     }
-    static async validateUserProfileData(userProfile){
-        
-        const {error, value} = createAccountDataSchema.validate(userData);
-
-        if (error){
-            HandlerJoiError(error, "Invalid user credentials");
-        }
-        return value;
-    }
 
     static getCreateAccountSchema(){
-        return {
-            email: {
-                type: "email",
-                placeholder: "Enter your email address",
-                label: "Email",
-            },
-            password: {
-                type: "password",
-                placeholder: "Enter your password",
-                label: "Password",
-            },
-            confirmPassword: {
-                type: "password",
-                placeholder: "Enter your password",
-                label: "Password",
-            },
-        }
+        return createAccountSchema;
     }
 
     static getAuthSchema(){
-        return {
-            email: {
-                type: "email",
-                placeholder: "Enter your email address",
-                label: "Email",
-            },
-            password: {
-                type: "password",
-                placeholder: "Enter your password",
-                label: "Password",
-            },
-        }
+        return signInSchema;
     }
 
     static getProfileSchema(type){
 
-        if (type === userTypes.SUPERVISOR) return superVisorProfileSchema;
-        if (type === userTypes.ORGANIZATION) return organizationProfileSchema;
+        if (type === userTypes.SUPERVISOR) return Supervisor.formSchema;
+        if (type === userTypes.ORGANIZATION) return Organization.formSchema;
         
-        return studentProfileSchema;
+        return Student.formSchema;
     }
 
     static async getProfile(auth){
@@ -220,17 +113,13 @@ class UserAccount {
         */
 
         // User is expected to have been authenticated when calling this method
-        const {uid} = auth.currentUser || {};
-        // eGAtI4pXeoReYrJIRo832cmzFBI3
-        // const uid = "BTQDspokspSbAB9kU4NJJSBIgA42"; // authenticated user id
-
-        console.log("Login user id:", uid);
+        const {uid} = auth.currentUser || {};;
 
         if (!uid) {
             throw("Authentication is required!");
         }
 
-        const usersProfileCollectionRef = collection(database,collectionNames.USER_PROFILE);
+        const usersProfileCollectionRef = collection(database, collectionNames.USER_PROFILE);
         // queries
         const q = query(usersProfileCollectionRef, where("user", "==", uid));
 
@@ -291,7 +180,7 @@ class UserAccount {
         const userProfileCollectionRef = collection(database, collectionNames.USER_PROFILE);
 
         try{
-            await addDoc(userProfileCollectionRef, { user: uid })
+            await addDoc(userProfileCollectionRef, { user: uid, createdAt: new Date() })
         }catch(err){
             console.log("Error initializing profile:", err);
             throw({
@@ -302,7 +191,6 @@ class UserAccount {
         return true;
 
     }
-
 
     static async updateProfile(auth, profileData){
 

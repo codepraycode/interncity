@@ -37,7 +37,7 @@ const location = Joi.object({
     country: Joi.string().required()
 })
 
-const authDataSchema = Joi.object().keys({
+const authDataSchema = Joi.object({
     email: email.required(),
     password: password,
 });

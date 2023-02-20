@@ -154,14 +154,14 @@ export const AppContextProvider = ({children})=>{
         auth.onAuthStateChanged((user)=>{
 
             if (!user){
-                showToast("User logged out");
+                showToast("Not authenticated");
                 // CLear state
                 console.log("clear state");
                 dispatch({ type: ActionTypes.RESET_STATE});
                 return
             }
 
-            showToast("User authenticated!");
+            showToast("Authenticated!");
 
             const {providerData, stsTokenManager, uid} = user;
             

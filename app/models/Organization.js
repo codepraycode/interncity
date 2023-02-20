@@ -4,6 +4,47 @@ import { HandlerJoiError, userTypes,} from "../utils";
 import { userProfileDataSchema } from "./base";
 
 
+const profileFormSchema = {
+    name:{
+        type: "text",
+        placeholder: "Enter organization name",
+        label: "Organization name",
+    },
+    email:{
+        type: "email",
+        placeholder: "Enter official email",
+        label: "Official email",
+    },
+    about:{
+        type: "long",
+        placeholder: "Enter short description about organization",
+        label: "About organization",
+        maxLength: 300,
+        long: true,
+    },
+    website:{
+        type: "url",
+        placeholder: "Enter official website",
+        label: "Official website",
+    },
+    address:{
+        type: "text",
+        placeholder: "Enter official address",
+        label: "Official address",
+    },
+    city:{
+        type: "text",
+        placeholder: "Enter residential city",
+        label: "City",
+    },
+    country:{
+        type: "text",
+        placeholder: "Enter residential country",
+        label: "Country",
+    },
+}
+
+
 class Organization {
     #original = undefined;
 
@@ -64,59 +105,9 @@ class Organization {
             email: this.email,
         }
     }
- 
-    static async validateData(userData){
 
-        const {error, value} = userProfileDataSchema.validate(userData);
-
-        if (error){
-            HandlerJoiError(error, "Invalid Job info");
-        }
-        
-        return value;
-    }
-
-    static getSchema(){
-
-        return {
-            name:{
-                type: "text",
-                placeholder: "Enter organization name",
-                label: "Organization name",
-            },
-            email:{
-                type: "email",
-                placeholder: "Enter official email",
-                label: "Official email",
-            },
-            about:{
-                type: "long",
-                placeholder: "Enter short description about organization",
-                label: "About organization",
-                maxLength: 300,
-                long: true,
-            },
-            website:{
-                type: "url",
-                placeholder: "Enter official website",
-                label: "Official website",
-            },
-            address:{
-                type: "text",
-                placeholder: "Enter official address",
-                label: "Official address",
-            },
-            city:{
-                type: "text",
-                placeholder: "Enter residential city",
-                label: "City",
-            },
-            country:{
-                type: "text",
-                placeholder: "Enter residential country",
-                label: "Country",
-            },
-        }
+    get formSchema(){
+        return profileFormSchema;
     }
 
     static async create(data){

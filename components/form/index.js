@@ -40,15 +40,7 @@ const Form = ({schema, getPreviousValues, remember, forgotPassword, disable, aut
 
         if (schema.type === 'image') return <ImageUpload {...props} />
 
-        return <TextInput 
-                    {...props}
-                    // name={field} 
-                    // schema={fieldSchema} 
-                    // key={i} 
-                    // value={formData[field]} 
-                    // onChange={updateFormData}
-                    // error={errors && errors[field]}
-                />
+        return <TextInput {...props}/>
 
     }
     return (
@@ -57,14 +49,7 @@ const Form = ({schema, getPreviousValues, remember, forgotPassword, disable, aut
             <Text style={{color: Theme.red, marginVertical: 10,}}>{errors?.message}</Text>
 
             {
-                Object.entries(schema).map(([field, fieldSchema], i)=>(
-                    <>
-                        {
-
-                            getTemplate(field, fieldSchema, i)
-                        }
-                    </>
-                ))
+                Object.entries(schema).map(([field, fieldSchema], i)=>getTemplate(field, fieldSchema, i))
             }
 
             <View style={styles.container}>

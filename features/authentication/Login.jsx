@@ -24,11 +24,7 @@ const Login = ({ navigation })=>{
     const handleLogin = (loginData)=>{
       
       if (loading) return;
-      
-      // const demo = {
-      //   email:"me@ccodepraycode.com",
-      //   password: "letmein123"
-      // }
+
       const {email, password} = loginData;
 
       setLoading(true)
@@ -38,6 +34,7 @@ const Login = ({ navigation })=>{
       .then( async (value)=>{
         
             let userCredential;
+            console.log("Val:", value)
 
             try{
               userCredential = await signInWithEmailAndPassword(auth,value.email, value.password);
@@ -52,13 +49,14 @@ const Login = ({ navigation })=>{
             setLoading(false);
           
       })
-      .catch(err=>{
+      .catch(err=>{          
           setFormErrors(()=>err);
           setLoading(false)
       })
     }
 
     return (
+
 
         <AuthLayout>
             {/* Top view with wave and title */}
