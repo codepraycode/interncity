@@ -4,6 +4,7 @@ import { getTimeDistance } from '../../app/utils';
 import Card from '../../components/Card';
 import { useJob } from '../../hooks/useJobs';
 import useSector from '../../hooks/useSector';
+import Avatar from '../../components/Avatar';
 
 
 const JobListItem = ({jobItem, onViewClick, onDelete})=>{
@@ -19,12 +20,12 @@ const JobListItem = ({jobItem, onViewClick, onDelete})=>{
         <Card clickable={true} onPress={onViewClick} onLongPress={()=>onDelete(jobInfo.id)}>
             
             <View style={{flexDirection:'row', marginBottom:10, marginTop:5, alignItems:'center'}}>
-                <Image
-                    assetName={"google"}
-                    assetGroup="assets" 
-                    width={40} height={40}
-                    style={{
-                        marginRight: 20,
+
+                <Avatar 
+                    image={company.avatar} 
+                    width={50} height={50}
+                    imageStyle={{
+                        marginRight: 10,
                     }}
                 />
 

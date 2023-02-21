@@ -5,7 +5,7 @@ import { storageRef } from '../app/firebaseConfig';
 import assets from '../constants/assets'
 import { boxShadow } from '../constants/typography';
 
-const Avatar = ({image:imagePath, resizeMode}) => {
+const Avatar = ({image:imagePath, resizeMode, width, height, imageStyle}) => {
   const [image, setImage] = useState(null);
 
   useEffect(()=>{
@@ -36,11 +36,10 @@ const Avatar = ({image:imagePath, resizeMode}) => {
       <Image
             source={image ? {uri: image} : assets.placeholder}
             resizeMode={resizeMode || "cover"}
-            width={80} height={80}
+            width={width || 80} height={height || 80}
             style={{
-                // position:'relative',
-                // bottom: -20,
                 borderRadius: 40,
+                ...(imageStyle || {})
             }}
         />
     </View>
