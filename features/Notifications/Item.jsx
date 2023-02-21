@@ -1,12 +1,13 @@
 import React from 'react'
 import { View, Text, Image } from 'react-native-ui-lib';
-import { getTimeDate, JSONLog } from '../../app/utils';
+import { getTimeDate, getTimeDistance, JSONLog } from '../../app/utils';
 import Card from '../../components/Card';
 import assets from '../../constants/assets';
 import {useJob} from '../../hooks/useJobs';
-import { formatDistance } from 'date-fns'
+import Avatar from '../../components/Avatar';
+import { useAProfile } from '../../hooks/useProfile';
 
-const determineNotificationContent = ({notification, job, isOrganization})=>{
+const determineNotificationContent = ({notification, job, profile, isOrganization}) => {
     /* 
         Offer_date - when the organization made the offer
         job_started - when the student accepted the offer
@@ -16,6 +17,7 @@ const determineNotificationContent = ({notification, job, isOrganization})=>{
     const {id, offer_date, job_started, date_applied} = notification;
     let message = {
         id,
+        avatar: profile?.avatar,
         title: null,
         message: null,
         time: null,
@@ -29,37 +31,33 @@ const determineNotificationContent = ({notification, job, isOrganization})=>{
     if(!isOrganization){
         message.title = `Application for ${role}`
         message.message = `Click to view your application for the role of ${role} at ${orgName}`;
-        message.time = formatDistance(getTimeDate(date_applied), new Date(), { addSuffix: true })
+        message.time = getTimeDistance(date_applied)
     }
     else if(offer_date && job_started){
         // Student accepted job offer
         message.title = "Offer accepted!"
         message.message = `Student accepted your offer for the role of ${role}.`
-        message.time = formatDistance(getTimeDate(job_started || offer_date), new Date(), { addSuffix: true })
+        message.time = getTimeDistance(job_started || offer_date)
     }
     else if (date_applied){
         message.title = "New application!"
         message.message = `A student applied for the role of ${role}`;
-        message.time = formatDistance(getTimeDate(date_applied), new Date(), { addSuffix: true })
+        message.time = getTimeDistance(date_applied)
     }
 
     return message;
 }
 
 const StudentNotificationItem = ({ data })=>{
-    const {title, message, time} = data;
+    const {avatar, title, message, time} = data;
     
     return (
         <>
             
             <View style={{flexDirection:'row', 'alignItems':'center'}}>
-                <Image
-                    source={assets.google}
-                    resizeMode="cover"
-                    width={40} height={40}
-                    style={{
-                        marginVertical: 10,
-                    }}
+                <Avatar
+                    image={avatar}
+                    width={60} height={60}
                 />
 
 
@@ -89,7 +87,7 @@ const StudentNotificationItem = ({ data })=>{
 
 const OrganizationNotificationItem = ({ data })=>{
 
-    const {title, message, time} = data;
+    const {avatar, title, message, time} = data;
 
     return (
         <>  
@@ -97,14 +95,9 @@ const OrganizationNotificationItem = ({ data })=>{
                 flexDirection:'row', 'alignItems':'center',
                 marginVertical: 10,
                 }}>
-                <Image
-                    source={assets.user}
-                    resizeMode="cover"
-                    width={40} height={40}
-                    style={{
-                        // marginVertical: 10,
-                        marginRight:10,
-                    }}
+                <Avatar
+                    image={avatar}
+                    width={60} height={60}
                 />
 
 
@@ -134,13 +127,16 @@ const NotificationItem = ({ isOrganization, notification, handleClick })=>{
     let template;
     let message;
 
-    const {job:jobId, id} = notification;
+    const {job:jobId, id, student:studentId, organization:organizationId} = notification;
 
     const {job} = useJob(jobId);
+    const [student] = useAProfile(studentId);
+    const [organization] = useAProfile(organizationId);
 
     message = determineNotificationContent({
         notification,
         job,
+        profile: isOrganization ? organization : student,
         isOrganization,
     });
 

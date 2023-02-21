@@ -5,8 +5,12 @@ import { storageRef } from '../app/firebaseConfig';
 import assets from '../constants/assets'
 import { boxShadow } from '../constants/typography';
 
-const Avatar = ({image:imagePath, resizeMode, width, height, imageStyle}) => {
+const Avatar = ({image:imagePath, resizeMode, width:givenWidth, height:givenHeight, imageStyle}) => {
   const [image, setImage] = useState(null);
+
+  const width = givenWidth || 80;
+  const height = givenHeight || 80;
+  const radius = Math.max(width, height)/2;
 
   useEffect(()=>{
     (
@@ -36,9 +40,9 @@ const Avatar = ({image:imagePath, resizeMode, width, height, imageStyle}) => {
       <Image
             source={image ? {uri: image} : assets.placeholder}
             resizeMode={resizeMode || "cover"}
-            width={width || 80} height={height || 80}
+            width={width} height={height}
             style={{
-                borderRadius: 40,
+                borderRadius: radius,
                 ...(imageStyle || {})
             }}
         />

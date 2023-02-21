@@ -4,28 +4,26 @@ import Theme from '../../constants/theme';
 import assets from '../../constants/assets';
 import Seperator from '../Seperator';
 import { getTimeDistance } from '../../app/utils';
+import Avatar from '../Avatar';
 
 
-export const JobDetailHeader = ({job})=>{
+export const JobDetailHeader = ({job, company})=>{
 
     return (
         <>
             <View 
                 center 
                 style={{
-                    // backgroundColor:Theme.white,
                     paddingTop: 0,
                     zIndex:1,
                 }}
             >
-                <Image
-                    assetName={"google"}
-                    assetGroup="assets" 
+                <Avatar
+                    image={company.avatar}
                     width={70} height={70}
-                    style={{
+                    imageSyle={{
                         position:'relative',
                         bottom: -20,
-                        
                     }}
                 />
             </View>

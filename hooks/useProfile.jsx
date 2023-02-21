@@ -1,11 +1,16 @@
+import { doc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../app/context';
-import { auth, storageRef } from '../app/firebaseConfig';
+import { auth, database, storageRef } from '../app/firebaseConfig';
 import { Intern } from '../app/models/Intern';
+import Organization from '../app/models/Organization';
+import Student from '../app/models/Student';
+import Supervisor from '../app/models/Supervisor';
 import UserAccount from '../app/models/User';
-import { JSONLog } from '../app/utils';
+import { JSONLog, userTypes } from '../app/utils';
 
+const studentDocRef = (id)=>doc(database, userTypes.PROFILES, id?.trim());
 
 const useProfile = ()=>{
     
@@ -67,6 +72,38 @@ const useProfile = ()=>{
     return [userProfile, updateProfile, uploadImage];
 }
 
+export const useAProfile = (profileId)=>{
+    const [profile, setProfile] = useState(null);
+
+
+    useMemo(async ()=>{
+        let res;
+
+        try{
+            res = await getDoc(studentDocRef(profileId));
+            setProfile(()=>res.data());
+        }catch(err){
+            console.log("Error fetching profile:", err);
+        }
+    }, [profileId]);
+
+
+    // Determine profile type and return instance
+    let profileInstance;
+
+    switch (profile?.type){
+        case userTypes.STUDENTS:
+            profileInstance = new Student(profile);
+        case userTypes.ORGANIZATION:
+            profileInstance = new Organization(profile);
+        case userTypes.SUPERVISOR:
+            profileInstance = new Supervisor(profile);
+        default:
+            profileInstance = profile;
+    }
+
+    return [profileInstance];
+}
 
 export const useStudentActivePlacement = (IncomingPlacement=null)=>{
     
