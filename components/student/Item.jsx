@@ -29,7 +29,7 @@ const Item = ({student:studentData, isSupervisor, onViewClick}) => {
             <View style={{flexDirection:'row', alignItems:'center', marginVertical:5,}}>
 
                 <Avatar
-                    image={intern.student.avatar}
+                    image={intern.student?.avatar}
                     width={65} height={65}
                 />
 
