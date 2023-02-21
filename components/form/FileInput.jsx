@@ -9,39 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { JSONLog } from "../../app/utils";
 
 
-const ImageUpload = ({schema, name, onChange })=>{
-
-    const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
-    const [image, setImage] = useState(null);
-    
-    
-    useEffect(()=>{
-        (
-            async ()=>{
-                const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
-                setHasGalleryPermission(galleryStatus === 'granted');
-            }
-        )();
-    },[]);
-
-
-    const pickedImage = async ()=>{
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: true,
-            allowsMultipleSelection:false,
-            aspect: [4,3],
-            quality: 1,
-        });
-
-        JSONLog(result);
-
-        if(result.canceled) return;
-
-        setImage(result.assets[0].uri);
-        onChange(name, result.assets[0]);
-    }
-
+const MainTemplate = ({pickedImage, schema, image,hasPermission, setImage})=>{
     return (
         <View
             style={styles.container}
@@ -54,7 +22,7 @@ const ImageUpload = ({schema, name, onChange })=>{
                     !image ? 
                     
                     <Text small style={{color: Theme.grey300}}>
-                        {hasGalleryPermission ? schema.placeholder : "No permission to select photo"}
+                        {hasPermission ? schema.placeholder : "No permission to select photo"}
                     </Text>
                     :
                     
@@ -101,6 +69,53 @@ const ImageUpload = ({schema, name, onChange })=>{
 
         </View>
     )
+}
+
+
+const ImageUpload = ({schema, name, onChange, value, mini})=>{
+
+    const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+    const [image, setImage] = useState(null);
+    
+    useEffect(()=>{
+        (
+            async ()=>{
+                const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+                setHasGalleryPermission(galleryStatus === 'granted');
+            }
+        )();
+    },[]);
+
+
+    const pickedImage = async ()=>{
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            allowsMultipleSelection:false,
+            aspect: [4,3],
+            quality: 1,
+        });
+
+        JSONLog(result);
+
+        if(result.canceled) return;
+
+        setImage(result.assets[0].uri);
+        onChange(name, result.assets[0]);
+    }
+
+
+    let template = (
+        <MainTemplate 
+            pickedImage={pickedImage} 
+            schema = {schema} 
+            image = {image || value}
+            hasPermission = {hasGalleryPermission}
+            setImage = {setImage}
+        />
+    );
+
+    return template;
 }
 
 export { ImageUpload };

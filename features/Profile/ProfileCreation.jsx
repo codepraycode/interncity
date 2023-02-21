@@ -5,13 +5,12 @@ import Form from '../../components/form';
 import Theme from '../../constants/theme';
 import UserAccount from '../../app/models/User.js'
 import SafeAreaLayout from '../../components/Layout';
-import { auth, imageStorageRef, storageRef } from '../../app/firebaseConfig';
+import { auth } from '../../app/firebaseConfig';
 
 import { JSONLog, setUpWithPreviousValue } from '../../app/utils';
 import {HeaderTitle} from '../../components/AppHeader';
 import { Preloader } from '../../components/Modal';
 import useProfile from '../../hooks/useProfile';
-import { ref, uploadBytes } from 'firebase/storage';
 import AppContext from '../../app/context';
 
 const ProfileFormScreen = ({navigation, route}) =>{
@@ -22,22 +21,9 @@ const ProfileFormScreen = ({navigation, route}) =>{
       
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [userProfile, updateProfile] = useProfile();
+    const [userProfile, updateProfile, uploadImage] = useProfile();
 
 
-    const uploadImage = async (avatar, email)=>{
-
-      if (!avatar || !email) return null;
-
-      const res = await fetch(avatar.uri);
-      const blob = await res.blob();
-      const filename = `${email}_${new Date().getTime()}`;
-      const reff = ref(storageRef, `photos/${filename}`)
-
-      await uploadBytes(reff, blob);
-      
-      return `gs://interncity-project.appspot.com/${reff.fullPath}`;
-    }
 
     const handleCreateProfile = async (updatedData)=>{
       if (loading) return;
@@ -59,11 +45,12 @@ const ProfileFormScreen = ({navigation, route}) =>{
 
       const combinedData = {
         type: profileType, // new type selected
-        // ...updatedData // latest data update
-        avatar,
+        // updated data
         email,
         ...rest
       }
+
+      if (avatar) combinedData.avatar = avatar;
 
       const {isComplete, ...data} = combinedData;
 

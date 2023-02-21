@@ -1,6 +1,7 @@
+import { ref, uploadBytes } from 'firebase/storage';
 import { useCallback, useContext, useMemo } from 'react';
 import AppContext from '../app/context';
-import { auth } from '../app/firebaseConfig';
+import { auth, storageRef } from '../app/firebaseConfig';
 import { Intern } from '../app/models/Intern';
 import UserAccount from '../app/models/User';
 
@@ -27,8 +28,21 @@ const useProfile = ()=>{
         updateAccountProfile(data);
         return data;
     }
+    const uploadImage = async (avatar, email)=>{
 
-    return [userProfile, updateProfile];
+      if (!avatar || !email) return null;
+
+      const res = await fetch(avatar.uri);
+      const blob = await res.blob();
+      const filename = `${email}_${new Date().getTime()}`;
+      const reff = ref(storageRef, `photos/${filename}`)
+
+      await uploadBytes(reff, blob);
+      
+      return `https://firebasestorage.googleapis.com/v0/b/interncity-project.appspot.com/o/${reff.fullPath}`;
+    }
+
+    return [userProfile, updateProfile, uploadImage];
 }
 
 

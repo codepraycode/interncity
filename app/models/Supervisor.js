@@ -18,6 +18,7 @@ class Supervisor {
             // meta data
             id,
             user,
+            avatar,
 
             email,
             fullname,
@@ -28,6 +29,7 @@ class Supervisor {
 
         this.user = user;
         this.id = id;
+        this.avatar = avatar;
 
         this.email = email;
         this.fullname = fullname;
@@ -44,7 +46,10 @@ class Supervisor {
 
         return {
             ...prev,
-
+            user: this.user,
+            id: this.id,
+            avatar: this.avatar,
+            
             email: this.email,
             fullname: this.fullname,
             

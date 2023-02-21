@@ -22,6 +22,7 @@ class Student {
             // meta data
             id,
             user,
+            avatar,
 
             // Location
             city,
@@ -38,6 +39,7 @@ class Student {
 
         this.user = user;
         this.id = id;
+        this.avatar = avatar;
         
         this.city = city;
         this.country = country;
@@ -57,6 +59,7 @@ class Student {
 
         return {
             ...prev,
+            avatar: this.avatar,
             city: this.city,
             country: this.country,
 

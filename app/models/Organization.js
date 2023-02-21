@@ -13,6 +13,7 @@ class Organization {
             // meta data
             id,
             user,
+            avatar,
 
             // Location
             address,
@@ -28,6 +29,7 @@ class Organization {
 
         this.user = user;
         this.id = id;
+        this.avatar = avatar;
         
         this.address = address;
         this.city = city;
@@ -52,6 +54,7 @@ class Organization {
             ...prev,
             user: this.user,
             id: this.id,
+            avatar: this.avatar,
             
             address: this.address,
             city: this.city,
