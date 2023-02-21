@@ -8,7 +8,9 @@ import {
   addDoc
 } from 'firebase/firestore';
 import { collectionNames, database, logsCollectionRef } from "../firebaseConfig";
-
+import Student from "./Student";
+import Organization from './Organization';
+import Job from './Job';
 
 
 class Application {
@@ -65,7 +67,7 @@ class Application {
 
         try{
             res = await getDoc(jobDocRef);
-            this.job = res.data();
+            this.job = new Job(res.data())//res.data();
         }catch(err){
             console.log("Error fetching profile:", err);
         }
@@ -83,7 +85,7 @@ class Application {
 
         try{
             res = await getDoc(studentDocRef);
-            this.student = res.data();
+            this.student = new Student(res.data()) //res.data();
         }catch(err){
             console.log("Error fetching student profile:", err);
         }
@@ -104,7 +106,7 @@ class Application {
 
         try{
             res = await getDoc(orgDocRef);
-            res = res.data();
+            res = new Organization(res.data()) //res.data();
         }catch(err){
             console.log("Error fetching organization profile:", err);
         }
