@@ -4,20 +4,44 @@ import AppContext from '../app/context';
 import { auth, storageRef } from '../app/firebaseConfig';
 import { Intern } from '../app/models/Intern';
 import UserAccount from '../app/models/User';
+import { JSONLog } from '../app/utils';
 
 
 const useProfile = ()=>{
     
-    const { updateAccountProfile, userProfile } = useContext(AppContext);
+    const { updateAccountProfile, userProfile, showToast } = useContext(AppContext);
 
     const updateProfile = async (updatedProfileData)=>{
-        const data = {
-            ...(userProfile || {}), // previous userProfile in context
-            ...updatedProfileData // latest data update
+
+        const {avatar:rawUpload, email:emailData, ...restData} = updatedProfileData;
+        let avatar = null;
+        let email = emailData;
+        if(!email){
+            email = userProfile.email;
         }
 
+        console.log("email", email)
+
         try{
-            const {isComplete, ...rest} = data;
+            avatar = await uploadImage(rawUpload, email);
+        }
+        catch(err){
+            console.log("Error upload image:", err);
+            showToast("Could not update profile photo");
+        }
+
+        const combinedData = {
+            ...(userProfile || {}), // previous userProfile in context
+            // ...updatedProfileData // latest data update
+            email, 
+            ...restData
+        }
+
+        if (avatar) combinedData.avatar = avatar;
+
+        try{
+            const {isComplete, ...rest} = combinedData;
+            JSONLog(updatedProfileData);
             await UserAccount.updateProfile(auth, rest)
         }catch(err){
             console.log("Error updating document");
@@ -25,12 +49,12 @@ const useProfile = ()=>{
         }
 
         // console.log("Updated document");
-        updateAccountProfile(data);
-        return data;
+        updateAccountProfile(combinedData);
+        return combinedData;
     }
     const uploadImage = async (avatar, email)=>{
 
-      if (!avatar || !email) return null;
+        if (!avatar && !email) return null;
 
       const res = await fetch(avatar.uri);
       const blob = await res.blob();

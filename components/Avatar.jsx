@@ -1,7 +1,8 @@
 import React from 'react'
 import { Image, View } from 'react-native-ui-lib'
+import assets from '../constants/assets'
 
-const Avatar = ({image}) => {
+const Avatar = ({image, resizeMode}) => {
   return (
     <View
         center
@@ -10,8 +11,8 @@ const Avatar = ({image}) => {
         }}
     >
       <Image
-            source={{uri: image}}
-            resizeMode="cover"
+            source={image ? {uri: image} : assets.placeholder}
+            resizeMode={resizeMode || "cover"}
             width={80} height={80}
             style={{
                 // position:'relative',

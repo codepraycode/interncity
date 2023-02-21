@@ -72,8 +72,41 @@ const MainTemplate = ({pickedImage, schema, image,hasPermission, setImage})=>{
 }
 
 
-const ImageUpload = ({schema, name, onChange, value, mini})=>{
+const MiniTemplate = ({pickedImage, image, profile, center})=>{
+    return (
+        <View center>
+            {/* Image */}
+            <View center style={{width: 40, height: 40, borderRadius: 20}}>
+                <Avatar image={image}/>
+            </View>
 
+            {/* Text */}
+            <View center={center} style={{marginVertical: 10}}>
+                <Text h4 center style={{color: Theme.grey100, marginTop: 10,}}>{profile.name}</Text>
+                <Text label center style={{color: Theme.grey100}}>{profile.type}</Text>
+            </View>
+
+            {/* Button to change Image */}
+            <TouchableOpacity 
+                activeOpacity={0.5}
+                onPress={pickedImage}
+                style={{
+                    backgroundColor: "rgba(255, 255, 255, .2)",
+                    alignItems:'center',
+                    width: 130,
+                    paddingVertical: 8,
+                    borderRadius: 8,
+                }}
+            >
+                <Text p style={{color: Theme.grey100, fontSize: 13}}>Change photo</Text>
+            </TouchableOpacity>
+        </View>
+    )
+}
+
+const ImageUpload = ({schema, name, onChange, value, mini, ...restProps})=>{
+
+    
     const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
     const [image, setImage] = useState(null);
     
@@ -114,6 +147,15 @@ const ImageUpload = ({schema, name, onChange, value, mini})=>{
             setImage = {setImage}
         />
     );
+
+
+    if (mini) template = (
+        <MiniTemplate
+            pickedImage={pickedImage}
+            image = {image || value}
+            {...restProps}
+        />
+    )
 
     return template;
 }

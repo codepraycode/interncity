@@ -11,13 +11,10 @@ import { JSONLog, setUpWithPreviousValue } from '../../app/utils';
 import {HeaderTitle} from '../../components/AppHeader';
 import { Preloader } from '../../components/Modal';
 import useProfile from '../../hooks/useProfile';
-import AppContext from '../../app/context';
 
 const ProfileFormScreen = ({navigation, route}) =>{
     
     const {profileType:selectedProfileType, title} = route.params;
-
-    const {showToast} = useContext(AppContext);
       
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
@@ -31,28 +28,12 @@ const ProfileFormScreen = ({navigation, route}) =>{
       setLoading(true);
       setFormErrors(()=>({}));
 
-      const {avatar:rawUpload, email, ...rest} = updatedData;
-      let avatar = null;
-
-      try{
-        avatar = await uploadImage(rawUpload, email);
-      }
-      catch(err){
-        console.log("Error upload image:", err);
-        setLoading(false);
-        showToast("Could not update profile photo");
-      }
-
-      const combinedData = {
+      const data = {
         type: profileType, // new type selected
         // updated data
-        email,
-        ...rest
+        ...updatedData
       }
 
-      if (avatar) combinedData.avatar = avatar;
-
-      const {isComplete, ...data} = combinedData;
 
       updateProfile(data)
       .then(()=>{
@@ -62,7 +43,7 @@ const ProfileFormScreen = ({navigation, route}) =>{
       .catch((err)=>{
         // JSONLog("Error",err);
         setFormErrors(()=>err);
-        setLoading(false)
+        setLoading(false);
       })
 
     }
