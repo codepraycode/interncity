@@ -1,8 +1,7 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { View, Text } from 'react-native-ui-lib';
-import { StyleSheet, ImageBackground, Image, TouchableOpacity, ScrollView  } from 'react-native';
+import { View } from 'react-native-ui-lib';
+import { StyleSheet, ImageBackground, ScrollView  } from 'react-native';
 import assets from '../../constants/assets';
-import Theme from '../../constants/theme';
 import Form from '../../components/form';
 import AppContext from '../../app/context';
 import useProfile from '../../hooks/useProfile';
@@ -112,9 +111,9 @@ const ProfileSettingScreen = () => {
     const profile ={
         name: userProfile.name || userProfile.fullname,
         type: accType,
-        avatar: userProfile.avatar
+        avatar: updatedAvatar || userProfile.avatar
     }
-    //  console.log(loading, formErrors)
+    JSONLog(profile);
     return (
         <>
             {/* Header */}
