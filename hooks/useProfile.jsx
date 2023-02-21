@@ -1,10 +1,8 @@
-import { getAuth } from 'firebase/auth';
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import AppContext from '../app/context';
 import { auth } from '../app/firebaseConfig';
 import { Intern } from '../app/models/Intern';
 import UserAccount from '../app/models/User';
-import { JSONLog } from '../app/utils';
 
 
 const useProfile = ()=>{
@@ -25,7 +23,7 @@ const useProfile = ()=>{
             throw(err);
         }
 
-        console.log("Updated document");
+        // console.log("Updated document");
         updateAccountProfile(data);
         return data;
     }

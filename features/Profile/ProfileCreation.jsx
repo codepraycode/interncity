@@ -1,39 +1,71 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { StyleSheet, } from 'react-native';
 import { View } from 'react-native-ui-lib';
 import Form from '../../components/form';
 import Theme from '../../constants/theme';
 import UserAccount from '../../app/models/User.js'
 import SafeAreaLayout from '../../components/Layout';
-import { auth } from '../../app/firebaseConfig';
+import { auth, imageStorageRef, storageRef } from '../../app/firebaseConfig';
 
 import { JSONLog, setUpWithPreviousValue } from '../../app/utils';
 import {HeaderTitle} from '../../components/AppHeader';
 import { Preloader } from '../../components/Modal';
 import useProfile from '../../hooks/useProfile';
+import { ref, uploadBytes } from 'firebase/storage';
+import AppContext from '../../app/context';
 
 const ProfileFormScreen = ({navigation, route}) =>{
     
     const {profileType:selectedProfileType, title} = route.params;
+
+    const {showToast} = useContext(AppContext);
       
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
     const [userProfile, updateProfile] = useProfile();
 
-    const handleCreateProfile = (updatedData)=>{
+
+    const uploadImage = async (avatar, email)=>{
+
+      if (!avatar || !email) return null;
+
+      const res = await fetch(avatar.uri);
+      const blob = await res.blob();
+      const filename = `${email}_${new Date().getTime()}`;
+      const reff = ref(storageRef, `photos/${filename}`)
+
+      await uploadBytes(reff, blob);
+      
+      return `gs://interncity-project.appspot.com/${reff.fullPath}`;
+    }
+
+    const handleCreateProfile = async (updatedData)=>{
       if (loading) return;
+      
+      setLoading(true);
+      setFormErrors(()=>({}));
+
+      const {avatar:rawUpload, email, ...rest} = updatedData;
+      let avatar = null;
+
+      try{
+        avatar = await uploadImage(rawUpload, email);
+      }
+      catch(err){
+        console.log("Error upload image:", err);
+        setLoading(false);
+        showToast("Could not update profile photo");
+      }
 
       const combinedData = {
         type: profileType, // new type selected
-        // ...(userProfile || {}), // previous userProfile in context
-        ...updatedData // latest data update
+        // ...updatedData // latest data update
+        avatar,
+        email,
+        ...rest
       }
 
       const {isComplete, ...data} = combinedData;
-
-
-      setLoading(true);
-      setFormErrors(()=>({}));
 
       updateProfile(data)
       .then(()=>{
@@ -41,7 +73,7 @@ const ProfileFormScreen = ({navigation, route}) =>{
         setLoading(false);
       })
       .catch((err)=>{
-        JSONLog("Error",err);
+        // JSONLog("Error",err);
         setFormErrors(()=>err);
         setLoading(false)
       })

@@ -10,13 +10,14 @@ const Avatar = ({image}) => {
         }}
     >
       <Image
-            source={image}
+            source={{uri: image}}
             resizeMode="cover"
             width={80} height={80}
-            // style={{
-            //     position:'relative',
-            //     bottom: -20,
-            // }}
+            style={{
+                // position:'relative',
+                // bottom: -20,
+                borderRadius: 40,
+            }}
         />
     </View>
   )

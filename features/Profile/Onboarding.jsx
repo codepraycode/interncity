@@ -24,10 +24,6 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
     else if (isIntern) term = "Internship";
 
     let modal;
-    const reFetch = ()=>{
-        setLoadProfileError(null);
-        setIsCheckingForProfile(true);
-    }
     
     if (isCheckingForProfile) modal = <Preloader show={true} text={"Loading..."}/>;
 
@@ -46,12 +42,10 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
                 ...data,
                 isComplete,
             });
-
+            
+            // if (!data.type) setIsCheckingForProfile(false); // continue
             if (isComplete) return;
 
-            if (!data.type) {
-                return setIsCheckingForProfile(false)
-            }; // continue
 
             // at this point, its regarded as incomplete
             // navigate to createProfile screen
@@ -61,6 +55,7 @@ const Onboarding = ({ navigation })=>{ // onboarding for authentication
                 title: "Complete profile"
             });
         })
+        .then(()=>setIsCheckingForProfile(false))
         .catch((errorMessage)=>{
             // Message will be displayed in modal
             // console.log("ErrorM:", errorMessage, typeof errorMessage);

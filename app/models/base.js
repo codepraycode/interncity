@@ -61,6 +61,7 @@ const jobSchema = Joi.object({
 
 const userProfileDataSchema = Joi.object({
     type: type.required(),
+    avatar: Joi.string().default(null),
 
     about: Joi.string(),
     website: Joi.string(),
