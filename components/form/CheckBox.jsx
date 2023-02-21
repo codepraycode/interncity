@@ -1,6 +1,6 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import {Text, View, Colors} from 'react-native-ui-lib'
+import {Switch, Text, View } from 'react-native-ui-lib'
 import Theme from '../../constants/theme'
 
 const CheckBox = ({ label }) => {
@@ -21,6 +21,32 @@ const CheckBox = ({ label }) => {
     )
 }
 
+
+export const ToggleSelect = ({onChange, name, value})=>{
+    return (
+        <View
+            style={{
+                flexDirection:'row',
+                alignItems:'center',
+                marginBottom:10
+            }}
+        >
+            <Switch
+                value={value} 
+                onValueChange={(val) => onChange(name, !value)}
+                onColor={Theme.main}
+                thumbSize={16}
+                style={{
+                    height: 20,
+                    width: 45,
+                }}
+            />
+            <Text i style={{ marginLeft: 10, }}>
+                {value ? "Open for application" :"Closed for application"}
+            </Text>
+        </View>
+    )
+}
 export default CheckBox;
 
 

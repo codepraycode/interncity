@@ -27,6 +27,7 @@ class Job {
         const {
             company,
             id,
+            active,
             location,
             organization,
             sector,
@@ -44,6 +45,8 @@ class Job {
         this.role = role;
         this.createdAt = createdAt;
 
+        this.active = active || false;
+
 
         this.application = null;
     }
@@ -56,6 +59,7 @@ class Job {
         const {address, city, country} = this.location || {};
         return {
             ...prev,
+            active: this.active,
             role: this.role,
             stipend: this.stipend,
             sector: this.sector,
@@ -116,6 +120,11 @@ class Job {
     static getJobSchema(){
 
         return {
+            active: {
+                type: "bool",
+                placeholder: "",
+                label: "",
+            },
             role: {
                 type: "text",
                 placeholder: "Enter job role",
