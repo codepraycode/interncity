@@ -2,15 +2,14 @@ import React, { useState } from 'react'
 import { ScrollView } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
 
-import { PlacementHeader } from '../../components/organization/Header';
 import Tabs from '../../components/Tabs';
-import Info, { CompanyInfo, PlacementDetailInfo } from '../../components/organization/Info';
 import WeeklyLogs from '../../components/organization/WeeklyLogs';
 import Theme from '../../constants/theme';
 import InternDailyLogLists from '../Interns/InternDailyLogsList';
-import { StudentDetailHeaderMini } from '../../components/student/Header';
 import { useJob } from '../../hooks/useJobs';
 import { LogBottomSheet } from '../../components/BottomSheet';
+import { CompanyInfo, PlacementDetailInfo } from '../../components/Infos';
+import { MiniDetailHeader } from '../../components/Headers';
 
 
 const PlacementDetail = ({ route }) => {
@@ -60,7 +59,7 @@ const PlacementDetail = ({ route }) => {
     return (
 
         <>
-            <StudentDetailHeaderMini
+            <MiniDetailHeader
                 student={student}
                 job={job}
             />
