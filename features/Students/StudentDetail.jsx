@@ -2,8 +2,8 @@ import React from 'react'
 import { FlatList } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
 import { JSONLog } from '../../app/utils';
-import { ApplicationStudentInfo } from '../../components/organization/Info';
-import { StudentDetailHeaderMini } from '../../components/student/Header';
+import { MiniDetailHeader } from '../../components/Headers';
+import { StudentInfo } from '../../components/Infos';
 import PlacementItem from '../../components/student/Placements';
 import Theme from '../../constants/theme';
 import { usePlacements } from '../../hooks/useApplication';
@@ -39,12 +39,12 @@ const StudentDetailScreen = ({ navigation, route }) => {
                 )}
                 ListHeaderComponent={
                     <View>
-                        <StudentDetailHeaderMini student={intern?.student || student}/>
+                        <MiniDetailHeader student={intern?.student || student}/>
 
-                        <ApplicationStudentInfo showHeader={true} student={intern?.student || student}/>
+                        <StudentInfo showHeader={true} student={intern?.student || student}/>
 
-                        <View style={{marginHorizontal:20, marginBottom:5, borderTopWidth:1, borderColor:Theme.grey300}}>
-                            <Text h5>Placements</Text>
+                        <View style={{marginHorizontal:10, marginVertical:5, borderBottomWidth:1, borderColor:Theme.grey300}}>
+                            <Text h6 style={{color: Theme.grey300}}>Placements</Text>
                         </View>
                         
                     </View>

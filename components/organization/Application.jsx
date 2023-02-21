@@ -1,15 +1,15 @@
 import React, { useState, useContext } from 'react';
 import {Alert, ScrollView} from 'react-native'
-import { Text, View } from 'react-native-ui-lib';
+import { View } from 'react-native-ui-lib';
 import AppContext from '../../app/context';
 import { getTimeDate, JSONLog } from '../../app/utils';
 import Theme from '../../constants/theme';
 import { useApplication } from '../../hooks/useApplication';
 import NotFound from '../../states/NotFound';
 import CustomButton from '../Button';
+import { MiniDetailHeader } from '../Headers';
+import { PlacementDetailInfo, StudentInfo } from '../Infos';
 import { ApplicationModal, Preloader } from '../Modal';
-import { ApplicationDetailHeader } from './Header';
-import { ApplicationStudentInfo, PlacementDetailInfo } from './Info';
 
 
 const ApplicationDetail = ({ id:applicationId }) => {
@@ -228,13 +228,13 @@ const ApplicationDetailContent = ({application, isIntern, cta})=>{
                 }}
             >
 
-                <ApplicationDetailHeader application = { application }/>
+                <MiniDetailHeader student={ application.student }/>
             </View>
 
             {/* Content */}
-            <ApplicationStudentInfo showHeader isIntern={isIntern} student={application.student}/>
+            <StudentInfo showHeader isIntern={isIntern} student={application.student}/>
 
-            <PlacementDetailInfo 
+            <PlacementDetailInfo
                 showHeader
                 job = {application.job}
                 date_applied = {application.date_applied}

@@ -3,6 +3,7 @@ import React from 'react'
 import Card from '../Card';
 import { getTimeDate } from '../../app/utils';
 import { useJob } from '../../hooks/useJobs';
+import Avatar from '../Avatar';
 
 
 const PlacementItem = ({onView, placement}) => {
@@ -17,12 +18,11 @@ const PlacementItem = ({onView, placement}) => {
         <Card clickable={true} onPress={onView}>
             
             <View style={{flexDirection:'row', marginBottom:20, marginTop:10, alignItems:'center'}}>
-                <Image 
-                    assetName={"google"}
-                    assetGroup="assets" 
-                    width={35} height={35}
-                    style={{
-                        marginRight: 20,
+                <Avatar 
+                    image={job.company.avatar}
+                    width={45} height={45}
+                    imageStyle={{
+                        marginRight: 10,
                     }}
                 />
 
