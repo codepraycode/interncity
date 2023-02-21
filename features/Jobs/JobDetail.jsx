@@ -41,7 +41,7 @@ const JobDetail = ({ route }) => {
     let cta;
 
     if(placements?.length > 0) cta = (
-        <Text i style={{fontSize: 14}}>Cannot apply, already in an organization</Text>
+        <Text i style={{fontSize: 14}}>Cannot apply</Text>
     );
     else if (alreadyApplied) cta = (
         <Button 

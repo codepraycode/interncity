@@ -59,13 +59,11 @@ export const CompanyInfo = ({company}) => {
     )
 }
 
-export const PlacementDetailInfo = ({ showHeader, job, date_applied, job_started, duration, mini }) => {
+export const PlacementDetailInfo = ({ showHeader, job, date_applied, job_started, job_ended, duration, mini }) => {
     const role = job?.role || '...';
     const stipend = job?.stipend;
     
-    let dateDistance;
-    let applicationDate;
-    let placementDate;
+    let dateDistance, applicationDate, placementDate, placementEndedDate;
 
 
     if (date_applied){
@@ -79,6 +77,11 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, job_started
         dateDistance = job_started && getTimeDistance(job_started)
 
         placementDate = dt?.toDateString();
+    }
+    if (job_ended){
+        const dt = getTimeDate(job_ended);
+
+        placementEndedDate = dt?.toDateString();
     }
     
     const address = job?.location?.address || "...";
@@ -162,6 +165,17 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, job_started
 
                             <Text h6>
                                 {placementDate}
+                            </Text>
+                        </View>
+                    }
+                    {
+                        placementEndedDate && <View style={{marginVertical: 10}}>
+                            <Text p style={{marginVertical: 5}}>
+                                Placement ended
+                            </Text>
+
+                            <Text h6>
+                                {placementEndedDate}
                             </Text>
                         </View>
                     }

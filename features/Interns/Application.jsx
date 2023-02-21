@@ -22,13 +22,15 @@ const ApplicationDetail = ({ id:applicationId }) => {
 
     if (!Boolean(application.original)) return <NotFound  text="Could not retrieve data"/>;
 
-    let offerDate, jobStarted;
+    let offerDate, jobStarted, jobEnded;
     if (application.offer_date) offerDate = getTimeDate(application.offer_date);
     if (application.job_started) jobStarted = getTimeDate(application.job_started);
+    if (application.job_ended) jobEnded = getTimeDate(application.job_ended);
 
-    let placementStarted = false;
+    let placementStarted = false, placementEnded = false;
 
     if (jobStarted) placementStarted = true;
+    if (jobEnded) placementEnded = true;
     
 
     let cta = (
@@ -136,7 +138,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
 
             <CustomButton 
                 // text={`Placement started ${jobStarted?.toDateString() ? `on ${jobStarted.toDateString()}` : ""}`}
-                text={`Placement started`}
+                text={`Placement ${placementEnded ? "concluded" :"started"}`}
                 onPress={()=>{}}
                 style={{
                     width: "90%",
@@ -240,6 +242,7 @@ const ApplicationDetailContent = ({application, isIntern, cta})=>{
                 date_applied = {application.date_applied}
                 duration = {application.duration}
                 job_started = {application.job_started}
+                job_ended = {application.job_ended}
             />
 
             { cta }

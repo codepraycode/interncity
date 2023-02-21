@@ -121,7 +121,7 @@ export const useStudentActivePlacement = (IncomingPlacement=null)=>{
 
         // Load active internAccount associated with student
         const studentId = userProfile.id;
-        return applications.find((each)=> Boolean(each.job_started) && (each.student === studentId));;
+        return applications.find((each)=> Boolean(each.job_started) && (each.student === studentId)  && !Boolean(each.job_ended));;
     }, [userProfile, isIntern, applications]);
 
     const updateLog = useCallback(async (logData)=>{
