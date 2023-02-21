@@ -5,17 +5,14 @@ import Form from '../../components/form';
 import Theme from '../../constants/theme';
 import UserAccount from '../../app/models/User.js'
 import SafeAreaLayout from '../../components/Layout';
-import { app } from '../../app/firebaseConfig';
+import { auth } from '../../app/firebaseConfig';
 
-import { getAuth } from "firebase/auth";
 import { JSONLog, setUpWithPreviousValue } from '../../app/utils';
 import {HeaderTitle} from '../../components/AppHeader';
 import { Preloader } from '../../components/Modal';
 import useProfile from '../../hooks/useProfile';
 
 const ProfileFormScreen = ({navigation, route}) =>{
-    
-  const auth = getAuth(app);
     
     const {profileType:selectedProfileType, title} = route.params;
       
@@ -79,7 +76,7 @@ const ProfileFormScreen = ({navigation, route}) =>{
         <SafeAreaLayout scrollStyle={{marginTop:-35}} style={{paddingTop: 0}}>
             
             <Preloader show={loading} text="loading"/>
-            
+
             {/* Auth form */}
             <View style={styles.container}>
                 <Form

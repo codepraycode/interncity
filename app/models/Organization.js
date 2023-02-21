@@ -65,6 +65,11 @@ class Organization {
 
     static formSchema(){
         return {
+            avatar:{
+                type: "image",
+                placeholder: "upload a .png, .jpeg or .jpg image",
+                label: "Profile photo",
+            },
             name:{
                 type: "text",
                 placeholder: "Enter organization name",

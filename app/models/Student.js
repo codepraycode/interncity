@@ -72,6 +72,11 @@ class Student {
     static formSchema(){
 
         return {
+            avatar:{
+                type: "image",
+                placeholder: "upload a .png, .jpeg or .jpg image",
+                label: "Profile photo",
+            },
             fullname:{
                 type: "text",
                 placeholder: "Enter full name",
