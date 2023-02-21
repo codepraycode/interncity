@@ -20,8 +20,6 @@ const useProfile = ()=>{
             email = userProfile.email;
         }
 
-        console.log("email", email)
-
         try{
             avatar = await uploadImage(rawUpload, email);
         }
@@ -63,7 +61,7 @@ const useProfile = ()=>{
 
       await uploadBytes(reff, blob);
       
-      return `https://firebasestorage.googleapis.com/v0/b/interncity-project.appspot.com/o/${reff.fullPath}`;
+      return reff.fullPath;
     }
 
     return [userProfile, updateProfile, uploadImage];
