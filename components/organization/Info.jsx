@@ -133,7 +133,7 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, job_started
 
                 {!mini &&(
                 <>
-                    <View>
+                    <View style={{marginVertical: 10}}>
                         <Text p style={{marginVertical: 5}}>
                             Duration
                         </Text>
@@ -155,7 +155,7 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, job_started
                     </View>
 
                     {
-                        placementDate && <View>
+                        placementDate && <View style={{marginVertical: 10}}>
                             <Text p style={{marginVertical: 5}}>
                                 Placement started
                             </Text>
@@ -201,7 +201,7 @@ export const ApplicationStudentInfo = ({student, isIntern, showHeader}) => {
                 </Text>
             </View>
 
-            <View style={{marginVertical: 10}}>
+            <View>
                 <Text p style={{marginVertical: 10}}>Address</Text>
 
                 <Text h6 style={{marginVertical: 0}}>
@@ -217,7 +217,7 @@ export const ApplicationStudentInfo = ({student, isIntern, showHeader}) => {
                 </Text>
             </View>
 
-            <View style={{marginVertical: 10}}>
+            <View>
                 <Text p style={{marginVertical: 10}}>School</Text>
 
                 <Text h6 style={{marginVertical: 0}}>
@@ -229,7 +229,6 @@ export const ApplicationStudentInfo = ({student, isIntern, showHeader}) => {
                 style={{
                     flexDirection:'row',
                     backgroundColor:Theme.lightRed,
-                    // opacity: cv ? 0.6 : 1,
                     maxWidth: "80%",
                     paddingHorizontal: 20,
                     paddingVertical:10,

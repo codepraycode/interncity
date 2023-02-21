@@ -176,13 +176,12 @@ export const ApplicationDetailHeader = ({application})=>{
                     flexDirection:'row',
                     alignItems:'center',
                     marginLeft:20,
-                    marginTop:20,
+                    marginVertical:20,
                 }}
             >
 
-                <Image
-                    source={assets.user}
-                    resizeMode="cover"
+                <Avatar
+                    image={student.avatar}
                     width={65} height={65}
                 />
 
