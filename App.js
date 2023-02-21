@@ -1,6 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
+import { useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
+
 import {Typography, Colors, Assets} from 'react-native-ui-lib';
 
 import Theme from './constants/theme';
@@ -10,11 +13,16 @@ import assets from './constants/assets';
 import AppScreens from './features';
 import { AppContextProvider } from './app/context';
 import Notification from './features/Notifications';
+import useStorage from './hooks/useStorage';
+
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 Colors.loadColors({
-      ...Theme,
-      lightSecondary: Colors.rgba(Theme.secondary, 0.2),
-    });
+  ...Theme,
+  lightSecondary: Colors.rgba(Theme.secondary, 0.2),
+});
+
 Typography.loadTypographies(typography);
 Assets.loadAssetsGroup('assets', {
   ...assets
@@ -22,19 +30,32 @@ Assets.loadAssetsGroup('assets', {
 
 export default function App() {
 
-    const [loaded] = useFonts({
+    const [fontsLoaded] = useFonts({
       FontBold:require('./assets/fonts/DMSans-Bold.ttf'),
       FontMedium:require('./assets/fonts/DMSans-Medium.ttf'),
       FontRegular:require('./assets/fonts/DMSans-Regular.ttf'),
     });
 
+    
+    const {loading, isFresh:newlyInstalled } = useStorage();
+    
 
-    if(!loaded) return null;
+    const onLayoutRootView = useCallback(async () => {
+      if (fontsLoaded && !loading) {
+        await SplashScreen.hideAsync();
+      }
+    }, [fontsLoaded, loading]);
+
+    if (!fontsLoaded) return null;
+
 
     return (
-      <View style={styles.container}>
+      <View 
+        style={styles.container}
+        onLayout={onLayoutRootView}
+      >
         <AppContextProvider>
-          <AppScreens/>
+          <AppScreens isFresh={newlyInstalled}/>
           <Notification/>
         </AppContextProvider>
         

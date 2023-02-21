@@ -37,7 +37,7 @@ const location = Joi.object({
     country: Joi.string().required()
 })
 
-const authDataSchema = Joi.object().keys({
+const authDataSchema = Joi.object({
     email: email.required(),
     password: password,
 });
@@ -61,6 +61,7 @@ const jobSchema = Joi.object({
 
 const userProfileDataSchema = Joi.object({
     type: type.required(),
+    avatar: Joi.string().default(null),
 
     about: Joi.string(),
     website: Joi.string(),

@@ -1,4 +1,5 @@
 import React, { createContext, useMemo, useReducer, useState } from 'react';
+import Toast from 'react-native-root-toast';
 
 import { 
     auth, 
@@ -15,14 +16,13 @@ import { JSONLog } from './utils';
 import { useSnapshot, useNotifyingSnapshot} from '../hooks/useSnapshot';
 import useNotifications from '../hooks/useNotification';
 
-
 const AppContext = createContext();
 
 export default AppContext;
 
 
 
-export const AppContextProvider = ({children})=>{
+export const AppContextProvider = ({children})=>{    
 
     const initialState = {
         userAccount: null,
@@ -37,11 +37,6 @@ export const AppContextProvider = ({children})=>{
     const ActionTypes = {
         UPDATE_ACCOUNT_PROFILE:"UPDATE_ACCOUNT_PROFILE",
         UPDATE_ACCOUNT:"UPDATE_ACCOUNT",
-        UPDATE_SCHOOLS:"UPDATE_SCHOOLS",
-        UPDATE_DEPARTMENTS:"UPDATE_DEPARTMENTS",
-        UPDATE_SECTORS:"UPDATE_SECTORS",
-        UPDATE_JOBS:"UPDATE_JOBS",
-        UPDATE_ORGANIZATIONS:"UPDATE_ORGANIZATIONS",
         UPDATE_DBS:"UPDATE_DBS",
         RESET_STATE:"RESET_STATE",
     }
@@ -64,31 +59,6 @@ export const AppContextProvider = ({children})=>{
                         ...action.payload
                     }
                 };
-            case ActionTypes.UPDATE_SCHOOLS:
-                return {
-                    ...prev,
-                    schools: action.payload
-                };
-            case ActionTypes.UPDATE_DEPARTMENTS:
-                return {
-                    ...prev,
-                    departments: action.payload
-                };
-            case ActionTypes.UPDATE_SECTORS:
-                return {
-                    ...prev,
-                    sectors: action.payload
-                };
-            case ActionTypes.UPDATE_JOBS:
-                return {
-                    ...prev,
-                    jobs: action.payload
-                };
-            case ActionTypes.UPDATE_ORGANIZATIONS:
-                return {
-                    ...prev,
-                    organizations: action.payload
-                };
             case ActionTypes.UPDATE_DBS:
                 return {
                     ...prev,
@@ -104,15 +74,16 @@ export const AppContextProvider = ({children})=>{
         }
     }
 
-    const [expoPushToken, setExpoPushToken] = useState('');
-
-    const {notification,updateNotification, newNotification} = useNotifications(expoPushToken);
-    
     const [contextData, dispatch] = useReducer(reducers, initialState);
+    const applicationsQuery = getApplicationsQueryRef(contextData.userProfile?.id || '');
+    
+    const [expoPushToken, setExpoPushToken] = useState('');
+    const {notification,updateNotification, newNotification} = useNotifications(expoPushToken);
+
     const isOrganization = contextData.userProfile?.type === 'organization';
     const isSupervisor = contextData.userProfile?.type === 'supervisor'
     const isIntern = contextData.userProfile?.type === 'student';
-    
+
     const jobsPayload = useNotifyingSnapshot(jobsCollectionRef, ()=>{
         if (isSupervisor) return;
         
@@ -125,7 +96,7 @@ export const AppContextProvider = ({children})=>{
         
     });
 
-    const applicationsQuery = getApplicationsQueryRef(contextData.userProfile?.id || '');
+    
     
     const applicationsPayload = useSnapshot(applicationsQuery);
     const schoolsPayload = useSnapshot(schoolsCollectionRef);
@@ -134,6 +105,12 @@ export const AppContextProvider = ({children})=>{
     const sectorsPayload = useSnapshot(sectorsCollectionRef);
     const logsPayload = useSnapshot(logsCollectionRef);
 
+    function showToast(message) {
+
+        Toast.show(message, {
+            duration: Toast.durations.SHORT, // .LONG
+        })
+    }
     const appContextData = ({
         ...contextData,
         jobs: jobsPayload,
@@ -154,6 +131,8 @@ export const AppContextProvider = ({children})=>{
         expoPushToken,
         notification,
 
+        showToast,
+
         signOut: () => dispatch({ type: 'SIGN_OUT' }),
         updateAccountProfile: (data) => {
             console.log("UPDATE Account Profile");
@@ -169,19 +148,20 @@ export const AppContextProvider = ({children})=>{
         updateExpoPushToken: (token)=> setExpoPushToken(token),
         updateNotification,
 
-    })
+    });
 
     useMemo(()=>{
         auth.onAuthStateChanged((user)=>{
 
             if (!user){
+                showToast("Not authenticated");
                 // CLear state
                 console.log("clear state");
                 dispatch({ type: ActionTypes.RESET_STATE});
                 return
             }
 
-            console.log("AUthenticatedddsds!");
+            showToast("Authenticated!");
 
             const {providerData, stsTokenManager, uid} = user;
             
@@ -193,10 +173,10 @@ export const AppContextProvider = ({children})=>{
             };
             
             dispatch({ type: ActionTypes.UPDATE_ACCOUNT, payload: userData});
-            // bootstrapAsync();
-
         })
     },[]);
+
+
 
     return (
         <AppContext.Provider value={appContextData}>

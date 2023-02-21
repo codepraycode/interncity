@@ -1,16 +1,16 @@
 import React, { useCallback, useContext, useState } from 'react'
-import { View, Text } from 'react-native-ui-lib';
-import { StyleSheet, ImageBackground, Image, TouchableOpacity, ScrollView  } from 'react-native';
+import { View } from 'react-native-ui-lib';
+import { StyleSheet, ImageBackground, ScrollView  } from 'react-native';
 import assets from '../../constants/assets';
-import Theme from '../../constants/theme';
 import Form from '../../components/form';
 import AppContext from '../../app/context';
 import useProfile from '../../hooks/useProfile';
 import UserAccount from '../../app/models/User';
-import { setUpWithPreviousValue } from '../../app/utils';
+import { JSONLog, setUpWithPreviousValue } from '../../app/utils';
 import { Preloader } from '../../components/Modal';
+import { ImageUpload } from '../../components/form/FileInput';
 
-const ProfileSettingsHeader = ({profile})=>{
+const ProfileSettingsHeader = ({profile, onChange, schema})=>{
     const { isOrganization, isSupervisor } = useContext(AppContext);
 
     let align = 'flex-start';
@@ -25,15 +25,18 @@ const ProfileSettingsHeader = ({profile})=>{
         profileType = "Institution Supervisor";
     }
 
+
+    profile.type = profileType;
+
     return (
         <ImageBackground 
             source={assets.profileHeaderBg}
             resizeMode = {"contain"}
             style={{
                 justifyContent:'center',
-                height: 380,
+                height: 385,
                 overflow: 'hidden',
-                paddingTop: 10,
+                paddingTop: 15,
                 paddingLeft: 5,
                 position:'absolute',
                 width:'101%',
@@ -53,36 +56,15 @@ const ProfileSettingsHeader = ({profile})=>{
                     width: "90%"
                 }}
             >
-                <View center>
-                    {/* Image */}
-                    <View center style={{width: 40, height: 40, borderRadius: 20}}>
-                        <Image
-                            source={isOrganization ? assets.google : assets.user}
-                            // resizeMethod={"auto"}
-                            resizeMode="cover"
-                        />
-                    </View>
-
-                    {/* Text */}
-                    <View center ={isOrganization} style={{marginVertical: 10}}>
-                        <Text h4 center style={{color: Theme.grey100, marginTop: 10,}}>{profile.name}</Text>
-                        <Text label center style={{color: Theme.grey100}}>{profileType}</Text>
-                    </View>
-
-                    {/* Button to change Image */}
-                    <TouchableOpacity 
-                        activeOpacity={0.5}
-                        style={{
-                            backgroundColor: "rgba(255, 255, 255, .2)",
-                            alignItems:'center',
-                            width: 130,
-                            paddingVertical: 8,
-                            borderRadius: 8,
-                        }}
-                    >
-                        <Text p style={{color: Theme.grey100, fontSize: 13}}>Change image</Text>
-                    </TouchableOpacity>
-                </View>
+                <ImageUpload
+                    schema={schema}
+                    name="avatar"
+                    onChange={(name, avatarData)=>onChange(avatarData)}
+                    value={profile.avatar}
+                    mini = {true}
+                    profile={profile}
+                    center={isOrganization}
+                />
             </View>
         </ImageBackground>
     )
@@ -94,8 +76,9 @@ const ProfileSettingScreen = () => {
     const [userProfile, updateProfile] = useProfile();
     const [loading, setLoading] = useState(false);
     const [formErrors, setFormErrors] = useState({});
+    const [updatedAvatar, setUpdatedAvatar] = useState(null);
 
-    let formSchema = UserAccount.getProfileSchema(userProfile.type);
+    let {avatar:avatarSchema, ...formSchema} = UserAccount.getProfileSchema(userProfile.type);
 
     const getPreviousValues = useCallback(()=>{
       // process the previous values
@@ -105,6 +88,11 @@ const ProfileSettingScreen = () => {
 
     const handleOnUpdate = (updatedData)=>{
       if (loading) return;
+
+      if (updatedAvatar) updatedData.avatar = updatedAvatar;
+
+    //   JSONLog(updatedData);
+    
 
       setLoading(true);
       setFormErrors(()=>({}));
@@ -123,17 +111,18 @@ const ProfileSettingScreen = () => {
     const profile ={
         name: userProfile.name || userProfile.fullname,
         type: accType,
+        avatar: updatedAvatar || userProfile.avatar
     }
-    //  console.log(loading, formErrors)
+    JSONLog(profile);
     return (
         <>
             {/* Header */}
-            <ProfileSettingsHeader profile={profile}/>
+            <ProfileSettingsHeader profile={profile} onChange={(avatar)=>setUpdatedAvatar(()=>avatar)} schema={avatarSchema}/>
             {/* Form content */}
             <View flex>
                 <ScrollView
                     contentContainerStyle={{
-                        paddingTop: 300,
+                        paddingTop: 280,
                     }}
                     centerContent={true}
                     style={{

@@ -30,8 +30,13 @@ async function registerForPushNotificationsAsync() {
         return;
         }
 
-        token = (await Notifications.getExpoPushTokenAsync()).data;
-        console.log(token);
+        try{
+          token = (await Notifications.getExpoPushTokenAsync()).data;
+          console.log(token);
+        }
+        catch(err){
+          console.log("Error get notification token:", err);
+        }
 
     } else {
         alert('Device does not support Notifications');

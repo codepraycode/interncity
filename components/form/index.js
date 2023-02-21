@@ -6,6 +6,7 @@ import Button from '../Button';
 import SSO from "../SSO";
 import { useState } from "react";
 import Theme from '../../constants/theme';
+import { ImageUpload } from "./FileInput";
 
 export {TextInput, CheckBox}
 
@@ -26,22 +27,29 @@ const Form = ({schema, getPreviousValues, remember, forgotPassword, disable, aut
         })
     }
 
+    const getTemplate = (name, schema, key)=>{
+
+        const props = {
+            name,
+            schema,
+            key,
+            value: formData[name],
+            onChange: updateFormData,
+            error: errors && errors[name]
+        }
+
+        if (schema.type === 'image') return <ImageUpload {...props} />
+
+        return <TextInput {...props}/>
+
+    }
     return (
         <>
         
             <Text style={{color: Theme.red, marginVertical: 10,}}>{errors?.message}</Text>
 
             {
-                Object.entries(schema).map(([field, fieldSchema], i)=>(
-                    <TextInput 
-                        name={field} 
-                        schema={fieldSchema} 
-                        key={i} 
-                        value={formData[field]} 
-                        onChange={updateFormData}
-                        error={errors && errors[field]}
-                    />
-                ))
+                Object.entries(schema).map(([field, fieldSchema], i)=>getTemplate(field, fieldSchema, i))
             }
 
             <View style={styles.container}>

@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { collection, getFirestore, query, where } from 'firebase/firestore';
+import { getStorage } from "firebase/storage";
 import {
   initializeAuth,
   getReactNativePersistence
@@ -24,7 +25,10 @@ export const database = getFirestore(app);
 // initialize auth
 export const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(AsyncStorage)
-})
+});
+
+export const storageRef = getStorage();
+export const imageStorageRef = getStorage(app, 'photos');
 
 
 export const collectionNames = {

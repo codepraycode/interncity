@@ -1,43 +1,39 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { StyleSheet, } from 'react-native';
 import { View } from 'react-native-ui-lib';
-import AppContext from '../../app/context';
 import Form from '../../components/form';
 import Theme from '../../constants/theme';
 import UserAccount from '../../app/models/User.js'
 import SafeAreaLayout from '../../components/Layout';
-import { app } from '../../app/firebaseConfig';
+import { auth } from '../../app/firebaseConfig';
 
-import { getAuth } from "firebase/auth";
 import { JSONLog, setUpWithPreviousValue } from '../../app/utils';
-import HeaderTitle from '../../components/HeaderTitle';
+import {HeaderTitle} from '../../components/AppHeader';
 import { Preloader } from '../../components/Modal';
 import useProfile from '../../hooks/useProfile';
 
 const ProfileFormScreen = ({navigation, route}) =>{
     
-  const auth = getAuth(app);
-    
     const {profileType:selectedProfileType, title} = route.params;
       
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
-    const [userProfile, updateProfile] = useProfile();
+    const [userProfile, updateProfile, uploadImage] = useProfile();
 
-    const handleCreateProfile = (updatedData)=>{
+
+
+    const handleCreateProfile = async (updatedData)=>{
       if (loading) return;
-
-      const combinedData = {
-        type: profileType, // new type selected
-        // ...(userProfile || {}), // previous userProfile in context
-        ...updatedData // latest data update
-      }
-
-      const {isComplete, ...data} = combinedData;
-
-
+      
       setLoading(true);
       setFormErrors(()=>({}));
+
+      const data = {
+        type: profileType, // new type selected
+        // updated data
+        ...updatedData
+      }
+
 
       updateProfile(data)
       .then(()=>{
@@ -45,9 +41,9 @@ const ProfileFormScreen = ({navigation, route}) =>{
         setLoading(false);
       })
       .catch((err)=>{
-        JSONLog("Error",err);
+        // JSONLog("Error",err);
         setFormErrors(()=>err);
-        setLoading(false)
+        setLoading(false);
       })
 
     }
@@ -73,18 +69,6 @@ const ProfileFormScreen = ({navigation, route}) =>{
       }
 
       return setUpWithPreviousValue(formSchema, userProfile, seedValue);
-
-
-      // if (!userProfile) return prev;
-      
-      // Object.keys(formSchema).forEach((fieldName)=>{
-      //   // if key not in prevProfile, continue;
-      //   if (!userProfile[fieldName]) return
-
-      //   prev[fieldName] = userProfile[fieldName]; // set value.
-      // });
-
-      // return prev;
     })
 
 
@@ -92,7 +76,7 @@ const ProfileFormScreen = ({navigation, route}) =>{
         <SafeAreaLayout scrollStyle={{marginTop:-35}} style={{paddingTop: 0}}>
             
             <Preloader show={loading} text="loading"/>
-            
+
             {/* Auth form */}
             <View style={styles.container}>
                 <Form

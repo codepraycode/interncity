@@ -12,9 +12,6 @@ import { ApplicationDetailHeader } from './Header';
 import { ApplicationStudentInfo, PlacementDetailInfo } from './Info';
 
 
-
-
-
 const ApplicationDetail = ({ id:applicationId }) => {
     
     const {isIntern} = useContext(AppContext);
@@ -23,9 +20,6 @@ const ApplicationDetail = ({ id:applicationId }) => {
     const [decliningOffer, setDecliningOffer] = useState(false);
     const [updatingApplication, setUpdatingApplication] = useState(false);
 
-
-    // JSONLog(application); // stoped here!
-    // console.log(application.offer_date)
     if (!Boolean(application.original)) return <NotFound  text="Could not retrieve data"/>;
 
     let offerDate, jobStarted;

@@ -4,28 +4,26 @@ import Theme from '../../constants/theme';
 import assets from '../../constants/assets';
 import Seperator from '../Seperator';
 import { getTimeDistance } from '../../app/utils';
+import Avatar from '../Avatar';
 
 
-export const JobDetailHeader = ({job})=>{
+export const JobDetailHeader = ({job, company})=>{
 
     return (
         <>
             <View 
                 center 
                 style={{
-                    // backgroundColor:Theme.white,
                     paddingTop: 0,
                     zIndex:1,
                 }}
             >
-                <Image
-                    assetName={"google"}
-                    assetGroup="assets" 
+                <Avatar
+                    image={company.avatar}
                     width={70} height={70}
-                    style={{
+                    imageSyle={{
                         position:'relative',
                         bottom: -20,
-                        
                     }}
                 />
             </View>
@@ -178,13 +176,12 @@ export const ApplicationDetailHeader = ({application})=>{
                     flexDirection:'row',
                     alignItems:'center',
                     marginLeft:20,
-                    marginTop:20,
+                    marginVertical:20,
                 }}
             >
 
-                <Image
-                    source={assets.user}
-                    resizeMode="cover"
+                <Avatar
+                    image={student.avatar}
                     width={65} height={65}
                 />
 

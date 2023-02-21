@@ -1,8 +1,6 @@
 // User Data and User Account Model
 
-import { HandlerJoiError, userTypes,} from "../utils";
-import { userProfileDataSchema } from "./base";
-
+import { userTypes,} from "../utils";
 
 class Organization {
     #original = undefined;
@@ -15,6 +13,7 @@ class Organization {
             // meta data
             id,
             user,
+            avatar,
 
             // Location
             address,
@@ -30,6 +29,7 @@ class Organization {
 
         this.user = user;
         this.id = id;
+        this.avatar = avatar;
         
         this.address = address;
         this.city = city;
@@ -54,6 +54,7 @@ class Organization {
             ...prev,
             user: this.user,
             id: this.id,
+            avatar: this.avatar,
             
             address: this.address,
             city: this.city,
@@ -64,21 +65,14 @@ class Organization {
             email: this.email,
         }
     }
- 
-    static async validateData(userData){
 
-        const {error, value} = userProfileDataSchema.validate(userData);
-
-        if (error){
-            HandlerJoiError(error, "Invalid Job info");
-        }
-        
-        return value;
-    }
-
-    static getSchema(){
-
+    static formSchema(){
         return {
+            avatar:{
+                type: "image",
+                placeholder: "upload a .png, .jpeg or .jpg image",
+                label: "Profile photo",
+            },
             name:{
                 type: "text",
                 placeholder: "Enter organization name",

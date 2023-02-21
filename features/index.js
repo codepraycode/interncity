@@ -4,24 +4,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text } from 'react-native-ui-lib';
+import Theme from '../constants/theme';
 
 // Screen stacks
 import JobsStackScreen from './Jobs';
-
-
-// Icon
-import Octicons from 'react-native-vector-icons/Octicons';
-import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Theme from '../constants/theme';
-
 
 // Screens
 import { 
     ProfileFormScreen,
     ProfileCreationOnboarding,
     ProfileSuccessScreen,
-
     ProfileSettingScreen,
     ProfileUserTypeScreen
 } from './Profile';
@@ -35,7 +27,7 @@ import AppContext from '../app/context';
 
 import { AuthOnboardingScreen, CreateAccountScreen, LoginScreen } from './authentication';
 import HeaderRight from '../components/HeaderRight';
-import HeaderTitle from '../components/HeaderTitle';
+import {getIcons, getHeaderTitle} from '../components/AppHeader';
 import StudentListScreen from './Students/StudentsList';
 import StudentStackScreen from './Students';
 import InternDailyLogLists from './Interns/InternDailyLogsList';
@@ -45,39 +37,9 @@ import InternDailyLogLists from './Interns/InternDailyLogsList';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const getIcons = (name, focused, color, size, isOrganization) => {
-    let screenName = name.toLowerCase();
-
-    if (screenName === 'jobs') return <Octicons name={'list-unordered'} size={size} color={color} />;
-    else if (screenName === 'logs') return <Octicons name={'file-badge'} size={size} color={color} />;
-    else if ((screenName === 'interns') || (screenName === 'students')) return <Octicons name={'people'} size={size} color={color} />;
-    else if (screenName === 'profilesetting') return (
-        isOrganization ? 
-        <Octicons name={"organization"} size={size} color={color} />
-        :
-        <FontAwesome name={focused ? 'user':'user-o'} size={size} color={color} />
-    )
-    else if (screenName === 'appsetting') return <MaterialIcons name={focused ? 'cog' : 'cog-outline'} size={size} color={color} />;    
-    
-    return <MaterialIcons name={'apps'} size={size} color={color} />;    
-}
-
-const getHeaderTitle = (name, color=null) => {
-    let screenName = name.toLowerCase();
-    
-    let title = name;
-
-    if (screenName === 'jobs') title =  "Jobs";
-    else if (screenName === 'logs') title =  "Internship logs";
-    else if (screenName === 'profilesetting') title =  "Profile Settings";
-    else if (screenName === 'appsetting') title =  "App Settings";
-    
-    return (<HeaderTitle title={title} color={color}/>);
-}
-
 const commonScreenOptions = { headerShown: false }
 
-const TabsStack = ()=>{
+const HomeTabsStack = ()=>{
     const {isOrganization, isSupervisor} = useContext(AppContext);
 
     const renderScreen = ()=>{
@@ -119,10 +81,8 @@ const TabsStack = ()=>{
                 tabBarActiveTintColor: Theme.accent,
                 tabBarInactiveTintColor: Theme.grey300,
                 tabBarShowLabel: false,
-
                 tabBarStyle:{
                     height: 65,
-                    // position:'absolute',
                 },
                 headerTitle: ()=>getHeaderTitle(route.name),
                 headerTitleAlign: 'center',
@@ -130,8 +90,6 @@ const TabsStack = ()=>{
                 headerStyle:{
                     backgroundColor: Theme.grey100,
                 },
-                // headerTransparent:true,
-
                 headerRight: ()=> (
                     <HeaderRight 
                         type={isSupervisor ? "settings": 'notification'} 
@@ -183,9 +141,8 @@ const TabsStack = ()=>{
     )
 }
 
-const AppScreens = ()=>{
+const AppScreens = ({ isFresh })=>{
     const { 
-        isIntern,
         isLoggedIn,
         isProfileComplete
     } = useContext(AppContext);
@@ -195,7 +152,7 @@ const AppScreens = ()=>{
     if (!isLoggedIn) {
         stackToRender = (
             <>
-                { isIntern && (
+                { isFresh && (
                     <Stack.Screen 
                         name="AuthOnboarding" 
                         component={AuthOnboardingScreen}
@@ -253,7 +210,7 @@ const AppScreens = ()=>{
                 {/* Hide header for home screens */}
                     <Stack.Screen 
                         name="Home" 
-                        component = {TabsStack}
+                        component = {HomeTabsStack}
                     />
                     <Stack.Screen name="Job" component={JobsStackScreen} />
                     <Stack.Screen name="Intern" component={InternsStackScreen} />

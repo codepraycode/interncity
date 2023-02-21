@@ -1,9 +1,11 @@
 // User Data and User Account Model
 
-import { HandlerJoiError, userTypes } from "../utils";
-import { userProfileDataSchema } from "./base";
+import { userTypes } from "../utils";
+
 import {studentsQueryRef} from '../firebaseConfig';
 import { getDocs } from "firebase/firestore";
+
+
 
 class Student {
     #original = undefined;
@@ -20,6 +22,7 @@ class Student {
             // meta data
             id,
             user,
+            avatar,
 
             // Location
             city,
@@ -36,6 +39,7 @@ class Student {
 
         this.user = user;
         this.id = id;
+        this.avatar = avatar;
         
         this.city = city;
         this.country = country;
@@ -55,6 +59,7 @@ class Student {
 
         return {
             ...prev,
+            avatar: this.avatar,
             city: this.city,
             country: this.country,
 
@@ -67,20 +72,14 @@ class Student {
         }
     }
  
-    static async validateData(userData){
-
-        const {error, value} = userProfileDataSchema.validate(userData);
-
-        if (error){
-            HandlerJoiError(error, "Invalid Job info");
-        }
-        
-        return value;
-    }
-
-    static getSchema(){
+    static formSchema(){
 
         return {
+            avatar:{
+                type: "image",
+                placeholder: "upload a .png, .jpeg or .jpg image",
+                label: "Profile photo",
+            },
             fullname:{
                 type: "text",
                 placeholder: "Enter full name",
@@ -122,7 +121,7 @@ class Student {
                 label: "School Department",
             },
             // Duration: number but selected number
-        
+            
         }
     }
 
