@@ -129,7 +129,6 @@ const ImageUpload = ({schema, name, onChange, value, mini, ...restProps})=>{
             quality: 1,
         });
 
-        JSONLog(result);
 
         if(result.canceled) return;
 
