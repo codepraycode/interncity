@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { ScrollView, StyleSheet } from 'react-native';
-import { View } from 'react-native-ui-lib';
+import { Text, View } from 'react-native-ui-lib';
 import Button from '../../components/Button';
 import Theme from '../../constants/theme';
 import NotFound from '../../states/NotFound';
@@ -13,12 +13,14 @@ import { DurationPicker } from '../../components/form/FormComponents';
 import { ApplicationModal, Preloader } from '../../components/Modal';
 import AppContext from '../../app/context';
 import { JSONLog } from '../../app/utils';
+import { usePlacements } from '../../hooks/useApplication';
 
 const JobDetail = ({ route }) => {
     const { jobId } = route.params;
     
     const {userProfile:{id:studentId}} = useContext(AppContext);
     const { job,sendApplication } = useJob(jobId, studentId);
+    const {placements} = usePlacements(studentId);
 
 
     const [tabNo, setTabNo] = useState(0);
@@ -35,6 +37,45 @@ const JobDetail = ({ route }) => {
     job.duration = duration;
 
     const alreadyApplied = Boolean(job.application);
+
+    let cta;
+
+    if(placements?.length > 0) cta = (
+        <Text i style={{fontSize: 14}}>Cannot apply, already in an organization</Text>
+    );
+    else if (alreadyApplied) cta = (
+        <Button 
+                text="Application sent" 
+                onPress={()=>{}}
+                disable={true}
+                style={{
+                    width: "90%",
+                    marginLeft:20,
+                }}
+            />
+    )
+    else cta = (
+        <>
+            <DurationPicker
+                value={duration}
+                updateValue={(val)=>setDuration(val)}
+            />
+
+            {/* Call to action style={{marginTop:40}}*/}
+            <Button 
+                text="Apply Now" 
+                onPress={()=>{
+                    if(!duration) return;
+                    setApplying(true);
+                }}
+                disable={!duration}
+                style={{
+                    width: 180,
+                    marginLeft:20,
+                }}
+            />
+        </>
+    )
 
     return (
 
@@ -79,43 +120,7 @@ const JobDetail = ({ route }) => {
 
             <View center style={{flexDirection:'row', marginVertical:20,}}>
 
-                {
-                    alreadyApplied ? 
-                    (
-                        <Button 
-                                text="Application sent" 
-                                onPress={()=>{}}
-                                disable={true}
-                                style={{
-                                    width: "90%",
-                                    marginLeft:20,
-                                }}
-                            />
-                    )
-                    :
-                    (
-                        <>
-                            <DurationPicker
-                                value={duration}
-                                updateValue={(val)=>setDuration(val)}
-                            />
-
-                            {/* Call to action style={{marginTop:40}}*/}
-                            <Button 
-                                text="Apply Now" 
-                                onPress={()=>{
-                                    if(!duration) return;
-                                    setApplying(true);
-                                }}
-                                disable={!duration}
-                                style={{
-                                    width: 180,
-                                    marginLeft:20,
-                                }}
-                            />
-                        </>
-                    )
-                }
+                { cta }
                 
             </View>
 
