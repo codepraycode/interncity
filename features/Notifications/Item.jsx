@@ -65,13 +65,13 @@ const StudentNotificationItem = ({ data })=>{
 
 
                 <Text h4 
-                    style={{paddingLeft: 20, maxWidth:'87%',}}
+                    style={{maxWidth:'87%',}}
                 >
                     {title}
                 </Text>
             </View>
 
-            <Text p style={{marginVertical: 15}}>
+            <Text p style={{marginVertical: 10}}>
                 {message}
             </Text>
 
