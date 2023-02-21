@@ -6,10 +6,10 @@ import { getTimeDate, JSONLog } from '../../app/utils';
 import Theme from '../../constants/theme';
 import { useApplication } from '../../hooks/useApplication';
 import NotFound from '../../states/NotFound';
-import CustomButton from '../Button';
-import { MiniDetailHeader } from '../Headers';
-import { PlacementDetailInfo, StudentInfo } from '../Infos';
-import { ApplicationModal, Preloader } from '../Modal';
+import CustomButton from '../../components/Button';
+import { MiniDetailHeader } from '../../components/Headers';
+import { PlacementDetailInfo, StudentInfo } from '../../components/Infos';
+import { ApplicationModal, Preloader } from '../../components/Modal';
 
 
 const ApplicationDetail = ({ id:applicationId }) => {
@@ -28,7 +28,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
 
     let placementStarted = false;
 
-    if (isIntern && jobStarted) placementStarted = true;
+    if (jobStarted) placementStarted = true;
     
 
     let cta = (
@@ -125,7 +125,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
         </>
     )
 
-    if (placementStarted)  cta = (
+    if (jobStarted)  cta = (
         <View 
             center style={{
                 marginVertical: 15, 
@@ -147,7 +147,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
         </View>
     )
     
-    if (offerDate && !isIntern)  cta = (
+    else if (offerDate)  cta = (
         <View 
             center style={{
                 marginVertical: 15, 
@@ -170,7 +170,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
         </View>
     )
 
-    if (!offerDate && isIntern)  cta = (
+    else if (!offerDate && isIntern)  cta = (
         <View 
             center style={{
                 marginVertical: 15, 
@@ -192,7 +192,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
         </View>
     )
 
-    if (application.declined) cta = (
+    else if (application.declined) cta = (
         <View 
             center style={{
                 marginVertical: 15, 

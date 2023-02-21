@@ -70,13 +70,13 @@ export const PlacementDetailInfo = ({ showHeader, job, date_applied, job_started
 
     if (date_applied){
         const dt = getTimeDate(date_applied);
-        dateDistance = date_applied && getTimeDistance(dt, new Date(), { addSuffix: true })
+        dateDistance = date_applied && getTimeDistance(date_applied)
 
         applicationDate = dt?.toDateString();
     }
     if (job_started){
         const dt = getTimeDate(job_started);
-        dateDistance = job_started && getTimeDistance(dt, new Date(), { addSuffix: true })
+        dateDistance = job_started && getTimeDistance(job_started)
 
         placementDate = dt?.toDateString();
     }

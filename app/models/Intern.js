@@ -67,7 +67,7 @@ class Application {
 
         try{
             res = await getDoc(jobDocRef);
-            this.job = new Job(res.data())//res.data();
+            this.job = new Job({ id: res.id, ...res.data() })//{ id: res.id, ...res.data() };
         }catch(err){
             console.log("Error fetching profile:", err);
         }
@@ -85,7 +85,8 @@ class Application {
 
         try{
             res = await getDoc(studentDocRef);
-            this.student = new Student(res.data()) //res.data();
+            
+            this.student = new Student({ id: res.id, ...res.data() }) //{ id: res.id, ...res.data() };
         }catch(err){
             console.log("Error fetching student profile:", err);
         }
@@ -106,7 +107,7 @@ class Application {
 
         try{
             res = await getDoc(orgDocRef);
-            res = new Organization(res.data()) //res.data();
+            res = new Organization({ id: res.id, ...res.data() }) //{ id: res.id, ...res.data() };
         }catch(err){
             console.log("Error fetching organization profile:", err);
         }
