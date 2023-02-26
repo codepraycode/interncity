@@ -29,3 +29,8 @@ The features of this application includes:
 - Profile settings
 - App settings
 - Notifications(Applications received for organization, Application status for students).
+
+
+## Usage
+To use the app, make sure to have expo installed, this is because the application isn't available on various app stores yet.
+You can check the application via this link [@codepraycode/interncity](https://expo.dev/@codepraycode/interncity?serviceType=classic&distribution=expo-go)
