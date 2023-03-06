@@ -8,7 +8,9 @@ import Organization from '../app/models/Organization';
 import Student from '../app/models/Student';
 import Supervisor from '../app/models/Supervisor';
 import UserAccount from '../app/models/User';
-import { JSONLog, userTypes } from '../app/utils';
+import Job from '../app/models/Job';
+
+import { getTimeDate, JSONLog, userTypes } from '../app/utils';
 
 const studentDocRef = (id)=>doc(database, userTypes.PROFILES, id?.trim());
 
@@ -113,6 +115,19 @@ export const useStudentActivePlacement = (IncomingPlacement=null)=>{
         applications:{data:applications}
     } = useContext(AppContext);
 
+    const updatePlacement = (jobInstance)=>{
+        const today = new Date();
+        // const jobStartedDate = getTimeDate(jobInstance.job_started);
+        const duration = jobInstance.duration;
+        const expectedEndDate = getTimeDate(jobInstance.job_started).setMonth(duration);
+
+        if (today >= expectedEndDate){
+            // End it
+            jobInstance.job_ended = expectedEndDate;
+            Job.updateJob(jobInstance);
+        }
+    }
+
     const placement = useMemo(()=>{
 
         if(IncomingPlacement) return IncomingPlacement;
@@ -121,7 +136,10 @@ export const useStudentActivePlacement = (IncomingPlacement=null)=>{
 
         // Load active internAccount associated with student
         const studentId = userProfile.id;
-        return applications.find((each)=> Boolean(each.job_started) && (each.student === studentId));;
+        return applications.find((each)=> {
+            updatePlacement(each);
+            return Boolean(each.job_started) && (each.student === studentId)  && !Boolean(each.job_ended)
+        });
     }, [userProfile, isIntern, applications]);
 
     const updateLog = useCallback(async (logData)=>{

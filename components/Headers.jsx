@@ -2,6 +2,7 @@ import { View, Text } from 'react-native-ui-lib';
 import React from 'react';
 
 import Avatar from './Avatar';
+import Theme from '../constants/theme';
 
 
 export const MiniDetailHeader = ({student, job})=>{
@@ -43,6 +44,55 @@ export const MiniDetailHeader = ({student, job})=>{
                     }
                 </View>
 
+            </View>
+        </>
+    )
+}
+
+export const MiniDetailHeader2 = ({student, school})=>{
+
+    const name = student?.fullname || '...';
+    const schoolName = school?.name || '...';
+
+    return (
+        <>
+            <View 
+                center
+                style={{
+                    zIndex:1,
+                }}
+            >
+
+                <Avatar
+                    image={student?.avatar}
+                    imageStyle={{
+                        position:'relative',
+                        bottom: -20,
+                    }}
+                />
+
+            </View>
+
+            <View
+                style={{
+                    paddingTop: 30,
+                    paddingBottom: 5,
+                    backgroundColor:Theme.grey101,
+                }}
+            >
+                <Text 
+                    center 
+                    h5
+                >{name}</Text>                
+
+                <View 
+                    style={{
+                        marginVertical: 10,
+                    }}
+                >
+                    {/* <Text center label>{"IT intern"}</Text> */}
+                    <Text center small>{schoolName}</Text>
+                </View>
             </View>
         </>
     )

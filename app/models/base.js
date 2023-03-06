@@ -51,6 +51,7 @@ const createAccountDataSchema = Joi.object({
 
 const jobSchema = Joi.object({
     id: Joi.string(),
+    active: Joi.bool().default(false),
     role: Joi.string().required(),
     location: location.required(),
     organization: Joi.string().required(),

@@ -5,6 +5,7 @@ import Card from '../../components/Card';
 import { useJob } from '../../hooks/useJobs';
 import useSector from '../../hooks/useSector';
 import Avatar from '../../components/Avatar';
+import Theme from '../../constants/theme.js'
 
 
 const JobListItem = ({jobItem, onViewClick, onDelete})=>{
@@ -30,7 +31,12 @@ const JobListItem = ({jobItem, onViewClick, onDelete})=>{
                 />
 
                 <View style={{width: "80%"}}>
-                    <Text h4>{role}</Text>
+                    {
+                        jobInfo?.active ?
+                        <Text h4>{role}</Text>
+                        :
+                        <Text h4 style={{color:Theme.grey300}}>{role}</Text>
+                    }
                     <Text small
                         style={{
                             marginTop: 10,

@@ -6,10 +6,10 @@ import { getTimeDate, JSONLog } from '../../app/utils';
 import Theme from '../../constants/theme';
 import { useApplication } from '../../hooks/useApplication';
 import NotFound from '../../states/NotFound';
-import CustomButton from '../Button';
-import { MiniDetailHeader } from '../Headers';
-import { PlacementDetailInfo, StudentInfo } from '../Infos';
-import { ApplicationModal, Preloader } from '../Modal';
+import CustomButton from '../../components/Button';
+import { MiniDetailHeader } from '../../components/Headers';
+import { PlacementDetailInfo, StudentInfo } from '../../components/Infos';
+import { ApplicationModal, Preloader } from '../../components/Modal';
 
 
 const ApplicationDetail = ({ id:applicationId }) => {
@@ -22,13 +22,15 @@ const ApplicationDetail = ({ id:applicationId }) => {
 
     if (!Boolean(application.original)) return <NotFound  text="Could not retrieve data"/>;
 
-    let offerDate, jobStarted;
+    let offerDate, jobStarted, jobEnded;
     if (application.offer_date) offerDate = getTimeDate(application.offer_date);
     if (application.job_started) jobStarted = getTimeDate(application.job_started);
+    if (application.job_ended) jobEnded = getTimeDate(application.job_ended);
 
-    let placementStarted = false;
+    let placementStarted = false, placementEnded = false;
 
-    if (isIntern && jobStarted) placementStarted = true;
+    if (jobStarted) placementStarted = true;
+    if (jobEnded) placementEnded = true;
     
 
     let cta = (
@@ -125,7 +127,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
         </>
     )
 
-    if (placementStarted)  cta = (
+    if (jobStarted)  cta = (
         <View 
             center style={{
                 marginVertical: 15, 
@@ -136,7 +138,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
 
             <CustomButton 
                 // text={`Placement started ${jobStarted?.toDateString() ? `on ${jobStarted.toDateString()}` : ""}`}
-                text={`Placement started`}
+                text={`Placement ${placementEnded ? "concluded" :"started"}`}
                 onPress={()=>{}}
                 style={{
                     width: "90%",
@@ -147,7 +149,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
         </View>
     )
     
-    if (offerDate && !isIntern)  cta = (
+    else if (offerDate)  cta = (
         <View 
             center style={{
                 marginVertical: 15, 
@@ -170,7 +172,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
         </View>
     )
 
-    if (!offerDate && isIntern)  cta = (
+    else if (!offerDate && isIntern)  cta = (
         <View 
             center style={{
                 marginVertical: 15, 
@@ -192,7 +194,7 @@ const ApplicationDetail = ({ id:applicationId }) => {
         </View>
     )
 
-    if (application.declined) cta = (
+    else if (application.declined) cta = (
         <View 
             center style={{
                 marginVertical: 15, 
@@ -240,6 +242,7 @@ const ApplicationDetailContent = ({application, isIntern, cta})=>{
                 date_applied = {application.date_applied}
                 duration = {application.duration}
                 job_started = {application.job_started}
+                job_ended = {application.job_ended}
             />
 
             { cta }

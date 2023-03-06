@@ -58,17 +58,20 @@ const StudentNotificationItem = ({ data })=>{
                 <Avatar
                     image={avatar}
                     width={60} height={60}
+                    imageStyle={{
+                        marginRight: 10
+                    }}
                 />
 
 
                 <Text h4 
-                    style={{paddingLeft: 20, maxWidth:'87%',}}
+                    style={{maxWidth:'87%',}}
                 >
                     {title}
                 </Text>
             </View>
 
-            <Text p style={{marginVertical: 15}}>
+            <Text p style={{marginVertical: 10}}>
                 {message}
             </Text>
 
@@ -98,6 +101,9 @@ const OrganizationNotificationItem = ({ data })=>{
                 <Avatar
                     image={avatar}
                     width={60} height={60}
+                    imageStyle={{
+                        marginRight: 10
+                    }}
                 />
 
 
@@ -136,7 +142,7 @@ const NotificationItem = ({ isOrganization, notification, handleClick })=>{
     message = determineNotificationContent({
         notification,
         job,
-        profile: isOrganization ? organization : student,
+        profile: isOrganization ? student : organization,
         isOrganization,
     });
 

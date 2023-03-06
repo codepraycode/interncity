@@ -1,5 +1,5 @@
 import TextInput from "./TextInput";
-import CheckBox from "./CheckBox";
+import CheckBox, { ToggleSelect } from "./CheckBox";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "react-native-ui-lib";
 import Button from '../Button';
@@ -39,6 +39,7 @@ const Form = ({schema, getPreviousValues, remember, forgotPassword, disable, aut
         }
 
         if (schema.type === 'image') return <ImageUpload {...props} />
+        if (schema.type === 'bool') return <ToggleSelect {...props} />
 
         return <TextInput {...props}/>
 

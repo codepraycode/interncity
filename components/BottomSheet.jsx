@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {View, Text, ActionSheet} from 'react-native-ui-lib';
 import Theme from '../constants/theme';
 import Button from '../components/Button';
@@ -8,8 +8,6 @@ import Job from '../app/models/Job';
 import { useJob } from '../hooks/useJobs';
 import useProfile from '../hooks/useProfile';
 import { Preloader } from './Modal';
-import { JSONLog } from '../app/utils';
-
 
 const BottomSheet = (props) => {
     const {authOut,...rest} = props;
@@ -281,6 +279,7 @@ export const JobBottomSheet = ({show, jobId, onDismiss}) => {
                 renderAction={(option, index, onOptionPress)=>{
                     return (
                         <ScrollView key={index} contentContainerStyle={{paddingBottom:120, marginHorizontal:20}}>
+
                             <Form
                                 onSubmit={(data)=> handleSubmit(data)}
                                 schema={formSchema} 

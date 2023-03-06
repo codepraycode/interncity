@@ -1,23 +1,22 @@
 import React, { useContext, useState } from 'react'
 import { ScrollView } from 'react-native';
 import { View } from 'react-native-ui-lib';
-import ApplicationDetail from '../../components/organization/Application';
-import { InternDetailHeader } from '../../components/organization/Header';
-import { PlacementDetailInfo, InternInfo } from '../../components/organization/Info';
+import ApplicationDetail from './Application';
 import { useIntern } from '../../hooks/useIntern';
 import Tabs from '../../components/Tabs';
 import WeeklyLogs from '../../components/organization/WeeklyLogs';
 import {LogBottomSheet} from '../../components/BottomSheet';
-import { JSONLog } from '../../app/utils';
 import NotFound from '../../states/NotFound';
 import AppContext from '../../app/context';
+import { MiniDetailHeader2 } from '../../components/Headers';
+import { PlacementDetailInfo, StudentInfo } from '../../components/Infos';
 
 const InternsDetailScreen = ({ route }) => {
     const { internId, applicationId } = route.params;
 
     if (applicationId) return <ApplicationDetail id={applicationId}/>
 
-    const {isSupervisor} = useContext(AppContext)
+    const {isSupervisor, isIntern} = useContext(AppContext)
     
     const { intern, saveLog } = useIntern(internId);
     const [tabNo, setTabNo] = useState(0);    
@@ -27,7 +26,6 @@ const InternsDetailScreen = ({ route }) => {
         // console.log(data);
         if(data?.log){
             // Save data
-            // JSONLog(data);
             saveLog(data)
             .then(()=>console.log("Done!"))
             .catch(err=>console.log("Error:", err))
@@ -40,7 +38,7 @@ const InternsDetailScreen = ({ route }) => {
 
     const Info = (
         <ScrollView contentContainerStyle={{paddingVertical: 20}}>
-            <InternInfo cv={intern.cv} showHeader={true}/>
+            <StudentInfo showHeader isIntern={isIntern} student={intern?.student}/>
 
             <PlacementDetailInfo
                 showHeader={true}
@@ -53,7 +51,7 @@ const InternsDetailScreen = ({ route }) => {
 
     return (
         <>
-            <InternDetailHeader student={intern.student} school={intern.student?.schoolData}/>
+            <MiniDetailHeader2 student={intern.student} school={intern.student?.schoolData}/>
         
             <View
                     centerH

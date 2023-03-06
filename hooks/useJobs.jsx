@@ -109,8 +109,17 @@ const useJob = (jobId, studentId=null)=>{
 
 const useJobs = ()=>{
 
-    const { jobs:{data:jobs} } = useContext(AppContext);
+    const { jobs:{data:allJobs}, isOrganization } = useContext(AppContext);
     const loading = false;
+
+    const jobs = useMemo(()=>{
+
+        if(!isOrganization){
+            return allJobs.filter(e=>e.active);
+        }
+        return allJobs;
+
+    },[allJobs])
 
     return [jobs, loading];
 }
