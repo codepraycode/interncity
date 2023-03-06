@@ -115,6 +115,19 @@ export const useStudentActivePlacement = (IncomingPlacement=null)=>{
         applications:{data:applications}
     } = useContext(AppContext);
 
+    const updatePlacement = (jobInstance)=>{
+        const today = new Date();
+        // const jobStartedDate = getTimeDate(jobInstance.job_started);
+        const duration = jobInstance.duration;
+        const expectedEndDate = getTimeDate(jobInstance.job_started).setMonth(duration);
+
+        if (today >= expectedEndDate){
+            // End it
+            jobInstance.job_ended = expectedEndDate;
+            Job.updateJob(jobInstance);
+        }
+    }
+
     const placement = useMemo(()=>{
 
         if(IncomingPlacement) return IncomingPlacement;
@@ -136,19 +149,6 @@ export const useStudentActivePlacement = (IncomingPlacement=null)=>{
         return res;
 
     },[]);
-
-    const updatePlacement = (jobInstance)=>{
-        const today = new Date();
-        // const jobStartedDate = getTimeDate(jobInstance.job_started);
-        const duration = jobInstance.duration;
-        const expectedEndDate = getTimeDate(jobInstance.job_started).setMonth(duration);
-
-        if (today >= expectedEndDate){
-            // End it
-            jobInstance.job_ended = expectedEndDate;
-            Job.updateJob(jobInstance);
-        }
-    }
 
     return {placement, updateLog};
 }
