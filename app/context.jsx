@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useReducer, useState } from 'react';
+import React, { createContext, useContext, useMemo, useReducer, useState } from 'react';
 import Toast from 'react-native-root-toast';
 
 import { 
@@ -20,7 +20,7 @@ const AppContext = createContext();
 
 export default AppContext;
 
-
+export const useAppContext = ()=>useContext(AppContext);
 
 export const AppContextProvider = ({children})=>{    
 

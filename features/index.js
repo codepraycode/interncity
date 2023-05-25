@@ -1,5 +1,5 @@
 // Home screen that covers base navigation for screens
-import React, { useContext } from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -23,7 +23,7 @@ import NotificationScreen from './Notifications/NotificationList';
 import UpdatePasswordScreen from './settings/UpdatePassword';
 import {InternsListScreen, InternsStackScreen} from './Interns';
 
-import AppContext from '../app/context';
+import AppContext, { useAppContext } from '../app/context';
 
 // import { CreateAccountScreen } from './authentication';
 import HeaderRight from '../components/HeaderRight';
@@ -49,7 +49,7 @@ const commonScreenOptions = { headerShown: false }
 
 
 const HomeTabsStack = ()=>{
-    const {isOrganization, isSupervisor} = useContext(AppContext);
+    const {isOrganization, isSupervisor} = useAppContext();
 
     const renderScreen = ()=>{
 
@@ -154,7 +154,7 @@ const AppScreens = ({ isFresh })=>{
     const { 
         isLoggedIn,
         isProfileComplete
-    } = useContext(AppContext);
+    } = useAppContext();
     
     let stackToRender;    
 
