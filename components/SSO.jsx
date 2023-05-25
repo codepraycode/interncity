@@ -1,15 +1,77 @@
-import React from 'react';
+import React, { useId } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Colors, Icon, Text  } from 'react-native-ui-lib'
+import { Colors, Icon, Text, View  } from 'react-native-ui-lib'
 import Theme from '../constants/theme';
+import { auth } from '../app/firebaseConfig';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { JSONLog } from '../app/utils';
 
-const SSO = ({google}) => {
+
+const googleProvider = new GoogleAuthProvider();
+
+const GoogleSSO = ({ text }) => {
+    /* 
+        Google Authentication service
+    */
+
+    const id = useId();
+
+    const handleProvider = () => {
+        signInWithPopup(auth, googleProvider)
+            .then((result) => {
+                // This gives you a Google Access Token. You can use it to access the Google API.
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                // The signed-in user info.
+                const user = result.user;
+                // IdP data available using getAdditionalUserInfo(result)
+
+                JSONLog(user);
+                // ...
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+
+                console.log(errorCode);
+                console.log(errorMessage);
+                console.log(errorEmail);
+            });
+    }
+
+    const ssoText = Boolean(text) ? text : "Continue with Google";
     return (
 
-        <TouchableOpacity style={styles.container} activeOpacity={0.6}>
-            <Icon assetName="google" assetGroup="assets" size={20}/>
-            <Text label style={{color: Colors.main, marginLeft: 15,}}>SIGN IN WITH GOOGLE</Text>
+        <TouchableOpacity
+            key={id}
+            style={styles.container}
+            activeOpacity={0.6}
+            onPress={()=>{}}
+        >
+            <Icon assetName="google" assetGroup="assets" size={20} />
+            <Text label style={{ color: Colors.main, marginLeft: 15, }}>{ssoText}</Text>
         </TouchableOpacity>
+    )
+}
+
+const SSO = ({ google }) => {
+    const services = [];
+
+    if (google) {
+        services.push(<GoogleSSO text={google || "Continue with Google"}/>)
+    }
+
+    return (
+        <View
+            style={styles.contentContainer}
+        >
+            {[...services]}
+        </View>
     )
 }
 
@@ -18,6 +80,12 @@ export default SSO;
 
 
 const styles = StyleSheet.create({
+    contentContainer:{
+        flexDirection: 'column',
+        alignItems: 'center',
+        flexDirection: 'column',
+        marginTop: 20,
+    },
     container:{
         backgroundColor: Theme.lightSecondary,
         width: "75%",
@@ -26,5 +94,10 @@ const styles = StyleSheet.create({
         alignItems:'center',
         justifyContent:'center',
         flexDirection:'row'
-    }
+    },
+    // cta:{
+    //     justifyContent: 'center',
+        
+    //     marginTop: 20,
+    // }
 })

@@ -25,12 +25,20 @@ import {InternsListScreen, InternsStackScreen} from './Interns';
 
 import AppContext from '../app/context';
 
-import { AuthOnboardingScreen, CreateAccountScreen, LoginScreen } from './authentication';
+// import { CreateAccountScreen } from './authentication';
 import HeaderRight from '../components/HeaderRight';
 import {getIcons, getHeaderTitle} from '../components/AppHeader';
 import StudentListScreen from './Students/StudentsList';
 import StudentStackScreen from './Students';
 import InternDailyLogLists from './Interns/InternDailyLogsList';
+
+// Config
+import { screenNames } from '../config/screens';
+import Onboarding from '../screens/Onboarding';
+
+// Authentication screens
+import LoginScreen from '../screens/Login';
+import CreateAccountScreen from '../screens/CreateAccount';
 
 
 // Stack Navigator
@@ -38,6 +46,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const commonScreenOptions = { headerShown: false }
+
 
 const HomeTabsStack = ()=>{
     const {isOrganization, isSupervisor} = useContext(AppContext);
@@ -154,17 +163,17 @@ const AppScreens = ({ isFresh })=>{
             <>
                 { isFresh && (
                     <Stack.Screen 
-                        name="AuthOnboarding" 
-                        component={AuthOnboardingScreen}
+                        name={screenNames.onboarding}
+                        component={Onboarding}
                     />)
                 }
                 <Stack.Screen 
-                    name="SignIn" 
+                    name={screenNames.login}
                     component={LoginScreen} 
                     // options = {{headerShown: false}}
                 />
                 <Stack.Screen 
-                    name="SignUp" 
+                    name={screenNames.createAccount}
                     component={CreateAccountScreen} 
                     // options = {{headerShown: false}}
                 />

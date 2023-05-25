@@ -1,30 +1,13 @@
 import React from 'react'
-import { StyleSheet, ScrollView, View} from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context';
+import BaseSafeAreaLayout from './Layout/base';
 
-const SafeAreaLayout = ({children, scrollStyle, style}) => {
+
+const SafeAreaLayout = ({children, ...rest}) => {
     return (
-        <SafeAreaView style={{flex:1,}}>
-            <ScrollView 
-                contentContainerStyle={[styles.formContainer, style]}
-                bounces={false}
-                style={[scrollStyle]}
-            >
-                {children}
-            </ScrollView>
-        </SafeAreaView>
+        <BaseSafeAreaLayout {...rest}>
+            {children}
+        </BaseSafeAreaLayout>
     )
 }
 
 export default SafeAreaLayout;
-
-const styles = StyleSheet.create({
-    formContainer:{
-        alignItems:'center',
-        paddingBottom: 50,
-        paddingTop:50,
-        // height:'100%'
-        // backgroundColor:'red'
-    },
-
-})

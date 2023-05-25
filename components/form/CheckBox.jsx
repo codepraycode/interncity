@@ -22,7 +22,7 @@ const CheckBox = ({ label }) => {
 }
 
 
-export const ToggleSelect = ({onChange, name, value})=>{
+export const ToggleSelect = ({onChange, name, value, key})=>{
     return (
         <View
             style={{
@@ -30,6 +30,7 @@ export const ToggleSelect = ({onChange, name, value})=>{
                 alignItems:'center',
                 marginBottom:10
             }}
+            key={key}
         >
             <Switch
                 value={value} 
