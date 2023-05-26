@@ -1,7 +1,7 @@
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import { useContext, useEffect, useRef, useState } from 'react';
-import AppContext from '../../app/context';
+import { useEffect, useRef } from 'react';
+import useAppContext from '../../context';
 
 
 Notifications.setNotificationHandler({
@@ -60,7 +60,7 @@ const Notification = ()=>{
     const {
     //   expoPushToken, notification, 
       updateExpoPushToken,updateNotification
-    } = useContext(AppContext);
+    } = useAppContext();
     
     const notificationListener = useRef();
     const responseListener = useRef();

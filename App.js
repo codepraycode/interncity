@@ -4,14 +4,15 @@ import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
 
-import {Typography, Colors, Assets} from 'react-native-ui-lib';
+import { Typography, Colors, Assets } from 'react-native-ui-lib';
 
 import Theme from './constants/theme';
 import typography from './constants/typography';
 import assets from './constants/assets';
 
-import AppScreens from './features';
-import { AppContextProvider } from './app/context';
+// import AppScreens from './features';
+import AppScreens from './screens';
+import { AppContextProvider } from './context';
 import Notification from './features/Notifications';
 import useStorage from './hooks/useStorage';
 
@@ -48,7 +49,6 @@ export default function App() {
 
     if (!fontsLoaded) return null;
 
-
     return (
       <View 
         style={styles.container}
@@ -58,7 +58,6 @@ export default function App() {
           <AppScreens isFresh={newlyInstalled}/>
           <Notification/>
         </AppContextProvider>
-        
         <StatusBar style="auto" />
       </View>
     );

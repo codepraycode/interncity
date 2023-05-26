@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Image, Colors} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
+import { screenNames } from '../config/screens';
 
 /* 
     Onboarding screen for new users or after fresh installation
@@ -38,7 +39,7 @@ const Onboarding = ({navigation})=>{ // onboarding for AuthenticationStackco
                 
 
                 <TouchableOpacity 
-                    onPress={()=>navigation.navigate("SignIn")} 
+                    onPress={()=>navigation.navigate(screenNames.login)} 
                     style={{
                         width:60, 
                         height:60,

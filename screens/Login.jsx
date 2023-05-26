@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import {Text } from 'react-native-ui-lib';
 import { TouchableOpacity} from 'react-native';
 import Form from '../components/form';
+
 import { signInWithEmailAndPassword } from "firebase/auth";
-import {auth} from '../app/firebaseConfig';
 import {HandleFirebaseError} from '../app/utils';
-import UserAccount from '../app/models/User';
+import { auth } from '../config/firebase';
+import { loginFormSchema } from '../config/forms';
 import Theme from '../constants/theme';
 import AuthScreenLayout from '../components/Layout/AuthLayout';
 import { screenNames } from '../config/screens';
@@ -14,12 +15,13 @@ import SSO from '../components/SSO';
 /* 
     Login screen
 */
+
 const LoginScreen = ({ navigation })=>{
 
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const formSchema = UserAccount.getAuthSchema();
+    const formSchema = loginFormSchema //UserAccount.getAuthSchema();
 
     const handleLogin = (loginData)=>{
       

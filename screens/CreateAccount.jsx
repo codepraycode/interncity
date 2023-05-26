@@ -4,12 +4,13 @@ import { TouchableOpacity } from 'react-native';
 import Form from '../components/form';
 import Theme from '../constants/theme';
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import {auth } from '../app/firebaseConfig';
-import UserAccount from '../app/models/User';
+import { auth } from '../config/firebase';
+// import UserAccount from '../app/models/User';
 import { HandleFirebaseError } from '../app/utils';
 import AuthScreenLayout from '../components/Layout/AuthLayout';
 import { screenNames } from '../config/screens';
 import SSO from '../components/SSO';
+import { createAccountFormSchema } from '../config/forms';
 /* 
     CreateAccount screen
 */
@@ -20,7 +21,7 @@ const CreateAccountScreen = ({ navigation })=>{
     const [formErrors, setFormErrors] = useState({});
     const [loading, setLoading] = useState(false);
 
-    const formSchema = UserAccount.getCreateAccountSchema();
+    const formSchema = createAccountFormSchema; // UserAccount.getCreateAccountSchema();
 
     const handleCreateAccount = (userData) =>{
       

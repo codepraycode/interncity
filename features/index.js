@@ -23,7 +23,8 @@ import NotificationScreen from './Notifications/NotificationList';
 import UpdatePasswordScreen from './settings/UpdatePassword';
 import {InternsListScreen, InternsStackScreen} from './Interns';
 
-import AppContext, { useAppContext } from '../app/context';
+// import AppContext, { useAppContext } from '../app/context';
+import useAppContext from '../context';
 
 // import { CreateAccountScreen } from './authentication';
 import HeaderRight from '../components/HeaderRight';

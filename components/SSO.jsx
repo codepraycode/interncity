@@ -1,8 +1,8 @@
-import React, { useId } from 'react';
+import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors, Icon, Text, View  } from 'react-native-ui-lib'
 import Theme from '../constants/theme';
-import { auth } from '../app/firebaseConfig';
+import { auth } from '../config/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { JSONLog } from '../app/utils';
 
@@ -13,8 +13,6 @@ const GoogleSSO = ({ text }) => {
     /* 
         Google Authentication service
     */
-
-    const id = useId();
 
     const handleProvider = () => {
         signInWithPopup(auth, googleProvider)
@@ -48,7 +46,6 @@ const GoogleSSO = ({ text }) => {
     return (
 
         <TouchableOpacity
-            key={id}
             style={styles.container}
             activeOpacity={0.6}
             onPress={()=>{}}
@@ -63,7 +60,7 @@ const SSO = ({ google }) => {
     const services = [];
 
     if (google) {
-        services.push(<GoogleSSO text={google || "Continue with Google"}/>)
+        services.push(<GoogleSSO key={services.length + 1} text={google || "Continue with Google"}/>)
     }
 
     return (
@@ -95,9 +92,4 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         flexDirection:'row'
     },
-    // cta:{
-    //     justifyContent: 'center',
-        
-    //     marginTop: 20,
-    // }
 })

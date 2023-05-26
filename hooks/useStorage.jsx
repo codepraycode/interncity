@@ -17,11 +17,11 @@ const useStorage = ()=>{
             setLoading(true);
             AsyncStorage.getItem(APPID)
             .then((storedData)=>{
-                console.log("Storage:", storedData);
-            })
-            .then(()=>{
                 setLoading(false);
             })
+            // .then(()=>{
+            //     setLoading(false);
+            // })
             .catch((err)=>{
                 console.error("Error loading storage:", err);
                 setLoading(false);
