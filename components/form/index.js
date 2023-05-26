@@ -3,7 +3,6 @@ import CheckBox, { ToggleSelect } from "./CheckBox";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { Text, View } from "react-native-ui-lib";
 import Button from '../Button';
-// import SSO from "../SSO";
 import { useState } from "react";
 import Theme from '../../constants/theme';
 import { ImageUpload } from "./FileInput";
@@ -75,17 +74,6 @@ const Form = ({schema, getPreviousValues, remember, forgotPassword, disable, aut
                     disable={disable}
                 />
             </View>
-
-            {/* Call to action */}
-            {/* {
-                sso && (
-                    <View 
-                        style={[styles.container, styles.cta, {flexDirection:'column', marginTop:20,}]}
-                    >
-                        <SSO google text={sso}/>
-                    </View>
-                )
-            } */}
         </>
     )
 }

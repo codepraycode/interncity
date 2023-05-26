@@ -20,24 +20,6 @@ const configurations = {
     measurementId: "G-B5WW68PVVT"
 };
 
-
-
-// export const app = initializeApp(configurations);
-// export const app = getApps().length === 0 ? initializeApp(configurations) : getApp();
-
-// const createFirebaseApp = () => {
-//     try {
-//         return getApp();
-//     } catch (err) {
-//         return initializeApp(configurations);
-//     }
-// };
-// const app = createFirebaseApp();
-// // initialize auth
-// export const auth = initializeAuth(app, {
-//     persistence: getReactNativePersistence(AsyncStorage)
-// });
-
 let app, auth;
 
 if (!getApps().length) {

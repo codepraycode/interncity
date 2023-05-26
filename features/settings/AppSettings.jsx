@@ -5,7 +5,7 @@ import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Theme from '../../constants/theme';
 import BottomSheet from '../../components/BottomSheet';
-import { auth } from '../../app/firebaseConfig';
+import { auth } from '../../config/firebase';
 
 
 const settingsSections = [

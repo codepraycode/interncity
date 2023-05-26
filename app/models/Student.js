@@ -2,7 +2,7 @@
 
 import { userTypes } from "../utils";
 
-import {studentsQueryRef} from '../firebaseConfig';
+import {studentsQueryRef} from '../../config/firebase';
 import { getDocs } from "firebase/firestore";
 
 

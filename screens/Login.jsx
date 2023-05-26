@@ -7,7 +7,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import {HandleFirebaseError} from '../app/utils';
 import { auth } from '../config/firebase';
 import { loginFormSchema } from '../config/forms';
-import Theme from '../constants/theme';
+import {ThemeColors as Theme} from '../resources/theme';
 import AuthScreenLayout from '../components/Layout/AuthLayout';
 import { screenNames } from '../config/screens';
 import SSO from '../components/SSO';

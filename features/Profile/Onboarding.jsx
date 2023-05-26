@@ -5,7 +5,7 @@ import Theme from '../../constants/theme';
 import AppContext from '../../app/context';
 import {ErrorModal, Preloader} from '../../components/Modal';
 import UserAccount from '../../app/models/User';
-import { auth} from '../../app/firebaseConfig';
+import { auth} from '../../config/firebase';
 import { JSONLog } from '../../app/utils';
 
 /* 

@@ -2,7 +2,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppContext from '../app/context';
-import { auth, database, storageRef } from '../app/firebaseConfig';
+import { auth, database, storageRef } from '../config/firebase';
 import { Intern } from '../app/models/Intern';
 import Organization from '../app/models/Organization';
 import Student from '../app/models/Student';

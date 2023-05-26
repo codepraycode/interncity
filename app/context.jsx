@@ -10,7 +10,7 @@ import {
     sectorsCollectionRef,
     getApplicationsQueryRef,
     logsCollectionRef
-} from './firebaseConfig';
+} from '../config/firebase';
 
 import { JSONLog } from './utils';
 import { useSnapshot, useNotifyingSnapshot} from '../hooks/useSnapshot';

@@ -15,7 +15,7 @@ import {
   where,
   updateDoc
 } from 'firebase/firestore';
-import { collectionNames, database } from "../firebaseConfig";
+import { collectionNames, database } from "../../config/firebase";
 import Supervisor from "./Supervisor";
 import Organization from "./Organization";
 import Student from "./Student";

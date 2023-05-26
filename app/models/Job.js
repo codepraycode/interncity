@@ -8,7 +8,7 @@ import {
   updateDoc,
   deleteDoc
 } from 'firebase/firestore';
-import { collectionNames, database, jobsCollectionRef } from "../firebaseConfig";
+import { collectionNames, database, jobsCollectionRef } from "../../config/firebase";
 
 
 

@@ -1,7 +1,7 @@
 import { addDoc } from 'firebase/firestore';
 import React, { useContext, useMemo } from 'react';
 import AppContext from '../app/context';
-import { applicationsCollectionRef } from '../app/firebaseConfig';
+import { applicationsCollectionRef } from '../config/firebase';
 import Job from '../app/models/Job';
 import Organization from '../app/models/Organization';
 import { JSONLog } from '../app/utils';

@@ -6,7 +6,7 @@ import {
   updateDoc,
   getDoc
 } from 'firebase/firestore';
-import { collectionNames, database } from "../firebaseConfig";
+import { collectionNames, database } from "../../config/firebase";
 
 
 

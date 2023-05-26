@@ -7,7 +7,7 @@ import {
   getDoc,
   addDoc
 } from 'firebase/firestore';
-import { collectionNames, database, logsCollectionRef } from "../firebaseConfig";
+import { collectionNames, database, logsCollectionRef } from "../../config/firebase";
 import Student from "./Student";
 import Organization from './Organization';
 import Job from './Job';

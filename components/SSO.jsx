@@ -2,13 +2,13 @@ import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Colors, Icon, Text, View  } from 'react-native-ui-lib'
 import Theme from '../constants/theme';
-import { auth } from '../config/firebase';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { JSONLog } from '../app/utils';
+// import { auth } from '../config/firebase';
+// import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+// import { JSONLog } from '../app/utils';
 import useAppContext from '../context';
 
 
-const googleProvider = new GoogleAuthProvider();
+// const googleProvider = new GoogleAuthProvider();
 
 const GoogleSSO = ({ text }) => {
     /* 

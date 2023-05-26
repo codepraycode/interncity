@@ -1,7 +1,7 @@
 import { getDownloadURL, ref } from 'firebase/storage';
 import React, { useEffect, useState} from 'react'
 import { Image, View } from 'react-native-ui-lib'
-import { storageRef } from '../app/firebaseConfig';
+import { storageRef } from '../config/firebase';
 import assets from '../constants/assets'
 import { boxShadow } from '../constants/typography';
 

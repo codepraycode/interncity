@@ -5,7 +5,7 @@ import Form from '../../components/form';
 import Theme from '../../constants/theme';
 import UserAccount from '../../app/models/User.js'
 import SafeAreaLayout from '../../components/Layout';
-import { auth } from '../../app/firebaseConfig';
+import { auth } from '../../config/firebase';
 
 import { JSONLog, setUpWithPreviousValue } from '../../app/utils';
 import {HeaderTitle} from '../../components/AppHeader';
