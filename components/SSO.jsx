@@ -5,6 +5,7 @@ import Theme from '../constants/theme';
 import { auth } from '../config/firebase';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { JSONLog } from '../app/utils';
+import useAppContext from '../context';
 
 
 const googleProvider = new GoogleAuthProvider();
@@ -14,32 +15,35 @@ const GoogleSSO = ({ text }) => {
         Google Authentication service
     */
 
+    const { showToast } = useAppContext();
+
     const handleProvider = () => {
-        signInWithPopup(auth, googleProvider)
-            .then((result) => {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                const credential = GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                // The signed-in user info.
-                const user = result.user;
-                // IdP data available using getAdditionalUserInfo(result)
+        showToast("Not Implemented")
+        // signInWithPopup(auth, googleProvider)
+        //     .then((result) => {
+        //         // This gives you a Google Access Token. You can use it to access the Google API.
+        //         const credential = GoogleAuthProvider.credentialFromResult(result);
+        //         const token = credential.accessToken;
+        //         // The signed-in user info.
+        //         const user = result.user;
+        //         // IdP data available using getAdditionalUserInfo(result)
 
-                JSONLog(user);
-                // ...
-            }).catch((error) => {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.customData.email;
-                // The AuthCredential type that was used.
-                const credential = GoogleAuthProvider.credentialFromError(error);
-                // ...
+        //         JSONLog(user);
+        //         // ...
+        //     }).catch((error) => {
+        //         // Handle Errors here.
+        //         const errorCode = error.code;
+        //         const errorMessage = error.message;
+        //         // The email of the user's account used.
+        //         const email = error.customData.email;
+        //         // The AuthCredential type that was used.
+        //         const credential = GoogleAuthProvider.credentialFromError(error);
+        //         // ...
 
-                console.log(errorCode);
-                console.log(errorMessage);
-                console.log(errorEmail);
-            });
+        //         console.log(errorCode);
+        //         console.log(errorMessage);
+        //         console.log(errorEmail);
+        //     });
     }
 
     const ssoText = Boolean(text) ? text : "Continue with Google";
@@ -48,7 +52,7 @@ const GoogleSSO = ({ text }) => {
         <TouchableOpacity
             style={styles.container}
             activeOpacity={0.6}
-            onPress={()=>{}}
+            onPress={()=>handleProvider()}
         >
             <Icon assetName="google" assetGroup="assets" size={20} />
             <Text label style={{ color: Colors.main, marginLeft: 15, }}>{ssoText}</Text>
