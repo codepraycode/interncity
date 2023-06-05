@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/adaptive-icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "interncity",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -21,7 +22,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "me.codepraycode.interncity",
+      "package": "com.interncity.app",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
@@ -29,17 +30,24 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     },
     "primaryColor": "#130160",
     "plugins": [
-        [
-            "expo-notifications",
-            {
-              "icon": "./assets/notification-logo.png",
-              "color": "#ffffff"
-            }
-        ]
-    ]
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notification-logo.png",
+          "color": "#ffffff"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "197da02d-cd47-4875-8a02-aa118fef4497"
+      }
+    },
+    "owner": "codepraycode"
   }
 }
