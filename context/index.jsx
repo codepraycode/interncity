@@ -10,7 +10,7 @@ const AppContext = createContext();
 
 
 // Toast
-function showToast(message) {
+function showToast(message='A toast message') {
 
     Toast.show(message, {
         duration: Toast.durations.SHORT, // .LONG
@@ -30,7 +30,19 @@ export const AppContextProvider = ({ children }) =>{
     const profile = useMemo(()=>{
         if (authUser === null) return null;
 
-        return User.getProfile(auth);
+        let data;
+        try{
+            data = User.getProfile(auth);
+        } catch (err) {
+            showToast(err);
+            return {
+                meta : {
+                    isComplete: false
+                }
+            }
+        }
+
+        return data;
     }, [authUser]);
 
     // Set user type bool
@@ -72,7 +84,7 @@ export const AppContextProvider = ({ children }) =>{
 
         // Booleans
         isLoggedIn: Boolean(authUser?.token),
-        isProfileComplete: profile?.meta.isComplete,
+        isProfileComplete: profile?.meta?.isComplete,
         isOrganization,
         isSupervisor,
         isIntern,

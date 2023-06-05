@@ -26,29 +26,29 @@ const onSubmitDefault = (...args)=>{
     console.log("Submitted:",...args)
 }
 
+const resetState = () => {
+    // Meta is an object of values, touched, errors
+    // Values are the data of elements
+    // touched are the state of each element data
+    // errors are the errors for each elements and the form generally
+    //      This could be errors from onSubmit or general validation
+    return {
+        values: {},
+        touched: {},
+        errors: {
+            _general: '' // general message for form
+        }
+    }
+}
 
-const useForm = ({
+
+const FormHook = ({
     schema,
     initialValues = {}, // object, can be empty
     onSubmit = onSubmitDefault,
 }) => {
 
     const [meta, setMeta] = useState(() => resetState());
-
-    const resetState = () => {
-        // Meta is an object of values, touched, errors
-        // Values are the data of elements
-        // touched are the state of each element data
-        // errors are the errors for each elements and the form generally
-        //      This could be errors from onSubmit or general validation
-        return {
-            values: {},
-            touched: {},
-            errors: {
-                _general: '' // general message for form
-            }
-        }
-    }
 
     const onChange = (field, value, validator=null) => {
         if (!schema[field]) return  // if not in schema, return
@@ -65,17 +65,23 @@ const useForm = ({
         setMeta((prevMeta)=>{
             prevMeta.values[field] = value;
             prevMeta.touched[field] = isDiff;
+
+            return {
+                ...prevMeta
+            }
         })
     }
 
-    const submit = (...args) => onSubmit(...args)
     const reset = () => resetState();
 
     return {
         ...meta,
 
-        onChange,
-        submit,
+        handleChange: (...args)=>onChange(...args),
+        handleSubmit: (...args) => onSubmit(meta.values),
         reset,
     }
 }
+
+
+export default FormHook;

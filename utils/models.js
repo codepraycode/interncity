@@ -1,5 +1,5 @@
 // Entity models
-import { getDoc, getDocs, query } from "firebase/firestore";
+import { getDoc,doc, getDocs, query } from "firebase/firestore";
 import { userTypes } from "../config/constants";
 import { ProfilesCollectionRef } from "../config/firebase";
 import { ProfileValidatorSchema, createAccountValidatorSchema, handleSchemaError, loginValidatorSchema } from "./schema";
@@ -9,7 +9,7 @@ async function loadProfile(auth) {
     const { uid } = auth.currentUser || {};
 
     if (!uid) {
-        throw ("Authentication is required!");
+        return "Authentication is required!";
     }
 
     // User profile query
@@ -21,11 +21,11 @@ async function loadProfile(auth) {
     }
     catch (err) {
         console.log("Error fetching profile:", err);
-        throw ("Could not fetch user profile")
+        return "Could not fetch user profile"
     }
 
     if (!snapshot.exists()) {
-        throw ("No Profile")
+        return "No Profile";
     }
 
     return {...snapshot.data(), id: snapshot.id};
@@ -307,8 +307,12 @@ class User {
         */
 
         // Load profile
-        //  appropriate errors should be caught in front screen
+        //  appropriate errors should be caught in front screen        
         let user = await loadProfile(auth); // returns an object
+        
+        if (typeof(user) === 'string') {
+            throw (user);
+        }
 
         // Validate incoming data if complete
         const {id, ...restData} = user;

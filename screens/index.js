@@ -10,11 +10,27 @@ import { screenNames } from '../config/screens';
 import Onboarding from './Onboarding';
 import LoginScreen from './Login';
 import CreateAccountScreen from './CreateAccount';
+import { Text, View } from 'react-native-ui-lib';
 
 
 // Stack Navigator
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+
+const Home = ()=>{
+    return (
+        <View
+            style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+        >
+            <Text>Already Logged In.</Text>
+        </View>
+    )
+}
 
 const AppScreens = ({ isFresh }) => {
     const {
@@ -44,6 +60,15 @@ const AppScreens = ({ isFresh }) => {
                 // options = {{headerShown: false}}
                 />
             </>
+        )
+    }
+    else {
+        screnStackToRender = (
+            <Stack.Screen
+                name={screenNames.home}
+                component={Home}
+            // options = {{headerShown: false}}
+            />
         )
     }
 

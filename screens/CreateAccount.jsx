@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Text } from 'react-native-ui-lib';
 import { TouchableOpacity } from 'react-native';
-import Form from '../components/form';
+import Form from '../components/Form';
 import Theme from '../constants/theme';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../config/firebase';
