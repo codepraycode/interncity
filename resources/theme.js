@@ -14,4 +14,4 @@ export const ThemeColors = {
     lightRed: "#FFB2B2"
 }
 
-// export default Theme;
+export default ThemeColors;

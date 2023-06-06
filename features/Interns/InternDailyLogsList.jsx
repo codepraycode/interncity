@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react'
 import { FlatList } from 'react-native';
 import AppContext from '../../app/context';
-import { getDayVerbose, JSONLog } from '../../app/utils';
+import { getDayVerbose, JSONLog } from '../../utils';
 import { LogBottomSheet } from '../../components/BottomSheet';
 import LogItem from '../../components/LogItem';
 import { useLogs } from '../../hooks/useLog';

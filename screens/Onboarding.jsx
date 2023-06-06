@@ -1,23 +1,34 @@
 import React from 'react';
 import {View, Text, Image, Colors} from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity} from 'react-native';
+import { useRouter } from "expo-router";
 import { screenNames } from '../config/screens';
-
 /* 
     Onboarding screen for new users or after fresh installation
 */
 
-const Onboarding = ({navigation})=>{ // onboarding for AuthenticationStackco
+const Onboarding = ()=>{ // onboarding for AuthenticationStackco
+    const router = useRouter();
+
     return (
         <>
             {/* Top container containing Logo */}
             <View style={styles.top}>
-                <Image assetName="logo" assetGroup="assets" width={86} height={43}/>
+                <Image
+                    assetName="logo"
+                    assetGroup="assets"
+                    width={86} height={43}
+                />
             </View>
 
             {/* middle container containing illustration */}
             <View style={styles.middle}>
-                <Image assetName="memoji1" assetGroup="assets" width={270} height={270}/>
+                <Image
+                    assetName="memoji1"
+                    assetGroup="assets"
+                    width={270}
+                    height={270}
+                />
             </View>
 
             
@@ -39,7 +50,7 @@ const Onboarding = ({navigation})=>{ // onboarding for AuthenticationStackco
                 
 
                 <TouchableOpacity 
-                    onPress={()=>navigation.navigate(screenNames.login)} 
+                    onPress={()=>router.push(screenNames.signIn)} 
                     style={{
                         width:60, 
                         height:60,

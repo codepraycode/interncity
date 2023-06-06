@@ -4,7 +4,7 @@ import {useEffect, useState} from 'react';
 // App ID
 const APPID = "@intern$city";
 
-const useStorage = ()=>{
+export default StorageHook = ()=>{
     const [storedData, setStoredData] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -17,15 +17,15 @@ const useStorage = ()=>{
             setLoading(true);
             AsyncStorage.getItem(APPID)
             .then((storedData)=>{
-                setLoading(false);
+                // setLoading(false);
+                // Loaded Data.
+                console.log(storedData);
+                setStoredData(()=>storedData);
             })
-            // .then(()=>{
-            //     setLoading(false);
-            // })
             .catch((err)=>{
                 console.error("Error loading storage:", err);
-                setLoading(false);
-            })
+                // setLoading(false);
+            }).finally(()=>setLoading(false));
         }
 
         loadStorage()
@@ -35,4 +35,4 @@ const useStorage = ()=>{
     return { loading, isFresh: !loading && !Boolean(storedData), data:storedData, updateStorage }
 }
 
-export default useStorage;
+// export default useStorage;

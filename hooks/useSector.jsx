@@ -1,10 +1,11 @@
 import { useContext, useMemo } from "react";
-import AppContext from "../app/context";
+// import AppContext from "../app/context";
+import useAppContext from "../context";
 
 
 const useSector = (id=null, all=false)=>{
 
-    const { sectors:{data:sectors} } = useContext(AppContext);
+    const { sectors: { data: sectors } } = useAppContext();
 
     const data = useMemo(()=>{
 

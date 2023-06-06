@@ -1,7 +1,8 @@
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import {Switch, Text, View } from 'react-native-ui-lib'
-import Theme from '../../constants/theme'
+import { theme as Theme } from "../../resources";
+// import Theme from '../../constants/theme';
 
 const CheckBox = ({ label }) => {
 

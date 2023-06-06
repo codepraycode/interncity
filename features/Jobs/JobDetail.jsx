@@ -12,7 +12,7 @@ import { CompanyInfo, PlacementDetailInfo } from '../../components/organization/
 import { DurationPicker } from '../../components/form/FormComponents';
 import { ApplicationModal, Preloader } from '../../components/Modal';
 import AppContext from '../../app/context';
-import { JSONLog } from '../../app/utils';
+import { JSONLog } from '../../utils';
 import { usePlacements } from '../../hooks/useApplication';
 
 const JobDetail = ({ route }) => {

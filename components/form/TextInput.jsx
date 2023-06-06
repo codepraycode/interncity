@@ -1,7 +1,8 @@
 import { StyleSheet } from 'react-native';
 import { View, Text } from 'react-native-ui-lib';
 import React from 'react'
-import Theme from '../../constants/theme';
+import { theme as Theme } from "../../resources";
+// import Theme from '../../constants/theme';
 
 import { 
     DepartmentSelect,

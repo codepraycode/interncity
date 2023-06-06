@@ -1,12 +1,11 @@
 import {View, Picker} from 'react-native-ui-lib';
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import {StyleSheet,TextInput, TouchableOpacity} from 'react-native';
 import Octicons from 'react-native-vector-icons/Octicons';
 import Theme from '../../constants/theme';
-import AppContext from '../../app/context';
-import { JSONLog } from '../../app/utils';
 import useSector from '../../hooks/useSector';
 import Typography from '../../constants/typography';
+import useAppContext from '../../context';
 
 const NormalInput = React.memo(({schema, onChange, name, value})=>{
     return (
@@ -125,7 +124,7 @@ const PasswordInput = React.memo((props)=>{
 
 const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const {schools} = useContext(AppContext); 
+    const {schools} = useAppContext();
     
     const {data} = schools;
 
@@ -162,7 +161,7 @@ const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
 const DepartmentSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const {departments} = useContext(AppContext);
+    const { departments } = useAppContext();
     const {data} = departments;
 
     const options = data || [];

@@ -1,7 +1,7 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes } from 'firebase/storage';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import AppContext from '../app/context';
+
 import { auth, database, storageRef } from '../config/firebase';
 import { Intern } from '../app/models/Intern';
 import Organization from '../app/models/Organization';
@@ -10,13 +10,14 @@ import Supervisor from '../app/models/Supervisor';
 import UserAccount from '../app/models/User';
 import Job from '../app/models/Job';
 
-import { getTimeDate, JSONLog, userTypes } from '../app/utils';
+import { getTimeDate, JSONLog, userTypes } from '../utils';
+import useAppContext from '../context';
 
 const studentDocRef = (id)=>doc(database, userTypes.PROFILES, id?.trim());
 
 const useProfile = ()=>{
     
-    const { updateAccountProfile, userProfile, showToast } = useContext(AppContext);
+    const { updateAccountProfile, userProfile, showToast } = useAppContext();;
 
     const updateProfile = async (updatedProfileData)=>{
 
@@ -113,7 +114,7 @@ export const useStudentActivePlacement = (IncomingPlacement=null)=>{
         userProfile, 
         isIntern,
         applications:{data:applications}
-    } = useContext(AppContext);
+    } = useAppContext();
 
     const updatePlacement = (jobInstance)=>{
         const today = new Date();

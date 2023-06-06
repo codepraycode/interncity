@@ -2,8 +2,9 @@
 
 const screenNames = {
     onboarding: "OnBoarding",
-    login: "SignIn",
-    createAccount: "SignUp",
+    signIn: "/auth/signIn",
+    signUp: "/auth/signUp",
+    // createAccount: "SignUp",
 
     'home':'Home',
 }

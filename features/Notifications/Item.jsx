@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, Image } from 'react-native-ui-lib';
-import { getTimeDate, getTimeDistance, JSONLog } from '../../app/utils';
+import { getTimeDate, getTimeDistance, JSONLog } from '../../utils';
 import Card from '../../components/Card';
 import assets from '../../constants/assets';
 import {useJob} from '../../hooks/useJobs';

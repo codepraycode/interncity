@@ -3,7 +3,7 @@ import React from 'react';
 import Theme from '../../constants/theme';
 import assets from '../../constants/assets';
 import Seperator from '../Seperator';
-import { getTimeDistance } from '../../app/utils';
+import { getTimeDistance } from '../../utils';
 import Avatar from '../Avatar';
 
 

@@ -29,10 +29,6 @@
         "backgroundColor": "#FFFFFF"
       }
     },
-    "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
-    },
     "primaryColor": "#130160",
     "plugins": [
       [

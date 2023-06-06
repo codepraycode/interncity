@@ -1,14 +1,15 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import AppContext from '../app/context';
+// import AppContext from '../app/context';
 import { Application, Intern} from '../app/models/Intern';
-import { JSONLog } from '../app/utils';
+import { JSONLog } from '../utils';
+import useAppContext from '../context';
 
 const useInterns = ()=>{
 
     const {
         userProfile: {id:organizationId},
         applications:{data:applications},
-    } = useContext(AppContext);
+    } = useAppContext();
 
     const interns = useMemo(()=>{
         return applications.filter((each)=> {
@@ -28,7 +29,7 @@ const useIntern = (applicationId)=>{
         departments:{data:departments},
         schools:{data:schools},
         userProfile
-    } = useContext(AppContext);
+    } = useAppContext();
 
     const [student, setStudent] = useState(null);
     const [job, setJob] = useState(null);
@@ -97,7 +98,7 @@ const useStudent = (studentData)=>{
         applications:{data:applications},
         departments:{data:departments},
         schools:{data:schools},
-    } = useContext(AppContext);
+    } = useAppContext();
 
     const [student, setStudent] = useState(studentData);
     const [job, setJob] = useState(null);

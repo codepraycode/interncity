@@ -1,5 +1,4 @@
 import { useState } from 'react';
-// import AppContext from '../app/context';
 
 async function sendPushNotification(expoPushToken, item) {
     const {title, body, data} = item;

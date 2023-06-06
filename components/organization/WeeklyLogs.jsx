@@ -1,7 +1,7 @@
 import React, { useContext, useMemo } from 'react'
 import { FlatList } from 'react-native';
 import AppContext from '../../app/context';
-import { JSONLog } from '../../app/utils';
+import { JSONLog } from '../../utils';
 import { useLogs } from '../../hooks/useLog';
 import NoStudents from '../../states/NoStudents';
 import LogItem from '../LogItem';

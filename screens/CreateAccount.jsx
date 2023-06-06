@@ -6,7 +6,7 @@ import Theme from '../constants/theme';
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../config/firebase';
 // import UserAccount from '../app/models/User';
-import { HandleFirebaseError } from '../app/utils';
+import { HandleFirebaseError } from '../utils';
 import AuthScreenLayout from '../components/Layout/AuthLayout';
 import { screenNames } from '../config/screens';
 import SSO from '../components/SSO';

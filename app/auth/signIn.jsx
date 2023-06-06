@@ -1,27 +1,21 @@
-import React, { useState } from 'react';
-import {Text } from 'react-native-ui-lib';
-import { TouchableOpacity} from 'react-native';
-
-import { signInWithEmailAndPassword } from "firebase/auth";
-import {HandleFirebaseError} from '../utils';
-import { auth } from '../config/firebase';
-import { loginFormSchema } from '../config/forms';
-import {ThemeColors as Theme} from '../resources/theme';
-import AuthScreenLayout from '../components/Layout/AuthLayout';
-import { screenNames } from '../config/screens';
-import SSO from '../components/SSO';
-import Form, { AuthenticationForm } from '../components/Form';
+import React from 'react';
+import { loginFormSchema } from '../../config/forms';
+import AuthScreenLayout from '../../components/Layout/AuthLayout';
+import { screenNames } from '../../config/screens';
+import { AuthenticationForm } from '../../components/Form';
+import { useRouter } from 'expo-router';
 
 /* 
     Login screen
 */
 
-const LoginScreen = ({ navigation })=>{
+const LoginScreen = () => {
+    const router = useRouter();
 
     const formSchema = loginFormSchema //UserAccount.getAuthSchema();
 
     // const handleLogin = (loginData)=>{
-      
+
     //   if (loading) return;
 
     //   const {email, password} = loginData;
@@ -31,7 +25,7 @@ const LoginScreen = ({ navigation })=>{
 
     //   UserAccount.validateAuthData({email, password})
     //   .then( async (value)=>{
-        
+
     //         let userCredential;
     //         try{
     //           userCredential = await signInWithEmailAndPassword(auth,value.email, value.password);
@@ -44,7 +38,7 @@ const LoginScreen = ({ navigation })=>{
     //         }
 
     //         setLoading(false);
-          
+
     //   })
     //   .catch(err=>{          
     //       setFormErrors(()=>err);
@@ -53,22 +47,19 @@ const LoginScreen = ({ navigation })=>{
     // }
 
     return (
-
-
         <AuthScreenLayout
-          headerText={"Welcome back"}
+            headerText={"Welcome back"}
         >
             <AuthenticationForm
-              schema={formSchema}
-              remember={false}
-              forgotPassword={true}
+                schema={formSchema}
+                remember={false}
+                forgotPassword={true}
 
-              loadingLabel={"Logging In..."}
+                loadingLabel={"Logging In..."}
 
-              handleNavigate={()=>navigation.navigate(screenNames.createAccount)}
-              login
+                handleNavigate={() => router.replace(screenNames.signUp)}
+                login
             />
-
         </AuthScreenLayout>
     )
 }

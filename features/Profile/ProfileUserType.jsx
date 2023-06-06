@@ -2,7 +2,7 @@ import { Text, View} from 'react-native-ui-lib';
 import { StyleSheet,TouchableOpacity } from 'react-native';
 import React from 'react'
 import Theme from '../../constants/theme';
-import {userTypes} from '../../app/utils';
+import {userTypes} from '../../utils';
 
 const ProfileUserTypeScreen = ({ navigation }) => {
     const handleSelection = (selectedType)=>{

@@ -1,13 +1,14 @@
 import { useContext, useMemo } from 'react';
 import AppContext from '../app/context';
 import { Log }from '../app/models/Log';
+import useAppContext from '../context';
 
 
 const useLogs = (accountId, daily=false)=>{
 
     const {
         logs:{data:logs},
-    } = useContext(AppContext);
+    } = useAppContext();
 
     const logData = useMemo(()=>{
 
@@ -30,7 +31,7 @@ const useLog = (logId)=>{
 
     const { 
         logs:{data:logs},
-    } = useContext(AppContext);
+    } = useAppContext();
 
     const logData = useMemo(()=>{
         const d = logs.find((each)=> each.id === logId);

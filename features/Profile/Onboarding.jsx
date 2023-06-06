@@ -6,7 +6,7 @@ import AppContext from '../../app/context';
 import {ErrorModal, Preloader} from '../../components/Modal';
 import UserAccount from '../../app/models/User';
 import { auth} from '../../config/firebase';
-import { JSONLog } from '../../app/utils';
+import { JSONLog } from '../../utils';
 
 /* 
     Onboarding screen for create profile if profile isn't set or completed

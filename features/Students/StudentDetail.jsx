@@ -1,7 +1,7 @@
 import React from 'react'
 import { FlatList } from 'react-native';
 import { Text, View } from 'react-native-ui-lib';
-import { JSONLog } from '../../app/utils';
+import { JSONLog } from '../../utils';
 import { MiniDetailHeader } from '../../components/Headers';
 import { StudentInfo } from '../../components/Infos';
 import PlacementItem from '../../components/student/Placements';

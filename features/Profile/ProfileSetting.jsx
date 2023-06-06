@@ -6,7 +6,7 @@ import Form from '../../components/form';
 import AppContext from '../../app/context';
 import useProfile from '../../hooks/useProfile';
 import UserAccount from '../../app/models/User';
-import { JSONLog, setUpWithPreviousValue } from '../../app/utils';
+import { JSONLog, setUpWithPreviousValue } from '../../utils';
 import { Preloader } from '../../components/Modal';
 import { ImageUpload } from '../../components/form/FileInput';
 

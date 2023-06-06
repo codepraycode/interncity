@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import {Alert, ScrollView} from 'react-native'
 import { View } from 'react-native-ui-lib';
 import AppContext from '../../app/context';
-import { getTimeDate, JSONLog } from '../../app/utils';
+import { getTimeDate, JSONLog } from '../../utils';
 import Theme from '../../constants/theme';
 import { useApplication } from '../../hooks/useApplication';
 import NotFound from '../../states/NotFound';

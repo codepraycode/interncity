@@ -8,7 +8,7 @@ import Theme from '../../constants/theme';
 import { ImageUpload } from "./FileInput";
 import { useForm } from '../../hooks';
 import useAppContext from "../../context";
-import { JSONLog } from "../../app/utils";
+import { JSONLog } from "../../utils";
 import { screenNames } from "../../config/screens";
 import SSO from "../SSO";
 import { signInWithEmailAndPassword } from "firebase/auth";

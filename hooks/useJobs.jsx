@@ -4,7 +4,8 @@ import AppContext from '../app/context';
 import { applicationsCollectionRef } from '../config/firebase';
 import Job from '../app/models/Job';
 import Organization from '../app/models/Organization';
-import { JSONLog } from '../app/utils';
+import { JSONLog } from '../utils';
+import useAppContext from '../context';
 
 const useJob = (jobId, studentId=null)=>{
 
@@ -12,7 +13,7 @@ const useJob = (jobId, studentId=null)=>{
         jobs:{data:jobs}, 
         organizations:{data:organizations},
         applications:{data:applications}
-    } = useContext(AppContext);
+    } = useAppContext();
     
     const job = useMemo(()=>{
 
@@ -109,7 +110,7 @@ const useJob = (jobId, studentId=null)=>{
 
 const useJobs = ()=>{
 
-    const { jobs:{data:allJobs}, isOrganization } = useContext(AppContext);
+    const { jobs: { data: allJobs }, isOrganization } = useAppContext();
     const loading = false;
 
     const jobs = useMemo(()=>{

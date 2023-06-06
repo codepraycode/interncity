@@ -3,7 +3,7 @@ import React from 'react'
 import Theme from '../../constants/theme';
 import Octicons from 'react-native-vector-icons/Octicons';
 import CustomButton from '../Button';
-import { getTimeDate, getTimeDistance,JSONLog, openURL } from '../../app/utils';
+import { getTimeDate, getTimeDistance,JSONLog, openURL } from '../../utils';
 
 export const CompanyInfo = ({company}) => {
 

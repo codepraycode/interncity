@@ -4,7 +4,7 @@ import { Colors, Icon, Text, View  } from 'react-native-ui-lib'
 import Theme from '../constants/theme';
 // import { auth } from '../config/firebase';
 // import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-// import { JSONLog } from '../app/utils';
+// import { JSONLog } from '../utils';
 import useAppContext from '../context';
 
 

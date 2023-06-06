@@ -5,7 +5,7 @@ import assets from '../../constants/assets';
 import Seperator from '../Seperator';
 import { useIntern, useStudent} from '../../hooks/useIntern';
 import Avatar from '../../components/Avatar';
-import { JSONLog } from '../../app/utils';
+import { JSONLog } from '../../utils';
 
 const Item = ({student:studentData, isSupervisor, onViewClick}) => {
     const {id, ...rest} = studentData;

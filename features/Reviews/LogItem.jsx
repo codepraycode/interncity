@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import Theme from '../../constants/theme';
-import { getDayVerbose } from '../../app/utils';
+import { getDayVerbose } from '../../utils';
 
 const LogItem = ({date, log, editLog}) => {
 

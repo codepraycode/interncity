@@ -3,7 +3,7 @@ import React from 'react';
 import Theme from '../../constants/theme';
 import assets from '../../constants/assets';
 import Octicons from 'react-native-vector-icons/Octicons';
-import { JSONLog } from '../../app/utils';
+import { JSONLog } from '../../utils';
 
 
 const DetailHeader = ({data})=>{

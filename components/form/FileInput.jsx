@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { View, Text } from "react-native-ui-lib";
-import assets from "../../constants/assets";
-import Theme from "../../constants/theme";
-import { boxShadowSm } from "../../constants/typography";
+import { typography, theme as Theme } from "../../resources";
 import Avatar from "../Avatar";
 import * as ImagePicker from 'expo-image-picker';
-import { JSONLog } from "../../app/utils";
+// import Theme from "../../constants/theme";
+// import { boxShadowSm } from "../../resources/typography";
+// import { JSONLog } from "../../utils";
 
+
+
+const { boxShadowSm } = typography;
 
 const MainTemplate = ({pickedImage, schema, image,hasPermission, setImage})=>{
     return (

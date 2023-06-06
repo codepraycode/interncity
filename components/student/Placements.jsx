@@ -1,7 +1,7 @@
 import { View, Text, Image } from 'react-native-ui-lib';
 import React from 'react'
 import Card from '../Card';
-import { getTimeDate } from '../../app/utils';
+import { getTimeDate } from '../../utils';
 import { useJob } from '../../hooks/useJobs';
 import Avatar from '../Avatar';
 

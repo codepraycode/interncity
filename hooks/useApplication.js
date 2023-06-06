@@ -1,10 +1,11 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import AppContext from '../app/context';
+// import AppContext from '../app/context';
 import { Application,Intern } from '../app/models/Intern';
+import useAppContext from '../context';
 
 const useApplications = (userId=null, student=false)=>{
 
-    const { applications:{data:applications} } = useContext(AppContext);
+    const { applications:{data:applications} } = useAppContext();
 
     const data = useMemo(()=>{
         if (student) return applications.filter((each)=> each.student === userId);
@@ -32,7 +33,7 @@ const useApplications = (userId=null, student=false)=>{
 
 const usePlacements = (studentId)=>{
 
-    const { applications:{data:applications} } = useContext(AppContext);
+    const { applications: { data: applications } } = useAppContext();
 
     const placements = useMemo(()=>{
         return applications.filter((each)=> (each.student === studentId) && Boolean(each.job_started));
@@ -49,7 +50,7 @@ const useApplication = (applicationId)=>{
         departments:{data:departments},
         schools:{data:schools},
         userProfile,
-    } = useContext(AppContext);
+    } = useAppContext();
 
     const [student, setStudent] = useState(null);
     const [job, setJob] = useState(null);

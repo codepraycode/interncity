@@ -7,7 +7,7 @@ import UserAccount from '../../app/models/User.js'
 import SafeAreaLayout from '../../components/Layout';
 import { auth } from '../../config/firebase';
 
-import { JSONLog, setUpWithPreviousValue } from '../../app/utils';
+import { JSONLog, setUpWithPreviousValue } from '../../utils';
 import {HeaderTitle} from '../../components/AppHeader';
 import { Preloader } from '../../components/Modal';
 import useProfile from '../../hooks/useProfile';
