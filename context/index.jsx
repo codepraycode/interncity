@@ -120,6 +120,9 @@ export const AppContextProvider = ({ children }) =>{
     const contextData = {
         profile,
         newProfile,
+        schools: [],
+        departments: [],
+        sectors: [],
 
         // Booleans
         isLoggedIn: Boolean(authUser?.token),

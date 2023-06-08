@@ -5,7 +5,7 @@ import useAppContext from "../context";
 
 const useSector = (id=null, all=false)=>{
 
-    const { sectors: { data: sectors } } = useAppContext();
+    const { sectors } = useAppContext();
 
     const data = useMemo(()=>{
 

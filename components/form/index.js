@@ -82,34 +82,43 @@ const FormSchemaRenderer = ({schema, manager }) =>{
 const Form = ({
     schema, // object - form schema
     getPreviousValues, // function - load previous values
-    forgotPassword, // boolean - include forget password feature
     disable, // boolean - disable submit button
     authLabel, // string - status label
     onSubmit, // function - submit function to trigger
     errors, // object - form errors
 })=>{
-    const loadPreviousValues = getPreviousValues || function (){
-        return {}
-    }
-    const [formData, setFormData] = useState(()=>{
-        return loadPreviousValues();
+    // const loadPreviousValues = getPreviousValues || function (){
+    //     return {}
+    // }
+    // const [formData, setFormData] = useState(()=>{
+    //     return loadPreviousValues();
+    // });
+
+    // const updateFormData = (field, value)=>{
+    //     if (Object.is(formData[field], value)) return;
+
+    //     setFormData((prev)=>{
+    //         return {...prev, [field]:value};
+    //     })
+    // }
+
+    const form = useForm({
+        schema,
+        // initialValues: {},
+        onSubmit: (values) => {}
     });
 
-    const updateFormData = (field, value)=>{
-        if (Object.is(formData[field], value)) return;
-
-        setFormData((prev)=>{
-            return {...prev, [field]:value};
-        })
-    }
-
+    
     
     return (
         <>
-        
-            <Text style={{color: Theme.red, marginVertical: 10,}}>{errors?.message}</Text>
+            <Text
+                style={{ color: Theme.red, marginVertical: 10, }}
+            >
+                {form.errors._general}
+            </Text>
 
-            <FormSchemaRenderer schema={schema}/>
+            <FormSchemaRenderer schema={schema} manager={form} />
 
             <View style={[styles.container, styles.cta]}>
                 <Button 
@@ -159,7 +168,7 @@ export const AuthenticationForm = ({
                 return
             }
         }
-    });    
+    });
 
     const handleLogin = ( data ) =>{
         if (loading) return;

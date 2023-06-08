@@ -124,11 +124,11 @@ const PasswordInput = React.memo((props)=>{
 
 const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const {schools} = useAppContext();
+    const {schools: options} = useAppContext();
     
-    const {data} = schools;
+    // const {data} = schools;
 
-    const options = data || [];
+    // const options = data;
 
     return (
         <Picker
@@ -161,10 +161,10 @@ const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
 const DepartmentSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const { departments } = useAppContext();
-    const {data} = departments;
+    const { departments: options } = useAppContext();
+    // const {data} = departments || {};
 
-    const options = data || [];
+    // const options = data || [];
 
     return (
         <Picker
