@@ -1,7 +1,7 @@
 import {View, Picker} from 'react-native-ui-lib';
 import React, { useState } from 'react'
 import {StyleSheet,TextInput, TouchableOpacity} from 'react-native';
-import Octicons from 'react-native-vector-icons/Octicons';
+// import Octicons from 'react-native-vector-icons/Octicons';
 import Theme from '../../constants/theme';
 import useSector from '../../hooks/useSector';
 import Typography from '../../constants/typography';
@@ -116,7 +116,7 @@ const PasswordInput = React.memo((props)=>{
             />
 
             <TouchableOpacity activeOpacity={0.6} onPress={()=>setHidePassword(p=>!p)}>
-                <Octicons name={hidePassword ? "eye":'eye-closed'} size={30} color={Theme.grey400} />
+                {/* <Octicons name={hidePassword ? "eye":'eye-closed'} size={30} color={Theme.grey400} /> */}
             </TouchableOpacity>
         </View>
     )
@@ -310,7 +310,10 @@ const styles = StyleSheet.create({
         backgroundColor:Theme.white,
         borderColor:Theme.white,
         elevation: 1,
-        shadowOffset: 1,
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
     },
 
     passwordinput:{

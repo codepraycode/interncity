@@ -73,11 +73,9 @@ export const AppContextProvider = ({ children }) =>{
         if (authUser === null) return null;
 
         let data = await User.getProfile(auth);
-        
+
         return data;
     }, [authUser]);
-
-    console.log("Profile:", profile);
 
     useMemo(() => {
         auth.onAuthStateChanged((user) => {
@@ -128,7 +126,7 @@ export const AppContextProvider = ({ children }) =>{
         isIntern,
 
         // Functions
-        showToast,
+        showToast: (msg)=>showToast(msg),
         updateExpoPushToken: (token) => setExpoPushToken(token),
         updateNotification
     }

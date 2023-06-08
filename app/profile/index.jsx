@@ -1,70 +1,31 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text, Image } from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import {theme as Theme} from '../../resources';
-import User from '../../utils/models';
-import { auth } from '../../config/firebase';
 import useAppContext from '../../context';
-import { Preloader, ErrorModal } from '../../components/Modal';
+// import { Preloader, ErrorModal } from '../../components/Modal';
 
 /* 
     Onboarding screen for create profile if profile isn't set or completed
 */
 
-const ProfileOnboarding = ({ navigation }) => { // onboarding for authentication
+const ProfileOnboarding = () => { // onboarding for authentication
 
-    const { profile, isOrganization, isIntern } = useAppContext();
-    // const { updateAccountProfile, isOrganization, isIntern } = useAppContext();
-    let term = '';
+    const { profile, showToast, isOrganiztion, isIntern } = useAppContext();
+    let term = isOrganiztion ? "Organization" : "Personal";
 
-    const [isCheckingForProfile, setIsCheckingForProfile] = useState(true);
-    const [loadProfileError, setLoadProfileError] = useState(null);
+    const isProfileAvailable = profile.id;
+    const isProfileComplete = profile.meta ? profile.meta.isComplete : profile._j?.meta?.isComplete;
 
-    if (isOrganization) term = "Organization";
-    else if (isIntern) term = "Internship";
+    // console.log("Profile screen:", profile._j?.meta);
 
     let modal;
 
-    if (isCheckingForProfile) modal = <Preloader show={true} text={"Loading..."} />;
-
-    else if (loadProfileError) modal = <ErrorModal show={true} text={loadProfileError} cta={() => setLoadProfileError(null)} />
-
-    // useEffect(() => {
-    //     // loadProfile();
-    //     // console.log("Runnin")
-    //     UserAccount.getProfile(auth)
-    //         .then(({ message, data, isComplete }) => {
-    //             // check data and do the needful
-
-    //             // Get the data, update context.
-    //             updateAccountProfile({
-    //                 email: auth.currentUser.providerData[0].email,
-    //                 ...data,
-    //                 isComplete,
-    //             });
-
-    //             // if (!data.type) setIsCheckingForProfile(false); // continue
-    //             if (isComplete) return;
-
-
-    //             // at this point, its regarded as incomplete
-    //             // navigate to createProfile screen
-    //             // Navigate to form screen passing the incomplete profile with it
-
-    //             return navigation.navigate("ProfileForm", {
-    //                 title: "Complete profile"
-    //             });
-    //         })
-    //         .then(() => setIsCheckingForProfile(false))
-    //         .catch((errorMessage) => {
-    //             // Message will be displayed in modal
-    //             // console.log("ErrorM:", errorMessage, typeof errorMessage);
-    //             if ((typeof errorMessage) !== "string") setLoadProfileError("Could not fetch profile");
-    //             else setLoadProfileError(String(errorMessage));
-
-    //             setIsCheckingForProfile(false);
-    //         })
-    // }, [isCheckingForProfile, loadProfileError])
+    if (!isProfileAvailable){
+        showToast("No profile yet.")
+    } else if (!isProfileComplete) {
+        showToast("Incomplete profile.")
+    }
 
     return (
         <>

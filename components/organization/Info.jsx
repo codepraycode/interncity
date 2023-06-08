@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native-ui-lib';
 import React from 'react'
 import Theme from '../../constants/theme';
-import Octicons from 'react-native-vector-icons/Octicons';
+// import Octicons from 'react-native-vector-icons/Octicons';
 import CustomButton from '../Button';
 import { getTimeDate, getTimeDistance,JSONLog, openURL } from '../../utils';
 
@@ -51,7 +51,7 @@ export const CompanyInfo = ({company}) => {
                 text={"View website"}
                 onPress={()=>openURL(company.website)}
                 disable={!company.website}
-                icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
+                // icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
                 textStyle={{marginLeft: 10, color:Theme.red}}
             />
 
@@ -238,7 +238,7 @@ export const ApplicationStudentInfo = ({student, isIntern, showHeader}) => {
                 text={"View CV"}
                 onPress={()=>openURL(cv)}
                 disable={!cv}
-                icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
+                // icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
                 textStyle={{marginLeft: 10, color:Theme.red}}
             />
 
@@ -306,7 +306,7 @@ export const InternInfo = ({cv,showHeader}) => {
                 text={"View CV"}
                 onPress={()=>openURL(cv)}
                 disable={!cv}
-                icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
+                // icon={<Octicons name="link-external" size={15} color={Theme.red}/>}
                 textStyle={{marginLeft: 10, color:Theme.red}}
             />
 

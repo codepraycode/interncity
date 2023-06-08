@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native-ui-lib';
 import React from 'react'
 import Theme from '../../constants/theme';
-import Octicons from 'react-native-vector-icons/Octicons';
+// import Octicons from 'react-native-vector-icons/Octicons';
 
 const Info = ({showCV}) => {
   return (
@@ -56,7 +56,7 @@ const Info = ({showCV}) => {
                     marginVertical: 10,
                 }}
             >
-                <Octicons name="link-external" size={15} color={Theme.red}/>
+                {/* <Octicons name="link-external" size={15} color={Theme.red}/> */}
 
                 <Text style={{marginLeft: 10, color:Theme.red}}>
                     View CV

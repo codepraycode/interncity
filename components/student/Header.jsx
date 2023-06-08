@@ -2,7 +2,7 @@ import { View, Text, Image} from 'react-native-ui-lib';
 import React from 'react';
 import Theme from '../../constants/theme';
 import assets from '../../constants/assets';
-import Octicons from 'react-native-vector-icons/Octicons';
+// import Octicons from 'react-native-vector-icons/Octicons';
 import { JSONLog } from '../../utils';
 
 

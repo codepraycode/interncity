@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { View, Text } from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import Octicons from 'react-native-vector-icons/Octicons';
+// import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Theme from '../../constants/theme';
 import BottomSheet from '../../components/BottomSheet';
@@ -59,7 +59,7 @@ const SettignsContent = ({icon, label:text, further, material, onClick})=>{
                         material ?
                         <MaterialIcons name={icon} size={20}/>
                         :
-                        <Octicons name={icon} size={20}/>
+                        {/* <Octicons name={icon} size={20}/> */}
                     }
                     
 
@@ -68,7 +68,7 @@ const SettignsContent = ({icon, label:text, further, material, onClick})=>{
                     </Text>
                 </View>
 
-                {further && <Octicons name={'chevron-right'} size={20}/>}
+                {/* {further && <Octicons name={'chevron-right'} size={20}/>} */}
             </TouchableOpacity>
         </View>
     )
