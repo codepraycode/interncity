@@ -3,6 +3,8 @@ import { View, Text, Image } from 'react-native-ui-lib';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import {theme as Theme} from '../../resources';
 import useAppContext from '../../context';
+import { useRouter } from 'expo-router';
+import { screenNames } from '../../config/screens';
 // import { Preloader, ErrorModal } from '../../components/Modal';
 
 /* 
@@ -11,6 +13,7 @@ import useAppContext from '../../context';
 
 const ProfileOnboarding = () => { // onboarding for authentication
 
+    const router = useRouter();
     const { profile, showToast, isOrganiztion, isIntern } = useAppContext();
     let term = isOrganiztion ? "Organization" : "Personal";
 
@@ -72,7 +75,7 @@ const ProfileOnboarding = () => { // onboarding for authentication
 
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate("ProfileUserType")}
+                    onPress={() => router.replace(screenNames.newProfile)}
                     style={{
                         width: 60,
                         height: 60,

@@ -1,4 +1,4 @@
-import { View } from "react-native-ui-lib"
+import { View, Text } from "react-native-ui-lib"
 // import { useStorage } from "../../hooks";
 
 
