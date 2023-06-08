@@ -75,7 +75,7 @@ const ProfileOnboarding = () => { // onboarding for authentication
 
 
                 <TouchableOpacity
-                    onPress={() => router.replace(screenNames.newProfile)}
+                    onPress={() => router.replace(screenNames.profileType)}
                     style={{
                         width: 60,
                         height: 60,

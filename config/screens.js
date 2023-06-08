@@ -8,6 +8,7 @@ const screenNames = {
 
     'home':'/home',
     'profile':'/profile',
+    'profileType':'/profile/type',
     'newProfile':'/profile/new',
 }
 

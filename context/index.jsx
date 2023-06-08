@@ -66,6 +66,8 @@ export const AppContextProvider = ({ children }) =>{
 
     const [authUser, setAuthUser] = useState(null);
     const [expoPushToken, setExpoPushToken] = useState('');
+    const [newProfile, setNewProfile] = useState(null);
+
     // Notification
     const { notification, updateNotification, newNotification } = useNotifications(expoPushToken);
 
@@ -117,6 +119,7 @@ export const AppContextProvider = ({ children }) =>{
 
     const contextData = {
         profile,
+        newProfile,
 
         // Booleans
         isLoggedIn: Boolean(authUser?.token),
@@ -128,7 +131,17 @@ export const AppContextProvider = ({ children }) =>{
         // Functions
         showToast: (msg)=>showToast(msg),
         updateExpoPushToken: (token) => setExpoPushToken(token),
-        updateNotification
+        updateNotification,
+
+        updateNewProfile: (data)=>{
+            let profile = {...newProfile, ...data}
+            
+            
+            setNewProfile(()=>profile);
+        },
+        createNewProfile: ()=>{  
+            console.log("Creating Profile:", data);
+        }
     }
 
     return (

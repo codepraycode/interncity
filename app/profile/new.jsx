@@ -13,7 +13,7 @@ const NewProfile = () => {
                 justifyContent: 'center',
             }}
         >
-            <Text>New Profile.</Text>
+            <Text>New profile.</Text>
         </View>
     )
 }
