@@ -7,9 +7,10 @@ import { ProfileValidatorSchema, createAccountValidatorSchema, handleSchemaError
 async function loadProfile(auth) {
     // Check if user is authenticated
     const { uid } = auth.currentUser || {};
+    const error = {};
 
     if (!uid) {
-        return "Authentication is required!";
+        throw new Error("Authentication is required!");
     }
 
     // User profile query
@@ -21,11 +22,16 @@ async function loadProfile(auth) {
     }
     catch (err) {
         console.log("Error fetching profile:", err);
-        return "Could not fetch user profile"
+        // error.message = "Could not fetch user profile";
+        throw new Error("Could not fetch user profile");
+        // return error;
     }
-
+    
     if (!snapshot.exists()) {
-        return "No Profile";
+        // error.message = ;
+        
+        throw new Error("No Profile");
+        // return error;
     }
 
     return {...snapshot.data(), id: snapshot.id};
@@ -307,12 +313,26 @@ class User {
         */
 
         // Load profile
-        //  appropriate errors should be caught in front screen        
-        let user = await loadProfile(auth); // returns an object
-        
-        if (typeof(user) === 'string') {
-            throw (user);
+        //  appropriate errors should be caught in front screen
+        let user;
+
+        try {
+
+            user = await loadProfile(auth); // returns an object
+        }catch(err) {
+            console.log("Get profile error:", err.message);
+            user = {
+                meta: {
+                    isComplete: false
+                }
+            }
+
+            return user;
         }
+        
+        // if (typeof(user) === 'string') {
+        //     throw (user);
+        // }
 
         // Validate incoming data if complete
         const {id, ...restData} = user;

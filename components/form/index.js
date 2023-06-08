@@ -13,6 +13,7 @@ import { screenNames } from "../../config/screens";
 import SSO from "../SSO";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
+import { useRouter } from "expo-router";
 
 export {TextInput, CheckBox}
 
@@ -137,8 +138,10 @@ export const AuthenticationForm = ({
     
 }) => {
 
+    const router = useRouter();
     const { showToast } = useAppContext();
     const [loading, setLoading] = useState(false);
+
 
     const form = useForm({
         schema,
@@ -168,9 +171,9 @@ export const AuthenticationForm = ({
         // JSONLog(data);
 
         signInWithEmailAndPassword(auth, email, password)
-        // .then(()=>{
-
-        // })
+        .then(()=>{
+            router.replace(screenNames.profile); 
+        })
         .catch((error)=>{
             console.error(error);
             showToast("Could not login");

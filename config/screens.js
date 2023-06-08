@@ -1,12 +1,13 @@
 /* Screens configuration */
 
 const screenNames = {
-    onboarding: "OnBoarding",
-    signIn: "/auth/signIn",
-    signUp: "/auth/signUp",
+    onboarding: "/",
+    signIn: "/signIn",
+    signUp: "/signUp",
     // createAccount: "SignUp",
 
-    'home':'Home',
+    'home':'/home',
+    'profile':'/profile',
 }
 
 
