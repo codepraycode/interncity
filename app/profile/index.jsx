@@ -5,6 +5,7 @@ import {theme as Theme} from '../../resources';
 import useAppContext from '../../context';
 import { useRouter } from 'expo-router';
 import { screenNames } from '../../config/screens';
+import { useProfile } from '../../hooks';
 // import { Preloader, ErrorModal } from '../../components/Modal';
 
 /* 
@@ -14,7 +15,9 @@ import { screenNames } from '../../config/screens';
 const ProfileOnboarding = () => { // onboarding for authentication
 
     const router = useRouter();
-    const { profile, showToast, isOrganiztion, isIntern } = useAppContext();
+    const { showToast } = useAppContext();
+    const { profile, isOrganiztion, isIntern } = useProfile();
+
     let term = isOrganiztion ? "Organization" : "Personal";
 
     const isProfileAvailable = profile.id;
@@ -75,7 +78,7 @@ const ProfileOnboarding = () => { // onboarding for authentication
 
 
                 <TouchableOpacity
-                    onPress={() => router.replace(screenNames.profileType)}
+                    onPress={() => router.replace(profile?.type ? screenNames.newProfile : screenNames.profileType)}
                     style={{
                         width: 60,
                         height: 60,

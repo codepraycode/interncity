@@ -90,6 +90,8 @@ const ProfileValidatorSchema = Joi.object({
 
 function handleSchemaError(joiErrorObject, generalMessage = null, _throw=true) {
 
+    // if (!joiErrorObject) return {};
+
     const { details } = joiErrorObject;
 
     // Details is an array

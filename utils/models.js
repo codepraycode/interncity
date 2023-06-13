@@ -1,24 +1,24 @@
 // Entity models
-import { getDoc,doc, getDocs, query } from "firebase/firestore";
+import { getDoc,doc, getDocs, query, addDoc, collection, where, updateDoc } from "firebase/firestore";
 import { userTypes } from "../config/constants";
-import { ProfilesCollectionRef } from "../config/firebase";
+import { ProfilesCollectionRef, collectionNames, database } from "../config/firebase";
 import { ProfileValidatorSchema, createAccountValidatorSchema, handleSchemaError, loginValidatorSchema } from "./schema";
 
 async function loadProfile(auth) {
     // Check if user is authenticated
     const { uid } = auth.currentUser || {};
-    const error = {};
 
     if (!uid) {
         throw new Error("Authentication is required!");
     }
 
     // User profile query
-    const q = doc(ProfilesCollectionRef, uid);
+    // const q = doc(ProfilesCollectionRef, uid);
+    const q = query(ProfilesCollectionRef, where("user", "==", uid));
     // Parse snapshot
     let snapshot;
     try{
-        snapshot = await getDoc(q);
+        snapshot = await getDocs(q);
     }
     catch (err) {
         console.log("Error fetching profile:", err);
@@ -27,14 +27,17 @@ async function loadProfile(auth) {
         // return error;
     }
     
-    if (!snapshot.exists()) {
+    if (snapshot.empty) {
         // error.message = ;
         
         throw new Error("No Profile");
         // return error;
     }
 
-    return {...snapshot.data(), id: snapshot.id};
+    const results = snapshot.docs.map((edoc) => ({ ...edoc.data(), id: edoc.id }));
+    const profile = results[0];
+
+    return profile; //{...snapshot.data(), id: snapshot.id};
 }
 
 // Profile Classes
@@ -304,7 +307,7 @@ class User {
         return value;
     }
 
-    static async getProfile (auth) {
+    static async getProfile (auth, raw=false) {
         /* 
             Based on auth instance, load authenticated user profile
             and return an instance of profile class
@@ -321,28 +324,34 @@ class User {
             user = await loadProfile(auth); // returns an object
         }catch(err) {
             console.log("Get profile error:", err.message);
-            user = {
+            return {
                 meta: {
                     isComplete: false
                 }
             }
-
-            return user;
         }
-        
-        // if (typeof(user) === 'string') {
-        //     throw (user);
-        // }
 
         // Validate incoming data if complete
         const {id, ...restData} = user;
         const { error } = ProfileValidatorSchema.validate(restData);
 
         // if there is an error, throw, otherwise return value
-        const schemaPayload = handleSchemaError(error, "Incomplete profile", false);
 
+        let schemaPayload;
+        if (error) {
+            schemaPayload = handleSchemaError(error, "Incomplete profile", false);
+        }
+
+        if (raw){
+            return {
+                ...restData,
+                meta: {
+                    ...schemaPayload
+                }
+            }
+        }
         // Return appropriate Profile instance
-        return User.newProfile(restData, meta = schemaPayload);
+        return User.newProfile(user, meta = schemaPayload);
     }
 
     // Instance creators
@@ -393,6 +402,67 @@ class User {
 
             if (isSameSchool && isSameDepartment) return User.newProfile(item);
         })
+    }
+
+    static async updateProfile(auth, profileData) {
+        /* 
+            Update the current authenticated user data in firestore.
+        */
+
+        if (!auth || !auth.currentUser){
+            throw new Error("User not authenticated.");
+        }
+
+        const { uid:user } = auth.currentUser;
+
+        const {id, ...restData} = profileData;
+
+        // Validate
+        const { error, value: validatedData } = ProfileValidatorSchema.validate(restData);
+
+        // const {meta, ...userD} = user;
+        const data = {
+            user,
+            ...restData,
+            ...validatedData,
+        }
+
+        // if there is an error, throw, otherwise return value
+        try {
+            if (error) handleSchemaError(error, "Incomplete profile");
+        }catch(errorPayload) {
+            console.log("eeeee",errorPayload);
+            const err = new Error("An error occured!");
+            err.error = errorPayload.error;
+
+            throw err;
+        }
+
+        try {
+
+            if (!id){ // create
+                const docRef = collection(database, collectionNames.USER_PROFILE);
+
+                // Update data with createdAt
+                data.createdAt = new Date();
+                await addDoc(docRef, data);
+            }else { // update
+                const docRef = doc(database, collectionNames.USER_PROFILE, id);
+
+                // Update data with updateAt
+                data.updatedAt = new Date();
+                await updateDoc(docRef, validatedData)
+            }
+        } catch (err) {
+            console.log("Error updating profile:", err.message);
+            const errr = new Error("Could not update profile");
+            errr.error = {
+                message: "Not successful"
+            }
+        }
+        
+        return data;
+
     }
 }
 

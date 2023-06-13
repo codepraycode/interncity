@@ -14,6 +14,7 @@ import SSO from "../SSO";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../config/firebase";
 import { useRouter } from "expo-router";
+import SafeAreaLayout from "../Layout";
 
 export {TextInput, CheckBox}
 
@@ -81,41 +82,30 @@ const FormSchemaRenderer = ({schema, manager }) =>{
 
 const Form = ({
     schema, // object - form schema
-    getPreviousValues, // function - load previous values
+    initials, // obejct - data containing initial value for each field.
     disable, // boolean - disable submit button
     authLabel, // string - status label
     onSubmit, // function - submit function to trigger
     errors, // object - form errors
 })=>{
-    // const loadPreviousValues = getPreviousValues || function (){
-    //     return {}
-    // }
-    // const [formData, setFormData] = useState(()=>{
-    //     return loadPreviousValues();
-    // });
-
-    // const updateFormData = (field, value)=>{
-    //     if (Object.is(formData[field], value)) return;
-
-    //     setFormData((prev)=>{
-    //         return {...prev, [field]:value};
-    //     })
-    // }
-
     const form = useForm({
         schema,
         // initialValues: {},
-        onSubmit: (values) => {}
+        onSubmit,//: (...args) => onSubmit(...args)
     });
 
-    
+
+    form.errors = {
+        ...form.errors,
+        ...errors
+    }
     
     return (
         <>
             <Text
-                style={{ color: Theme.red, marginVertical: 10, }}
+                style={{ color: Theme.red, marginBottom: -20 }}
             >
-                {form.errors._general}
+                {form.errors._general || errors?.message}
             </Text>
 
             <FormSchemaRenderer schema={schema} manager={form} />
@@ -123,7 +113,7 @@ const Form = ({
             <View style={[styles.container, styles.cta]}>
                 <Button 
                     text={authLabel || 'Continue'} 
-                    onPress={()=>onSubmit(formData)}
+                    onPress={form.handleSubmit}
                     disable={disable}
                 />
             </View>

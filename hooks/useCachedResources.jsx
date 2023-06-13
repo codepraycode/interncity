@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import * as Font from 'expo-font';
+// import * as Font from 'expo-font';
 
 export default function useCachedResources() {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -26,7 +26,7 @@ export default function useCachedResources() {
             }
         }
 
-        loadResourcesAndDataAsync();
+        // loadResourcesAndDataAsync();
     }, []);
 
     return { isLoaded };

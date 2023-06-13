@@ -12,7 +12,8 @@ import * as ImagePicker from 'expo-image-picker';
 
 const { boxShadowSm } = typography;
 
-const MainTemplate = ({pickedImage, schema, image,hasPermission, setImage})=>{
+const MainTemplate = ({pickedImage, schema, image,hasPermission, setImage, error})=>{
+    // console.log(rest);
     return (
         <View
             style={styles.container}
@@ -24,8 +25,14 @@ const MainTemplate = ({pickedImage, schema, image,hasPermission, setImage})=>{
                 {
                     !image ? 
                     
-                    <Text small style={{color: Theme.grey300}}>
-                        {hasPermission ? schema.placeholder : "No permission to select photo"}
+                    <Text small style={{color: !error ? Theme.grey300 : Theme.red}}>
+
+                        {
+                            !error ? 
+                            (hasPermission ? schema.placeholder : "No permission to select photo")
+                            :
+                            "Image required in png, jpg, jpeg"
+                        }
                     </Text>
                     :
                     
@@ -147,6 +154,7 @@ const ImageUpload = ({schema, name, onChange, value, mini, ...restProps})=>{
             image = {image || value}
             hasPermission = {hasGalleryPermission}
             setImage = {setImage}
+            {...restProps}
         />
     );
 

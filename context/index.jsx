@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useMemo } from "react";
+import React, { createContext, useContext, useState, useMemo, useEffect } from "react";
 import Toast from 'react-native-root-toast';
 
 import User from "../utils/models";
@@ -7,6 +7,7 @@ import { userTypes } from "../config/constants";
 import useNotifications from "../hooks/useNotification";
 import { useRouter, useSegments } from "expo-router";
 import { screenNames } from "../config/screens";
+import { JSONLog } from "../utils";
 
 const AppContext = createContext(null);
 
@@ -25,20 +26,22 @@ function useProtectedRoute(user) {
     const router = useRouter();
 
     React.useEffect(() => {
-        // check if the link is of authentication.
-        const inAuthGroup = segments[0] === "(auth)";
-
-        if (
-            // If the user is not signed in and the initial segment is not anything in the auth group.
-            !user &&
-            !inAuthGroup
-        ) {
-            // Redirect to the sign-in page.
-            router.replace(screenNames.signIn);
-        } else if (user && inAuthGroup) {
-            // Redirect away from the sign-in page.
-            router.replace(screenNames.home);
-        }
+        (()=>{
+            // check if the link is of authentication.
+            const inAuthGroup = segments[0] === "(auth)";
+    
+            if (
+                // If the user is not signed in and the initial segment is not anything in the auth group.
+                !user &&
+                !inAuthGroup
+            ) {
+                // Redirect to the sign-in page.
+                router.replace(screenNames.signIn);
+            } else if (user && inAuthGroup) {
+                // Redirect away from the sign-in page.
+                router.replace(screenNames.home);
+            }
+        })()
     }, [user, segments]);
 }
 
@@ -51,13 +54,17 @@ function useProfileProtectedRoute(user, aProfile) {
         // check if the link is of authentication.
         // const inAuthGroup = segments[0] === "(auth)";
 
-        if (
-            // If the user is not signed in and the initial segment is not anything in the auth group.
-            !(aProfile?.id) && Boolean(user)
-        ) {
-            // Redirect to the sign-in page.
-            router.replace(screenNames.profile);
-        }
+        (
+            ()=>{
+                if (
+                    // If the user is not signed in and the initial segment is not anything in the auth group.
+                    !(aProfile?.id) && Boolean(user)
+                ) {
+                    // Redirect to the sign-in page.
+                    router.replace(screenNames.profile);
+                }
+            }
+        )()
     }, [user, aProfile]);
 }
 
@@ -66,18 +73,24 @@ export const AppContextProvider = ({ children }) =>{
 
     const [authUser, setAuthUser] = useState(null);
     const [expoPushToken, setExpoPushToken] = useState('');
-    const [newProfile, setNewProfile] = useState(null);
+    const [profile, setProfile] = useState({})
+    const [isProfileReset, setIsProfileReset] = useState(null);
 
     // Notification
     const { notification, updateNotification, newNotification } = useNotifications(expoPushToken);
 
-    const profile = useMemo(async ()=>{
-        if (authUser === null) return null;
 
-        let data = await User.getProfile(auth);
+    // console.log("See", profile)
 
-        return data;
-    }, [authUser]);
+    useEffect(() => {
+        (async ()=>{
+            
+            if (authUser === null) return null;
+            let data = await User.getProfile(auth);
+            setProfile(() => data);
+            // loadProfile()
+        })();
+    } , [authUser, isProfileReset]);
 
     useMemo(() => {
         auth.onAuthStateChanged((user) => {
@@ -112,39 +125,26 @@ export const AppContextProvider = ({ children }) =>{
     useProfileProtectedRoute(authUser, profile);
 
 
-    // Set user type bool
-    const isOrganization = profile?.type === userTypes.ORGANIZATION;
-    const isSupervisor = profile?.type === userTypes.SUPERVISOR;
-    const isIntern = profile?.type === userTypes.STUDENTS;
 
     const contextData = {
         profile,
-        newProfile,
         schools: [],
         departments: [],
         sectors: [],
 
         // Booleans
         isLoggedIn: Boolean(authUser?.token),
-        isProfileComplete: profile?.meta?.isComplete,
-        isOrganization,
-        isSupervisor,
-        isIntern,
+        // isProfileComplete: newProfile?.meta?.isComplete,
 
         // Functions
         showToast: (msg)=>showToast(msg),
         updateExpoPushToken: (token) => setExpoPushToken(token),
         updateNotification,
 
-        updateNewProfile: (data)=>{
-            let profile = {...newProfile, ...data}
-            
-            
-            setNewProfile(()=>profile);
+        resetProfile: (data)=>{
+            // setNewProfile(null);
+            setIsProfileReset(()=> new Date());
         },
-        createNewProfile: ()=>{  
-            console.log("Creating Profile:", data);
-        }
     }
 
     return (

@@ -3,24 +3,27 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import React from 'react'
 import {theme as Theme} from '../../resources';
 import { userTypes } from '../../config/constants';
-import useAppContext from '../../context';
 import { useRouter } from 'expo-router';
 import { screenNames } from '../../config/screens';
+import { useProfile } from '../../hooks';
 
 const ProfileUserTypeScreen = () => {
 
     const router = useRouter();
-    const { newProfile, updateNewProfile } = useAppContext();
+    const { profile } = useProfile();
 
     const handleSelection = (selectedType) => {
-        updateNewProfile({
-            type: selectedType
-        });
 
-        router.push(screenNames.newProfile);
+        // router.push(screenNames.newProfile);
+        router.replace({ 
+            pathname: screenNames.newProfile,
+            params: {
+                type: selectedType
+            }
+        });
     }
 
-    const selected = newProfile?.type;
+    const selected = profile?.type;
 
     return (
 

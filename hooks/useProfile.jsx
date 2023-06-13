@@ -1,6 +1,6 @@
 import { doc, getDoc } from 'firebase/firestore';
-import { ref, uploadBytes } from 'firebase/storage';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+
+import { useCallback, useMemo, useState } from 'react';
 
 import { auth, database, storageRef } from '../config/firebase';
 import { Intern } from '../app/models/Intern';
@@ -14,66 +14,6 @@ import { getTimeDate, JSONLog, userTypes } from '../utils';
 import useAppContext from '../context';
 
 const studentDocRef = (id)=>doc(database, userTypes.PROFILES, id?.trim());
-
-const useProfile = ()=>{
-    
-    const { updateAccountProfile, userProfile, showToast } = useAppContext();;
-
-    const updateProfile = async (updatedProfileData)=>{
-
-        const {avatar:rawUpload, email:emailData, ...restData} = updatedProfileData;
-        let avatar = null;
-        let email = emailData;
-        if(!email){
-            email = userProfile.email;
-        }
-
-        try{
-            avatar = await uploadImage(rawUpload, email);
-        }
-        catch(err){
-            console.log("Error upload image:", err);
-            showToast("Could not update profile photo");
-        }
-
-        const combinedData = {
-            ...(userProfile || {}), // previous userProfile in context
-            // ...updatedProfileData // latest data update
-            email, 
-            ...restData
-        }
-
-        if (avatar) combinedData.avatar = avatar;
-
-        try{
-            const {isComplete, ...rest} = combinedData;
-            JSONLog(updatedProfileData);
-            await UserAccount.updateProfile(auth, rest)
-        }catch(err){
-            console.log("Error updating document");
-            throw(err);
-        }
-
-        // console.log("Updated document");
-        updateAccountProfile(combinedData);
-        return combinedData;
-    }
-    const uploadImage = async (avatar, email)=>{
-
-        if (!avatar && !email) return null;
-
-      const res = await fetch(avatar.uri);
-      const blob = await res.blob();
-      const filename = `${email}_${new Date().getTime()}`;
-      const reff = ref(storageRef, `photos/${filename}`)
-
-      await uploadBytes(reff, blob);
-      
-      return reff.fullPath;
-    }
-
-    return [userProfile, updateProfile, uploadImage];
-}
 
 export const useAProfile = (profileId)=>{
     const [profile, setProfile] = useState(null);
@@ -153,5 +93,3 @@ export const useStudentActivePlacement = (IncomingPlacement=null)=>{
 
     return {placement, updateLog};
 }
-
-export default useProfile;
