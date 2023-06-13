@@ -3,9 +3,9 @@ import React, { useState } from 'react'
 import {StyleSheet,TextInput, TouchableOpacity} from 'react-native';
 // import Octicons from 'react-native-vector-icons/Octicons';
 import Theme from '../../constants/theme';
-import useSector from '../../hooks/useSector';
 import Typography from '../../constants/typography';
 import useAppContext from '../../context';
+import { useDepartments, useSchools, useSector } from '../../hooks';
 
 const NormalInput = React.memo(({schema, onChange, name, value})=>{
     return (
@@ -124,7 +124,8 @@ const PasswordInput = React.memo((props)=>{
 
 const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const {schools: options} = useAppContext();
+    // const {schools: options} = useAppContext();
+    const { data: options } = useSchools();
     
     // const {data} = schools;
 
@@ -161,7 +162,8 @@ const SchoolSelect = React.memo(({schema, onChange, name, value})=>{
 
 const DepartmentSelect = React.memo(({schema, onChange, name, value})=>{
 
-    const { departments: options } = useAppContext();
+    // const { departments: options } = useAppContext();
+    const { data: options } = useDepartments();
     // const {data} = departments || {};
 
     // const options = data || [];

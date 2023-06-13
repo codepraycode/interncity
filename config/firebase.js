@@ -50,9 +50,9 @@ export const imageStorageRef = getStorage(app, 'photos');
 export const collectionNames = {
     // USER_ACCOUNT: "userAccounts",
     USER_PROFILE: "Profiles",
-    SCHOOLS: "Schools",
-    DEPARTMENTS: "Departments",
-    SECTORS: "Sectors",
+    SCHOOLS: "schools",
+    DEPARTMENTS: "departments",
+    SECTORS: "sectors",
     JOBS: "Jobs",
     APPLICATIONS: "InternAccounts",
     LOGS: "InternLogs",

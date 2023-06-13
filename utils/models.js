@@ -245,7 +245,7 @@ class Student {
         this.city = city;
         this.country = country;
 
-        this.cv = cv;
+        this.cv = cv || '';
         this.email = email;
         this.fullname = fullname;
         this.phoneNumber = phoneNumber;

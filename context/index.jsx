@@ -70,7 +70,6 @@ function useProfileProtectedRoute(user, aProfile) {
 
 // Context component wrapper
 export const AppContextProvider = ({ children }) =>{
-
     const [authUser, setAuthUser] = useState(null);
     const [expoPushToken, setExpoPushToken] = useState('');
     const [profile, setProfile] = useState({})
@@ -128,9 +127,9 @@ export const AppContextProvider = ({ children }) =>{
 
     const contextData = {
         profile,
-        schools: [],
-        departments: [],
-        sectors: [],
+        // schools,
+        // departments,
+        // sectors,
 
         // Booleans
         isLoggedIn: Boolean(authUser?.token),
